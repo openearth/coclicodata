@@ -1,11 +1,9 @@
-from pystac import Catalog
-from pystac.validation import validate_all
+from pystac import Collection
 
-# href = "https://raw.githubusercontent.com/openearth/coclico/main/"
-href = "./current/catalog.json"
-root_catalog = Catalog.from_file(href)
-root_catalog.describe()
+href = "./current/collection.json"
+root = Collection.from_file(href)
+root.describe()
 
 def test_catalog_is_valid():
-    assert root_catalog.validate_all() is None
+    assert root.validate_all() is None
 
