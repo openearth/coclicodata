@@ -3,7 +3,7 @@ from os import environ
 
 branch = environ.get("GITHUB_REF_NAME", "live")
 
-href = "https://raw.githubusercontent.com/openearth/coclico/live/"
+href = "https://raw.githubusercontent.com/openearth/coclicodata/live/current/"
 
 collection = Collection.from_file("./current/collection.json")
 collection.describe()
