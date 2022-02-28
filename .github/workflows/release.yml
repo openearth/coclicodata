@@ -7,12 +7,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./main
     strategy:
       matrix:
         python-version: [3.9]
 
     steps:
       - uses: actions/checkout@v2
+          path: main
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
