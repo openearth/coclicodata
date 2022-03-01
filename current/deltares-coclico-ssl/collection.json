@@ -11,10 +11,28 @@
       "title": "CoCliCo STAC Catalog"
     },
     {
-      "rel": "child",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-ssl/deltares-coclico-ssl-mapbox/collection.json",
-      "type": "application/json",
-      "title": "wl-mapbox"
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-ssl/deltares-coclico-ssl-mapbox-rp-5-rcp45/deltares-coclico-ssl-mapbox-rp-5-rcp45.json",
+      "type": "application/geo+json",
+      "title": "ssl-mapbox-5-rcp45"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-ssl/deltares-coclico-ssl-mapbox-rp-10-rcp45/deltares-coclico-ssl-mapbox-rp-10-rcp45.json",
+      "type": "application/geo+json",
+      "title": "ssl-mapbox-10-rcp45"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-ssl/deltares-coclico-ssl-mapbox-rp-5-hist/deltares-coclico-ssl-mapbox-rp-5-hist.json",
+      "type": "application/geo+json",
+      "title": "ssl-mapbox-5-hist"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-ssl/deltares-coclico-ssl-mapbox-rp-10-hist/deltares-coclico-ssl-mapbox-rp-10-hist.json",
+      "type": "application/geo+json",
+      "title": "ssl-mapbox-10-hist"
     },
     {
       "rel": "parent",
@@ -28,7 +46,9 @@
       "type": "application/json"
     }
   ],
-  "stac_extensions": [],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+  ],
   "title": "Storm Surge Level",
   "keywords": [
     "CoCliCo"
@@ -44,10 +64,56 @@
       "url": "https://www.deltares.nl"
     }
   ],
-  "properties": {
-    "deltares:scope": "global",
-    "deltares:timeSpan": "Live",
-    "deltares:units": "m"
+  "cube:dimensions": {
+    "return_periods": {
+      "type": "temporal",
+      "values": [
+        5,
+        10
+      ],
+      "unit": "y"
+    },
+    "scenarios": {
+      "type": "scenarios",
+      "values": [
+        "Historical",
+        "RCP45"
+      ],
+      "unit": "-"
+    }
+  },
+  "cube:variables": {
+    "ssl": {
+      "description": "",
+      "dimensions": [
+        "return_periods",
+        "scenarios"
+      ],
+      "type": "data",
+      "unit": "m"
+    }
+  },
+  "assets": {
+    "data": {
+      "href": "abfs://daymet-zarr/annual/hi.zarr",
+      "title": "Annual Hawaii Daymet zarr root",
+      "description": "The root of the annual Hawaii Daymet Zarr Group on Azure Blob Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "azure-blob-storge"
+      ]
+    }
+  },
+  "summaries": {
+    "return_period": [
+      5,
+      10
+    ],
+    "scenario": [
+      "Historical",
+      "RCP45"
+    ]
   },
   "extent": {
     "spatial": {
