@@ -1,15 +1,14 @@
 {
     "type": "Feature",
     "stac_version": "1.0.0",
-    "id": "deltares-coclico-ssl-mapbox-jrc",
+    "stac_extensions": [
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+    ],
+    "id": "deltares-coclico-ssl-mapbox-rp-5-hist",
     "properties": {
-        "deltares:id": "JRC",
+        "return_period": 5,
+        "scenario": "Historical",
         "deltares:type": "circle",
-        "deltares:source": {
-            "type": "vector",
-            "url": "mapbox://global-data-viewer.8b0tsjvm"
-        },
-        "deltares:source-layer": "CoastAlRisk_Europe_EESSL_RCP4-c0krjv",
         "deltares:paint": {
             "circle-color": [
                 "interpolate",
@@ -18,7 +17,7 @@
                 ],
                 [
                     "get",
-                    "NormalizedValue"
+                    "rp_5"
                 ],
                 -1,
                 "hsl(0, 90%, 80%)",
@@ -94,8 +93,9 @@
     "assets": {
         "mapbox": {
             "href": "mapbox://global-data-viewer.7677kvzd",
+            "source": "CoastAlRisk_Europe_EESSL_RCP4-c0krjv",
             "type": "vector",
-            "title": "Mapbox",
+            "title": "Point locations",
             "description": "Mapbox url",
             "roles": [
                 "mapbox"
