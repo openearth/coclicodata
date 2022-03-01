@@ -1,9 +1,9 @@
 {
-    "type": "Collection",
     "stac_version": "1.0.0",
     "stac_extensions": [
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
+    "type": "Collection",
     "id": "deltares-coclico-ssl",
     "title": "Storm Surge Level",
     "description": "Storm Surge Level",
@@ -78,44 +78,44 @@
             "url": "https://www.deltares.nl"
         }
     ],
-    "properties": {
-        "cube:dimensions": {
-            "return_periods": {
-                "type": "temporal",
-                "values": [
-                    5,
-                    10
-                ],
-                "unit": "y"
-            },
-            "scenarios": {
-                "type": "scenarios",
-                "values": [
-                    "Historical",
-                    "RCP45"
-                ],
-                "unit": "-"
-            }
+    "cube:dimensions": {
+        "return_periods": {
+            "type": "temporal",
+            "values": [
+                5,
+                10
+            ],
+            "unit": "y"
         },
-        "cube:variables": {
-            "ssl": {
-                "description": "",
-                "dimensions": [
-                    "return_periods",
-                    "scenarios"
-                ],
-                "type": "data",
-                "unit": "m"
-            }
+        "scenarios": {
+            "type": "scenarios",
+            "values": [
+                "Historical",
+                "RCP45"
+            ],
+            "unit": "-"
+        }
+    },
+    "cube:variables": {
+        "ssl": {
+            "description": "",
+            "dimensions": [
+                "return_periods",
+                "scenarios"
+            ],
+            "type": "data",
+            "unit": "m"
         }
     },
     "assets": {
         "data": {
-            "href": "http://cool-sat.com/catalog/datacube-123/data.nc",
-            "type": "application/zarr",
-            "title": "data",
-            "role": [
-                "data"
+            "href": "abfs://daymet-zarr/annual/hi.zarr",
+            "title": "Annual Hawaii Daymet zarr root",
+            "description": "The root of the annual Hawaii Daymet Zarr Group on Azure Blob Storage.",
+            "roles": [
+                "data",
+                "zarr-root",
+                "azure-blob-storge"
             ]
         }
     },
