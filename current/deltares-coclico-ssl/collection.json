@@ -65,19 +65,34 @@
     }
   ],
   "cube:dimensions": {
-    "return_periods": {
+    "RP": {
       "type": "temporal",
       "values": [
         5,
-        10
+        10,
+        20,
+        50,
+        100,
+        200,
+        500,
+        1000
       ],
       "unit": "y"
     },
+    "stations": {
+      "type": "stations",
+      "extent": [
+        0,
+        2242
+      ],
+      "unit": "-"
+    },
     "scenarios": {
-      "type": "scenarios",
+      "type": "scenario",
       "values": [
-        "Historical",
-        "RCP45"
+        "historical",
+        "rcp45",
+        "rcp85"
       ],
       "unit": "-"
     }
@@ -86,8 +101,9 @@
     "ssl": {
       "description": "",
       "dimensions": [
-        "return_periods",
-        "scenarios"
+        "scenario",
+        "stations",
+        "RP"
       ],
       "type": "data",
       "unit": "m"
@@ -95,13 +111,13 @@
   },
   "assets": {
     "data": {
-      "href": "abfs://daymet-zarr/annual/hi.zarr",
-      "title": "Annual Hawaii Daymet zarr root",
-      "description": "The root of the annual Hawaii Daymet Zarr Group on Azure Blob Storage.",
+      "href": "gcs://hydro-engine-public/coclico/CoastAlRisk_Europe_EESSL.zarr",
+      "title": "ESL zarr root",
+      "description": "The root of the SSL zarr dataset on public Google Cloud Storage.",
       "roles": [
         "data",
         "zarr-root",
-        "azure-blob-storge"
+        "gcs"
       ]
     }
   },
