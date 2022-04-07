@@ -181,7 +181,6 @@ if __name__ == "__main__":
 
     # Drop existing items, dimensions and summaries
     # dataset._resolved_objects
-    dataset.normalize_hrefs(f"current/{variable}", strategy=layout)
     dataset.set_root(None)
     dataset.clear_items()
     dataset.assets = {}
@@ -212,7 +211,6 @@ if __name__ == "__main__":
     dataset.summaries = Summaries(summaries=dimvals)
 
     # Add children
-    dataset.normalize_hrefs(f"current/{variable}")
     for values in product(*dimvals.values()):
         # TODO Improve key gen and align with geojson generation
         key = "-".join(
@@ -224,11 +222,10 @@ if __name__ == "__main__":
         for (k, v) in zip(dimvals.keys(), values):
             feature.properties[k] = v
         dataset.add_item(feature, strategy=layout)
-        feature.set_self_href(f"../{variable}-mapbox")
 
     # Save and limit number of folders
     collection.add_child(dataset)
-    dataset.set_self_href(f"current/{variable}/collection.json")
+    dataset.normalize_hrefs(f"current/{variable}", strategy=layout)
     collection.save(
         catalog_type=CatalogType.SELF_CONTAINED, dest_href=f"current", stac_io=IO()
     )
