@@ -1,0 +1,155 @@
+{
+  "type": "Collection",
+  "id": "deltares-coclico-xssl",
+  "stac_version": "1.0.0",
+  "description": "Extra Storm Surge Level",
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-xssl/deltares-coclico-xssl-mapbox-rp-5-rcp45/deltares-coclico-xssl-mapbox-rp-5-rcp45.json",
+      "type": "application/geo+json",
+      "title": "xssl-mapbox-5-rcp45"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-xssl/deltares-coclico-xssl-mapbox-rp-10-rcp45/deltares-coclico-xssl-mapbox-rp-10-rcp45.json",
+      "type": "application/geo+json",
+      "title": "xssl-mapbox-10-rcp45"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-xssl/deltares-coclico-xssl-mapbox-rp-5-hist/deltares-coclico-xssl-mapbox-rp-5-hist.json",
+      "type": "application/geo+json",
+      "title": "xssl-mapbox-5-hist"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-xssl/deltares-coclico-xssl-mapbox-rp-10-hist/deltares-coclico-xssl-mapbox-rp-10-hist.json",
+      "type": "application/geo+json",
+      "title": "xssl-mapbox-10-hist"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-xssl/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+  ],
+  "title": "Extra Storm Surge Level",
+  "keywords": [
+    "CoCliCo"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+      "roles": [
+        "producer",
+        "processor"
+      ],
+      "url": "https://www.deltares.nl"
+    }
+  ],
+  "cube:dimensions": {
+    "RP": {
+      "type": "temporal",
+      "values": [
+        5,
+        10,
+        20,
+        50,
+        100,
+        200,
+        500,
+        1000
+      ],
+      "unit": "y"
+    },
+    "stations": {
+      "type": "stations",
+      "extent": [
+        0,
+        2242
+      ],
+      "unit": "-"
+    },
+    "scenarios": {
+      "type": "scenario",
+      "values": [
+        "historical",
+        "rcp45",
+        "rcp85"
+      ],
+      "unit": "-"
+    }
+  },
+  "cube:variables": {
+    "xssl": {
+      "description": "",
+      "dimensions": [
+        "scenario",
+        "stations",
+        "RP"
+      ],
+      "type": "data",
+      "unit": "m"
+    }
+  },
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/hydro-engine-public/coclico/CoastAlRisk_Europe_EESSL.zarr",
+      "title": "ESL zarr root",
+      "description": "The root of the xssl zarr dataset on public Google Cloud Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "gcs"
+      ]
+    }
+  },
+  "summaries": {
+    "return_period": [
+      5,
+      10
+    ],
+    "scenario": [
+      "Historical",
+      "RCP45"
+    ]
+  },
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180.0,
+          -90.0,
+          180.0,
+          90.0
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2015-10-22T00:00:00Z",
+          null
+        ]
+      ]
+    }
+  },
+  "license": "proprietary"
+}
