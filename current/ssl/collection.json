@@ -1,69 +1,66 @@
 {
-    "stac_version": "1.0.0",
-    "stac_extensions": [
-        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
-    ],
     "type": "Collection",
     "id": "deltares-coclico-ssl",
-    "title": "Storm Surge Level",
+    "stac_version": "1.0.0",
     "description": "Storm Surge Level",
     "links": [
         {
             "rel": "root",
-            "href": "../../collection.json",
-            "type": "application/json"
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         },
         {
             "rel": "item",
             "href": "ssl-mapbox/ssl-mapbox-rp-5-rcp45.json",
             "type": "application/geo+json",
-            "title": "ssl-mapbox-5-rcp45"
+            "title": "ssl-mapbox-5-rcp45",
+            "properties": {
+                "return_period": 5,
+                "scenario": "RCP45"
+            }
         },
         {
             "rel": "item",
             "href": "ssl-mapbox/ssl-mapbox-rp-10-rcp45.json",
             "type": "application/geo+json",
-            "title": "ssl-mapbox-10-rcp45"
+            "title": "ssl-mapbox-10-rcp45",
+            "properties": {
+                "return_period": 10,
+                "scenario": "RCP45"
+            }
         },
         {
             "rel": "item",
             "href": "ssl-mapbox/ssl-mapbox-rp-5-hist.json",
             "type": "application/geo+json",
-            "title": "ssl-mapbox-5-hist"
+            "title": "ssl-mapbox-5-hist",
+            "properties": {
+                "return_period": 5,
+                "scenario": "Historical"
+            }
         },
         {
             "rel": "item",
             "href": "ssl-mapbox/ssl-mapbox-rp-10-hist.json",
             "type": "application/geo+json",
-            "title": "ssl-mapbox-10-hist"
+            "title": "ssl-mapbox-10-hist",
+            "properties": {
+                "return_period": 10,
+                "scenario": "Historical"
+            }
         },
         {
             "rel": "parent",
             "href": "../collection.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         }
     ],
-    "extent": {
-        "spatial": {
-            "bbox": [
-                [
-                    -180.0,
-                    -90.0,
-                    180.0,
-                    90.0
-                ]
-            ]
-        },
-        "temporal": {
-            "interval": [
-                [
-                    "2015-10-22T00:00:00Z",
-                    null
-                ]
-            ]
-        }
-    },
-    "license": "proprietary",
+    "stac_extensions": [
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+    ],
+    "title": "Storm Surge Level",
     "keywords": [
         "CoCliCo"
     ],
@@ -144,5 +141,26 @@
             "Historical",
             "RCP45"
         ]
-    }
+    },
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    -180.0,
+                    -90.0,
+                    180.0,
+                    90.0
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    "2015-10-22T00:00:00Z",
+                    null
+                ]
+            ]
+        }
+    },
+    "license": "proprietary"
 }

@@ -12,6 +12,7 @@ from pystac.extensions.datacube import DatacubeExtension, Dimension, Variable
 from pystac.layout import BestPracticesLayoutStrategy
 from pystac.stac_io import DefaultStacIO
 from pystac.utils import JoinType, join_path_or_url, safe_urlparse
+from pystac import RelType
 
 
 class IO(DefaultStacIO):
@@ -140,6 +141,18 @@ def generate_stac():
     """
 
 
+def extend_links(collection, dimension_names):
+    """Extend Link objects with certain properties
+    from the linked item itself."""
+    for link in collection.get_links(RelType.ITEM):
+        link.resolve_stac_object()
+        props = link.extra_fields.setdefault("properties", {})
+        for dim in dimension_names:
+            value = link.target.properties.get(dim)
+            if value is not None:
+                props[dim] = value
+
+
 if __name__ == "__main__":
     zarr_fn = "gcs://dgds-data-public/coclico/CoastAlRisk_Europe_EESSL.zarr"
     mapbox_url, mapbox_source = "https://", "adsasd"
@@ -222,6 +235,9 @@ if __name__ == "__main__":
         for (k, v) in zip(dimvals.keys(), values):
             feature.properties[k] = v
         dataset.add_item(feature, strategy=layout)
+
+    # Set extra link properties
+    extend_links(dataset, cube_dimensions.keys())
 
     # Save and limit number of folders
     collection.add_child(dataset)
