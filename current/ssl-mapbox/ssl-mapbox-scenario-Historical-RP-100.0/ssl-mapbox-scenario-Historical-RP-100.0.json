@@ -1,10 +1,8 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
-  "id": "deltares-coclico-ssl-mapbox-rp-5-hist",
+  "id": "ssl-mapbox-scenario-Historical-RP-100.0",
   "properties": {
-    "return_period": 5,
-    "scenario": "Historical",
     "deltares:stations": "locationId",
     "deltares:type": "circle",
     "deltares:paint": {
@@ -15,7 +13,7 @@
         ],
         [
           "get",
-          "rp_5"
+          "scenario-Historical-RP-100.0"
         ],
         -1,
         "hsl(0, 90%, 80%)",
@@ -42,7 +40,9 @@
       "circle-stroke-color": "hsl(0, 72%, 100%)"
     },
     "deltares:onClick": {},
-    "datetime": "2021-04-22T13:37:56.427686Z"
+    "scenario": "Historical",
+    "RP": 100.0,
+    "datetime": "2022-05-12T11:08:55.919257Z"
   },
   "geometry": {
     "type": "Polygon",
@@ -73,36 +73,36 @@
   },
   "links": [
     {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/ssl-mapbox/collection.json",
+      "type": "application/json",
+      "title": "ssl"
+    },
+    {
       "rel": "root",
       "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
     },
     {
-      "rel": "collection",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-ssl/collection.json",
-      "type": "application/json",
-      "title": "Storm Surge Level"
-    },
-    {
       "rel": "parent",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-ssl/collection.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/ssl-mapbox/collection.json",
       "type": "application/json",
-      "title": "Storm Surge Level"
+      "title": "ssl"
     },
     {
       "rel": "self",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-coclico-ssl/deltares-coclico-ssl-mapbox-rp-5-hist/deltares-coclico-ssl-mapbox-rp-5-hist.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/ssl-mapbox/ssl-mapbox-scenario-Historical-RP-100.0/ssl-mapbox-scenario-Historical-RP-100.0.json",
       "type": "application/json"
     }
   ],
   "assets": {
     "mapbox": {
-      "href": "mapbox://global-data-viewer.7677kvzd",
+      "href": "mapbox://global-data-viewer.CoastAlRisk_Europe_EESSL",
       "type": "vector",
       "title": "Point locations",
       "description": "Mapbox url",
-      "source": "CoastAlRisk_Europe_EESSL_RCP4-c0krjv",
+      "source": "CoastAlRisk_Europe_EESSL",
       "roles": [
         "mapbox"
       ]
