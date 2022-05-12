@@ -1,10 +1,8 @@
 {
     "type": "Feature",
     "stac_version": "1.0.0",
-    "id": "deltares-coclico-ssl-mapbox-rp-10-rcp45",
+    "id": "ssl-mapbox-scenario-Historical-RP-100.0",
     "properties": {
-        "return_period": 10,
-        "scenario": "RCP45",
         "deltares:stations": "locationId",
         "deltares:type": "circle",
         "deltares:paint": {
@@ -15,13 +13,13 @@
                 ],
                 [
                     "get",
-                    "rp_10"
+                    "scenario-Historical-RP-100.0"
                 ],
-                -2,
+                -1,
                 "hsl(0, 90%, 80%)",
                 0,
                 "hsla(55, 88%, 53%, 0.15)",
-                2,
+                1,
                 "hsl(110, 90%, 80%)"
             ],
             "circle-radius": [
@@ -42,7 +40,9 @@
             "circle-stroke-color": "hsl(0, 72%, 100%)"
         },
         "deltares:onClick": {},
-        "datetime": "2021-04-22T13:37:56.427686Z"
+        "scenario": "Historical",
+        "RP": 100.0,
+        "datetime": "2022-05-12T11:08:55.919257Z"
     },
     "geometry": {
         "type": "Polygon",
@@ -73,28 +73,31 @@
     },
     "links": [
         {
-            "rel": "root",
-            "href": "../../../collection.json",
-            "type": "application/json"
-        },
-        {
             "rel": "collection",
             "href": "../collection.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "ssl"
+        },
+        {
+            "rel": "root",
+            "href": "../../collection.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         },
         {
             "rel": "parent",
             "href": "../collection.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "ssl"
         }
     ],
     "assets": {
         "mapbox": {
-            "href": "mapbox://global-data-viewer.7677kvzd",
-            "source": "CoastAlRisk_Europe_EESSL_RCP4-c0krjv",
-            "type": "vector",
+            "href": "mapbox://global-data-viewer.CoastAlRisk_Europe_EESSL",
             "title": "Point locations",
             "description": "Mapbox url",
+            "type": "vector",
+            "source": "CoastAlRisk_Europe_EESSL",
             "roles": [
                 "mapbox"
             ]
@@ -106,5 +109,6 @@
         180,
         90
     ],
+    "stac_extensions": [],
     "collection": "ssl-mapbox"
 }
