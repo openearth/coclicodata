@@ -18,8 +18,33 @@ from pystac import RelType
 class IO(DefaultStacIO):
     """Custom IO to ident our STAC json with 4."""
 
+    # enabling a GitHub Actions compatible Windows created STAC --> i.e. replacing '\\' by '/'
+    def dict_replace_value(d, old, new):
+        x = {}
+        for k, v in d.items():
+            if isinstance(v, dict):
+                v = IO.dict_replace_value(v, old, new)
+            elif isinstance(v, list):
+                v = IO.list_replace_value(v, old, new)
+            elif isinstance(v, str):
+                v = v.replace(old, new)
+            x[k] = v
+        return x
+
+    def list_replace_value(l, old, new):
+        x = []
+        for e in l:
+            if isinstance(e, list):
+                e = IO.list_replace_value(e, old, new)
+            elif isinstance(e, dict):
+                e = IO.dict_replace_value(e, old, new)
+            elif isinstance(e, str):
+                e = e.replace(old, new)
+            x.append(e)
+        return x
+
     def json_dumps(self, json_dict: Dict[str, Any], *args: Any, **kwargs: Any) -> str:
-        return json.dumps(json_dict, *args, indent=4, **kwargs)
+        return json.dumps(IO.dict_replace_value(json_dict, "\\", "/"), *args, indent=4, **kwargs)
 
 
 class Layout(BestPracticesLayoutStrategy):
