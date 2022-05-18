@@ -6,7 +6,7 @@ from typing import Optional
 from dotenv import load_dotenv
 from google.cloud import storage
 
-from etl import abs_proj_path, proj, root
+from etl import abs_proj_path, p_drive, proj
 
 
 class CredentialLeakageWarning(Warning):
@@ -29,10 +29,10 @@ def load_env_variables(env_var_keys: Optional[list] = list()) -> None:
 
 
 def load_google_credentials(google_token: pathlib.Path) -> None:
-    #  TODO: Manage keys at user level, not with share drive
+    #  TODO: Manage keys at user level, not with shared drive
     warnings.warn("Keys loaded from shared network drive.", CredentialLeakageWarning)
     if not google_token.exists():
-        if not root.exists():
+        if not p_drive.exists():
             raise FileNotFoundError(
                 "Deltares drive not found, mount drive to access Google keys."
             )
@@ -41,18 +41,9 @@ def load_google_credentials(google_token: pathlib.Path) -> None:
     print("Google Application Credentials load into environment.")
 
 
-def load_keys(env_var_keys, google_token):
-    load_env_variables(env_var_keys=env_var_keys)
-    load_google_credentials(google_token=google_token)
-
-
 if __name__ == "__main__":
 
-    coclico_data_dir = pathlib.Path(root, "11205479-coclico", "data")
+    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
     load_env_variables(env_var_keys=["MAPBOX_TOKEN"])
     load_google_credentials(coclico_data_dir.joinpath("google_credentials.json"))
-    load_keys(
-        env_var_keys=["MAPBOX_TOKEN"],
-        google_token=coclico_data_dir.joinpath("google_credentials.json"),
-    )
     print("Done")

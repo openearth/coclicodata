@@ -4,8 +4,8 @@ import pathlib
 import gcsfs
 import xarray as xr
 
-from etl import root
-from etl.keys import load_keys
+from etl import p_drive
+from etl.keys import load_env_variables, load_google_credentials
 
 
 def _validate_fpath(*args: pathlib.Path) -> None:
@@ -53,21 +53,21 @@ def dataset_to_google_cloud(ds, gcs_project, bucket_name, root_path, zarr_name):
 
 if __name__ == "__main__":
 
-    coclico_data_dir = pathlib.Path(root, "11205479-coclico", "data")
+    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
 
-    load_keys(
-        env_var_keys=["MAPBOX_TOKEN"],
-        google_token=coclico_data_dir.joinpath("google_credentials.json"),
+    load_env_variables(env_var_keys=["MAPBOX_TOKEN"])
+    load_google_credentials(
+        google_token=coclico_data_dir.joinpath("google_credentials.json")
     )
 
     network_dir = coclico_data_dir.joinpath("06_adaptation_jrc")
     zarr_dir = "cost_and_benefits_of_coastal_adaptation.zarr"
     dataset_path = network_dir.joinpath(zarr_dir)
 
-    dataset_to_google_cloud(
-        ds=dataset_path,
-        gcs_project="DGDS - I1000482-002",
-        bucket_name="dgds-data-public",
-        root_path="coclico",
-        zarr_name=zarr_dir,
-    )
+    # dataset_to_google_cloud(
+    #     ds=dataset_path,
+    #     gcs_project="DGDS - I1000482-002",
+    #     bucket_name="dgds-data-public",
+    #     root_path="coclico",
+    #     zarr_name=zarr_dir,
+    # )
