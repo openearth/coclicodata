@@ -3,9 +3,9 @@ import platform
 
 # Deltares drive configurations.
 if platform.system() == "Windows":
-    root = pathlib.Path("P:/")
+    p_drive = pathlib.Path("P:/")
 else:  # linux or other
-    root = pathlib.Path("/p/")
+    p_drive = pathlib.Path("/p/")
 
 # write test for proj==""
 abs_proj_path = pathlib.Path(__file__).parent.parent
