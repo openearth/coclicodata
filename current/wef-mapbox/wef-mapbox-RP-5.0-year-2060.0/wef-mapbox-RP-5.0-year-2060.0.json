@@ -1,0 +1,119 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "wef-mapbox-RP-5.0-year-2060.0",
+  "properties": {
+    "deltares:stations": "locationId",
+    "deltares:type": "circle",
+    "deltares:paint": {
+      "circle-color": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "get",
+          "RP-5.0-year-2060.0"
+        ],
+        -1,
+        "hsl(0, 90%, 80%)",
+        0,
+        "hsla(55, 88%, 53%, 0.15)",
+        1,
+        "hsl(110, 90%, 80%)"
+      ],
+      "circle-radius": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "zoom"
+        ],
+        0,
+        0.5,
+        1,
+        1,
+        5,
+        5
+      ],
+      "circle-stroke-color": "hsl(0, 72%, 100%)"
+    },
+    "deltares:onClick": {},
+    "RP": 5.0,
+    "year": 2060.0,
+    "datetime": "2022-05-12T17:37:02.756900Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          -90.0
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/wef-mapbox/collection.json",
+      "type": "application/json",
+      "title": "wef"
+    },
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/wef-mapbox/collection.json",
+      "type": "application/json",
+      "title": "wef"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/wef-mapbox/wef-mapbox-RP-5.0-year-2060.0/wef-mapbox-RP-5.0-year-2060.0.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "mapbox": {
+      "href": "mapbox://global-data-viewer.CoastAlRisk_Global_WEF_RCP85",
+      "type": "vector",
+      "title": "Point locations",
+      "description": "Mapbox url",
+      "source": "CoastAlRisk_Global_WEF_RCP85",
+      "roles": [
+        "mapbox"
+      ]
+    }
+  },
+  "bbox": [
+    -180,
+    -90,
+    180,
+    90
+  ],
+  "stac_extensions": [],
+  "collection": "wef-mapbox"
+}
