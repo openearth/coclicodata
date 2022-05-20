@@ -1,5 +1,7 @@
 import os
 import pathlib
+import subprocess
+import tempfile
 from itertools import product
 
 import gcsfs
@@ -8,7 +10,13 @@ import xarray as xr
 from pystac.extensions.datacube import DatacubeExtension, Dimension, Variable
 
 from etl import p_drive
+from etl.extract import get_geojson
 from etl.keys import load_env_variables, load_google_credentials
+from etl.stac_utils import (
+    get_cube_dimensions,
+    get_dimension_combinations,
+    get_stac_summary_keys,
+)
 
 
 def _validate_fpath(*args: pathlib.Path) -> None:
@@ -59,124 +67,58 @@ def dataset_from_google_cloud(bucket_name, root_path, zarr_store):
     return xr.open_zarr(uri)
 
 
-def mapbox_vars():
-    pass
+def geojson_to_mapbox(fpath: pathlib.Path, mapbox_name: str) -> None:
+    """Upload geojson to mapbox.
 
+    Mapbox Python SDK recommends to use Mapbox Python CLI. However, this cli seems
+    to be outdated.
 
-def get_dimdict(ds, var):
+    Installing the package in a python 3.10 environment raises 'Cannot import mapping
+    from collection. This can be fixed by changing in the mapbox package:
 
-    arr = ds[var]
+    from collections import Mapping
 
-    # TODO: make function dictionary when list of coclico cf conventions are decided
-    if var == "stations":
+    to
 
-        dimdict = {
-            "type": "stations",
-            "extent": [int(arr.values.min()), int(arr.values.max())],
-            "unit": "-",
-        }
+    from collections.abc import Mapping
 
-    else:
-        dimdict = {
-            "type": "temporal",
-            "values": arr.values.tolist(),
-            "unit": arr.attrs.get("units", "-"),
-        }
+    """
 
-    return dimdict
+    if not fpath.exists():
+        raise FileNotFoundError(f": {fpath} not found.")
 
+    uri = f"global-data-viewer.{mapbox_name}"
 
-def get_cube_dimensions(ds, variable) -> dict:
+    print(f"uploading {fpath} to {uri}")
 
-    dims_ = list(ds[variable].dims)
+    # subprocess.run(
+    #     [
+    #         "mapbox",
+    #         "--access-token",
+    #         os.environ["MAPBOX_ACCESS_TOKEN"],
+    #         "upload",
+    #         uri,
+    #         str(fpath),
+    #     ],
+    #     shell=True,
+    #     check=True,
+    # )
 
-    # keep only vars that have matching dim with dim shape 1
-    # TODO: make list of valid names when coclico cf_conventions are decided
-    # vars_ = list(ds.variables)
-    # vars_ = [x for x in vars_ if x in dims_]
-    # vars_ = [x for x in vars_ if len(ds[x].dims) == 1]
-    # vars_.append("stations")
-
-    # TODO: dynamic, not hard coded.
-    vars_ = ["scenario", "RP", "stations"]
-
-    cube_dims = {}
-    for var in vars_:
-        dimdict = get_dimdict(ds, var)
-        dim = Dimension.from_dict(dimdict)
-        cube_dims[var] = dim
-    return cube_dims
-
-
-def get_stac_summary_keys(dimension_combinations):
-    dict_as_str = [f"{k}-{v}" for k, v in dimension_combinations.items()]
-    return "-".join(dict_as_str)
-
-
-def get_dimension_combinations(cube_dimensions):
-    """TODO: document this function."""
-
-    # unnest dimension values
-    dimvals = {k: v.values for k, v in cube_dimensions.items() if v.values}
-
-    # get possible dimension combinations by taking the dot product:
-    dimcombs = list(product(*dimvals.values()))
-
-    # store dimcombs in dictionary to keep track of dimension name, e.g,:
-    # [{"scenario": "Historical", "RP": 5.0}, ..., {"scenario": "RCP85", "RP": 500}]
-    dimcombs = [dict(zip(dimvals.keys(), i)) for i in dimcombs]
-
-    return dimcombs
-
-
-def get_geojson(ds, variable, dimension_combinations):
-    def get_point_feature(idx, lon, lat):
-        point = geojson.Point([lon, lat])
-        feature = geojson.Feature(geometry=point)
-        feature["properties"]["locationId"] = idx
-
-        # TODO: Check with Etienne if the variable values have to be stored in geojson
-        # hopefully not, because the files will become very large. However, if they need to
-        # be stored we could do it something like this:
-        stac_keys = [get_stac_summary_keys(i) for i in dimension_combinations]
-        for stac_key, dimension_indices in zip(stac_keys, dimension_combinations):
-            # Wrong type to assign geojson property iff extracted without .flatten()[0]
-            value = ds.sel(dimension_indices)[variable].values.flatten()[0]
-            feature["properties"][stac_key] = value
-
-        return feature
-
-    def get_polygon_feature(idx, geometry):
-        raise NotImplementedError(": not implemented yet. ")
-
-    lons = ds["longitude"].values
-    lats = ds["latitude"].values
-    idxs = range(len(lons))
-
-    features = list(
-        map(lambda lon, lat, idx: get_point_feature(idx, lon, lat), lons, lats, idxs)
+    mapbox_cmd = r"mapbox --access-token {} upload {} {}".format(
+        os.environ.get("MAPBOX_ACCESS_TOKEN", ""), uri, str(fpath)
     )
-
-    return features
-
-    #
-    #     for a, b in zip(
-    #         ds.sel({"stations": j})["%s" % variable].values.flatten(), keys
-    #     ):  # flattened along dimensions
-    #         feature["properties"][b] = a
-
-    #     features.append(feature)
-    return features
+    print(mapbox_cmd)
+    subprocess.run(mapbox_cmd, shell=True)
 
 
 if __name__ == "__main__":
 
-    # coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
+    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
 
-    # load_env_variables(env_var_keys=["MAPBOX_TOKEN"])
-    # load_google_credentials(
-    #     google_token=coclico_data_dir.joinpath("google_credentials.json")
-    # )
+    load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
+    load_google_credentials(
+        google_token=coclico_data_dir.joinpath("google_credentials.json")
+    )
 
     # network_dir = coclico_data_dir.joinpath("06_adaptation_jrc")
     # zarr_dir = "cost_and_benefits_of_coastal_adaptation.zarr"
@@ -201,7 +143,15 @@ if __name__ == "__main__":
     cube_dimensions = get_cube_dimensions(ds, variable="ssl")
     dimension_combinations = get_dimension_combinations(cube_dimensions=cube_dimensions)
     stac_key_dict = [get_stac_summary_keys(i) for i in dimension_combinations]
-    features = get_geojson(
+    collection = get_geojson(
         ds, variable="ssl", dimension_combinations=dimension_combinations
     )
-    features
+
+    with tempfile.TemporaryDirectory() as tempdir:
+
+        fpath = pathlib.Path(tempdir, "data.geojson")
+
+        with open(fpath, "w") as f:
+            geojson.dump(collection, f)
+
+        geojson_to_mapbox(fpath=fpath, mapbox_name="testregion")

@@ -6,7 +6,7 @@ from typing import Optional
 from dotenv import load_dotenv
 from google.cloud import storage
 
-from etl import abs_proj_path, p_drive, proj
+from etl import p_drive, rel_root
 
 
 class CredentialLeakageWarning(Warning):
@@ -14,11 +14,11 @@ class CredentialLeakageWarning(Warning):
 
 
 def load_env_variables(env_var_keys: Optional[list] = list()) -> None:
-    env_fpath = abs_proj_path.joinpath(".env")
+    env_fpath = rel_root.joinpath(".env")
     if not env_fpath.exists():
         raise FileNotFoundError(
             "Processing data requires access keys for cloud services, which should be"
-            f" stored as environment variables in .../{proj.joinpath('.env')}"
+            f" stored as environment variables in .../{rel_root.joinpath('.env')}"
         )
 
     load_dotenv(env_fpath)
