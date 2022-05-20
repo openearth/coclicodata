@@ -2,17 +2,28 @@ import os
 from copy import deepcopy
 from itertools import product
 
-from generate import (IO, Layout, extend_links, gen_default_item,
-                      gen_default_props, gen_mapbox_asset, gen_zarr_asset)
-from pystac import CatalogType, Collection, Summaries
+from generate import (
+    IO,
+    Layout,
+    extend_links,
+    gen_default_item,
+    gen_default_props,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+)
+from pystac import Asset, CatalogType, Collection, Item, Summaries
 from pystac.extensions.datacube import DatacubeExtension, Dimension, Variable
 
 from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
 from etl.extract import get_geojson
 from etl.keys import load_env_variables
-from etl.stac_utils import (get_cube_dimensions, get_dimdict,
-                            get_dimension_combinations, get_stac_summary_keys)
+from etl.stac_utils import (
+    get_cube_dimensions,
+    get_dimdict,
+    get_dimension_combinations,
+    get_stac_summary_keys,
+)
 
 
 def etienne_code(
