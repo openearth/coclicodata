@@ -46,4 +46,3 @@ if __name__ == "__main__":
     coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
     load_env_variables(env_var_keys=["MAPBOX_TOKEN"])
     load_google_credentials(coclico_data_dir.joinpath("google_credentials.json"))
-    print("Done")

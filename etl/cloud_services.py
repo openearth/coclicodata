@@ -7,16 +7,10 @@ from itertools import product
 import gcsfs
 import geojson
 import xarray as xr
-from pystac.extensions.datacube import DatacubeExtension, Dimension, Variable
 
 from etl import p_drive
-from etl.extract import get_geojson
+from etl.extract import clear_zarr_filter_information, get_geojson
 from etl.keys import load_env_variables, load_google_credentials
-from etl.stac_utils import (
-    get_cube_dimensions,
-    get_dimension_combinations,
-    get_stac_summary_keys,
-)
 
 
 def _validate_fpath(*args: pathlib.Path) -> None:
@@ -31,7 +25,12 @@ def _validate_fpath(*args: pathlib.Path) -> None:
             raise FileNotFoundError(f"{fpath} does not exist.")
 
 
-def dataset_to_google_cloud(ds, gcs_project, bucket_name, root_path, zarr_name):
+def dataset_to_google_cloud(ds, gcs_project, bucket_name, bucket_proj, zarr_filename):
+    """Upload zarr store to Google Cloud Services
+
+    # TODO: fails when uploading to store that already exists
+
+    """
 
     if isinstance(ds, pathlib.Path):
         _validate_fpath(ds.parent, ds)
@@ -39,42 +38,39 @@ def dataset_to_google_cloud(ds, gcs_project, bucket_name, root_path, zarr_name):
         #  TODO: append to cloud zarr store from Dask chunks in parallel
         ds = xr.open_zarr(ds)
 
-        # zarr ignores xr encoding when xr open zarr (https://github.com/pydata/xarray/issues/3476)
-        for v in list(ds.coords.keys()):
-            if ds.coords[v].dtype == object:
-                ds.coords[v] = ds.coords[v].astype("unicode")
-
-        for v in list(ds.variables.keys()):
-            if ds[v].dtype == object:
-                ds[v] = ds[v].astype("unicode")
+        # zarr tries to double encode some information
+        ds = clear_zarr_filter_information(ds)
 
     # file system interface for google cloud storage
     fs = gcsfs.GCSFileSystem(
         gcs_project, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
     )
 
-    target_path = os.path.join(bucket_name, root_path, zarr_name)
+    target_path = os.path.join(bucket_name, bucket_proj, zarr_filename)
 
     gcsmap = gcsfs.mapping.GCSMap(target_path, gcs=fs)
 
-    print(f"Copying zarr data to {target_path}...")
-    ds.to_zarr(store=gcsmap, mode="w")
-    print("Done!")
+    print(f"Writing to zarr store at {target_path}...")
+    try:
+        ds.to_zarr(store=gcsmap, mode="w")
+        print("Done!")
+    except Exception as e:
+        print(f"Failed uploading: \n {e}")
 
 
-def dataset_from_google_cloud(bucket_name, root_path, zarr_store):
-    uri = os.path.join("gs://" + bucket_name, root_path, zarr_store)
+def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
+    uri = os.path.join("gs://" + bucket_name, bucket_proj, zarr_filename)
     return xr.open_zarr(uri)
 
 
 def geojson_to_mapbox(fpath: pathlib.Path, mapbox_name: str) -> None:
-    """Upload geojson to mapbox.
+    """Upload GeoJSON to Mapbox by CLI.
 
-    Mapbox Python SDK recommends to use Mapbox Python CLI. However, this cli seems
-    to be outdated.
+    Mapbox Python SDK recommends to use Mapbox Python CLI, but CLI seems outdated.
 
-    Installing the package in a python 3.10 environment raises 'Cannot import mapping
-    from collection. This can be fixed by changing in the mapbox package:
+    # TODO: make PR at mapbox gh?
+    Installing Mapbox CLI in Python 3.10 raises 'Cannot import mapping from collection.'
+    This can be resolved by patching the following in the Mapbox package:
 
     from collections import Mapping
 
@@ -91,67 +87,59 @@ def geojson_to_mapbox(fpath: pathlib.Path, mapbox_name: str) -> None:
 
     print(f"uploading {fpath} to {uri}")
 
-    # subprocess.run(
-    #     [
-    #         "mapbox",
-    #         "--access-token",
-    #         os.environ["MAPBOX_ACCESS_TOKEN"],
-    #         "upload",
-    #         uri,
-    #         str(fpath),
-    #     ],
-    #     shell=True,
-    #     check=True,
-    # )
-
     mapbox_cmd = r"mapbox --access-token {} upload {} {}".format(
         os.environ.get("MAPBOX_ACCESS_TOKEN", ""), uri, str(fpath)
     )
-    print(mapbox_cmd)
+    # TODO: check if subprocess has to be run with check=True
     subprocess.run(mapbox_cmd, shell=True)
 
 
 if __name__ == "__main__":
 
-    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
+    # hard-coded input params
+    DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
+    GCS_PROJECT = ("DGDS - I1000482-002",)
+    BUCKET_NAME = "dgds-data-public"
+    BUCKET_PROJ = "coclico"
 
+    # semi hard-coded variables including both local and remote drives
+    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
+    network_dir = coclico_data_dir.joinpath("06_adaptation_jrc")
+    local_dir = pathlib.Path.home().joinpath("ddata", "temp")
+
+    # TODO: safe cloud creds in password client
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
     load_google_credentials(
         google_token=coclico_data_dir.joinpath("google_credentials.json")
     )
 
-    # network_dir = coclico_data_dir.joinpath("06_adaptation_jrc")
-    # zarr_dir = "cost_and_benefits_of_coastal_adaptation.zarr"
-    # dataset_path = network_dir.joinpath(zarr_dir)
+    # upload data to cloud from local drive
+    source_data_fp = local_dir.joinpath(DATASET_FILENAME)
+    print(source_data_fp)
+    dataset_to_google_cloud(
+        ds=source_data_fp,
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        zarr_filename="test.zarr",
+    )
 
-    # dataset_to_google_cloud(
-    #     ds=dataset_path,
-    #     gcs_project="DGDS - I1000482-002",
-    #     bucket_name="dgds-data-public",
-    #     root_path="coclico",
-    #     zarr_name=zarr_dir,
+    # # read data from cloud
+    # ds = dataset_from_google_cloud(
+    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     # )
 
-    bucket_name = "dgds-data-public"
-    root_path = "coclico"
-    zarr_name = "cost_and_benefits_of_coastal_adaptation.zarr"
-    zarr_name = "CoastAlRisk_Europe_EESSL.zarr"
-    ds = dataset_from_google_cloud(
-        bucket_name=bucket_name, root_path=root_path, zarr_store=zarr_name
-    )
+    # # cube_dimensions = get_cube_dimensions(ds, variable="ssl")
+    # dimvals = get_dimension_values(ds, dimensions_to_ignore=["stations"])
+    # dimcombs = get_dimension_dot_product(dimvals)
+    # stac_key_dict = [get_mapbox_item_id(i) for i in dimcombs]
+    # collection = get_geojson(ds, variable="ssl", dimension_combinations=dimcombs)
 
-    cube_dimensions = get_cube_dimensions(ds, variable="ssl")
-    dimension_combinations = get_dimension_combinations(cube_dimensions=cube_dimensions)
-    stac_key_dict = [get_stac_summary_keys(i) for i in dimension_combinations]
-    collection = get_geojson(
-        ds, variable="ssl", dimension_combinations=dimension_combinations
-    )
+    # with tempfile.TemporaryDirectory() as tempdir:
 
-    with tempfile.TemporaryDirectory() as tempdir:
+    #     fpath = pathlib.Path(tempdir, "data.geojson")
 
-        fpath = pathlib.Path(tempdir, "data.geojson")
+    #     with open(fpath, "w") as f:
+    #         geojson.dump(collection, f)
 
-        with open(fpath, "w") as f:
-            geojson.dump(collection, f)
-
-        geojson_to_mapbox(fpath=fpath, mapbox_name="testregion")
+    #     geojson_to_mapbox(fpath=fpath, mapbox_name="testregion")

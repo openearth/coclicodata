@@ -1,4 +1,26 @@
 import geojson
+import rioxarray
+import xarray
+
+
+def add_crs_to_ds(ds, crs):
+    ds = ds.rio.write_crs(crs)
+    return ds
+
+
+def clear_zarr_filter_information(ds):
+    """Zarr is inserting VLenUTF8 as a filter, but the loaded data array already has
+    that as a filter so it's trying to double encode, see (https://github.com/pydata/xarray/issues/3476)
+    """
+    for v in list(ds.coords.keys()):
+        if ds.coords[v].dtype == object:
+            ds.coords[v] = ds.coords[v].astype("unicode")
+
+    for v in list(ds.variables.keys()):
+        if ds[v].dtype == object:
+            ds[v] = ds[v].astype("unicode")
+
+    return ds
 
 
 def get_point_feature(idx, lon, lat):
