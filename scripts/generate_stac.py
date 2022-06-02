@@ -15,6 +15,7 @@ from stac.blueprint import (
     get_stac_obj_from_template,
 )
 from stac.datacube import add_datacube
+from stac.deltares_extension import DeltaresExtension
 from stac.utils import (
     get_dimension_dot_product,
     get_dimension_values,
@@ -82,7 +83,10 @@ if __name__ == "__main__":
         # TODO: check with Iona which default properties have to be added for frontend
         # TODO: migrate default properties to Deltares stac extensions (otherwise stac validations fails)
         # add default frontend properties to stac items
-        feature.properties = gen_default_props(key=item_id)
+        props = gen_default_props(key=item_id)
+        DeltaresExtension.ext(
+            feature, add_if_missing=True, default_static_properties=props
+        )
 
         # add dimension key-value pairs to stac item properties dict
         for k, v in dimcomb.items():
