@@ -1,4 +1,3 @@
-import os
 import pathlib
 import platform
 
@@ -8,5 +7,4 @@ if platform.system() == "Windows":
 else:  # linux or other
     p_drive = pathlib.Path("/p/")
 
-rel_root = pathlib.Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+rel_root = pathlib.Path(__file__).parent.parent
