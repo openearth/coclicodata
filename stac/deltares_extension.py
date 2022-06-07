@@ -26,6 +26,45 @@ PAINT_PROP: str = PREFIX + "paint"
 ONCLICK_PROP: str = PREFIX + "onclick"
 
 
+class Frontend:
+    properties: Dict[str, Any]
+
+    def __init__(self, properties: Dict[str, Any]) -> None:
+        self.properties = properties
+
+    @property
+    def paint(self, key):
+        return get_required(self.properties.get("paint"), self, "paint")
+
+    @paint.setter
+    def paint(self, key: str):
+        {
+            "circle-color": [
+                "interpolate",
+                ["linear"],
+                ["get", key],
+                -1,
+                "hsl(0, 90%, 80%)",
+                0,
+                "hsla(55, 88%, 53%, 0.15)",
+                1,
+                "hsl(110, 90%, 80%)",
+            ],
+            "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                0,
+                0.5,
+                1,
+                1,
+                5,
+                5,
+            ],
+            "circle-stroke-color": "hsl(0, 72%, 100%)",
+        },
+
+
 class DeltaresExtension(
     PropertiesExtension, ExtensionManagementMixin[Union[pystac.Item, pystac.Collection]]
 ):
