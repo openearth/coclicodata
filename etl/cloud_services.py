@@ -54,7 +54,7 @@ def dataset_to_google_cloud(ds, gcs_project, bucket_name, bucket_proj, zarr_file
     try:
         ds.to_zarr(store=gcsmap, mode="w")
         print("Done!")
-    except Exception as e:
+    except OSError as e:
         print(f"Failed uploading: \n {e}")
 
 
