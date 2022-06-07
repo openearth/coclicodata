@@ -9,7 +9,7 @@ import geojson
 import xarray as xr
 
 from etl import p_drive
-from etl.extract import clear_zarr_filter_information, get_geojson
+from etl.extract import clear_zarr_information, get_geojson
 from etl.keys import load_env_variables, load_google_credentials
 
 
@@ -39,7 +39,7 @@ def dataset_to_google_cloud(ds, gcs_project, bucket_name, bucket_proj, zarr_file
         ds = xr.open_zarr(ds)
 
         # zarr tries to double encode some information
-        ds = clear_zarr_filter_information(ds)
+        ds = clear_zarr_information(ds)
 
     # file system interface for google cloud storage
     fs = gcsfs.GCSFileSystem(
