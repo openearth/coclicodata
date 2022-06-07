@@ -124,22 +124,10 @@ if __name__ == "__main__":
         zarr_filename="test.zarr",
     )
 
+    # commented code is here to provide an example of how this file can be used as a script to
+    # interact with cloud services.
+    #
     # # read data from cloud
     # ds = dataset_from_google_cloud(
     #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     # )
-
-    # # cube_dimensions = get_cube_dimensions(ds, variable="ssl")
-    # dimvals = get_dimension_values(ds, dimensions_to_ignore=["stations"])
-    # dimcombs = get_dimension_dot_product(dimvals)
-    # stac_key_dict = [get_mapbox_item_id(i) for i in dimcombs]
-    # collection = get_geojson(ds, variable="ssl", dimension_combinations=dimcombs)
-
-    # with tempfile.TemporaryDirectory() as tempdir:
-
-    #     fpath = pathlib.Path(tempdir, "data.geojson")
-
-    #     with open(fpath, "w") as f:
-    #         geojson.dump(collection, f)
-
-    #     geojson_to_mapbox(fpath=fpath, mapbox_name="testregion")

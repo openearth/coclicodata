@@ -3,11 +3,6 @@ import rioxarray
 import xarray
 
 
-def add_crs_to_ds(ds, crs):
-    ds = ds.rio.write_crs(crs)
-    return ds
-
-
 def clear_zarr_information(ds):
     """Zarr is inserting VLenUTF8 as a filter, but the loaded data array already has
     that as a filter so it's trying to double encode, see (https://github.com/pydata/xarray/issues/3476)
