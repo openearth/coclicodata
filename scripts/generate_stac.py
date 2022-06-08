@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # hard-coded input params
     DATASET_FILENAME = "test.zarr"
     VARIABLE = "ssl"
-    TEMPLATE = "deltares-coclico-xssl"
+    TEMPLATE = "ssl-mapbox"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_BASENAME = "mapbox://global-data-viewer"
