@@ -1,4 +1,9 @@
 import os
+import pathlib
+import sys
+
+# make modules importable when running this file as script
+sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
 from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
@@ -29,11 +34,12 @@ if __name__ == "__main__":
     TEMPLATE = "deltares-coclico-xssl"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
+    MAPBOX_BASENAME = "mapbox://global-data-viewer"
     # TODO: add hard coded variables which will change per dataset (spatial dims etc.)
 
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
-    mapbox_url = f"mapbox://global-data-viewer.{DATASET_FILENAME}"
+    mapbox_url = f"{MAPBOX_BASENAME}.{DATASET_FILENAME}"
 
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(

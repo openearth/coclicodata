@@ -1,6 +1,7 @@
 import geojson
 import rioxarray
 import xarray
+from stac.utils import get_mapbox_item_id
 
 
 def clear_zarr_information(ds):
@@ -22,31 +23,28 @@ def get_point_feature(idx, lon, lat):
     point = geojson.Point([lon, lat])
     feature = geojson.Feature(geometry=point)
     feature["properties"]["locationId"] = idx
-
-    # # TODO: Check with Etienne if the variable values have to be stored in geojson
-    # # hopefully not, because the files will become very large. However, if they need to
-    # # be stored we could do it something like this:
-    # stac_keys = [get_stac_summary_keys(i) for i in dimension_combinations]
-    # for stac_key, dimension_indices in zip(stac_keys, dimension_combinations):
-    #     # Wrong type to assign geojson property iff extracted without .flatten()[0]
-    #     value = ds.sel(dimension_indices)[variable].values.flatten()[0]
-    #     feature["properties"][stac_key] = value
-
     return feature
-
-
-def get_polygon_feature(idx, geometry):
-    raise NotImplementedError(": not implemented yet. ")
 
 
 def get_geojson(ds, variable, dimension_combinations):
 
-    lons = ds["longitude"].values
-    lats = ds["latitude"].values
-    idxs = range(len(lons))
+    da = ds[variable]
+    instance_dim = list(set(da.dims) - set(dimension_combinations[0].keys()))[0]
 
+    lons = da["longitude"].values.tolist()
+    lats = da["latitude"].values.tolist()
+    idxs = da[instance_dim].values.tolist()
+
+    # create geojson features from lists of lons, lats and instance indices
     features = list(
         map(lambda lon, lat, idx: get_point_feature(idx, lon, lat), lons, lats, idxs)
     )
+
+    # add variable values per mapbox layer to the geojson properties
+    for dimdict in dimension_combinations:
+        mapbox_layer_id = get_mapbox_item_id(dimdict)
+        vals = da.sel(dimdict).values.tolist()
+        for feature, value in zip(features, vals):
+            feature["properties"][mapbox_layer_id] = value
 
     return geojson.FeatureCollection(features)

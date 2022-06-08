@@ -15,6 +15,7 @@ def get_mapbox_item_id(dimdict: Dict[str, Any]) -> str:
     These are used as stac feature item id's for the mapbox layers.
 
     """
+
     list_of_key_hyphen_value = [f"{k}-{v}" for k, v in dimdict.items()]
     return "-".join(list_of_key_hyphen_value)
 

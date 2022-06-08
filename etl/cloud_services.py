@@ -7,6 +7,11 @@ from itertools import product
 import gcsfs
 import geojson
 import xarray as xr
+from stac.utils import (
+    get_dimension_dot_product,
+    get_dimension_values,
+    get_mapbox_item_id,
+)
 
 from etl import p_drive
 from etl.extract import clear_zarr_information, get_geojson
@@ -63,7 +68,7 @@ def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
     return xr.open_zarr(uri)
 
 
-def geojson_to_mapbox(fpath: pathlib.Path, mapbox_name: str) -> None:
+def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
     """Upload GeoJSON to Mapbox by CLI.
 
     Mapbox Python SDK recommends to use Mapbox Python CLI, but CLI seems outdated.
@@ -80,15 +85,13 @@ def geojson_to_mapbox(fpath: pathlib.Path, mapbox_name: str) -> None:
 
     """
 
-    if not fpath.exists():
-        raise FileNotFoundError(f": {fpath} not found.")
+    if not source_fpath.exists():
+        raise FileNotFoundError(f": {source_fpath} not found.")
 
-    uri = f"global-data-viewer.{mapbox_name}"
-
-    print(f"uploading {fpath} to {uri}")
+    print(f"uploading {source_fpath} to {mapbox_url}")
 
     mapbox_cmd = r"mapbox --access-token {} upload {} {}".format(
-        os.environ.get("MAPBOX_ACCESS_TOKEN", ""), uri, str(fpath)
+        os.environ.get("MAPBOX_ACCESS_TOKEN", ""), mapbox_url, str(source_fpath)
     )
     # TODO: check if subprocess has to be run with check=True
     subprocess.run(mapbox_cmd, shell=True)
@@ -115,14 +118,14 @@ if __name__ == "__main__":
 
     # upload data to cloud from local drive
     source_data_fp = local_dir.joinpath(DATASET_FILENAME)
-    print(source_data_fp)
-    dataset_to_google_cloud(
-        ds=source_data_fp,
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        zarr_filename="test.zarr",
-    )
+
+    # dataset_to_google_cloud(
+    #     ds=source_data_fp,
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     zarr_filename="test.zarr",
+    # )
 
     # commented code is here to provide an example of how this file can be used as a script to
     # interact with cloud services.
