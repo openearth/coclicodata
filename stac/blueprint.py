@@ -97,9 +97,9 @@ def get_stac_obj_from_template(
     # TODO: Dynamic input and more extensive description.
 
     Args:
-        rel_root (pathlib.Path): Relative root (project directory).
-        template_fn (str): Template file for STAC Obj.
-        variable (str): Variable which is described in the collection.
+        rel_root (pathlib.Path): relative root (project directory).
+        template_fn (str): template collection for this stac object.
+        variable (str): variable which will be described in this stac collection.
 
     Returns:
         pystac.Collection: Template STAC Obj collection.
@@ -114,7 +114,6 @@ def get_stac_obj_from_template(
     stac_obj.description = variable
 
     # Drop existing items, dimensions and summaries
-    # dataset._resolved_objects  # @Maarten, why accessing this hidden attribute?
     stac_obj.set_root(None)
     stac_obj.clear_items()
     stac_obj.assets = {}
@@ -203,12 +202,19 @@ def gen_default_item_props(
     }
 
 
-def gen_zarr_asset(
-    variable="ESL",
-    url="gcs://dgds-data-public/coclico/CoastAlRisk_Europe_EESSL.zarr",
-):
+def gen_zarr_asset(variable: str, url: str) -> pystac.Asset:
+    """Create pystac.Asset
+
+    Args:
+        variable (str): name of variable which is described in this stac collection.
+        url (str): url to zarr dataset as hosted in Google Cloud Storage.
+
+    Returns:
+        pystac.Asset: pystac object which describes root zarr dataset as asset.
+    """
+
     # TODO: add media type?
-    return Asset(
+    return pystac.Asset(
         href=url,
         title=f"{variable} zarr root",
         description=(

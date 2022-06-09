@@ -97,25 +97,27 @@ def add_datacube(
             ds, temporal_dimension, temporal_extent, temporal_values, temporal_step
         )
 
-    dimensions[x_dimension] = build_horizontal_dimension(
-        ds,
-        x_dimension,
-        "x",
-        x_extent,
-        x_values,
-        x_step,
-        reference_system=reference_system,
-    )
+    if x_dimension is not False:
+        dimensions[x_dimension] = build_horizontal_dimension(
+            ds,
+            x_dimension,
+            "x",
+            x_extent,
+            x_values,
+            x_step,
+            reference_system=reference_system,
+        )
 
-    dimensions[y_dimension] = build_horizontal_dimension(
-        ds,
-        y_dimension,
-        "y",
-        y_extent,
-        y_values,
-        y_step,
-        reference_system=reference_system,
-    )
+    if y_dimension is not False:
+        dimensions[y_dimension] = build_horizontal_dimension(
+            ds,
+            y_dimension,
+            "y",
+            y_extent,
+            y_values,
+            y_step,
+            reference_system=reference_system,
+        )
 
     for additional_dimension in additional_dimensions:
 
