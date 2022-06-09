@@ -85,7 +85,7 @@ def add_datacube(
     reference_system=None,
 ) -> pystac.Collection:
     """
-    Adopted from pystac.xarray_to_stac.
+    Adopted from xstac.xarray_to_stac.
 
 
     """

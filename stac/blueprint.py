@@ -5,13 +5,13 @@ from itertools import product
 from sre_constants import GROUPREF_EXISTS
 from typing import Any, Dict
 
+import pystac
 import zarr
 from pystac import Asset, CatalogType, Collection, Item, RelType, Summaries
 from pystac.extensions.datacube import DatacubeExtension, Dimension, Variable
 from pystac.layout import BestPracticesLayoutStrategy
 from pystac.stac_io import DefaultStacIO
 from pystac.utils import JoinType, join_path_or_url, safe_urlparse
-import pystac
 
 
 class IO(DefaultStacIO):
@@ -66,11 +66,11 @@ class Layout(BestPracticesLayoutStrategy):
         return join_path_or_url(join_type, item_root, "{}.json".format(item.id))
 
 
-def gen_default_item(name="unique", **kwargs):
-    return Item(
+def gen_default_item(name="unique"):
+    return pystac.Item(
         id=name,
         datetime=datetime.now(),
-        properties=None,
+        properties={},
         geometry={
             "type": "Polygon",
             "coordinates": [
@@ -147,14 +147,32 @@ def gen_mapbox_asset(
     )
 
 
-def gen_default_props(
+def gen_default_collection_props(
+    **kwargs,
+):
+
+    return {
+        **kwargs,
+        "deltares:units": "m",
+        "deltares:plotSeries": "scenario",
+        "deltares:min": 0,
+        "deltares:max": 3,
+        "deltares:linearGradient": [
+            {"color": "hsl(0,90%,80%)", "offset": "0.000%", "opacity": 100},
+            {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
+            {"color": "hsl(110,90%,70%)", "offset": "100.000%", "opacity": 100},
+        ],
+    }
+
+
+def gen_default_item_props(
     key="rp_5",
     **kwargs,
 ):
 
     return {
         **kwargs,
-        "deltares:stations": "locationId",
+        "deltares:stations": "locationid",
         "deltares:type": "circle",
         "deltares:paint": {
             "circle-color": [
@@ -181,7 +199,7 @@ def gen_default_props(
             ],
             "circle-stroke-color": "hsl(0, 72%, 100%)",
         },
-        "deltares:onClick": {},
+        "deltares:onclick": {},
     }
 
 

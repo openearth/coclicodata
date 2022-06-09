@@ -1,71 +1,23 @@
 {
-    "stac_version": "1.0.0",
-    "_comment": "# TODO: define json schema, publish url and add as stac extensions.",
-    "stac_extensions": [],
-    "type": "Collection",
-    "id": "coclico-frontend-collection",
-    "title": "CoCliCo frontend STAC extension.",
-    "description": "Deltares CoCliCo Dataset Collection",
-    "license": "",
-    "extent": {
-        "spatial": {
-            "bbox": [
-                [
-                    172.9,
-                    1.3,
-                    173,
-                    1.4
-                ]
-            ]
-        },
-        "temporal": {
-            "interval": [
-                [
-                    "2015-06-23T00:00:00Z",
-                    null
-                ]
-            ]
-        }
-    },
-    "template:new_field": "test",
-    "template:xyz": {
-        "x": 1,
-        "y": 2,
-        "z": 3
-    },
-    "template:another_one": [
-        1,
-        2,
-        3
-    ],
-    "assets": {
-        "example": {
-            "href": "https://example.com/examples/file.xyz",
-            "template:new_field": "test"
-        }
-    },
-    "item_assets": {
-        "data": {
-            "roles": [
-                "data"
-            ],
-            "template:new_field": "test"
-        }
-    },
-    "summaries": {
-        "datetime": {
-            "minimum": "2015-06-23T00:00:00Z",
-            "maximum": "2019-07-10T13:44:56Z"
-        }
-    },
-    "links": [
+    "deltares:units": "m",
+    "deltares:plotSeries": "scenario",
+    "deltares:min": 0,
+    "deltares:max": 3,
+    "deltares:linearGradient": [
         {
-            "href": "https://example.com/examples/collection.json",
-            "rel": "self"
+            "color": "hsl(0,90%,80%)",
+            "offset": "0.000%",
+            "opacity": 100
         },
         {
-            "href": "https://example.com/examples/item.json",
-            "rel": "item"
+            "color": "hsla(55,88%,53%,0.5)",
+            "offset": "50.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsl(110,90%,70%)",
+            "offset": "100.000%",
+            "opacity": 100
         }
     ]
 }

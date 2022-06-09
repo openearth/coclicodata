@@ -12,15 +12,16 @@ from stac.blueprint import (
     IO,
     Layout,
     extend_links,
+    gen_default_collection_props,
     gen_default_item,
-    gen_default_props,
+    gen_default_item_props,
     gen_default_summaries,
     gen_mapbox_asset,
     gen_zarr_asset,
     get_stac_obj_from_template,
 )
+from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
-from stac.deltares_extension import DeltaresExtension
 from stac.utils import (
     get_dimension_dot_product,
     get_dimension_values,
@@ -73,7 +74,6 @@ if __name__ == "__main__":
     # generate stac feature keys (strings which will be stac item ids) for mapbox layers
     dimvals = get_dimension_values(ds, dimensions_to_ignore=["stations"])
     dimcombs = get_dimension_dot_product(dimvals)
-    # mapbox_item_ids = [get_mapbox_item_id(i) for i in dimcombs]
 
     # TODO: check can be customized in the layout
     layout = Layout()
@@ -87,13 +87,16 @@ if __name__ == "__main__":
         feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url, DATASET_FILENAME))
 
         # TODO: check with Iona which default properties have to be added for frontend
-        # TODO: migrate default properties to Deltares stac extensions (otherwise stac validations fails)
-        # add default frontend properties to stac items
-        props = gen_default_props(key=item_id)
-        DeltaresExtension.ext(
-            feature, add_if_missing=True, default_static_properties=props
-        )
+        # TODO: properties/setters for coclico stac extension (see coclico_extension.py)
+        # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
+        coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
 
+        # generate default frontend properties and add to stac items as properties
+        item_props = gen_default_item_props(key=item_id)
+        for k, v in item_props.items():
+            coclico_ext.properties[k] = v
+
+        # TODO: do this from datacube?
         # add dimension key-value pairs to stac item properties dict
         for k, v in dimcomb.items():
             feature.properties[k] = v
@@ -115,6 +118,16 @@ if __name__ == "__main__":
     stac_obj.summaries.maxcount = 50
     for k, v in summaries.items():
         stac_obj.summaries.add(k, v)
+
+    # This calls CollectionCoclicoExtension because stac_obj is a collection
+    coclico_ext = CoclicoExtension.ext(stac_obj, add_if_missing=True)
+
+    # generate default properties and add to collection extension properties. The
+    # properties attribute of this extension is linked to the extra_fields attribute of
+    # the stac collection.
+    collection_props = gen_default_collection_props()
+    for k, v in collection_props.items():
+        coclico_ext.properties[k] = v
 
     # set extra link properties
     extend_links(stac_obj, dimvals.keys())
