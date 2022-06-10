@@ -8,25 +8,15 @@ sys.path.append(str(pathlib.Path(__file__).parent.parent))
 from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
 from pystac import CatalogType, Collection, Summaries
-from stac.blueprint import (
-    IO,
-    Layout,
-    extend_links,
-    gen_default_collection_props,
-    gen_default_item,
-    gen_default_item_props,
-    gen_default_summaries,
-    gen_mapbox_asset,
-    gen_zarr_asset,
-    get_stac_obj_from_template,
-)
+from stac.blueprint import (IO, Layout, extend_links,
+                            gen_default_collection_props, gen_default_item,
+                            gen_default_item_props, gen_default_summaries,
+                            gen_mapbox_asset, gen_zarr_asset,
+                            get_stac_obj_from_template)
 from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
-from stac.utils import (
-    get_dimension_dot_product,
-    get_dimension_values,
-    get_mapbox_item_id,
-)
+from stac.utils import (get_dimension_dot_product, get_dimension_values,
+                        get_mapbox_item_id)
 
 if __name__ == "__main__":
     # hard-coded input params at project level
@@ -38,6 +28,7 @@ if __name__ == "__main__":
 
     # hard-coded input params which differ per dataset
     DATASET_FILENAME = "cost_and_benefits_of_coastal_adaptation.zarr"
+    STAC_COLLECTION_NAME = "cbca"  # name of stac collection
     VARIABLES = ["ffd", "sustain"]  # xarray variables in dataset
     X_DIMENSION = False  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = False  # False, None or str; spatial lat dim ""
@@ -48,7 +39,6 @@ if __name__ == "__main__":
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
     mapbox_url = f"{MAPBOX_BASENAME}.{DATASET_FILENAME}"
-    dataset_collection_name = pathlib.Path(DATASET_FILENAME).stem
 
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(
@@ -62,7 +52,7 @@ if __name__ == "__main__":
 
     # generate stac_obj for dataset
     stac_obj = get_stac_obj_from_template(
-        collection, template_fn=TEMPLATE, variable=dataset_collection_name
+        collection, template_fn=TEMPLATE, variable=STAC_COLLECTION_NAME
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
@@ -144,7 +134,7 @@ if __name__ == "__main__":
     # save and limit number of folders
     collection.add_child(stac_obj)
     stac_obj.normalize_hrefs(
-        os.path.join(rel_root, STAC_DIR, dataset_collection_name), strategy=layout
+        os.path.join(rel_root, STAC_DIR, STAC_COLLECTION_NAME), strategy=layout
     )
 
     collection.save(
