@@ -1,0 +1,78 @@
+{
+    "id": "elevation-gee",
+    "stac_version": "1.0.0-beta.2",
+    "description": "Merged open source topographic and bathymetric data from multiple sources. Topographic data includes: ALOS DSM, AHN Netherlands, Greenland DEM, USGS NED, Canadian DEM, Australian DEM, and REMA Mosaic. Bathymetric data from: GEBCO and EMODnet. See [the Wiki](https://publicwiki.deltares.nl/display/BED/References) for further information about this dataset.",
+    "links": [
+        {
+            "rel": "root",
+            "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/elevation/collection.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/elevation/elevation-gee/elevation-gee-elevation/elevation-gee-elevation.json",
+            "type": "application/json",
+            "title": "elevation-gee-elevation"
+        },
+        {
+            "rel": "parent",
+            "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/elevation/collection.json",
+            "type": "application/json"
+        }
+    ],
+    "assets": {
+        "featureinfo": {
+            "href": "https://hydro-engine.appspot.com/get_feature_info",
+            "type": "application/json",
+            "title": "FeatureInfo",
+            "description": "FeatureInfo",
+            "name": "elevation",
+            "roles": [
+                "featureinfo"
+            ]
+        }
+    },
+    "title": "Elevation",
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    -180.0,
+                    -90.0,
+                    180.0,
+                    90.0
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    "2015-10-22T00:00:00Z",
+                    null
+                ]
+            ]
+        }
+    },
+    "license": "proprietary",
+    "keywords": [
+        "CoCliCo"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+            "roles": [
+                "producer",
+                "processor"
+            ],
+            "url": "https://www.deltares.nl"
+        }
+    ],
+    "properties": {
+        "deltares:name": "elevation",
+        "deltares:parameters": {
+            "bandName": ""
+        },
+        "deltares:url": "https://hydro-engine.appspot.com/get_elevation_data"
+    }
+}
