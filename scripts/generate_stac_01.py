@@ -37,7 +37,7 @@ if __name__ == "__main__":
     STAC_DIR = "temp"
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "test.zarr"
+    DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
     STAC_COLLECTION_NAME = "ssl"  # name of stac collection
     VARIABLES = ["ssl"]  # xarray variables in dataset
     X_DIMENSION = "longitude"  # False, None or str; spatial lon dim used by datacube
