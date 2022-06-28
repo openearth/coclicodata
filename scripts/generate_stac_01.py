@@ -116,19 +116,11 @@ if __name__ == "__main__":
             # add stac item to collection
             stac_obj.add_item(feature, strategy=layout)
 
-    # dict with summaries which is fed into pystac.Summaries and added to stac_obj
-    # TODO: improve summary keys/values; these are inspired on xstac.
-    summaries = gen_default_summaries(
-        groups=["CoCliCo Consortium"],
-        license="proprietary",
-        coords=list(ds[VARIABLES[0]].coords),
-        dims=list(ds[VARIABLES[0]].dims),
-        **dimvals,
-    )
+    # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     stac_obj.summaries = Summaries({})
     # TODO: check if maxcount is required (inpsired on xstac library)
-    stac_obj.summaries.maxcount = 50
-    for k, v in summaries.items():
+    # stac_obj.summaries.maxcount = 50
+    for k, v in dimvals.items():
         stac_obj.summaries.add(k, v)
 
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection

@@ -238,7 +238,10 @@ def extend_links(collection, dimension_names):
 
 
 def gen_default_summaries(groups, license, coords, dims, **kwargs):
-
+    raise NotImplementedError(
+        "Function not implemented because this causes errors in the frontend."
+    )
+    # TODO: generate default summaries which are compliant with frontend
     summaries = {
         "groups": groups,
         "license": license,
