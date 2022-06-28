@@ -130,8 +130,8 @@ def get_stac_obj_from_template(
 
 def gen_mapbox_asset(
     # TODO: default walues for variables  below can be deleted right?
-    url="mapbox://global-data-viewer.7677kvzd",
-    source="CoastAlRisk_Europe_EESSL_RCP4-c0krjv",
+    url,
+    source,
 ):
     return Asset(
         href=url,

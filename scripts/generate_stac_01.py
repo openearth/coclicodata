@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
-    mapbox_url = f"{MAPBOX_BASENAME}.{DATASET_FILENAME}"
+    mapbox_url = f"{MAPBOX_BASENAME}.{pathlib.Path(DATASET_FILENAME).stem}"
 
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(
