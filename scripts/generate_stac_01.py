@@ -49,6 +49,31 @@ if __name__ == "__main__":
     ]  # False, None, or str; additional dims ""
     DIMENSIONS_TO_IGNORE = ["stations"]  # List of str; dims ignored by datacube
 
+    # hard-coded frontend properties
+    # TODO migrate to deltares stac extension, see next todo comment below.
+    COLOR_PROPERTIES = {
+        "min": {
+            "val": 0,
+            "hsl": "hsl(110,90%,80%)",
+        },
+        "mid": {
+            "val": 1.5,
+            "hsl": "hsla(55, 88%, 53%, 0.5)",
+        },
+        "max": {
+            "val": 3.0,
+            "hsl": "hsl(0, 90%, 70%)",
+        },
+    }
+    # TODO: will be implmented when migrating to Deltares stac extansion. Now it doesn't
+    # work because the list has to be implemented with pystac string enum class see
+    # https://pystac.readthedocs.io/en/stable/tutorials/adding-new-and-custom-extensions.html
+    # LINEAR_GRADIENT = [
+    #     {"color": COLOR_PROPERTIES["min"]["hsl"], "offset": "0.000%", "opacity": 100},
+    #     {"color": COLOR_PROPERTIES["mid"]["hsl"], "offset": "50.000%", "opacity": 100},
+    #     {"color": COLOR_PROPERTIES["max"]["hsl"], "offset": "100.000%", "opacity": 100},
+    # ]
+
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
     mapbox_url = f"{MAPBOX_BASENAME}.{DATASET_FILENAME}"
@@ -104,7 +129,9 @@ if __name__ == "__main__":
             coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
 
             # generate default frontend properties and add to stac items as properties
-            item_props = gen_default_item_props(key=item_id)
+            item_props = gen_default_item_props(
+                key=item_id, color_properties=COLOR_PROPERTIES
+            )
             for k, v in item_props.items():
                 coclico_ext.properties[k] = v
 

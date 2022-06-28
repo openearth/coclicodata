@@ -161,16 +161,17 @@ def gen_default_collection_props(
             {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
             {"color": "hsl(110,90%,70%)", "offset": "100.000%", "opacity": 100},
         ],
+        # "deltares:linearGradient": list(color_gradient.values()),
     }
 
 
 def gen_default_item_props(
-    key="rp_5",
+    key,
+    color_properties,
     **kwargs,
 ):
 
     return {
-        **kwargs,
         "deltares:stations": "locationid",
         "deltares:type": "circle",
         "deltares:paint": {
@@ -178,12 +179,12 @@ def gen_default_item_props(
                 "interpolate",
                 ["linear"],
                 ["get", key],
-                -1,
-                "hsl(0, 90%, 80%)",
-                0,
-                "hsla(55, 88%, 53%, 0.15)",
-                1,
-                "hsl(110, 90%, 80%)",
+                color_properties["min"]["val"],
+                color_properties["min"]["hsl"],
+                color_properties["mid"]["val"],
+                color_properties["mid"]["hsl"],
+                color_properties["max"]["val"],
+                color_properties["max"]["hsl"],
             ],
             "circle-radius": [
                 "interpolate",
@@ -199,6 +200,7 @@ def gen_default_item_props(
             "circle-stroke-color": "hsl(0, 72%, 100%)",
         },
         "deltares:onclick": {},
+        **kwargs,
     }
 
 
