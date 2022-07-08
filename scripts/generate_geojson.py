@@ -57,5 +57,6 @@ if __name__ == "__main__":
         with open(fpath, "w") as f:
             geojson.dump(collection, f)
 
-        mapbox_url = f"{MAPBOX_BASENAME}.{DATASET_FILENAME}"
+        # TODO: put this in a function because this is also used in generate_stace scripts?
+        mapbox_url = f"{MAPBOX_BASENAME}.{pathlib.Path(DATASET_FILENAME).stem}"
         geojson_to_mapbox(source_fpath=fpath, mapbox_url=mapbox_url)
