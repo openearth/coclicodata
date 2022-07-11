@@ -32,7 +32,7 @@ if __name__ == "__main__":
     # hard-coded input params at project level
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
-    MAPBOX_BASENAME = "mapbox://global-data-viewer"
+    MAPBOX_PROJ = "global-data-viewer"
     TEMPLATE = "ssl-mapbox"  # stac template for dataset collection
     STAC_DIR = "temp"
 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
-    mapbox_url = f"{MAPBOX_BASENAME}.{pathlib.Path(DATASET_FILENAME).stem}"
+    mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}_test"
 
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(
