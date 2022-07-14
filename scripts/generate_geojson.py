@@ -26,7 +26,7 @@ if __name__ == "__main__":
     GCS_PROJECT = ("DGDS - I1000482-002",)
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
-    MAPBOX_BASENAME = "mapbox://global-data-viewer"
+    MAPBOX_PROJ = "global-data-viewer"
 
     # semi hard-coded variables including both local and remote drives
     coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
@@ -57,5 +57,6 @@ if __name__ == "__main__":
         with open(fpath, "w") as f:
             geojson.dump(collection, f)
 
-        mapbox_url = f"{MAPBOX_BASENAME}.{DATASET_FILENAME}"
+        # TODO: put this in a function because this is also used in generate_stace scripts?
+        mapbox_url = f"{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}_test"
         geojson_to_mapbox(source_fpath=fpath, mapbox_url=mapbox_url)

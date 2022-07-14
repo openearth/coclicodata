@@ -8,21 +8,31 @@ sys.path.append(str(pathlib.Path(__file__).parent.parent))
 from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
 from pystac import CatalogType, Collection, Summaries
-from stac.blueprint import (IO, Layout, extend_links,
-                            gen_default_collection_props, gen_default_item,
-                            gen_default_item_props, gen_default_summaries,
-                            gen_mapbox_asset, gen_zarr_asset,
-                            get_stac_obj_from_template)
+from stac.blueprint import (
+    IO,
+    Layout,
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_stac_obj_from_template,
+)
 from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
-from stac.utils import (get_dimension_dot_product, get_dimension_values,
-                        get_mapbox_item_id)
+from stac.utils import (
+    get_dimension_dot_product,
+    get_dimension_values,
+    get_mapbox_item_id,
+)
 
 if __name__ == "__main__":
     # hard-coded input params at project level
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
-    MAPBOX_BASENAME = "mapbox://global-data-viewer"
+    MAPBOX_PROJ = "global-data-viewer"
     TEMPLATE = "ssl-mapbox"  # stac template for dataset collection
     STAC_DIR = "temp"
 
@@ -40,21 +50,27 @@ if __name__ == "__main__":
     DIMENSIONS_TO_IGNORE = ["stations"]  # List of str; dims ignored by datacube
 
     # hard-coded frontend properties
-    # TODO migrate to deltares stac extension, see next todo comment below.
+    STATIONS = "locationId"
+    TYPE = "circle"
+    ON_CLICK = {}
     COLOR_PROPERTIES = {
-        "min": {
-            "val": 0,
-            "hsl": "hsl(110,90%,80%)",
-        },
-        "mid": {
-            "val": 1.5,
-            "hsl": "hsla(55, 88%, 53%, 0.5)",
-        },
-        "max": {
-            "val": 3.0,
-            "hsl": "hsl(0, 90%, 70%)",
-        },
+        "min_value": 0,
+        "min_hsl": "hsl(110,90%,80%)",
+        "mid_value": 1.5,
+        "mid_hsl": "hsla(55, 88%, 53%, 0.5)",
+        "max_value": 3.0,
+        "max_hsl": "hsl(0, 90%, 70%)",
     }
+    UNITS = "m"
+    PLOTSERIES = "scenario"
+    MIN = 0
+    MAX = 3
+    LINEARGRADIENT = [
+        {"color": "hsl(0,90%,80%)", "offset": "0.000%", "opacity": 100},
+        {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
+        {"color": "hsl(110,90%,70%)", "offset": "100.000%", "opacity": 100},
+    ]
+
     # TODO: will be implmented when migrating to Deltares stac extansion. Now it doesn't
     # work because the list has to be implemented with pystac string enum class see
     # https://pystac.readthedocs.io/en/stable/tutorials/adding-new-and-custom-extensions.html
@@ -66,7 +82,7 @@ if __name__ == "__main__":
 
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
-    mapbox_url = f"{MAPBOX_BASENAME}.{pathlib.Path(DATASET_FILENAME).stem}"
+    mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}_test"
 
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(
@@ -114,16 +130,17 @@ if __name__ == "__main__":
             feature = gen_default_item(f"{var}-mapbox-{item_id}")
             feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url, DATASET_FILENAME))
 
-            # TODO: properties/setters for coclico stac extension (see coclico_extension.py)
             # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
             coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
 
-            # generate default frontend properties and add to stac items as properties
-            item_props = gen_default_item_props(
-                key=item_id, color_properties=COLOR_PROPERTIES
+            # Add frontend properties and add to stac items as properties
+            coclico_ext.apply(
+                item_key=item_id,
+                paint=COLOR_PROPERTIES,
+                type_=TYPE,
+                stations=STATIONS,
+                on_click=ON_CLICK,
             )
-            for k, v in item_props.items():
-                coclico_ext.properties[k] = v
 
             # TODO: include this in our datacube?
             # add dimension key-value pairs to stac item properties dict
@@ -143,12 +160,10 @@ if __name__ == "__main__":
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
     coclico_ext = CoclicoExtension.ext(stac_obj, add_if_missing=True)
 
-    # generate default properties and add to collection extension properties. The
+    # Add frontend properties defined above to collection extension properties. The
     # properties attribute of this extension is linked to the extra_fields attribute of
     # the stac collection.
-    collection_props = gen_default_collection_props()
-    for k, v in collection_props.items():
-        coclico_ext.properties[k] = v
+    coclico_ext.apply(units=UNITS, min_=MIN, max_=MAX, linear_gradient=LINEARGRADIENT)
 
     # set extra link properties
     extend_links(stac_obj, dimvals.keys())

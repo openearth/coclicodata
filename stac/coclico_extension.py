@@ -1,7 +1,18 @@
+import json
+from datetime import datetime, timedelta
+from pprint import pprint
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union, cast
+from uuid import uuid4
 
 import pystac
 from pystac.extensions.base import ExtensionManagementMixin, PropertiesExtension
+from pystac.utils import (
+    StringEnum,
+    datetime_to_str,
+    get_required,
+    map_opt,
+    str_to_datetime,
+)
 
 T = TypeVar("T", pystac.Collection, pystac.Item, pystac.Asset)
 
@@ -11,11 +22,20 @@ SCHEMA_URI: str = "https://coclicoservices.eu/coclico-stac-extension/v1.0.0/sche
 
 # TODO: property getters/setters per property. Props below are not used yet.
 PREFIX: str = "deltares:"
-# list of properties which can be added by the extension
+
+# list of properties that are added at item level
+ITEM_KEY_PROP: str = PREFIX + "item_key"
 STATIONS_PROP: str = PREFIX + "stations"
 TYPE_PROP: str = PREFIX + "type"
 PAINT_PROP: str = PREFIX + "paint"
-ONCLICK_PROP: str = PREFIX + "onclick"
+ON_CLICK_PROP: str = PREFIX + "onclick"
+
+# list of properties that are added at collection level
+UNITS_PROP: str = "units"
+PLOTSERIES_PROP: str = "plotSeries"
+MIN_PROP: str = PREFIX + "min"
+MAX_PROP: str = PREFIX + "max"
+LINEAR_GRADIENT_PROP: str = PREFIX + "linearGradient"
 
 
 class CoclicoExtension(
@@ -30,8 +50,125 @@ class CoclicoExtension(
 
     """
 
-    def apply(self) -> None:
-        pass
+    def apply(
+        self,
+        item_key: Optional[str] = None,
+        paint: Optional[Dict[str, Any]] = None,
+        stations: Optional[str] = None,
+        type_: Optional[str] = None,
+        on_click: Optional[Dict[str, Any]] = None,
+        units: Optional[str] = None,
+        min_: Optional[int] = None,
+        max_: Optional[int] = None,
+        linear_gradient: Optional[List[Dict[str, Any]]] = None,
+    ) -> None:
+        self.item_key = item_key
+        self.paint = paint
+        self.stations = stations
+        self.type_ = type_
+        self.on_click = on_click
+        self.units = units
+        self.min_ = min_
+        self.max_ = max_
+        self.linear_gradient = linear_gradient
+
+    @property
+    def item_key(self) -> Optional[str]:
+        return self._get_property(ITEM_KEY_PROP, str)
+
+    @item_key.setter
+    def item_key(self, v: Optional[str]) -> None:
+        self._set_property(ITEM_KEY_PROP, v)
+
+    @property
+    def paint(self) -> Optional[Dict[str, Any]]:
+        return self._get_property(PAINT_PROP, Dict[str, Any])
+
+    @paint.setter
+    def paint(self, v: Optional[Dict[str, Any]]) -> None:
+        if v is not None:
+            v = {
+                "circle-color": [
+                    "interpolate",
+                    ["linear"],
+                    ["get", self.item_key],
+                    v["min_value"],
+                    v["min_hsl"],
+                    v["mid_value"],
+                    v["mid_hsl"],
+                    v["max_value"],
+                    v["max_hsl"],
+                ],
+                "circle-radius": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    0,
+                    0.5,
+                    1,
+                    1,
+                    5,
+                    5,
+                ],
+            }
+
+        self._set_property(PAINT_PROP, v)
+
+    @property
+    def stations(self) -> Optional[str]:
+        return self._get_property(STATIONS_PROP, str)
+
+    @stations.setter
+    def stations(self, v: Optional[str]) -> None:
+        self._set_property(STATIONS_PROP, v)
+
+    @property
+    def type_(self) -> Optional[str]:
+        return self._get_property(TYPE_PROP, str)
+
+    @type_.setter
+    def type_(self, v: Optional[str]) -> None:
+        self._set_property(TYPE_PROP, v)
+
+    @property
+    def on_click(self) -> Optional[Dict[str, Any]]:
+        return self._get_property(ON_CLICK_PROP, Dict[str, Any])
+
+    @on_click.setter
+    def on_click(self, v: Optional[Dict[str, Any]]) -> None:
+        self._set_property(ON_CLICK_PROP, v)
+
+    @property
+    def units(self) -> Optional[str]:
+        return self._get_property(UNITS_PROP, str)
+
+    @units.setter
+    def units(self, v: Optional[str]) -> None:
+        self._set_property(UNITS_PROP, v)
+
+    @property
+    def min_(self) -> Optional[int]:
+        return self._get_property(MIN_PROP, int)
+
+    @min_.setter
+    def min_(self, v: Optional[int]) -> None:
+        self._set_property(MIN_PROP, v)
+
+    @property
+    def max_(self) -> Optional[int]:
+        return self._get_property(MAX_PROP, int)
+
+    @max_.setter
+    def max_(self, v: Optional[int]) -> None:
+        self._set_property(MAX_PROP, v)
+
+    @property
+    def linear_gradient(self) -> Optional[List[Dict[str, Any]]]:
+        return self._get_property(LINEAR_GRADIENT_PROP, List[Dict[str, Any]])
+
+    @linear_gradient.setter
+    def linear_gradient(self, v: Optional[List[Dict[str, Any]]]) -> None:
+        self._set_property(LINEAR_GRADIENT_PROP, v)
 
     @classmethod
     def get_schema_uri(cls) -> str:
