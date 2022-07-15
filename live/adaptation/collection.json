@@ -1,0 +1,145 @@
+{
+  "type": "Collection",
+  "id": "adaptation",
+  "stac_version": "1.0.0",
+  "description": "Adaptation scenarios from LISCOAST dataset",
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/adaptation/adaptation-mapbox-regions/adaptation-mapbox-regions.json",
+      "type": "application/json",
+      "title": "adaptation-mapbox",
+      "properties": {
+        "field": "benefit"
+      }
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/adaptation/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+  ],
+  "title": "Adaptation",
+  "keywords": [
+    "CoCliCo"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+      "roles": [
+        "producer",
+        "processor"
+      ],
+      "url": "https://www.deltares.nl"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/cost_and_benefits_of_coastal_adaptation.zarr",
+      "title": "adaptation zarr root",
+      "description": "The root of the adaptation zarr dataset on public Google Cloud Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "gcs"
+      ]
+    }
+  },
+  "cube:dimensions": {
+    "scenario": {
+      "type": "field",
+      "values": [
+        "benefit",
+        "cost",
+        "cbr",
+        "protection"
+      ],
+      "unit": "-"
+    },
+    "field": {
+      "type": "field",
+      "values": [
+        "benefit",
+        "cost",
+        "cbr",
+        "protection"
+      ],
+      "unit": "-"
+    },
+    "id": {
+      "type": "region",
+      "extent": [
+        0,
+        123
+      ],
+      "unit": "-"
+    }
+  },
+  "cube:variables": {
+    "ffd": {
+      "description": "",
+      "dimensions": [
+        "field",
+        "id"
+      ],
+      "unit": "-"
+    },
+    "sustain": {
+      "description": "",
+      "dimensions": [
+        "field",
+        "id"
+      ],
+      "unit": "-"
+    }
+  },
+  "summaries": {
+    "field": [
+      "benefit",
+      "cost",
+      "cbr",
+      "protection"
+    ]
+  },
+  "properties": {
+    "deltares:units": "m",
+    "deltares:plotSeries": "scenario"
+  },
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180.0,
+          -90.0,
+          180.0,
+          90.0
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2015-10-22T00:00:00Z",
+          null
+        ]
+      ]
+    }
+  },
+  "license": "proprietary"
+}
