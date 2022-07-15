@@ -1,8 +1,8 @@
 {
     "type": "Collection",
-    "id": "wef-mapbox",
+    "id": "wef",
     "stac_version": "1.0.0",
-    "description": "wef",
+    "description": "Wave energy flux scenarios from LISCOAST dataset",
     "links": [
         {
             "rel": "item",
@@ -812,7 +812,7 @@
     "stac_extensions": [
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-    "title": "wef",
+    "title": "Wave energy flux",
     "keywords": [
         "CoCliCo"
     ],
@@ -935,6 +935,29 @@
             2080.0,
             2090.0,
             2100.0
+        ]
+    },
+    "properties": {
+        "deltares:units": "-",
+        "deltares:plotSeries": "RP",
+        "deltares:min": 0,
+        "deltares:max": 1000000,
+        "deltares:linearGradient": [
+            {
+                "color": "hsl(110,90%,70%)",
+                "offset": "0.000%",
+                "opacity": 100
+            },
+            {
+                "color": "hsla(55,88%,53%,0.5)",
+                "offset": "50.000%",
+                "opacity": 100
+            },
+            {
+                "color": "hsl(0,90%,80%)",
+                "offset": "100.000%",
+                "opacity": 100
+            }
         ]
     }
 }
