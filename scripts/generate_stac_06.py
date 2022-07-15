@@ -33,7 +33,7 @@ if __name__ == "__main__":
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
-    TEMPLATE = "ssl-mapbox"  # stac template for dataset collection
+    TEMPLATE = "template-mapbox"  # stac template for dataset collection
     STAC_DIR = "temp"
 
     # hard-coded input params which differ per dataset
@@ -70,6 +70,9 @@ if __name__ == "__main__":
 
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
+    gcs_api_zarr_store = os.path.join(
+        "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
+    )
     mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}"
 
     # read data from gcs zarr store
@@ -108,7 +111,7 @@ if __name__ == "__main__":
     for var in VARIABLES:
 
         # add zarr store as asset to stac_obj
-        stac_obj.add_asset("data", gen_zarr_asset(var, gcs_zarr_store))
+        stac_obj.add_asset("data", gen_zarr_asset(var, gcs_api_zarr_store))
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
@@ -116,7 +119,7 @@ if __name__ == "__main__":
             # generate stac item key and add link to asset to the stac item
             item_id = get_mapbox_item_id(dimcomb)
             feature = gen_default_item(f"{var}-mapbox-{item_id}")
-            feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url, DATASET_FILENAME))
+            feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url))
 
             # TODO: properties/setters for coclico stac extension (see coclico_extension.py)
             # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item

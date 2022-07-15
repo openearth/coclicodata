@@ -130,11 +130,11 @@ def get_stac_obj_from_template(
 
 def gen_mapbox_asset(
     # TODO: default walues for variables  below can be deleted right?
-    url,
-    source,
+    mapbox_url,
 ):
+    source = mapbox_url.split(".")[-1]
     return Asset(
-        href=url,
+        href=mapbox_url,
         extra_fields={
             "type": "vector",
             "source": source,
