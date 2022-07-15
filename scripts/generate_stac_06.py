@@ -34,7 +34,7 @@ if __name__ == "__main__":
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
     TEMPLATE = "template-mapbox"  # stac template for dataset collection
-    STAC_DIR = "temp"
+    STAC_DIR = "current"
 
     # hard-coded input params which differ per dataset
     DATASET_FILENAME = "cost_and_benefits_of_coastal_adaptation.zarr"

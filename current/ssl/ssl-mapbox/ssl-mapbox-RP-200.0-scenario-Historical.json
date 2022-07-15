@@ -1,9 +1,9 @@
 {
     "type": "Feature",
     "stac_version": "1.0.0",
-    "id": "sustain-mapbox-field-benefit",
+    "id": "ssl-mapbox-RP-200.0-scenario-Historical",
     "properties": {
-        "deltares:item_key": "field-benefit",
+        "deltares:item_key": "RP-200.0-scenario-Historical",
         "deltares:paint": {
             "circle-color": [
                 "interpolate",
@@ -12,7 +12,7 @@
                 ],
                 [
                     "get",
-                    "field-benefit"
+                    "RP-200.0-scenario-Historical"
                 ],
                 0,
                 "hsl(110,90%,80%)",
@@ -40,8 +40,9 @@
         "deltares:stations": "locationId",
         "deltares:type": "circle",
         "deltares:onclick": {},
-        "field": "benefit",
-        "datetime": "2022-07-15T14:38:21.876333Z"
+        "RP": 200.0,
+        "scenario": "Historical",
+        "datetime": "2022-07-15T14:36:48.971749Z"
     },
     "geometry": {
         "type": "Polygon",
@@ -75,7 +76,7 @@
             "rel": "collection",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "cbca"
+            "title": "ssl"
         },
         {
             "rel": "root",
@@ -87,16 +88,16 @@
             "rel": "parent",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "cbca"
+            "title": "ssl"
         }
     ],
     "assets": {
         "mapbox": {
-            "href": "mapbox://global-data-viewer.cost_and_benefits_of_coastal_adaptation",
+            "href": "mapbox://global-data-viewer.CoastAlRisk_Europe_EESSL_test",
             "title": "Point locations",
             "description": "Mapbox url",
             "type": "vector",
-            "source": "cost_and_benefits_of_coastal_adaptation",
+            "source": "CoastAlRisk_Europe_EESSL_test",
             "roles": [
                 "mapbox"
             ]
@@ -111,5 +112,5 @@
     "stac_extensions": [
         "https://coclicoservices.eu/coclico-stac-extension/v1.0.0/schema.json"
     ],
-    "collection": "cbca-mapbox"
+    "collection": "ssl-mapbox"
 }

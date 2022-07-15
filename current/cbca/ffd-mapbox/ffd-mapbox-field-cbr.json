@@ -1,10 +1,9 @@
 {
     "type": "Feature",
     "stac_version": "1.0.0",
-    "id": "ssl-mapbox-scenario-RCP45-RP-100.0",
+    "id": "ffd-mapbox-field-cbr",
     "properties": {
-        "deltares:stations": "locationId",
-        "deltares:type": "circle",
+        "deltares:item_key": "field-cbr",
         "deltares:paint": {
             "circle-color": [
                 "interpolate",
@@ -13,14 +12,14 @@
                 ],
                 [
                     "get",
-                    "scenario-RCP45-RP-100.0"
+                    "field-cbr"
                 ],
-                -1,
-                "hsl(0, 90%, 80%)",
                 0,
-                "hsla(55, 88%, 53%, 0.15)",
-                1,
-                "hsl(110, 90%, 80%)"
+                "hsl(110,90%,80%)",
+                1.5,
+                "hsla(55, 88%, 53%, 0.5)",
+                3.0,
+                "hsl(0, 90%, 70%)"
             ],
             "circle-radius": [
                 "interpolate",
@@ -36,13 +35,13 @@
                 1,
                 5,
                 5
-            ],
-            "circle-stroke-color": "hsl(0, 72%, 100%)"
+            ]
         },
-        "deltares:onClick": {},
-        "scenario": "RCP45",
-        "RP": 100.0,
-        "datetime": "2022-05-12T13:22:38.759465Z"
+        "deltares:stations": "locationId",
+        "deltares:type": "circle",
+        "deltares:onclick": {},
+        "field": "cbr",
+        "datetime": "2022-07-15T14:39:22.579759Z"
     },
     "geometry": {
         "type": "Polygon",
@@ -76,7 +75,7 @@
             "rel": "collection",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "ssl"
+            "title": "cbca"
         },
         {
             "rel": "root",
@@ -88,16 +87,16 @@
             "rel": "parent",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "ssl"
+            "title": "cbca"
         }
     ],
     "assets": {
         "mapbox": {
-            "href": "mapbox://global-data-viewer.CoastAlRisk_Europe_EESSL",
+            "href": "mapbox://global-data-viewer.cost_and_benefits_of_coastal_adaptation",
             "title": "Point locations",
             "description": "Mapbox url",
             "type": "vector",
-            "source": "CoastAlRisk_Europe_EESSL",
+            "source": "cost_and_benefits_of_coastal_adaptation",
             "roles": [
                 "mapbox"
             ]
@@ -109,6 +108,8 @@
         180,
         90
     ],
-    "stac_extensions": [],
-    "collection": "ssl-mapbox"
+    "stac_extensions": [
+        "https://coclicoservices.eu/coclico-stac-extension/v1.0.0/schema.json"
+    ],
+    "collection": "cbca-mapbox"
 }
