@@ -1,0 +1,111 @@
+{
+    "type": "Feature",
+    "stac_version": "1.0.0",
+    "id": "floodmaps_wms-2.0",
+    "properties": {
+        "deltares:min": -4.0,
+        "deltares:max": 4.0,
+        "deltares:palette": [
+            "#D1CBFF",
+            "#006391",
+            "#1D1B1A",
+            "#902F14",
+            "#FCB0B2"
+        ],
+        "deltares:band": "water_level",
+        "deltares:linearGradient": [
+            {
+                "offset": "0.000%",
+                "opacity": 100,
+                "color": "#D1CBFF"
+            },
+            {
+                "offset": "25.000%",
+                "opacity": 100,
+                "color": "#006391"
+            },
+            {
+                "offset": "50.000%",
+                "opacity": 100,
+                "color": "#1D1B1A"
+            },
+            {
+                "offset": "75.000%",
+                "opacity": 100,
+                "color": "#902F14"
+            },
+            {
+                "offset": "100.000%",
+                "opacity": 100,
+                "color": "#FCB0B2"
+            }
+        ],
+        "deltares:source": "projects/dgds-gee/glossis/waterlevel",
+        "deltares:date": "2021-04-23T11:00:00",
+        "deltares:imageId": "projects/dgds-gee/glossis/waterlevel/glossis_waterlevel_20210423110000",
+        "deltares:dataset": "waterlevel",
+        "datetime": "2021-04-23T11:00:00Z"
+    },
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    -180.0,
+                    -90.0
+                ],
+                [
+                    180.0,
+                    -90.0
+                ],
+                [
+                    180.0,
+                    90.0
+                ],
+                [
+                    -180.0,
+                    90.0
+                ],
+                [
+                    -180.0,
+                    -90.0
+                ]
+            ]
+        ]
+    },
+    "links": [
+        {
+            "rel": "root",
+            "href": "../../collection.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "collection",
+            "href": "../collection.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json"
+        }
+    ],
+    "assets": {
+        "visual": {
+            "href": "https://mapsref.brgm.fr/wxs/sea_level_rise/littoral_slr?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=LIT_SLR_MNT_NIVEAU_2.0",
+            "type": "application/png",
+            "title": "BRGM WMS Service",
+            "description": "OGS WMS url",
+            "roles": [
+                "visual"
+            ]
+        }
+    },
+    "bbox": [
+        -180,
+        -90,
+        180,
+        90
+    ],
+    "collection": "floodmaps"
+}
