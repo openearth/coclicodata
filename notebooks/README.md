@@ -2,7 +2,10 @@
 
 ## CF conventions
 
-Datasets should follow CF conventions where possible. These conventions are described [here](https://cfconventions.org/).
+Datasets should follow CF conventions where possible. These conventions are described
+[here](https://cfconventions.org/).
+
+## TODO: Description dimension, coordinates, variables
 
 ### Attribute requirements for CoCliCo datasets
 
@@ -24,55 +27,78 @@ The following coordinate labels are required:
 - crs or crs_wkt
 - time  
 
-## Name tables
+### Controlled vocabulary  
 
-The following variables are found in the CoCliCo datasets. When adding a datasets, please
-check if the variable is already present in the tables below.
+#### TODO: Description use controlled vocabulary
 
-### Dimension name table
-
-| name        | standard_name               | xr_type | dtype        |
-|-------------|-----------------------------|---------|--------------|
-| lon         | longitude                   | dim     | int          |
-| lat         | latitude                    | dim     | int          |
-| stations    | stations                    | dim     | int          |
-| regions     | regions                     | dim     | int          |
-| rp          | return_period               | dim     | int          |
-| scenarios   | scenarios                   | dim     | int          |
-| time        | time                        | dim     | int          |
-
-#### Variable name table
-
-| name        | standard_name               | xr_type | dtype        |
-|-------------|-----------------------------|---------|--------------|
-| ssl         | sea_surface_level           | var     | float64      |
-| wef         | wave_energy_flux            | var     | float64      |
-| esl         |                             | var     |              |
-| eewl        |                             | var     |              |
-| ffd         | fossil_fuel_development     | var     | float64      |
-| sustain     | sustainability              | var     | float64      |
-
-### Coordinates name table
-
-| name        | standard_name               | xr_type | dtype        |
-|-------------|-----------------------------|---------|--------------|
-| lon         | longitude                   | coord   | float64      |
-| lat         | latitude                    | coord   | float64      |
-| time        | time                        | coord   | str          |
-| geometry    | geometry                    | coord   | geometry wkt |
-| crs         | coordinate_reference_system | coord   | crs wkt      |
-| nuts_region | nuts_region                 | coord   | str          |
-
-### Additional notes for the name conventions
-
-Please have a look at [the cf convention](https://cfconventions.org/).
-
-Some important conventions adopted in the CoCliCo project:
-
-- "time" is used for the time dimension, including dimensions such as decades. The units
-  attributes of the time dimensions defines the sampling rate and time starting point.
-- "stations" represents the station dimension for data that is sampled at certain
-  observation points.
-- "regions" represents the region dimension for data that describes regions.
-- "geometry" attribute coordinate can be used to describe the region in well known text
-  (WKT) format.
+| src_name         | dst_name            | long_name           | standard_name | cf_type | dtype                 |
+|------------------|---------------------|---------------------|---------------|---------|-----------------------|
+| RP               | rp                  | return period       |               | dim     | int                   |
+| decades          | time                | time                | time          | dim     | cftime                |
+| id               | nstations           | number of stations  |               | dim     | int                   |
+| lat              | lat                 | latitude            | latitude      | dim     | float                 |
+| latitude         | lat                 | latitude            | latitude      | dim     | float                 |
+| lon              | lon                 | longitude           | longitude     | dim     | float                 |
+| longitude        | lon                 | longitude           | longitude     | dim     | float                 |
+| nens             | nensemble           | number of ensembles |               | dim     | int                   |
+| npoints          | nstations           | number of stations  |               | dim     | int                   |
+| nrp              | rp                  | return period       |               | dim     | int                   |
+| nscenarios       | nscenarios          | number of scenarios |               | dim     | int                   |
+| nsdec            | time                | time                |               | dim     | cftime                |
+| ntransect        | nstations           | number of stations  |               | dim     | int                   |
+| ptid             | nstations           | number of stations  |               | dim     | int                   |
+| rp               | rp                  | return period       |               | dim     | int                   |
+| ensmbl           | ensemble            | ensemble            |               | coord   | zero-terminated bytes |
+| id               | stations            | stations            |               | coord   | zero-terminated bytes |
+| ptid             | stations            | stations            |               | coord   | zero-terminated bytes |
+| scenario         | scenario            | scenario            |               | coord   | zero-terminated bytes |
+| transect         | stations            | stations            |               | coord   | zero-terminated bytes |
+| activezonetoland | active_zone_to_land | active zone to land |               | var     | float                 |
+| activezonetosea  | active_zone_to_sea  | active zone to sea  |               | var     | float                 |
+| eewl             | eewl                |                     |               | var     | float                 |
+| errorid          | error_id            | error id            |               | var     | str                   |
+| esl              | esl                 | extreme sea level   |               | var     | float                 |
+| landid           | country             | country             |               | var     | str                   |
+| landtoactivezone | land_to_active_zone | land to active zone |               | var     | float                 |
+| landtosea        | land_to_sea         | land to sea         |               | var     | float                 |
+| ssl              | ssl                 | sea surface level   |               | var     | float                 |
+| sustain          | sustain             | sustainability      |               | var     | float                 |
+| wef              | wef                 | wave energy flux    |               | var     | float                 |
+| base2000         |                     |                     |               |         |                       |
+| cfpi             |                     |                     |               |         |                       |
+| col              |                     |                     |               |         |                       |
+| copula           |                     |                     |               |         |                       |
+| cor              |                     |                     |               |         |                       |
+| dd10             |                     |                     |               |         |                       |
+| ffbd2050         | scenario?           |                     |               |         |                       |
+| ffbd2100         | scenario?           |                     |               |         |                       |
+| ffd              | ffd                 |                     |               |         |                       |
+| firstYear        | first_year          |                     |               |         |                       |
+| firstlandlat     | first_land_lat      |                     |               |         |                       |
+| firstlandlon     | first_land_lot      |                     |               |         |                       |
+| frag2050         | scenario?           |                     |               |         |                       |
+| frag2100         | scenario?           |                     |               |         |                       |
+| landfound        | land_found          |                     |               |         |                       |
+| lastYear         | last_year           |                     |               |         |                       |
+| latland          | lat_land            |                     |               |         |                       |
+| latsea           | lat_sea             |                     |               |         |                       |
+| lonland          | lon_land            |                     |               |         |                       |
+| lonsea           | lon_sea             |                     |               |         |                       |
+| perc1            |                     |                     |               |         |                       |
+| perc17           |                     |                     |               |         |                       |
+| perc5            |                     |                     |               |         |                       |
+| perc50           |                     |                     |               |         |                       |
+| perc83           |                     |                     |               |         |                       |
+| perc95           |                     |                     |               |         |                       |
+| perc99           |                     |                     |               |         |                       |
+| pp10             |                     |                     |               |         |                       |
+| qualityflag      | quality_flag        |                     |               |         |                       |
+| ret_per          | ret_per             |                     |               |         |                       |
+| row              | stations?           |                     |               |         |                       |
+| seatoactivezone  | sea_to_active_zone  |                     |               |         |                       |
+| seatoland        | sea_to_land         |                     |               |         |                       |
+| segmentid        | instance?           |                     |               |         |                       |
+| spuriousratio    | spurious_ratio      |                     |               |         |                       |
+| ss10             |                     |                     |               |         |                       |
+| sust2050         | scenario?           |                     |               |         |                       |
+| sust2100         | scenario?           |                     |               |         |                       |
