@@ -41,6 +41,7 @@ The following coordinate labels are required:
 | lon              | lon                 | longitude           | longitude     | dim     | float                 |
 | longitude        | lon                 | longitude           | longitude     | dim     | float                 |
 | nens             | nensemble           | number of ensembles |               | dim     | int                   |
+| nlayers          | nlayers             | number of layers    |               | dim     | int                   |
 | npoints          | nstations           | number of stations  |               | dim     | int                   |
 | nrp              | rp                  | return period       |               | dim     | int                   |
 | nscenarios       | nscenarios          | number of scenarios |               | dim     | int                   |
@@ -51,6 +52,7 @@ The following coordinate labels are required:
 | ensmbl           | ensemble            | ensemble            |               | coord   | zero-terminated bytes |
 | id               | stations            | stations            |               | coord   | zero-terminated bytes |
 | ptid             | stations            | stations            |               | coord   | zero-terminated bytes |
+| layers           | layers              | layers              |               | coord   | zero-terminated bytes |
 | scenario         | scenario            | scenario            |               | coord   | zero-terminated bytes |
 | transect         | stations            | stations            |               | coord   | zero-terminated bytes |
 | activezonetoland | active_zone_to_land | active zone to land |               | var     | float                 |
