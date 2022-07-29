@@ -1,7 +1,26 @@
 import geojson
-import rioxarray
-import xarray
+import numpy as np
+import rioxarray as rioxarray
+import xarray as xr
 from stac.utils import get_mapbox_item_id
+
+
+def zero_terminated_bytes_as_str(ds: xr.Dataset) -> xr.Dataset:
+    """Load zero-terminated bytes as strings
+
+    To be CF compliant the coordinates of dtype string are stored as zero-terminated bytes. This
+    function loads those bytes back to strings.
+
+    Args:
+        ds (xr.Dataset): Xarray dataset
+
+    Returns:
+        xr.Dataset: Xarray dataset
+    """
+    for coord in list(ds.coords):
+        if np.issubdtype(ds[coord].values.dtype, np.dtype("S")):
+            ds[coord] = ds[coord].values.astype(str)
+    return ds
 
 
 def clear_zarr_information(ds):

@@ -1,6 +1,7 @@
 import os
 import pathlib
 import sys
+from curses import color_content
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
@@ -34,7 +35,7 @@ if __name__ == "__main__":
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
     TEMPLATE = "template-mapbox"  # stac template for dataset collection
-    STAC_DIR = "current"
+    STAC_DIR = "tmp"
 
     # hard-coded input params which differ per dataset
     DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
@@ -53,32 +54,45 @@ if __name__ == "__main__":
     STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
-    COLOR_PROPERTIES = {
-        "min_value": 0,
-        "min_hsl": "hsl(110,90%,80%)",
-        "mid_value": 1.5,
-        "mid_hsl": "hsla(55, 88%, 53%, 0.5)",
-        "max_value": 3.0,
-        "max_hsl": "hsl(0, 90%, 70%)",
-    }
+
+    # these are added at collection level
     UNITS = "m"
-    PLOTSERIES = "scenario"
+    PLOT_SERIES = "scenario"
     MIN = 0
     MAX = 3
-    LINEARGRADIENT = [
+    LINEAR_GRADIENT = [
         {"color": "hsl(0,90%,80%)", "offset": "0.000%", "opacity": 100},
         {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
         {"color": "hsl(110,90%,70%)", "offset": "100.000%", "opacity": 100},
     ]
 
-    # TODO: will be implmented when migrating to Deltares stac extansion. Now it doesn't
-    # work because the list has to be implemented with pystac string enum class see
-    # https://pystac.readthedocs.io/en/stable/tutorials/adding-new-and-custom-extensions.html
-    # LINEAR_GRADIENT = [
-    #     {"color": COLOR_PROPERTIES["min"]["hsl"], "offset": "0.000%", "opacity": 100},
-    #     {"color": COLOR_PROPERTIES["mid"]["hsl"], "offset": "50.000%", "opacity": 100},
-    #     {"color": COLOR_PROPERTIES["max"]["hsl"], "offset": "100.000%", "opacity": 100},
-    # ]
+    # functions to generate properties that vary per dataset but cannot be hard-corded because
+    # they also require input arguments
+    def get_paint_props(item_key: str):
+        return {
+            "circle-color": [
+                "interpolate",
+                ["linear"],
+                ["get", item_key],
+                0,
+                "hsl(110,90%,80%)",
+                1.5,
+                "hsla(55, 88%, 53%, 0.5)",
+                3.0,
+                "hsl(0, 90%, 70%)",
+            ],
+            "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                0,
+                0.5,
+                1,
+                1,
+                5,
+                5,
+            ],
+        }
 
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
@@ -136,14 +150,11 @@ if __name__ == "__main__":
             # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
             coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
 
-            # Add frontend properties and add to stac items as properties
-            coclico_ext.apply(
-                item_key=item_id,
-                paint=COLOR_PROPERTIES,
-                type_=TYPE,
-                stations=STATIONS,
-                on_click=ON_CLICK,
-            )
+            coclico_ext.item_key = item_id
+            coclico_ext.paint = get_paint_props(item_id)
+            coclico_ext.type_ = TYPE
+            coclico_ext.stations = STATIONS
+            coclico_ext.on_click = ON_CLICK
 
             # TODO: include this in our datacube?
             # add dimension key-value pairs to stac item properties dict
@@ -166,7 +177,11 @@ if __name__ == "__main__":
     # Add frontend properties defined above to collection extension properties. The
     # properties attribute of this extension is linked to the extra_fields attribute of
     # the stac collection.
-    coclico_ext.apply(units=UNITS, min_=MIN, max_=MAX, linear_gradient=LINEARGRADIENT)
+    coclico_ext.units = UNITS
+    coclico_ext.plot_series = PLOT_SERIES
+    coclico_ext.min_ = MIN
+    coclico_ext.max_ = MAX
+    coclico_ext.linear_gradient = LINEAR_GRADIENT
 
     # set extra link properties
     extend_links(stac_obj, dimvals.keys())

@@ -5,14 +5,10 @@ from typing import Any, Dict, Generic, List, Optional, TypeVar, Union, cast
 from uuid import uuid4
 
 import pystac
-from pystac.extensions.base import ExtensionManagementMixin, PropertiesExtension
-from pystac.utils import (
-    StringEnum,
-    datetime_to_str,
-    get_required,
-    map_opt,
-    str_to_datetime,
-)
+from pystac.extensions.base import (ExtensionManagementMixin,
+                                    PropertiesExtension)
+from pystac.utils import (StringEnum, datetime_to_str, get_required, map_opt,
+                          str_to_datetime)
 
 T = TypeVar("T", pystac.Collection, pystac.Item, pystac.Asset)
 
@@ -32,7 +28,7 @@ ON_CLICK_PROP: str = PREFIX + "onclick"
 
 # list of properties that are added at collection level
 UNITS_PROP: str = "units"
-PLOTSERIES_PROP: str = "plotSeries"
+PLOT_SERIES_PROP: str = "plotSeries"
 MIN_PROP: str = PREFIX + "min"
 MAX_PROP: str = PREFIX + "max"
 LINEAR_GRADIENT_PROP: str = PREFIX + "linearGradient"
@@ -58,16 +54,22 @@ class CoclicoExtension(
         type_: Optional[str] = None,
         on_click: Optional[Dict[str, Any]] = None,
         units: Optional[str] = None,
+        plot_series: Optional[str] = None,
         min_: Optional[int] = None,
         max_: Optional[int] = None,
         linear_gradient: Optional[List[Dict[str, Any]]] = None,
     ) -> None:
+
+        # these are added at item level 
         self.item_key = item_key
         self.paint = paint
         self.stations = stations
         self.type_ = type_
         self.on_click = on_click
+        
+        # these are added at collection level 
         self.units = units
+        self.plot_series = plot_series
         self.min_ = min_
         self.max_ = max_
         self.linear_gradient = linear_gradient
@@ -86,32 +88,6 @@ class CoclicoExtension(
 
     @paint.setter
     def paint(self, v: Optional[Dict[str, Any]]) -> None:
-        if v is not None:
-            v = {
-                "circle-color": [
-                    "interpolate",
-                    ["linear"],
-                    ["get", self.item_key],
-                    v["min_value"],
-                    v["min_hsl"],
-                    v["mid_value"],
-                    v["mid_hsl"],
-                    v["max_value"],
-                    v["max_hsl"],
-                ],
-                "circle-radius": [
-                    "interpolate",
-                    ["linear"],
-                    ["zoom"],
-                    0,
-                    0.5,
-                    1,
-                    1,
-                    5,
-                    5,
-                ],
-            }
-
         self._set_property(PAINT_PROP, v)
 
     @property
@@ -145,6 +121,14 @@ class CoclicoExtension(
     @units.setter
     def units(self, v: Optional[str]) -> None:
         self._set_property(UNITS_PROP, v)
+
+    @property
+    def plot_series(self) -> Optional[str]:
+        return self._get_property(PLOT_SERIES_PROP, str)
+
+    @plot_series.setter
+    def plot_series(self, v: Optional[str]) -> None:
+        self._set_property(PLOT_SERIES_PROP, v)
 
     @property
     def min_(self) -> Optional[int]:

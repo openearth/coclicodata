@@ -8,25 +8,15 @@ sys.path.append(str(pathlib.Path(__file__).parent.parent))
 from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
 from pystac import CatalogType, Collection, Summaries
-from stac.blueprint import (
-    IO,
-    Layout,
-    extend_links,
-    gen_default_collection_props,
-    gen_default_item,
-    gen_default_item_props,
-    gen_default_summaries,
-    gen_mapbox_asset,
-    gen_zarr_asset,
-    get_stac_obj_from_template,
-)
+from stac.blueprint import (IO, Layout, extend_links,
+                            gen_default_collection_props, gen_default_item,
+                            gen_default_item_props, gen_default_summaries,
+                            gen_mapbox_asset, gen_zarr_asset,
+                            get_stac_obj_from_template)
 from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
-from stac.utils import (
-    get_dimension_dot_product,
-    get_dimension_values,
-    get_mapbox_item_id,
-)
+from stac.utils import (get_dimension_dot_product, get_dimension_values,
+                        get_mapbox_item_id)
 
 if __name__ == "__main__":
     # hard-coded input params at project level
@@ -46,27 +36,49 @@ if __name__ == "__main__":
     ADDITIONAL_DIMENSIONS = ["field"]  # False, None, or str; additional dims ""
     DIMENSIONS_TO_IGNORE = ["id"]  # List of str; dims ignored by datacube
 
-    # hard-coded frontend properties
+    ### CoCliCo front-end properties
+    # properties that are added at item level
     STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
-    COLOR_PROPERTIES = {
-        "min_value": 0,
-        "min_hsl": "hsl(110,90%,80%)",
-        "mid_value": 1.5,
-        "mid_hsl": "hsla(55, 88%, 53%, 0.5)",
-        "max_value": 3.0,
-        "max_hsl": "hsl(0, 90%, 70%)",
-    }
+
+    # properties that are added at collection level
     UNITS = "m"
-    PLOTSERIES = "scenario"
     MIN = 0
     MAX = 3
-    LINEARGRADIENT = [
+    LINEAR_GRADIENT = [
         {"color": "hsl(0,90%,80%)", "offset": "0.000%", "opacity": 100},
         {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
         {"color": "hsl(110,90%,70%)", "offset": "100.000%", "opacity": 100},
     ]
+
+    # functions to generate properties that vary per dataset but cannot be hard-corded because
+    # they also require input arguments
+    def get_paint_props(item_key: str):
+        return {
+            "circle-color": [
+                "interpolate",
+                ["linear"],
+                ["get", item_key],
+                0,
+                "hsl(110,90%,80%)",
+                1.5,
+                "hsla(55, 88%, 53%, 0.5)",
+                3.0,
+                "hsl(0, 90%, 70%)",
+            ],
+            "circle-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                0,
+                0.5,
+                1,
+                1,
+                5,
+                5,
+            ],
+        }
 
     # semi hard-coded input params
     gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
@@ -125,14 +137,14 @@ if __name__ == "__main__":
             # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
             coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
 
-            # Add frontend properties and add to stac items as properties
-            coclico_ext.apply(
-                item_key=item_id,
-                paint=COLOR_PROPERTIES,
-                type_=TYPE,
-                stations=STATIONS,
-                on_click=ON_CLICK,
-            )
+            # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
+            coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
+
+            coclico_ext.item_key = item_id
+            coclico_ext.paint = get_paint_props(item_id)
+            coclico_ext.type_ = TYPE
+            coclico_ext.stations = STATIONS
+            coclico_ext.on_click = ON_CLICK
 
             # TODO: include this in our datacube?
             # add dimension key-value pairs to stac item properties dict
@@ -155,7 +167,10 @@ if __name__ == "__main__":
     # Add frontend properties defined above to collection extension properties. The
     # properties attribute of this extension is linked to the extra_fields attribute of
     # the stac collection.
-    coclico_ext.apply(units=UNITS, min_=MIN, max_=MAX, linear_gradient=LINEARGRADIENT)
+    coclico_ext.units = UNITS
+    coclico_ext.min_ = MIN
+    coclico_ext.max_ = MAX
+    coclico_ext.linear_gradient = LINEAR_GRADIENT
 
     # set extra link properties
     extend_links(stac_obj, dimvals.keys())

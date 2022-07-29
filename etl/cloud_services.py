@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
     # hard-coded input params
     DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
-    GCS_PROJECT = ("DGDS - I1000482-002",)
+    GCS_PROJECT = "DGDS - I1000482-002"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
 
