@@ -10,15 +10,25 @@ from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
 from etl.extract import zero_terminated_bytes_as_str
 from pystac import CatalogType, Collection, Summaries
-from stac.blueprint import (IO, Layout, extend_links,
-                            gen_default_collection_props, gen_default_item,
-                            gen_default_item_props, gen_default_summaries,
-                            gen_mapbox_asset, gen_zarr_asset,
-                            get_stac_obj_from_template)
+from stac.blueprint import (
+    IO,
+    Layout,
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_stac_obj_from_template,
+)
 from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
-from stac.utils import (get_dimension_dot_product, get_dimension_values,
-                        get_mapbox_item_id)
+from stac.utils import (
+    get_dimension_dot_product,
+    get_dimension_values,
+    get_mapbox_item_id,
+)
 
 if __name__ == "__main__":
     # hard-coded input params at project level
@@ -29,7 +39,7 @@ if __name__ == "__main__":
     STAC_DIR = "current"
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
+    DATASET_FILENAME = "europe_storm_surge_level.zarr"
     STAC_COLLECTION_NAME = "ssl"  # name of stac collection
     VARIABLES = ["ssl"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
@@ -93,19 +103,19 @@ if __name__ == "__main__":
     gcs_api_zarr_store = os.path.join(
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
-    mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}_test"
+    mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}"
 
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(
         bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     )
 
-    import xarray as xr
+    # import xarray as xr
 
-    fpath = pathlib.Path.home().joinpath(
-        "ddata", "tmp", "CoastAlRisk_Europe_EESSL.zarr"
-    )
-    ds = xr.open_zarr(fpath)
+    # fpath = pathlib.Path.home().joinpath(
+    #     "ddata", "tmp", "CoastAlRisk_Europe_EESSL.zarr"
+    # )
+    # ds = xr.open_zarr(fpath)
 
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
@@ -115,9 +125,17 @@ if __name__ == "__main__":
         os.path.join(rel_root, STAC_DIR, "collection.json")
     )
 
+    # get description/title from dataset, but if not exists just use stac collection name
+    description = ds.attrs.get("description", STAC_COLLECTION_NAME)
+    title = ds.attrs.get("title", STAC_COLLECTION_NAME)
+
     # generate stac_obj for dataset
     stac_obj = get_stac_obj_from_template(
-        collection, template_fn=TEMPLATE, variable=STAC_COLLECTION_NAME
+        collection,
+        template_fn=TEMPLATE,
+        title=title,
+        description=description,
+        dataset=STAC_COLLECTION_NAME,
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
