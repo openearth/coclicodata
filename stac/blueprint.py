@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import datetime
 from itertools import product
 from sre_constants import GROUPREF_EXISTS
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import pystac
 import zarr
@@ -90,7 +90,9 @@ def gen_default_item(name="unique"):
 def get_stac_obj_from_template(
     collection: pystac.Collection,
     template_fn: str,
-    variable: str,
+    title: str,
+    description: str,
+    dataset: str,
 ) -> pystac.Collection:
     """Deltares CoCliCo STAC Obj from template file.
 
@@ -104,14 +106,14 @@ def get_stac_obj_from_template(
     Returns:
         pystac.Collection: Template STAC Obj collection.
     """
-    datasetid = f"{variable}-mapbox"
+    datasetid = f"{dataset}-mapbox"
 
     # Get template and set items
     templatedataset = collection.get_child(template_fn)
     stac_obj = templatedataset.full_copy()
     stac_obj.id = datasetid
-    stac_obj.title = variable
-    stac_obj.description = variable
+    stac_obj.title = title
+    stac_obj.description = description
 
     # Drop existing items, dimensions and summaries
     stac_obj.set_root(None)
