@@ -158,7 +158,7 @@ if __name__ == "__main__":
     for var in VARIABLES:
 
         # add zarr store as asset to stac_obj
-        stac_obj.add_asset("data", gen_zarr_asset(var, gcs_api_zarr_store))
+        stac_obj.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
@@ -184,6 +184,10 @@ if __name__ == "__main__":
 
             # add stac item to collection
             stac_obj.add_item(feature, strategy=layout)
+
+    # if no variables present we still need to add zarr reference at colleciton level
+    if not VARIABLES:
+        stac_obj.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
     # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     stac_obj.summaries = Summaries({})
