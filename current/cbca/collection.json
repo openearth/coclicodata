@@ -6,66 +6,66 @@
     "links": [
         {
             "rel": "item",
-            "href": "./ffd-mapbox/ffd-mapbox-field-benefit.json",
+            "href": "./benefit-mapbox/benefit-mapbox-scenarios-RCP45-SSP1.json",
             "type": "application/json",
             "properties": {
-                "field": "benefit"
+                "scenarios": "RCP45-SSP1"
             }
         },
         {
             "rel": "item",
-            "href": "./ffd-mapbox/ffd-mapbox-field-cost.json",
+            "href": "./benefit-mapbox/benefit-mapbox-scenarios-RCP85-SSP5.json",
             "type": "application/json",
             "properties": {
-                "field": "cost"
+                "scenarios": "RCP85-SSP5"
             }
         },
         {
             "rel": "item",
-            "href": "./ffd-mapbox/ffd-mapbox-field-cbr.json",
+            "href": "./cost-mapbox/cost-mapbox-scenarios-RCP45-SSP1.json",
             "type": "application/json",
             "properties": {
-                "field": "cbr"
+                "scenarios": "RCP45-SSP1"
             }
         },
         {
             "rel": "item",
-            "href": "./ffd-mapbox/ffd-mapbox-field-protection.json",
+            "href": "./cost-mapbox/cost-mapbox-scenarios-RCP85-SSP5.json",
             "type": "application/json",
             "properties": {
-                "field": "protection"
+                "scenarios": "RCP85-SSP5"
             }
         },
         {
             "rel": "item",
-            "href": "./sustain-mapbox/sustain-mapbox-field-benefit.json",
+            "href": "./cbr-mapbox/cbr-mapbox-scenarios-RCP45-SSP1.json",
             "type": "application/json",
             "properties": {
-                "field": "benefit"
+                "scenarios": "RCP45-SSP1"
             }
         },
         {
             "rel": "item",
-            "href": "./sustain-mapbox/sustain-mapbox-field-cost.json",
+            "href": "./cbr-mapbox/cbr-mapbox-scenarios-RCP85-SSP5.json",
             "type": "application/json",
             "properties": {
-                "field": "cost"
+                "scenarios": "RCP85-SSP5"
             }
         },
         {
             "rel": "item",
-            "href": "./sustain-mapbox/sustain-mapbox-field-cbr.json",
+            "href": "./eb-mapbox/eb-mapbox-scenarios-RCP45-SSP1.json",
             "type": "application/json",
             "properties": {
-                "field": "cbr"
+                "scenarios": "RCP45-SSP1"
             }
         },
         {
             "rel": "item",
-            "href": "./sustain-mapbox/sustain-mapbox-field-protection.json",
+            "href": "./eb-mapbox/eb-mapbox-scenarios-RCP85-SSP5.json",
             "type": "application/json",
             "properties": {
-                "field": "protection"
+                "scenarios": "RCP85-SSP5"
             }
         },
         {
@@ -102,9 +102,9 @@
     ],
     "assets": {
         "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/cost_and_benefits_of_coastal_adaptation.zarr",
-            "title": "sustain zarr root",
-            "description": "The root of the sustain zarr dataset on public Google Cloud Storage.",
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_cost_benefit_coastal_adaptation.zarr",
+            "title": "cbca zarr root",
+            "description": "The root of the cbca zarr dataset on public Google Cloud Storage.",
             "roles": [
                 "data",
                 "zarr-root",
@@ -135,135 +135,349 @@
     ],
     "units": "m",
     "cube:dimensions": {
-        "field": {
-            "values": [
-                "benefit",
-                "cost",
-                "cbr",
-                "protection"
+        "lon": {
+            "axis": "x",
+            "extent": [
+                -9.039207141,
+                33.22610589
             ],
-            "description": "fields of the dataset",
+            "description": "Longitude of the centroid of the NUTS2 region (2010 version).",
+            "reference_system": {
+                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+                "type": "GeographicCRS",
+                "name": "WGS 84",
+                "datum_ensemble": {
+                    "name": "World Geodetic System 1984 ensemble",
+                    "members": [
+                        {
+                            "name": "World Geodetic System 1984 (Transit)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1166
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G730)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1152
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G873)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1153
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G1150)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1154
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G1674)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1155
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G1762)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1156
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G2139)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1309
+                            }
+                        }
+                    ],
+                    "ellipsoid": {
+                        "name": "WGS 84",
+                        "semi_major_axis": 6378137,
+                        "inverse_flattening": 298.257223563
+                    },
+                    "accuracy": "2.0",
+                    "id": {
+                        "authority": "EPSG",
+                        "code": 6326
+                    }
+                },
+                "coordinate_system": {
+                    "subtype": "ellipsoidal",
+                    "axis": [
+                        {
+                            "name": "Geodetic latitude",
+                            "abbreviation": "Lat",
+                            "direction": "north",
+                            "unit": "degree"
+                        },
+                        {
+                            "name": "Geodetic longitude",
+                            "abbreviation": "Lon",
+                            "direction": "east",
+                            "unit": "degree"
+                        }
+                    ]
+                },
+                "scope": "Horizontal component of 3D system.",
+                "area": "World.",
+                "bbox": {
+                    "south_latitude": -90,
+                    "west_longitude": -180,
+                    "north_latitude": 90,
+                    "east_longitude": 180
+                },
+                "id": {
+                    "authority": "EPSG",
+                    "code": 4326
+                }
+            },
+            "type": "spatial"
+        },
+        "lat": {
+            "axis": "y",
+            "extent": [
+                35.05012185,
+                66.24224109
+            ],
+            "description": "Latitude of the centroid of the NUTS2 region (2010 version).",
+            "reference_system": {
+                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+                "type": "GeographicCRS",
+                "name": "WGS 84",
+                "datum_ensemble": {
+                    "name": "World Geodetic System 1984 ensemble",
+                    "members": [
+                        {
+                            "name": "World Geodetic System 1984 (Transit)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1166
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G730)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1152
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G873)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1153
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G1150)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1154
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G1674)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1155
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G1762)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1156
+                            }
+                        },
+                        {
+                            "name": "World Geodetic System 1984 (G2139)",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 1309
+                            }
+                        }
+                    ],
+                    "ellipsoid": {
+                        "name": "WGS 84",
+                        "semi_major_axis": 6378137,
+                        "inverse_flattening": 298.257223563
+                    },
+                    "accuracy": "2.0",
+                    "id": {
+                        "authority": "EPSG",
+                        "code": 6326
+                    }
+                },
+                "coordinate_system": {
+                    "subtype": "ellipsoidal",
+                    "axis": [
+                        {
+                            "name": "Geodetic latitude",
+                            "abbreviation": "Lat",
+                            "direction": "north",
+                            "unit": "degree"
+                        },
+                        {
+                            "name": "Geodetic longitude",
+                            "abbreviation": "Lon",
+                            "direction": "east",
+                            "unit": "degree"
+                        }
+                    ]
+                },
+                "scope": "Horizontal component of 3D system.",
+                "area": "World.",
+                "bbox": {
+                    "south_latitude": -90,
+                    "west_longitude": -180,
+                    "north_latitude": 90,
+                    "east_longitude": 180
+                },
+                "id": {
+                    "authority": "EPSG",
+                    "code": 4326
+                }
+            },
+            "type": "spatial"
+        },
+        "scenarios": {
+            "values": [
+                "RCP45-SSP1",
+                "RCP85-SSP5"
+            ],
             "type": "temporal"
         }
     },
     "cube:variables": {
-        "country": {
-            "type": "auxiliary",
-            "description": "country acronym",
-            "dimensions": [
-                "id"
-            ],
-            "attrs": {
-                "long_name": "country acronym"
-            },
-            "shape": [
-                124
-            ],
-            "chunks": [
-                124
-            ]
-        },
-        "ffd": {
+        "benefit": {
             "type": "data",
-            "description": "Fossil Fuel Development",
+            "description": "Benefits of raising coastal defences along the European coastline in view of climate change",
             "dimensions": [
-                "field",
-                "id"
+                "nscenarios",
+                "stations"
             ],
-            "unit": "Million Euros",
+            "unit": "EUR 1 000 000",
             "attrs": {
-                "contents": "The benefits gained under the Scenario: RCP8.5 combined with SSP Fossil Fuel Development for each of the selected NUTS2 regions",
-                "long_name": "Fossil Fuel Development",
-                "standard_name": "Fossil Fuel Development",
-                "units": "Million Euros"
+                "long_name": "Benefits of raising coastal defences along the European coastline in view of climate change",
+                "units": "EUR 1 000 000"
             },
             "shape": [
-                4,
+                2,
                 124
             ],
             "chunks": [
-                4,
+                2,
                 124
             ]
         },
-        "geometry": {
-            "type": "auxiliary",
-            "description": "nuts2 polygons in degrees (wgs-84)",
-            "dimensions": [
-                "id"
-            ],
-            "unit": "degree",
-            "attrs": {
-                "comment": "Describe nuts regions (2010 version), which are available from Eurostat.",
-                "crs_wkt": "EPSG:4326",
-                "long_name": "nuts2 polygons in degrees (wgs-84)",
-                "units": "degree"
-            },
-            "shape": [
-                124
-            ],
-            "chunks": [
-                124
-            ]
-        },
-        "name": {
-            "type": "auxiliary",
-            "description": "nuts region name",
-            "dimensions": [
-                "id"
-            ],
-            "attrs": {
-                "long_name": "nuts region name",
-                "source": "Nuts regions (2010 version), available from Eurostat."
-            },
-            "shape": [
-                124
-            ],
-            "chunks": [
-                124
-            ]
-        },
-        "nuts": {
-            "type": "auxiliary",
-            "description": "nuts region acronym",
-            "dimensions": [
-                "id"
-            ],
-            "attrs": {
-                "long_name": "nuts region acronym",
-                "source": "Nuts regions (2010 version), available from Eurostat."
-            },
-            "shape": [
-                124
-            ],
-            "chunks": [
-                124
-            ]
-        },
-        "sustain": {
+        "cbr": {
             "type": "data",
-            "description": "Sustainability",
+            "description": "Benefits of raising coastal defences along the European coastline in view of climate change",
             "dimensions": [
-                "field",
-                "id"
+                "nscenarios",
+                "stations"
             ],
-            "unit": "Million Euros",
             "attrs": {
-                "contents": "The benefits gained under the Scenario: RCP4.5 combined with SSP Sustainability for each of the selected NUTS2 regions",
-                "long_name": "Sustainability",
-                "standard_name": "Sustainability",
-                "units": "Million Euros"
+                "long_name": "Benefits of raising coastal defences along the European coastline in view of climate change"
             },
             "shape": [
-                4,
+                2,
                 124
             ],
             "chunks": [
-                4,
+                2,
+                124
+            ]
+        },
+        "cost": {
+            "type": "data",
+            "description": "Cost of raising coastal defences along the European coastline in view of climate change",
+            "dimensions": [
+                "nscenarios",
+                "stations"
+            ],
+            "unit": "EUR 1 000 000",
+            "attrs": {
+                "long_name": "Cost of raising coastal defences along the European coastline in view of climate change",
+                "units": "EUR 1 000 000"
+            },
+            "shape": [
+                2,
+                124
+            ],
+            "chunks": [
+                2,
+                124
+            ]
+        },
+        "eb": {
+            "type": "data",
+            "description": "Expected benefit to cost ratios of raising coastal protection per NUTS2 region",
+            "dimensions": [
+                "nscenarios",
+                "stations"
+            ],
+            "attrs": {
+                "long_name": "Expected benefit to cost ratios of raising coastal protection per NUTS2 region"
+            },
+            "shape": [
+                2,
+                124
+            ],
+            "chunks": [
+                2,
+                124
+            ]
+        },
+        "lat": {
+            "type": "auxiliary",
+            "description": "Latitude of the centroid of the NUTS2 region (2010 version).",
+            "dimensions": [
+                "stations"
+            ],
+            "unit": "degrees_north",
+            "attrs": {
+                "long_name": "Latitude of the centroid of the NUTS2 region (2010 version).",
+                "standard_name": "latitude",
+                "units": "degrees_north"
+            },
+            "shape": [
+                124
+            ],
+            "chunks": [
+                124
+            ]
+        },
+        "lon": {
+            "type": "auxiliary",
+            "description": "Longitude of the centroid of the NUTS2 region (2010 version).",
+            "dimensions": [
+                "stations"
+            ],
+            "unit": "degrees_east",
+            "attrs": {
+                "long_name": "Longitude of the centroid of the NUTS2 region (2010 version).",
+                "standard_name": "longitude",
+                "units": "degrees_east"
+            },
+            "shape": [
+                124
+            ],
+            "chunks": [
                 124
             ]
         }
     },
+    "plotSeries": "scenario",
     "extent": {
         "spatial": {
             "bbox": [
@@ -286,11 +500,9 @@
     },
     "license": "proprietary",
     "summaries": {
-        "field": [
-            "benefit",
-            "cost",
-            "cbr",
-            "protection"
+        "scenarios": [
+            "RCP45-SSP1",
+            "RCP85-SSP5"
         ]
     }
 }

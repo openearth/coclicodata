@@ -105,7 +105,7 @@ if __name__ == "__main__":
     gcs_api_zarr_store = os.path.join(
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
-    mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}"
+    mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}_test"
 
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(

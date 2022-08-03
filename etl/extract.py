@@ -2,6 +2,7 @@ import geojson
 import numpy as np
 import rioxarray as rioxarray
 import xarray as xr
+from shapely import wkb
 from stac.utils import get_mapbox_item_id
 
 
@@ -18,8 +19,13 @@ def zero_terminated_bytes_as_str(ds: xr.Dataset) -> xr.Dataset:
         xr.Dataset: Xarray dataset
     """
     for coord in list(ds.coords):
-        if np.issubdtype(ds[coord].values.dtype, np.dtype("S")):
-            ds[coord] = ds[coord].values.astype(str)
+        if np.issubdtype(ds[coord].dtype, np.dtype("S")):
+            try:
+                # strings are stored as zero-terminated bytes
+                ds[coord] = ds[coord].values.astype(str)
+            except:
+                # geometries are stored as wkb
+                ds[coord] = list(map(wkb.loads, ds[coord].values))
     return ds
 
 

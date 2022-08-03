@@ -1,12 +1,14 @@
 import os
 import pathlib
 import sys
+from curses import color_content
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
 from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
+from etl.extract import zero_terminated_bytes_as_str
 from pystac import CatalogType, Collection, Summaries
 from stac.blueprint import (IO, Layout, extend_links,
                             gen_default_collection_props, gen_default_item,
@@ -27,23 +29,30 @@ if __name__ == "__main__":
     STAC_DIR = "current"
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "cost_and_benefits_of_coastal_adaptation.zarr"
+    DATASET_FILENAME = "europe_cost_benefit_coastal_adaptation.zarr"
     STAC_COLLECTION_NAME = "cbca"  # name of stac collection
-    VARIABLES = ["ffd", "sustain"]  # xarray variables in dataset
-    X_DIMENSION = False  # False, None or str; spatial lon dim used by datacube
-    Y_DIMENSION = False  # False, None or str; spatial lat dim ""
+    VARIABLES = ["benefit", "cost", "cbr", "eb"]  # xarray variables in dataset
+    X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
+    Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
     TEMPORAL_DIMENSION = False  # False, None or str; temporal ""
-    ADDITIONAL_DIMENSIONS = ["field"]  # False, None, or str; additional dims ""
-    DIMENSIONS_TO_IGNORE = ["id"]  # List of str; dims ignored by datacube
+    ADDITIONAL_DIMENSIONS = [
+        "scenarios",
+    ]  # False, None, or str; additional dims ""
+    DIMENSIONS_TO_IGNORE = [
+        "stations",
+        "nscenarios",
+        "geometry"
+        # "geometry"
+    ]  # List of str; dims ignored by datacube
 
-    ### CoCliCo front-end properties
-    # properties that are added at item level
+    # hard-coded frontend properties
     STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
 
-    # properties that are added at collection level
+    # these are added at collection level
     UNITS = "m"
+    PLOT_SERIES = "scenario"
     MIN = 0
     MAX = 3
     LINEAR_GRADIENT = [
@@ -87,19 +96,37 @@ if __name__ == "__main__":
     )
     mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}"
 
-    # read data from gcs zarr store
-    ds = dataset_from_google_cloud(
-        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
+    # # read data from gcs zarr store
+    # ds = dataset_from_google_cloud(
+    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
+    # )
+
+    import xarray as xr
+
+    fpath = pathlib.Path.home().joinpath(
+        "ddata", "tmp", "europe_cost_benefit_coastal_adaptation.zarr"
     )
+    ds = xr.open_zarr(fpath)
+
+    # cast zero terminated bytes to str because json library cannot write handle bytes
+    ds = zero_terminated_bytes_as_str(ds)
 
     # generate pystac collection from stac collection file
     collection = Collection.from_file(
         os.path.join(rel_root, STAC_DIR, "collection.json")
     )
 
+    # get description/title from dataset, but if not exists just use stac collection name
+    description = ds.attrs.get("description", STAC_COLLECTION_NAME)
+    title = ds.attrs.get("title", STAC_COLLECTION_NAME)
+
     # generate stac_obj for dataset
     stac_obj = get_stac_obj_from_template(
-        collection, template_fn=TEMPLATE, variable=STAC_COLLECTION_NAME
+        collection,
+        template_fn=TEMPLATE,
+        title=title,
+        description=description,
+        dataset=STAC_COLLECTION_NAME,
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
@@ -123,7 +150,7 @@ if __name__ == "__main__":
     for var in VARIABLES:
 
         # add zarr store as asset to stac_obj
-        stac_obj.add_asset("data", gen_zarr_asset(var, gcs_api_zarr_store))
+        stac_obj.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
@@ -132,10 +159,6 @@ if __name__ == "__main__":
             item_id = get_mapbox_item_id(dimcomb)
             feature = gen_default_item(f"{var}-mapbox-{item_id}")
             feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url))
-
-            # TODO: properties/setters for coclico stac extension (see coclico_extension.py)
-            # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
-            coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
 
             # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
             coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
@@ -154,6 +177,10 @@ if __name__ == "__main__":
             # add stac item to collection
             stac_obj.add_item(feature, strategy=layout)
 
+    # if no variables present we still need to add zarr reference at colleciton level
+    if not VARIABLES:
+        stac_obj.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
+
     # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     stac_obj.summaries = Summaries({})
     # TODO: check if maxcount is required (inpsired on xstac library)
@@ -168,6 +195,7 @@ if __name__ == "__main__":
     # properties attribute of this extension is linked to the extra_fields attribute of
     # the stac collection.
     coclico_ext.units = UNITS
+    coclico_ext.plot_series = PLOT_SERIES
     coclico_ext.min_ = MIN
     coclico_ext.max_ = MAX
     coclico_ext.linear_gradient = LINEAR_GRADIENT
