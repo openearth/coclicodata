@@ -1,9 +1,9 @@
 {
     "type": "Feature",
     "stac_version": "1.0.0",
-    "id": "eb-mapbox-scenarios-RCP85-SSP5",
+    "id": "ead-mapbox-time-2000-scenarios-RCP8.5-SSP3",
     "properties": {
-        "deltares:item_key": "scenarios-RCP85-SSP5",
+        "deltares:item_key": "time-2000-scenarios-RCP8.5-SSP3",
         "deltares:paint": {
             "circle-color": [
                 "interpolate",
@@ -12,7 +12,7 @@
                 ],
                 [
                     "get",
-                    "scenarios-RCP85-SSP5"
+                    "time-2000-scenarios-RCP8.5-SSP3"
                 ],
                 0,
                 "hsl(110,90%,80%)",
@@ -40,8 +40,9 @@
         "deltares:type": "circle",
         "deltares:stations": "locationId",
         "deltares:onclick": {},
-        "scenarios": "RCP85-SSP5",
-        "datetime": "2022-08-03T17:10:14.232680Z"
+        "time": 2000,
+        "scenarios": "RCP8.5-SSP3",
+        "datetime": "2022-08-03T17:32:51.297163Z"
     },
     "geometry": {
         "type": "Polygon",
@@ -75,7 +76,7 @@
             "rel": "collection",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "cbca"
+            "title": "Expected Annual Damage"
         },
         {
             "rel": "root",
@@ -87,16 +88,16 @@
             "rel": "parent",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "cbca"
+            "title": "Expected Annual Damage"
         }
     ],
     "assets": {
         "mapbox": {
-            "href": "mapbox://global-data-viewer.europe_cost_benefit_coastal_adaptation",
+            "href": "mapbox://global-data-viewer.europe_coastal_flood_risk",
             "title": "Point locations",
             "description": "Mapbox url",
             "type": "vector",
-            "source": "europe_cost_benefit_coastal_adaptation",
+            "source": "europe_coastal_flood_risk",
             "roles": [
                 "mapbox"
             ]
@@ -111,5 +112,5 @@
     "stac_extensions": [
         "https://coclicoservices.eu/coclico-stac-extension/v1.0.0/schema.json"
     ],
-    "collection": "cbca-mapbox"
+    "collection": "cfr-mapbox"
 }

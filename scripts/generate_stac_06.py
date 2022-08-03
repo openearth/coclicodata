@@ -10,15 +10,25 @@ from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
 from etl.extract import zero_terminated_bytes_as_str
 from pystac import CatalogType, Collection, Summaries
-from stac.blueprint import (IO, Layout, extend_links,
-                            gen_default_collection_props, gen_default_item,
-                            gen_default_item_props, gen_default_summaries,
-                            gen_mapbox_asset, gen_zarr_asset,
-                            get_stac_obj_from_template)
+from stac.blueprint import (
+    IO,
+    Layout,
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_stac_obj_from_template,
+)
 from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
-from stac.utils import (get_dimension_dot_product, get_dimension_values,
-                        get_mapbox_item_id)
+from stac.utils import (
+    get_dimension_dot_product,
+    get_dimension_values,
+    get_mapbox_item_id,
+)
 
 if __name__ == "__main__":
     # hard-coded input params at project level
@@ -96,17 +106,17 @@ if __name__ == "__main__":
     )
     mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}"
 
-    # # read data from gcs zarr store
-    # ds = dataset_from_google_cloud(
-    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    # )
-
-    import xarray as xr
-
-    fpath = pathlib.Path.home().joinpath(
-        "ddata", "tmp", "europe_cost_benefit_coastal_adaptation.zarr"
+    # read data from gcs zarr store
+    ds = dataset_from_google_cloud(
+        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     )
-    ds = xr.open_zarr(fpath)
+
+    # import xarray as xr
+
+    # fpath = pathlib.Path.home().joinpath(
+    #     "ddata", "tmp", "europe_cost_benefit_coastal_adaptation.zarr"
+    # )
+    # ds = xr.open_zarr(fpath)
 
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
