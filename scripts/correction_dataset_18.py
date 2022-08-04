@@ -66,5 +66,8 @@ if __name__ == "__main__":
     # from netcdf this doesn't have to be included.
     ds = clear_zarr_information(ds)
 
-    zarr_fp = pathlib.Path.home().joinpath("ddata", "tmp", "global_slr_ar5.zarr")
+    # save updated zarr store to p drive
+    zarr_fp = p_drive.joinpath(
+        "11205479-coclico", "data", "18_AR5_SLP_IPCC", "global_slr_ar5.zarr"
+    )
     ds.to_zarr(zarr_fp, mode="w")
