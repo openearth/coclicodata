@@ -92,7 +92,6 @@ def get_stac_obj_from_template(
     template_fn: str,
     title: str,
     description: str,
-    dataset: str,
 ) -> pystac.Collection:
     """Deltares CoCliCo STAC Obj from template file.
 
@@ -106,7 +105,7 @@ def get_stac_obj_from_template(
     Returns:
         pystac.Collection: Template STAC Obj collection.
     """
-    datasetid = f"{dataset}-mapbox"
+    datasetid = f"{title}-mapbox"
 
     # Get template and set items
     templatedataset = collection.get_child(template_fn)

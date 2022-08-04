@@ -10,15 +10,25 @@ from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
 from etl.extract import zero_terminated_bytes_as_str
 from pystac import CatalogType, Collection, Summaries
-from stac.blueprint import (IO, Layout, extend_links,
-                            gen_default_collection_props, gen_default_item,
-                            gen_default_item_props, gen_default_summaries,
-                            gen_mapbox_asset, gen_zarr_asset,
-                            get_stac_obj_from_template)
+from stac.blueprint import (
+    IO,
+    Layout,
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_stac_obj_from_template,
+)
 from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
-from stac.utils import (get_dimension_dot_product, get_dimension_values,
-                        get_mapbox_item_id)
+from stac.utils import (
+    get_dimension_dot_product,
+    get_dimension_values,
+    get_mapbox_item_id,
+)
 
 if __name__ == "__main__":
     # hard-coded input params at project level
@@ -116,16 +126,14 @@ if __name__ == "__main__":
     )
 
     # get description/title from dataset, but if not exists just use stac collection name
-    description = ds.attrs.get("description", STAC_COLLECTION_NAME)
     title = ds.attrs.get("title", STAC_COLLECTION_NAME)
 
     # generate stac_obj for dataset
     stac_obj = get_stac_obj_from_template(
         collection,
         template_fn=TEMPLATE,
-        title=title,
-        description=description,
-        dataset=STAC_COLLECTION_NAME,
+        title=STAC_COLLECTION_NAME,
+        description=title,
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj

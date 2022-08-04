@@ -123,16 +123,14 @@ if __name__ == "__main__":
     )
 
     # get description/title from dataset, but if not exists just use stac collection name
-    description = ds.attrs.get("description", STAC_COLLECTION_NAME)
     title = ds.attrs.get("title", STAC_COLLECTION_NAME)
 
     # generate stac_obj for dataset
     stac_obj = get_stac_obj_from_template(
         collection,
         template_fn=TEMPLATE,
-        title=title,
-        description=description,
-        dataset=STAC_COLLECTION_NAME,
+        title=STAC_COLLECTION_NAME,
+        description=title,
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
