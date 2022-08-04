@@ -35,11 +35,17 @@ def clear_zarr_information(ds):
     """
     for v in list(ds.coords.keys()):
         if ds.coords[v].dtype == object:
-            ds.coords[v] = ds.coords[v].astype("unicode")
+            ds[v].encoding.clear()
+
+            # updated because this also converts cftime objects; keep old solution as reference.
+            # ds.coords[v] = ds.coords[v].astype("unicode")
 
     for v in list(ds.variables.keys()):
         if ds[v].dtype == object:
-            ds[v] = ds[v].astype("unicode")
+            ds[v].encoding.clear()
+
+            # updated because this also converts cftime objects; keep old solution as reference.
+            # ds[v] = ds[v].astype("unicode")
 
     return ds
 
