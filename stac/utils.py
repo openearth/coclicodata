@@ -23,13 +23,22 @@ def get_mapbox_item_id(dimdict: Dict[str, Any]) -> str:
 def get_dimension_values(ds, dimensions_to_ignore: List[str]) -> dict:
     """Dataset values per dimensions to dictionary."""
 
-    # keep only dimensions that are not spatial (specified in ignore list)
-    dimensions = dict(ds.dims)
-    dimensions = {k: v for k, v in dimensions.items() if k not in dimensions_to_ignore}
-    # [dimensions.pop(key, None) for key in dimensions_to_ignore]
+    coords = list(ds.coords)
+    dims = list(ds.dims)
 
-    # key-value pairs of the dimension (key) with its unique values (values)
-    dimvals = {dim: ds[dim].values.tolist() for dim in dimensions}
+    # to be CF compliant dimensions with string values were stored in the coordinates
+    # while the dimension values became just a range of values. Here we replace those
+    # ranges with the strings from the coordinates.
+    dims = [
+        (dim[1:] if dim.startswith("n") and (dim[1:] in coords) else dim)
+        for dim in dims
+    ]
+
+    # some dimensions will not be used for visualization
+    dims = [dim for dim in dims if dim not in dimensions_to_ignore]
+
+    # make a dictionary with the values per dimension
+    dimvals = {dim: ds[dim].values.tolist() for dim in dims}
     return dimvals
 
 
