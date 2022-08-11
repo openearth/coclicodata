@@ -1,3 +1,5 @@
+from multiprocessing.sharedctypes import Value
+
 import geojson
 import numpy as np
 import rioxarray as rioxarray
@@ -20,12 +22,21 @@ def zero_terminated_bytes_as_str(ds: xr.Dataset) -> xr.Dataset:
     """
     for coord in list(ds.coords):
         if np.issubdtype(ds[coord].dtype, np.dtype("S")):
+            # TODO: type check to distinguish between strings and geometries in zero terminated bytes
+            coord_dims = ds[coord].dims
             try:
                 # strings are stored as zero-terminated bytes
-                ds[coord] = ds[coord].values.astype(str)
+                # ds.coords[coord] = ds.coords[coord].values.astype(str)
+
+                ds = ds.assign_coords(
+                    {coord: (coord_dims, ds[coord].values.astype(str))}
+                )
             except:
                 # geometries are stored as wkb
-                ds[coord] = list(map(wkb.loads, ds[coord].values))
+                ds = ds.assign_coords(
+                    {coord: (coord_dims, list(map(wkb.loads, ds[coord].values)))}
+                )
+                # ds.coords[coord] = list(map(wkb.loads, ds.coords[coord].values))
     return ds
 
 
@@ -57,14 +68,13 @@ def get_point_feature(idx, lon, lat):
     return feature
 
 
-def get_geojson(ds, variable, dimension_combinations):
+def get_geojson(ds, variable, dimension_combinations, stations_dim):
 
     da = ds[variable]
-    instance_dim = list(set(da.dims) - set(dimension_combinations[0].keys()))[0]
 
-    lons = da["longitude"].values.tolist()
-    lats = da["latitude"].values.tolist()
-    idxs = da[instance_dim].values.tolist()
+    lons = da["lon"].values.tolist()
+    lats = da["lat"].values.tolist()
+    idxs = da[stations_dim].values.tolist()
 
     # create geojson features from lists of lons, lats and instance indices
     features = list(
@@ -73,8 +83,18 @@ def get_geojson(ds, variable, dimension_combinations):
 
     # add variable values per mapbox layer to the geojson properties
     for dimdict in dimension_combinations:
+        da_ = da.copy()  # copy is required because each iteration da will be indexed
         mapbox_layer_id = get_mapbox_item_id(dimdict)
-        vals = da.sel(dimdict).values.tolist()
+
+        # read dimensions that are coordinates from dataset because slice (sel) cannot be used
+        # on non-index coordinates https://github.com/pydata/xarray/issues/2028
+        for dim in list(dimdict.keys()):
+            if dim not in da.dims:
+                dimkey = "n" + dim
+                if dimkey in da.dims:
+                    da_ = da_.sel({dimkey: dim == dimdict.pop(dim)})
+
+        vals = da_.sel(dimdict).values.tolist()
         for feature, value in zip(features, vals):
             feature["properties"][mapbox_layer_id] = value
 
