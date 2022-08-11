@@ -27,26 +27,13 @@ from stac.utils import (
 
 if __name__ == "__main__":
     # hard-coded input params
-    DATASET_FILENAME = "europe_storm_surge_level.zarr"
-    # GCS_PROJECT = ("DGDS - I1000482-002",)
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
 
     # hard-coded input params at project level
-    VARIABLES = ["ssl"]  # xarray variables in dataset
-
-    X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
-    Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
-    TEMPORAL_DIMENSION = False  # False, None or str; temporal ""
-    ADDITIONAL_DIMENSIONS = [
-        "rp",
-        "scenarios",
-    ]  # False, None, or str; additional dims ""
-    DIMENSIONS_TO_IGNORE = [
-        "stations",
-        "nscenarios",
-    ]  # List of str; dims ignored by datacube
+    DATASET_FILENAME = "global_wave_energy_flux.zarr"
+    VARIABLES = ["wef"]  # xarray variables in dataset
 
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
 
@@ -58,7 +45,7 @@ if __name__ == "__main__":
     # import xarray as xr
 
     # fpath = pathlib.Path.home().joinpath(
-    #     "ddata", "tmp", "CoastAlRisk_Europe_EESSL.zarr"
+    #     "ddata", "tmp", "CoastAlRisk_Global_WEF_RCP85.zarr"
     # )
     # ds = xr.open_zarr(fpath)
 
@@ -66,18 +53,21 @@ if __name__ == "__main__":
 
     dimvals = get_dimension_values(ds, dimensions_to_ignore=["stations"])
     dimcombs = get_dimension_dot_product(dimvals)
-    collection = get_geojson(
-        ds, variable="ssl", dimension_combinations=dimcombs, stations_dim="stations"
-    )
 
-    # save feature collection as geojson in tempdir and upload to cloud
-    with tempfile.TemporaryDirectory() as tempdir:
+    for var in VARIABLES:
 
-        fp = pathlib.Path(tempdir, "data.geojson")
+        collection = get_geojson(
+            ds, variable=var, dimension_combinations=dimcombs, stations_dim="stations"
+        )
 
-        with open(fp, "w") as f:
-            geojson.dump(collection, f)
+        # save feature collection as geojson in tempdir and upload to cloud
+        with tempfile.TemporaryDirectory() as tempdir:
 
-        # TODO: put this in a function because this is also used in generate_stace scripts?
-        mapbox_url = f"{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}"
-        geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
+            fp = pathlib.Path(tempdir, "data.geojson")
+
+            with open(fp, "w") as f:
+                geojson.dump(collection, f)
+
+            # TODO: put this in a function because this is also used in generate_stace scripts?
+            mapbox_url = f"{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}"
+            geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
