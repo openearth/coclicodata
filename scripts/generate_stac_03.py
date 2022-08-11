@@ -8,17 +8,27 @@ sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
 from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
-from etl.extract import zero_terminated_bytes_as_str
+from etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import CatalogType, Collection, Summaries
-from stac.blueprint import (IO, Layout, extend_links,
-                            gen_default_collection_props, gen_default_item,
-                            gen_default_item_props, gen_default_summaries,
-                            gen_mapbox_asset, gen_zarr_asset,
-                            get_stac_obj_from_template)
+from stac.blueprint import (
+    IO,
+    Layout,
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_stac_obj_from_template,
+)
 from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
-from stac.utils import (get_dimension_dot_product, get_dimension_values,
-                        get_mapbox_item_id)
+from stac.utils import (
+    get_dimension_dot_product,
+    get_dimension_values,
+    get_mapbox_item_id,
+)
 
 if __name__ == "__main__":
     # hard-coded input params at project level
@@ -95,8 +105,6 @@ if __name__ == "__main__":
     gcs_api_zarr_store = os.path.join(
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
-    mapbox_url = f"mapbox://{MAPBOX_PROJ}.{pathlib.Path(DATASET_FILENAME).stem}"
-
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(
         bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
@@ -151,6 +159,8 @@ if __name__ == "__main__":
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
+
+            mapbox_url = get_mapbox_url(MAPBOX_PROJ, DATASET_FILENAME, var)
 
             # generate stac item key and add link to asset to the stac item
             item_id = get_mapbox_item_id(dimcomb)
