@@ -1,36 +1,31 @@
 {
-  "type": "Collection",
-  "id": "adaptation",
-  "stac_version": "1.0.0",
-  "description": "Adaptation scenarios from LISCOAST dataset",
-  "links": [
-    {
-      "rel": "root",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/collection.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/adaptation/adaptation-mapbox-regions/adaptation-mapbox-regions.json",
-      "type": "application/json",
-      "title": "adaptation-mapbox",
-      "properties": {
-        "field": "benefit"
-      }
-    },
-    {
-      "rel": "parent",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/collection.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
-    },
-    {
-      "rel": "self",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/adaptation/collection.json",
-      "type": "application/json"
-    }
-  ],
+    "type": "Collection",
+    "id": "adaptation",
+    "stac_version": "1.0.0",
+    "description": "Adaptation scenarios from LISCOAST dataset",
+    "links": [
+        {
+            "rel": "root",
+            "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/collection.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "item",
+            "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/adaptation/adaptation-mapbox-field-benefit/adaptation-mapbox-field-benefit.json",
+            "type": "application/json",
+            "title": "adaptation-mapbox",
+            "properties": {
+              "field": "benefit"
+            }
+        },
+        {
+            "rel": "parent",
+            "href": "https://raw.githubusercontent.com/openearth/coclicodata/absolute-path-test-branch/current/collection.json",
+            "type": "application/json",
+      	    "title": "CoCliCo STAC Catalog"
+        }
+    ],
   "stac_extensions": [
     "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
@@ -93,6 +88,7 @@
   },
   "cube:variables": {
     "ffd": {
+      "type": "auxiliary",
       "description": "",
       "dimensions": [
         "field",
@@ -101,6 +97,7 @@
       "unit": "-"
     },
     "sustain": {
+      "type": "auxiliary",
       "description": "",
       "dimensions": [
         "field",
@@ -117,10 +114,8 @@
       "protection"
     ]
   },
-  "properties": {
-    "deltares:units": "m",
-    "deltares:plotSeries": "scenario"
-  },
+  "deltares:units": "m",
+  "deltares:plotSeries": "scenario",
   "extent": {
     "spatial": {
       "bbox": [
