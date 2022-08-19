@@ -83,6 +83,9 @@ def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
 
     from collections.abc import Mapping
 
+    Note 18/8/2022: monkey patch is still required for mapboxcli package. This package
+    is also not available on conda-forge and was installed with pip.
+
     """
 
     if not source_fpath.exists():

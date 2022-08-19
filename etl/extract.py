@@ -1,4 +1,5 @@
 import pathlib
+from importlib.resources import path
 from multiprocessing.sharedctypes import Value
 
 import geojson
@@ -6,12 +7,16 @@ import numpy as np
 import rioxarray as rioxarray
 import xarray as xr
 from shapely import wkb
+from shapely.geometry import mapping
 from stac.utils import get_mapbox_item_id
 
 
 def get_mapbox_url(mapbox_proj: str, filename: str, var: str) -> str:
     """Generate tileset name"""
-    return f"{mapbox_proj}.{pathlib.Path(filename).stem}_{var}"
+    tilename = f"{pathlib.Path(filename).stem}_{var}"
+    if len(tilename) > 32:
+        raise ValueError("Mapbox tilenames cannot be longer than 32 characters.")
+    return f"{mapbox_proj}.{tilename}"
 
 
 def zero_terminated_bytes_as_str(ds: xr.Dataset) -> xr.Dataset:
@@ -69,6 +74,7 @@ def clear_zarr_information(ds):
 
 def get_point_feature(idx, lon, lat):
     point = geojson.Point([lon, lat])
+    point = geojson.Point([lon, lat])
     feature = geojson.Feature(geometry=point)
     feature["properties"]["locationId"] = idx
     return feature
@@ -77,15 +83,20 @@ def get_point_feature(idx, lon, lat):
 def get_geojson(ds, variable, dimension_combinations, stations_dim):
 
     da = ds[variable]
-
-    lons = da["lon"].values.tolist()
-    lats = da["lat"].values.tolist()
     idxs = da[stations_dim].values.tolist()
 
-    # create geojson features from lists of lons, lats and instance indices
-    features = list(
-        map(lambda lon, lat, idx: get_point_feature(idx, lon, lat), lons, lats, idxs)
-    )
+    # data with geometries can be read into geojson format directoy, but features from data
+    # wil no # geometry coordinates are constructed from lons/lats.
+    if "geometry" in ds:
+        features = [geojson.Feature(geometry=mapping(i)) for i in ds.geometry.values]
+    else:
+        lons = da["lon"].values.tolist()
+        lats = da["lat"].values.tolist()
+        features = [geojson.Point([lon, lat]) for lon, lat in zip(lons, lats)]
+
+    # TODO: write into list comprehension
+    for idx, feature in zip(idxs, features):
+        feature["properties"]["locationId"] = idx
 
     # add variable values per mapbox layer to the geojson properties
     for dimdict in dimension_combinations:

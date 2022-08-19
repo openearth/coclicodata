@@ -39,9 +39,9 @@ if __name__ == "__main__":
     STAC_DIR = "current"
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "europe_coastal_flood_risk.zarr"
+    DATASET_FILENAME = "coastal_flood_risk.zarr"
     STAC_COLLECTION_NAME = "cfr"  # name of stac collection
-    VARIABLES = ["ead", "ead_GDP", "eapa"]  # xarray variables in dataset
+    VARIABLES = ["ead", "ead_gdp", "eapa"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
     TEMPORAL_DIMENSION = "time"  # False, None or str; temporal ""
