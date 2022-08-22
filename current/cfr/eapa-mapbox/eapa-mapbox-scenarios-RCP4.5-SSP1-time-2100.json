@@ -1,0 +1,116 @@
+{
+    "type": "Feature",
+    "stac_version": "1.0.0",
+    "id": "eapa-mapbox-scenarios-RCP4.5-SSP1-time-2100",
+    "properties": {
+        "deltares:item_key": "scenarios-RCP4.5-SSP1-time-2100",
+        "deltares:paint": {
+            "circle-color": [
+                "interpolate",
+                [
+                    "linear"
+                ],
+                [
+                    "get",
+                    "scenarios-RCP4.5-SSP1-time-2100"
+                ],
+                0,
+                "hsl(110,90%,80%)",
+                1.5,
+                "hsla(55, 88%, 53%, 0.5)",
+                3.0,
+                "hsl(0, 90%, 70%)"
+            ],
+            "circle-radius": [
+                "interpolate",
+                [
+                    "linear"
+                ],
+                [
+                    "zoom"
+                ],
+                0,
+                0.5,
+                1,
+                1,
+                5,
+                5
+            ]
+        },
+        "deltares:type": "circle",
+        "deltares:stations": "locationId",
+        "deltares:onclick": {},
+        "scenarios": "RCP4.5-SSP1",
+        "time": 2100,
+        "datetime": "2022-08-22T19:30:45.961569Z"
+    },
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    -180.0,
+                    -90.0
+                ],
+                [
+                    180.0,
+                    -90.0
+                ],
+                [
+                    180.0,
+                    90.0
+                ],
+                [
+                    -180.0,
+                    90.0
+                ],
+                [
+                    -180.0,
+                    -90.0
+                ]
+            ]
+        ]
+    },
+    "links": [
+        {
+            "rel": "collection",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "cfr"
+        },
+        {
+            "rel": "root",
+            "href": "../../collection.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "cfr"
+        }
+    ],
+    "assets": {
+        "mapbox": {
+            "href": "mapbox://global-data-viewer.coastal_flood_risk_eapa",
+            "title": "Point locations",
+            "description": "Mapbox url",
+            "type": "vector",
+            "source": "coastal_flood_risk_eapa",
+            "roles": [
+                "mapbox"
+            ]
+        }
+    },
+    "bbox": [
+        -180,
+        -90,
+        180,
+        90
+    ],
+    "stac_extensions": [
+        "https://coclicoservices.eu/coclico-stac-extension/v1.0.0/schema.json"
+    ],
+    "collection": "cfr-mapbox"
+}
