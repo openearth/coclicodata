@@ -1,3 +1,4 @@
+import copy
 import pathlib
 from importlib.resources import path
 from multiprocessing.sharedctypes import Value
@@ -72,15 +73,10 @@ def clear_zarr_information(ds):
     return ds
 
 
-def get_point_feature(idx, lon, lat):
-    point = geojson.Point([lon, lat])
-    point = geojson.Point([lon, lat])
-    feature = geojson.Feature(geometry=point)
-    feature["properties"]["locationId"] = idx
-    return feature
-
-
 def get_geojson(ds, variable, dimension_combinations, stations_dim):
+
+    # deep copy is required because pop will otherwise mutate global dimcombs dictionaries
+    dimcombs = copy.deepcopy(dimension_combinations)
 
     da = ds[variable]
     idxs = da[stations_dim].values.tolist()
@@ -92,14 +88,15 @@ def get_geojson(ds, variable, dimension_combinations, stations_dim):
     else:
         lons = da["lon"].values.tolist()
         lats = da["lat"].values.tolist()
-        features = [geojson.Point([lon, lat]) for lon, lat in zip(lons, lats)]
+        geoms = [geojson.Point([lon, lat]) for lon, lat in zip(lons, lats)]
+        features = [geojson.Feature(geometry=g) for g in geoms]
 
     # TODO: write into list comprehension
     for idx, feature in zip(idxs, features):
         feature["properties"]["locationId"] = idx
 
     # add variable values per mapbox layer to the geojson properties
-    for dimdict in dimension_combinations:
+    for dimdict in dimcombs:
         da_ = da.copy()  # copy is required because each iteration da will be indexed
         mapbox_layer_id = get_mapbox_item_id(dimdict)
 

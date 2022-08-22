@@ -33,20 +33,20 @@ if __name__ == "__main__":
     MAPBOX_PROJ = "global-data-viewer"
 
     # hard-coded input params at project level
-    DATASET_FILENAME = "coastal_flood_risk.zarr"
-    VARIABLES = ["ead", "ead_gdp", "eapa"]
+    DATASET_FILENAME = "europe_extreme_sea_level.zarr"
+    VARIABLES = ["esl", "eewl"]
 
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
 
-    # read data from gcs zarr store
-    ds = dataset_from_google_cloud(
-        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    )
+    # # read data from gcs zarr store
+    # ds = dataset_from_google_cloud(
+    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
+    # )
 
-    # import xarray as xr
+    import xarray as xr
 
-    # fpath = pathlib.Path.home().joinpath("ddata", "tmp", "coastal_flood_risk.zarr")
-    # ds = xr.open_zarr(fpath)
+    fpath = pathlib.Path.home().joinpath("data", "tmp", "europe_extreme_sea_level.zarr")
+    ds = xr.open_zarr(fpath)
 
     ds = zero_terminated_bytes_as_str(ds)
 
@@ -80,4 +80,5 @@ if __name__ == "__main__":
             mapbox_url = get_mapbox_url(MAPBOX_PROJ, DATASET_FILENAME, var)
             # Note, if mapbox cli raises en util collection error, this should be monkey
             # patched. Instructions are in documentation of the function.
-            geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
+            print("Done")
+            # geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
