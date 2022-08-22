@@ -11,13 +11,17 @@ from shapely import wkb
 from shapely.geometry import mapping
 from stac.utils import get_mapbox_item_id
 
+# def get_mapbox_url(mapbox_proj: str, filename: str, var: str) -> str:
+#     """Generate tileset name"""
+#     return f"{mapbox_proj}.{pathlib.Path(filename).stem}_{var}"
+
 
 def get_mapbox_url(mapbox_proj: str, filename: str, var: str) -> str:
     """Generate tileset name"""
     tilename = f"{pathlib.Path(filename).stem}_{var}"
     if len(tilename) > 32:
         raise ValueError("Mapbox tilenames cannot be longer than 32 characters.")
-    return f"{mapbox_proj}.{tilename}"
+    return f"mapbox://{mapbox_proj}.{tilename}"
 
 
 def zero_terminated_bytes_as_str(ds: xr.Dataset) -> xr.Dataset:
