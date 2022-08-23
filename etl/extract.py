@@ -16,11 +16,19 @@ from stac.utils import get_mapbox_item_id
 #     return f"{mapbox_proj}.{pathlib.Path(filename).stem}_{var}"
 
 
-def get_mapbox_url(mapbox_proj: str, filename: str, var: str) -> str:
+def get_mapbox_url(
+    mapbox_proj: str, filename: str, var: str, add_mapbox_protocol=True
+) -> str:
     """Generate tileset name"""
+
     tilename = f"{pathlib.Path(filename).stem}_{var}"
     if len(tilename) > 32:
         raise ValueError("Mapbox tilenames cannot be longer than 32 characters.")
+
+    # for uploading geojson to mapbox the mapbox protocol should not be included
+    if not add_mapbox_protocol:
+        return f"{mapbox_proj}.{tilename}"
+
     return f"mapbox://{mapbox_proj}.{tilename}"
 
 

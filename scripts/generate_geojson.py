@@ -33,8 +33,8 @@ if __name__ == "__main__":
     MAPBOX_PROJ = "global-data-viewer"
 
     # hard-coded input params at project level
-    DATASET_FILENAME = "europe_extreme_sea_level.zarr"
-    VARIABLES = ["esl", "eewl"]
+    DATASET_FILENAME = "shoreline_change_projections.zarr"
+    VARIABLES = ["sc"]
 
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
 
@@ -45,7 +45,9 @@ if __name__ == "__main__":
 
     import xarray as xr
 
-    fpath = pathlib.Path.home().joinpath("data", "tmp", "europe_extreme_sea_level.zarr")
+    fpath = pathlib.Path.home().joinpath(
+        "data", "tmp", "shoreline_change_projections.zarr"
+    )
     ds = xr.open_zarr(fpath)
 
     ds = zero_terminated_bytes_as_str(ds)
@@ -56,7 +58,9 @@ if __name__ == "__main__":
     if "time" in ds:
         ds = ds.sel({"time": 2100})
     if "ensemble" in ds:
-        ds = ds.sel({"nensemble": "ensemble" == "mean"})
+        # TODO: ens filter that works for both '50%' and 'mean'
+        # ds = ds.sel({"nensemble": "ensemble" == "mean"})
+        ds = ds.sel({"nensemble": "ensemble" == "50%"})
 
     dimvals = get_dimension_values(ds, dimensions_to_ignore=["stations"])
     dimcombs = get_dimension_dot_product(dimvals)
@@ -77,8 +81,9 @@ if __name__ == "__main__":
                 geojson.dump(collection, f)
 
             # TODO: put this in a function because this is also used in generate_stace scripts?
-            mapbox_url = get_mapbox_url(MAPBOX_PROJ, DATASET_FILENAME, var)
+            mapbox_url = get_mapbox_url(
+                MAPBOX_PROJ, DATASET_FILENAME, var, add_mapbox_protocol=False
+            )
             # Note, if mapbox cli raises en util collection error, this should be monkey
             # patched. Instructions are in documentation of the function.
-            print("Done")
-            # geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
+            geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
