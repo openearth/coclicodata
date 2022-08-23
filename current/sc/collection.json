@@ -318,7 +318,7 @@
     ],
     "assets": {
         "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/global_shoreline_change_projections.zarr",
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/shoreline_change_projections.zarr",
             "title": "Global shoreline change projections for the year 2050 under RCP4.5 zarr root",
             "description": "The root of the Global shoreline change projections for the year 2050 under RCP4.5 zarr dataset on public Google Cloud Storage.",
             "roles": [
@@ -594,6 +594,16 @@
         }
     },
     "cube:variables": {
+        "ensemble": {
+            "type": "auxiliary",
+            "dimensions": [
+                "nensemble"
+            ],
+            "attrs": {},
+            "shape": [
+                7
+            ]
+        },
         "lat": {
             "type": "auxiliary",
             "description": "latitude",
@@ -632,9 +642,9 @@
                 64751
             ]
         },
-        "shoreline_change": {
+        "sc": {
             "type": "data",
-            "description": "shoreline_change",
+            "description": "Shoreline change",
             "dimensions": [
                 "nscenarios",
                 "stations",
@@ -644,7 +654,7 @@
             "unit": "m",
             "attrs": {
                 "contents": "Global average long-term shoreline change",
-                "long_name": "shoreline_change",
+                "long_name": "Shoreline change",
                 "units": "m"
             },
             "shape": [
@@ -657,6 +667,16 @@
                 1,
                 64751,
                 1,
+                2
+            ]
+        },
+        "scenarios": {
+            "type": "auxiliary",
+            "dimensions": [
+                "nscenarios"
+            ],
+            "attrs": {},
+            "shape": [
                 2
             ]
         }

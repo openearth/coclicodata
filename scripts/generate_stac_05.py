@@ -39,7 +39,7 @@ if __name__ == "__main__":
     STAC_DIR = "current"
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "global_shoreline_change_projections.zarr"
+    DATASET_FILENAME = "shoreline_change_projections.zarr"
     STAC_COLLECTION_NAME = "sc"  # name of stac collection
     VARIABLES = ["sc"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
@@ -105,17 +105,17 @@ if __name__ == "__main__":
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
 
-    # read data from gcs zarr store
-    ds = dataset_from_google_cloud(
-        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    )
-
-    # import xarray as xr
-
-    # fpath = pathlib.Path.home().joinpath(
-    #     "ddata", "tmp", "globalErosionProjections_Long_Term_Change.zarr"
+    # # read data from gcs zarr store
+    # ds = dataset_from_google_cloud(
+    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     # )
-    # ds = xr.open_zarr(fpath)
+
+    import xarray as xr
+
+    fpath = pathlib.Path.home().joinpath(
+        "data", "tmp", "shoreline_change_projections.zarr"
+    )
+    ds = xr.open_zarr(fpath)
 
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
