@@ -104,15 +104,15 @@ if __name__ == "__main__":
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
 
-    # read data from gcs zarr store
-    ds = dataset_from_google_cloud(
-        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    )
+    # # read data from gcs zarr store
+    # ds = dataset_from_google_cloud(
+    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
+    # )
 
-    # import xarray as xr
+    import xarray as xr
 
-    # fpath = pathlib.Path.home().joinpath("data", "tmp", "europe_storm_surge_level.zarr")
-    # ds = xr.open_zarr(fpath)
+    fpath = pathlib.Path.home().joinpath("data", "tmp", "europe_storm_surge_level.zarr")
+    ds = xr.open_zarr(fpath)
 
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
@@ -131,6 +131,7 @@ if __name__ == "__main__":
         template_fn=TEMPLATE,
         title=STAC_COLLECTION_NAME,
         description=title,
+        hosting_platform="mapbox",
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj

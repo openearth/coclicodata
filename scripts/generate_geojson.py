@@ -57,10 +57,10 @@ if __name__ == "__main__":
     # course dataset specific.
     if "time" in ds:
         ds = ds.sel({"time": 2100})
-    if "ensemble" in ds:
-        # TODO: ens filter that works for both '50%' and 'mean'
-        # ds = ds.sel({"nensemble": "ensemble" == "mean"})
-        ds = ds.sel({"nensemble": "ensemble" == "50%"})
+    # if "ensemble" in ds:
+    #     # TODO: ens filter that works for both '50%' and 'mean'
+    #     # ds = ds.sel({"nensemble": "ensemble" == "mean"})
+    #     ds = ds.sel({"nensemble": "ensemble" == "50%"})
 
     dimvals = get_dimension_values(ds, dimensions_to_ignore=["stations"])
     dimcombs = get_dimension_dot_product(dimvals)

@@ -92,6 +92,7 @@ def get_stac_obj_from_template(
     template_fn: str,
     title: str,
     description: str,
+    hosting_platform: str,
 ) -> pystac.Collection:
     """Deltares CoCliCo STAC Obj from template file.
 
@@ -105,12 +106,12 @@ def get_stac_obj_from_template(
     Returns:
         pystac.Collection: Template STAC Obj collection.
     """
-    datasetid = f"{title}-mapbox"
+    datasetid = f"{title}-{hosting_platform}"
 
     # Get template and set items
     templatedataset = collection.get_child(template_fn)
     stac_obj = templatedataset.full_copy()
-    stac_obj.id = datasetid
+    stac_obj.id = f"{title}-{hosting_platform}"
     stac_obj.title = title
     stac_obj.description = description
 
@@ -121,7 +122,10 @@ def get_stac_obj_from_template(
     stac_obj.extra_fields = deepcopy(
         stac_obj.extra_fields
     )  # workaround for https://github.com/stac-utils/pystac/issues/787
-    stac_obj.summaries = None
+    # TODO: check what can be used for stac_obj.summaries = None instead because now it
+    # raises AttributeError 'dict' object has no attribute 'is_empty' when no summaries
+    # added.
+    # stac_obj.summaries = None
     stac_obj.extra_fields.pop("cube:dimensions", None)
     stac_obj.extra_fields.pop("cube:variables", None)
     stac_obj.extra_fields.pop("summaries", None)
@@ -203,6 +207,17 @@ def gen_default_item_props(
         "deltares:onclick": {},
         **kwargs,
     }
+
+
+def gen_cog_asset(url):
+
+    return pystac.Asset(
+        href=url,
+        title=f"Cloud Optimized GeoTIFFs",
+        description=f"Cloud Optimized GeoTIFFS",
+        roles=["data", "cog", "gcs"],
+        media_type=pystac.MediaType.COG,
+    )
 
 
 def gen_zarr_asset(variable: str, url: str) -> pystac.Asset:
