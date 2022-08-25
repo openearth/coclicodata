@@ -1,18 +1,48 @@
+import datetime
+import os
 import pathlib
 import sys
+from re import S, template
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
 from typing import List, Mapping, Optional
 
+import cftime
 import numpy as np
 import pandas as pd
+import pystac
+import rasterio
+import shapely
 import xarray as xr
 from datacube.utils.cog import write_cog
-from etl import p_drive
+from etl import p_drive, rel_root
+from pystac import CatalogType, Collection, Summaries
+from stac.blueprint import (
+    IO,
+    Layout,
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_stac_obj_from_template,
+)
 
-__version__ = "0.0.1"
+
+def cftime_to_pdts(t: cftime._cftime) -> pd.Timestamp:
+    return pd.Timestamp(
+        t.year,
+        t.month,
+        t.day,
+        t.hour,
+        t.minute,
+        t.second,
+        t.microsecond,
+    )
 
 
 def name_tif(da: xr.DataArray, prefix: str = "", scenario: str = "") -> str:
@@ -102,8 +132,68 @@ def make_cf_compliant(ds: xr.Dataset) -> xr.Dataset:
     return ds
 
 
+def itemize(
+    da,
+    item: pystac.Item,
+    blob_name: str,
+    asset_roles: list[str] | None = None,
+    asset_media_type=pystac.MediaType.COG,
+) -> pystac.Item:
+    """ """
+    import rioxarray  # noqa
+
+    item = item.clone()
+    dst_crs = rasterio.crs.CRS.from_epsg(4326)
+
+    bbox = rasterio.warp.transform_bounds(da.rio.crs, dst_crs, *da.rio.bounds())
+    geometry = shapely.geometry.mapping(shapely.geometry.box(*bbox))
+
+    item.id = blob_name
+    item.geometry = geometry
+    item.bbox = bbox
+    item.datetime = cftime_to_pdts(da["time"].item()).to_pydatetime()
+    # item.datetime = pd.Timestamp(da.coords[time_dim].item()).to_pydatetime()
+
+    ext = pystac.extensions.projection.ProjectionExtension.ext(
+        item, add_if_missing=True
+    )
+    ext.bbox = da.rio.bounds()
+    ext.shape = da.shape[-2:]
+    ext.epsg = da.rio.crs.to_epsg()
+    ext.geometry = shapely.geometry.mapping(shapely.geometry.box(*ext.bbox))
+    ext.transform = list(da.rio.transform())[:6]
+    ext.add_to(item)
+
+    roles = asset_roles or ["data"]
+
+    href = os.path.join(
+        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME, blob_name
+    )
+    # TODO: We need to generalize this `href` somewhat.
+    asset = pystac.Asset(
+        href=href,
+        media_type=asset_media_type,
+        roles=roles,
+    )
+
+    item.add_asset("data", asset)
+
+    return item
+
+
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
+
+    # hard-coded input params at project level
+    GCS_PROTOCOL = "https://storage.googleapis.com"
+    BUCKET_NAME = "dgds-data-public"
+    BUCKET_PROJ = "coclico"
+    TEMPLATE = "template-mapbox"  # stac template for dataset collection
+    STAC_DIR = "current"
+
+    # hard-coded input params which differ per dataset
+    DATASET_FILENAME = "ar5_slp"
+    STAC_COLLECTION_NAME = "slp"  # name of stac collection
 
     # define local directories
     home = pathlib.Path().home()
@@ -128,20 +218,28 @@ if __name__ == "__main__":
     cog_dir = ds_dir.joinpath("cogs")
     cog_dir.mkdir(parents=True, exist_ok=True)
 
-    BOUNDS = 0
-    ENSEMBLE = 1
-    TIME = 0
-    VARIABLES = ["totslr_ens", "totslr", "loerr", "hierr"]
+    # generate pystac collection from stac collection file
+    collection = Collection.from_file(
+        os.path.join(rel_root, STAC_DIR, "collection.json")
+    )
+
+    # generate stac_obj for dataset
+    stac_obj = get_stac_obj_from_template(
+        collection,
+        template_fn=TEMPLATE,
+        title=STAC_COLLECTION_NAME,
+        description=DATASET_FILENAME,
+        hosting_platform="gcs",
+    )
+
+    layout = Layout()
+
+    # the dataset contains three different rcp scenario's
     RCPS = ["26", "45", "85"]
-
-    def get_data_fp(data_dir, rcp_scenario):
-        """Function to get the netcdf dataset fp to also keep track of rcp scenario used."""
-        return data_dir.joinpath(f"total-ens-slr-{rcp_scenario}-5.nc")
-
     for rcp in RCPS:
 
         # load dataset and do some pre-processsing
-        ds_fp = get_data_fp(ds_dir, rcp)
+        ds_fp = ds_dir.joinpath(f"total-ens-slr-{rcp}-5.nc")
         ds = xr.open_dataset(ds_fp)
 
         # format dataset based upon notebooks/18_SLR_AR5.ipynb
@@ -170,16 +268,7 @@ if __name__ == "__main__":
 
             # extract time boundaries for use in tif naming
             time_bounds = [
-                pd.Timestamp(
-                    t.year,
-                    t.month,
-                    t.day,
-                    t.hour,
-                    t.minute,
-                    t.second,
-                    t.microsecond,
-                ).strftime("%Y-%m-%d")
-                for t in ds2.time_bnds.values
+                cftime_to_pdts(t).strftime("%Y-%m-%d") for t in ds2.time_bnds.values
             ]
             time_name = "_".join([t for t in time_bounds])
 
@@ -190,15 +279,35 @@ if __name__ == "__main__":
 
                 # compose tif name
                 fname = time_name + ".tif"
-                blob_name = cog_dir.joinpath(rcp_name, var_name, fname)
+                blob_name = pathlib.Path(rcp_name, var_name, fname)
+                outpath = cog_dir.joinpath(blob_name)
 
                 # make parent dir if not exists
-                blob_name.parent.mkdir(parents=True, exist_ok=True)
+                outpath.parent.mkdir(parents=True, exist_ok=True)
 
                 # add time name as scalar variable to tif
                 da["time_bnds"] = time_name
 
+                template_item = pystac.Item(
+                    "id", None, None, datetime.datetime(2000, 1, 1), {}
+                )
+
+                item = itemize(da, template_item, blob_name=str(blob_name))
+                stac_obj.add_item(item, strategy=layout)
+
                 # set overwrite is false because tifs should be unique
-                write_cog(da, fname=blob_name, overwrite=False)
+                # write_cog(da, fname=outpath, overwrite=False)
+
+    # save and limit number of folders
+    collection.add_child(stac_obj)
+    stac_obj.normalize_hrefs(
+        os.path.join(rel_root, STAC_DIR, STAC_COLLECTION_NAME), strategy=layout
+    )
+
+    collection.save(
+        catalog_type=CatalogType.SELF_CONTAINED,
+        dest_href=os.path.join(rel_root, STAC_DIR),
+        stac_io=IO(),
+    )
 
     print("Done!")
