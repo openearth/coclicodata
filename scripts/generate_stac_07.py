@@ -133,6 +133,7 @@ if __name__ == "__main__":
         template_fn=TEMPLATE,
         title=STAC_COLLECTION_NAME,
         description=title,
+        hosting_platform="mapbox",
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
