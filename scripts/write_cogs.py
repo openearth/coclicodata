@@ -50,10 +50,11 @@ def make_cf_compliant(ds: xr.Dataset) -> xr.Dataset:
     # TODO: check with Etienne if equal dimensions for ensembles are also necessary for cog's - I don't think so.
     # code can be found in notebook file.
 
-    # remove extra spaces in modelnames
-    ds["ensemble"] = np.array(
+    # remove extra spaces in model names and use the updated values as coordinate axis for ensemble
+    model_names = np.array(
         [s.strip() for s in ds["ensemble"].astype(str).values], dtype="S"
     )
+    ds = ds.assign_coords(ensemble=("nensemble", model_names))
 
     # this long name is copied from netcdf description
     ds["ensemble"].attrs[
@@ -139,34 +140,65 @@ if __name__ == "__main__":
 
     for rcp in RCPS:
 
+        # load dataset and do some pre-processsing
         ds_fp = get_data_fp(ds_dir, rcp)
         ds = xr.open_dataset(ds_fp)
 
-        # format dataset
+        # format dataset based upon notebooks/18_SLR_AR5.ipynb
         ds = make_cf_compliant(ds)
 
-        # convert cf noleap yrs to datetimei
-        ds["time"] = ds.indexes["time"].to_datetimeindex()
+        # # convert cf noleap yrs to datetimei
+        # ds["time"] = ds.indexes["time"].to_datetimeindex()
 
         # add crs and spatial dims
         ds.rio.set_spatial_dims(x_dim="lon", y_dim="lat")
         if not ds.rio.crs:
             ds = ds.rio.write_crs("EPSG:4326")
 
-        ntime = ds.dims["time"]
-        ds = ds.sel({"nensemble": ENSEMBLE, "nv": BOUNDS})
+        # format rcp name for filenaming
+        rcp_name = f"rcp={rcp}"
 
-        for var in VARIABLES:
+        # extract list of data variables
+        variables = set(ds.variables) - set(ds.dims) - set(ds.coords)
 
-            ds_ = ds.copy()
-            ds_ = ds[var]
+        ds["ensemble"] = ds.coords["ensemble"].astype(str)
 
-            for i in range(ntime):
+        ntimes = ds.dims["time"]
+        for ntime in range(ntimes):
+            ds2 = ds.copy()
+            ds2 = ds2.isel({"time": ntime})
 
-                da = ds_.isel(time=i)
-                fname = name_tif(da, str(cog_dir), scenario=rcp)
+            # extract time boundaries for use in tif naming
+            time_bounds = [
+                pd.Timestamp(
+                    t.year,
+                    t.month,
+                    t.day,
+                    t.hour,
+                    t.minute,
+                    t.second,
+                    t.microsecond,
+                ).strftime("%Y-%m-%d")
+                for t in ds2.time_bnds.values
+            ]
+            time_name = "_".join([t for t in time_bounds])
+
+            for var_name in variables:
+
+                # time bounds are extracted, so nv dim can be dropped, as tiff should be 2D or 3D.
+                da = ds2[var_name]
+
+                # compose tif name
+                fname = time_name + ".tif"
+                blob_name = cog_dir.joinpath(rcp_name, var_name, fname)
+
+                # make parent dir if not exists
+                blob_name.parent.mkdir(parents=True, exist_ok=True)
+
+                # add time name as scalar variable to tif
+                da["time_bnds"] = time_name
 
                 # set overwrite is false because tifs should be unique
-                write_cog(da, fname=fname, overwrite=False)
+                write_cog(da, fname=blob_name, overwrite=False)
 
-    print("done!")
+    print("Done!")
