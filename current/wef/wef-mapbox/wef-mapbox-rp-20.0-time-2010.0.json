@@ -1,0 +1,117 @@
+{
+    "type": "Feature",
+    "stac_version": "1.0.0",
+    "id": "wef-mapbox-rp-20.0-time-2010.0",
+    "properties": {
+        "deltares:item_key": "rp-20.0-time-2010.0",
+        "deltares:paint": {
+            "circle-color": [
+                "interpolate",
+                [
+                    "linear"
+                ],
+                [
+                    "get",
+                    "rp-20.0-time-2010.0"
+                ],
+                0,
+                "hsl(110,90%,80%)",
+                500000,
+                "hsla(55, 88%, 53%, 0.5)",
+                1000000,
+                "hsl(0, 90%, 70%)"
+            ],
+            "circle-radius": [
+                "interpolate",
+                [
+                    "linear"
+                ],
+                [
+                    "zoom"
+                ],
+                0,
+                0.5,
+                1,
+                1,
+                5,
+                5
+            ],
+            "circle-stroke-color": "hsl(0, 72%, 100%)"
+        },
+        "deltares:type": "circle",
+        "deltares:stations": "locationId",
+        "deltares:onclick": {},
+        "rp": 20.0,
+        "time": 2010.0,
+        "datetime": "2022-08-22T19:22:49.052148Z"
+    },
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    -180.0,
+                    -90.0
+                ],
+                [
+                    180.0,
+                    -90.0
+                ],
+                [
+                    180.0,
+                    90.0
+                ],
+                [
+                    -180.0,
+                    90.0
+                ],
+                [
+                    -180.0,
+                    -90.0
+                ]
+            ]
+        ]
+    },
+    "links": [
+        {
+            "rel": "collection",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "wef"
+        },
+        {
+            "rel": "root",
+            "href": "../../collection.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "wef"
+        }
+    ],
+    "assets": {
+        "mapbox": {
+            "href": "mapbox://global-data-viewer.global_wave_energy_flux_wef",
+            "title": "Point locations",
+            "description": "Mapbox url",
+            "type": "vector",
+            "source": "global_wave_energy_flux_wef",
+            "roles": [
+                "mapbox"
+            ]
+        }
+    },
+    "bbox": [
+        -180,
+        -90,
+        180,
+        90
+    ],
+    "stac_extensions": [
+        "https://coclicoservices.eu/coclico-stac-extension/v1.0.0/schema.json"
+    ],
+    "collection": "wef-mapbox"
+}

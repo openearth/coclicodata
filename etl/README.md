@@ -10,4 +10,10 @@ used to transform, format and process coclico data and store the results in the 
 
 ## Cloud Services
 
-[cloud_services.py](./cloud_services.py) can be used to..
+[cloud_services.py](./cloud_services.py) contains functions to interact with cloud
+services including Google Cloud and Mapbox.
+
+[extract.py](./extract.py) contains functions to extract geospatial features from xarray
+datasets.
+
+[keys.py](./keys.py) contains functions to manage access keys to cloud services.
