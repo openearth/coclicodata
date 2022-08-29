@@ -2,6 +2,7 @@ import os
 import pathlib
 import sys
 from curses import color_content
+from turtle import clear
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
@@ -28,6 +29,7 @@ from stac.utils import (
     get_dimension_dot_product,
     get_dimension_values,
     get_mapbox_item_id,
+    rm_special_characters,
 )
 
 if __name__ == "__main__":
@@ -35,7 +37,7 @@ if __name__ == "__main__":
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
-    TEMPLATE = "template-mapbox"  # stac template for dataset collection
+    TEMPLATE = "template"  # stac template for dataset collection
     STAC_DIR = "current"
 
     # hard-coded input params which differ per dataset
@@ -53,19 +55,22 @@ if __name__ == "__main__":
     ]  # List of str; dims ignored by datacube
 
     # hard-coded frontend properties
+    STAC_COLLECTION_TITLE = "Wave energy flux"
+    STAC_COLLECTION_DESCRIPTION = "Wave energy flux scenarios from LISCOAST dataset"
     STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
 
     # these are added at collection level
-    UNITS = "-"
+    UNITS = "m"
     PLOT_SERIES = "rp"
+    PLOT_X_AXIS = "time"
     MIN = 0
     MAX = 1000000
     LINEAR_GRADIENT = [
-        {"color": "hsl(110,90%,70%)", "offset": "0.000%", "opacity": 100},
+        {"color": "hsl(110,90%,80%)", "offset": "0.000%", "opacity": 100},
         {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
-        {"color": "hsl(0,90%,80%)", "offset": "100.000%", "opacity": 100},
+        {"color": "hsl(0,90%,70%)", "offset": "100.000%", "opacity": 100},
     ]
 
     # functions to generate properties that vary per dataset but cannot be hard-corded because
@@ -103,20 +108,32 @@ if __name__ == "__main__":
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
 
-    # read data from gcs zarr store
-    ds = dataset_from_google_cloud(
-        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    )
-
-    # import xarray as xr
-
-    # fpath = pathlib.Path.home().joinpath(
-    #     "data", "tmp", "global_wave_energy_flux.zarr"
+    # # read data from gcs zarr store
+    # ds = dataset_from_google_cloud(
+    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     # )
-    # ds = xr.open_zarr(fpath)
+
+    import xarray as xr
+
+    fpath = pathlib.Path.home().joinpath("data", "tmp", "global_wave_energy_flux.zarr")
+    ds = xr.open_zarr(fpath)
+
+    # ds["time"] = ds["time"].astype(int)
+    # from etl.extract import clear_zarr_information
+
+    # ds = clear_zarr_information(ds)
+    # outpath = fpath.with_stem(fpath.stem + "_test")
+    # print(f"writing to {str(outpath)}")
+    # ds.to_zarr(outpath, mode="w")
+    # print("done")
 
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
+
+    # remove characters that cause problems in the frontend.
+    ds = rm_special_characters(
+        ds, dimensions_to_check=ADDITIONAL_DIMENSIONS, characters=["%"]
+    )
 
     # generate pystac collection from stac collection file
     collection = Collection.from_file(
@@ -130,8 +147,9 @@ if __name__ == "__main__":
     stac_obj = get_stac_obj_from_template(
         collection,
         template_fn=TEMPLATE,
-        title=STAC_COLLECTION_NAME,
-        description=title,
+        collection_id=STAC_COLLECTION_NAME,
+        title=STAC_COLLECTION_TITLE,
+        description=STAC_COLLECTION_DESCRIPTION,
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
@@ -203,6 +221,7 @@ if __name__ == "__main__":
     # the stac collection.
     coclico_ext.units = UNITS
     coclico_ext.plot_series = PLOT_SERIES
+    coclico_ext.plot_x_axis = PLOT_X_AXIS
     coclico_ext.min_ = MIN
     coclico_ext.max_ = MAX
     coclico_ext.linear_gradient = LINEAR_GRADIENT
