@@ -28,6 +28,7 @@ from stac.utils import (
     get_dimension_dot_product,
     get_dimension_values,
     get_mapbox_item_id,
+    rm_special_characters,
 )
 
 if __name__ == "__main__":
@@ -35,7 +36,7 @@ if __name__ == "__main__":
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
-    TEMPLATE = "template-mapbox"  # stac template for dataset collection
+    TEMPLATE = "template"  # stac template for dataset collection
     STAC_DIR = "current"
 
     # hard-coded input params which differ per dataset
@@ -60,14 +61,16 @@ if __name__ == "__main__":
     ON_CLICK = {}
 
     # these are added at collection level
+    STAC_COLLECTION_TITLE = "Extreme surge level"
     UNITS = "m"
     PLOT_SERIES = "scenarios"
+    PLOT_X_AXIS = "rp"
     MIN = 0
     MAX = 3
     LINEAR_GRADIENT = [
-        {"color": "hsl(0,90%,80%)", "offset": "0.000%", "opacity": 100},
+        {"color": "hsl(110,90%,80%)", "offset": "0.000%", "opacity": 100},
         {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
-        {"color": "hsl(110,90%,70%)", "offset": "100.000%", "opacity": 100},
+        {"color": "hsl(0,90%,70%)", "offset": "100.000%", "opacity": 100},
     ]
 
     # functions to generate properties that vary per dataset but cannot be hard-corded because
@@ -117,6 +120,11 @@ if __name__ == "__main__":
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
 
+    # remove characters that cause problems in the frontend.
+    ds = rm_special_characters(
+        ds, dimensions_to_check=ADDITIONAL_DIMENSIONS, characters=["%"]
+    )
+
     # generate pystac collection from stac collection file
     collection = Collection.from_file(
         os.path.join(rel_root, STAC_DIR, "collection.json")
@@ -129,9 +137,9 @@ if __name__ == "__main__":
     stac_obj = get_stac_obj_from_template(
         collection,
         template_fn=TEMPLATE,
-        title=STAC_COLLECTION_NAME,
+        collection_id=STAC_COLLECTION_NAME,
+        title=STAC_COLLECTION_TITLE,
         description=title,
-        hosting_platform="mapbox",
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
@@ -203,6 +211,7 @@ if __name__ == "__main__":
     # the stac collection.
     coclico_ext.units = UNITS
     coclico_ext.plot_series = PLOT_SERIES
+    coclico_ext.plot_x_axis = PLOT_X_AXIS
     coclico_ext.min_ = MIN
     coclico_ext.max_ = MAX
     coclico_ext.linear_gradient = LINEAR_GRADIENT
