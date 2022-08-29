@@ -31,9 +31,9 @@ PAINT_PROP: str = PREFIX + "paint"
 ON_CLICK_PROP: str = PREFIX + "onclick"
 
 # list of properties that are added at collection level
-UNITS_PROP: str = "units"
-PLOT_SERIES_PROP: str = "plotSeries"
-PLOT_X_AXIS_PROP = "time"
+UNITS_PROP: str = PREFIX + "units"
+PLOT_SERIES_PROP: str = PREFIX + "plotSeries"
+PLOT_X_AXIS_PROP: str = PREFIX + "plotxAxis"
 MIN_PROP: str = PREFIX + "min"
 MAX_PROP: str = PREFIX + "max"
 LINEAR_GRADIENT_PROP: str = PREFIX + "linearGradient"
@@ -60,6 +60,7 @@ class CoclicoExtension(
         on_click: Optional[Dict[str, Any]] = None,
         units: Optional[str] = None,
         plot_series: Optional[str] = None,
+        plot_x_axis: Optional[str] = None,
         min_: Optional[int] = None,
         max_: Optional[int] = None,
         linear_gradient: Optional[List[Dict[str, Any]]] = None,
@@ -75,6 +76,7 @@ class CoclicoExtension(
         # these are added at collection level
         self.units = units
         self.plot_series = plot_series
+        self.plot_x_axis = plot_x_axis
         self.min_ = min_
         self.max_ = max_
         self.linear_gradient = linear_gradient
