@@ -1,5 +1,6 @@
 import os
 import pathlib
+import re
 from copy import deepcopy
 from itertools import product
 from typing import Any, Dict, List
@@ -23,6 +24,10 @@ def get_mapbox_item_id(dimdict: Dict[str, Any]) -> str:
 def get_dimension_values(ds, dimensions_to_ignore: List[str]) -> dict:
     """Dataset values per dimensions to dictionary."""
 
+    def filter_characters(v):
+        """Remove characters difficult to read in frontend from strings."""
+        return re.sub("[%]", "", v)
+
     coords = list(ds.coords)
     dims = list(ds.dims)
 
@@ -38,7 +43,13 @@ def get_dimension_values(ds, dimensions_to_ignore: List[str]) -> dict:
     dims = [dim for dim in dims if dim not in dimensions_to_ignore]
 
     # make a dictionary with the values per dimension
+
     dimvals = {dim: ds[dim].values.tolist() for dim in dims}
+
+    for dim, vals in dimvals.items():
+        vals = [filter_characters(v) for v in vals]
+        dimvals[dim] = vals
+
     return dimvals
 
 
