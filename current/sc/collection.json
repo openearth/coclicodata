@@ -144,7 +144,8 @@
         }
     ],
     "stac_extensions": [
-        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/template/v1.0.0/schema.json"
     ],
     "title": "Shoreline change",
     "keywords": [
@@ -175,32 +176,31 @@
     },
     "deltares:units": "m",
     "deltares:plotSeries": "ensemble",
-    "deltares:plotxAxis": "time",
     "deltares:min": -200,
     "deltares:max": 200,
     "deltares:linearGradient": [
-      {
-        "color": "hsla(8,100%,43%, 0.7)",
-        "offset": "0.000%",
-        "opacity": 100
-      },
-      {
-        "color": "hsla(39, 203%, 221%, 0.5)",
-        "offset": "50.000%",
-        "opacity": 100
-      },
-      {
-        "color": "hsla(228,100%,42%, 0.7)",
-        "offset": "100.000%",
-        "opacity": 100
-      }
+        {
+            "color": "hsla(8,100%,43%, 0.7)",
+            "offset": "0.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsla(39, 203%, 221%, 0.5)",
+            "offset": "50.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsla(228,100%,42%, 0.7)",
+            "offset": "100.000%",
+            "opacity": 100
+        }
     ],
     "units": "m",
     "cube:dimensions": {
         "time": {
             "extent": [
-        "2050",
-        "2100"
+                "2050-01-01T00:00:00Z",
+                "2100-01-01T00:00:00Z"
             ],
             "description": "time",
             "type": "temporal"
@@ -427,7 +427,7 @@
                 "50",
                 "83",
                 "95",
-                "99%"
+                "99"
             ],
             "type": "temporal"
         },
@@ -440,16 +440,6 @@
         }
     },
     "cube:variables": {
-        "ensemble": {
-            "type": "auxiliary",
-            "dimensions": [
-                "nensemble"
-            ],
-            "attrs": {},
-            "shape": [
-                7
-            ]
-        },
         "lat": {
             "type": "auxiliary",
             "description": "latitude",
@@ -515,19 +505,9 @@
                 1,
                 2
             ]
-        },
-        "scenarios": {
-            "type": "auxiliary",
-            "dimensions": [
-                "nscenarios"
-            ],
-            "attrs": {},
-            "shape": [
-                2
-            ]
         }
     },
-    "plotSeries": "scenario",
+    "deltares:plotxAxis": "time",
     "extent": {
         "spatial": {
             "bbox": [
@@ -557,7 +537,7 @@
             "50",
             "83",
             "95",
-            "99%"
+            "99"
         ],
         "scenarios": [
             "RCP45",

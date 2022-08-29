@@ -24,6 +24,7 @@ from stac.utils import (
     get_dimension_dot_product,
     get_dimension_values,
     get_mapbox_item_id,
+    rm_special_characters,
 )
 
 if __name__ == "__main__":
@@ -35,6 +36,10 @@ if __name__ == "__main__":
     # hard-coded input params at project level
     DATASET_FILENAME = "shoreline_change_projections.zarr"
     VARIABLES = ["sc"]
+    ADDITIONAL_DIMENSIONS = [
+        "ensemble",
+        "scenarios",
+    ]
 
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
 
@@ -51,6 +56,11 @@ if __name__ == "__main__":
     ds = xr.open_zarr(fpath)
 
     ds = zero_terminated_bytes_as_str(ds)
+
+    # remove characters that cause problems in the frontend.
+    ds = rm_special_characters(
+        ds, dimensions_to_check=ADDITIONAL_DIMENSIONS, characters=["%"]
+    )
 
     # This dataset has quite some dimensions, so if we would parse all information the end-user
     # would be overwhelmed by all options. So we select a subset of the data. This option is of
