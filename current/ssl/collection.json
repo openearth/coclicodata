@@ -234,7 +234,8 @@
         }
     ],
     "stac_extensions": [
-        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/template/v1.0.0/schema.json"
     ],
     "title": "Extreme surge level",
     "keywords": [
@@ -265,25 +266,24 @@
     },
     "deltares:units": "m",
     "deltares:plotSeries": "scenarios",
-    "deltares:plotxAxis": "rp",    
     "deltares:min": 0,
     "deltares:max": 3,
     "deltares:linearGradient": [
-      {
-        "color": "hsl(110,90%,80%)",
-        "offset": "0.000%",
-        "opacity": 100
-      },
-      {
-        "color": "hsla(55,88%,53%,0.5)",
-        "offset": "50.000%",
-        "opacity": 100
-      },
-      {
-        "color": "hsl(0,90%,70%)",
-        "offset": "100.000%",
-        "opacity": 100
-      }
+        {
+            "color": "hsl(110,90%,80%)",
+            "offset": "0.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsla(55,88%,53%,0.5)",
+            "offset": "50.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsl(0,90%,70%)",
+            "offset": "100.000%",
+            "opacity": 100
+        }
     ],
     "units": "m",
     "cube:dimensions": {
@@ -563,16 +563,6 @@
                 2242
             ]
         },
-        "scenarios": {
-            "type": "auxiliary",
-            "dimensions": [
-                "nscenarios"
-            ],
-            "attrs": {},
-            "shape": [
-                3
-            ]
-        },
         "ssl": {
             "type": "data",
             "description": "storm surge level",
@@ -598,7 +588,7 @@
             ]
         }
     },
-    "plotSeries": "scenarios",
+    "deltares:plotxAxis": "rp",
     "extent": {
         "spatial": {
             "bbox": [
