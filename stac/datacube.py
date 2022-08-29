@@ -1,6 +1,7 @@
 from typing import Dict, Union
 
 import numpy as np
+import pandas as pd
 import pystac
 import xarray as xr
 from pystac.extensions.datacube import (
@@ -93,6 +94,21 @@ def add_datacube(
     dimensions = {}
 
     if temporal_dimension is not False:
+
+        # convert time formatted year ([%Y]) to datetime. Without this conversion build_temporal_dimension
+        # from xstac will interpret the time integer as 1970-01-01 00:00:00.000002015
+        if ds[temporal_dimension].dtype.kind in np.typecodes["AllInteger"]:
+            time_values = pd.to_datetime(ds[temporal_dimension].values, format="%Y")
+            ds = ds.assign_coords(
+                {
+                    temporal_dimension: (
+                        temporal_dimension,
+                        time_values,
+                        ds[temporal_dimension].attrs,
+                    )
+                }
+            )
+
         dimensions[temporal_dimension] = build_temporal_dimension(
             ds, temporal_dimension, temporal_extent, temporal_values, temporal_step
         )
