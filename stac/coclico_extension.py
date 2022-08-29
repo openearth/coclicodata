@@ -5,10 +5,14 @@ from typing import Any, Dict, Generic, List, Optional, TypeVar, Union, cast
 from uuid import uuid4
 
 import pystac
-from pystac.extensions.base import (ExtensionManagementMixin,
-                                    PropertiesExtension)
-from pystac.utils import (StringEnum, datetime_to_str, get_required, map_opt,
-                          str_to_datetime)
+from pystac.extensions.base import ExtensionManagementMixin, PropertiesExtension
+from pystac.utils import (
+    StringEnum,
+    datetime_to_str,
+    get_required,
+    map_opt,
+    str_to_datetime,
+)
 
 T = TypeVar("T", pystac.Collection, pystac.Item, pystac.Asset)
 
@@ -29,6 +33,7 @@ ON_CLICK_PROP: str = PREFIX + "onclick"
 # list of properties that are added at collection level
 UNITS_PROP: str = "units"
 PLOT_SERIES_PROP: str = "plotSeries"
+PLOT_X_AXIS_PROP = "time"
 MIN_PROP: str = PREFIX + "min"
 MAX_PROP: str = PREFIX + "max"
 LINEAR_GRADIENT_PROP: str = PREFIX + "linearGradient"
@@ -60,14 +65,14 @@ class CoclicoExtension(
         linear_gradient: Optional[List[Dict[str, Any]]] = None,
     ) -> None:
 
-        # these are added at item level 
+        # these are added at item level
         self.item_key = item_key
         self.paint = paint
         self.stations = stations
         self.type_ = type_
         self.on_click = on_click
-        
-        # these are added at collection level 
+
+        # these are added at collection level
         self.units = units
         self.plot_series = plot_series
         self.min_ = min_
@@ -129,6 +134,14 @@ class CoclicoExtension(
     @plot_series.setter
     def plot_series(self, v: Optional[str]) -> None:
         self._set_property(PLOT_SERIES_PROP, v)
+
+    @property
+    def plot_x_axis(self) -> Optional[str]:
+        return self._get_property(PLOT_X_AXIS_PROP, str)
+
+    @plot_x_axis.setter
+    def plot_x_axis(self, v: Optional[str]) -> None:
+        self._set_property(PLOT_X_AXIS_PROP, v)
 
     @property
     def min_(self) -> Optional[int]:
