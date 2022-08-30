@@ -1,11 +1,11 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://github.com/openearth/coclicodata/blob/feat/update-deltares-stac-properties/json-schema/schema.json#",
-    "title": "Template Extension",
-    "description": "STAC Template Extension for STAC Items and STAC Collections.",
+    "$id": "https://storage.googleapis.com/dgds-data-public/coclico/json-schema/schema.json#",
+    "title": "Deltares Extension",
+    "description": "STAC Deltares Extension for STAC Items and STAC Collections.",
     "oneOf": [
         {
-            "$comment": "This is the schema for STAC Items. Remove this object if this extension only applies to Collections.",
+            "$comment": "This is the schema for STAC Items.",
             "allOf": [
                 {
                     "$ref": "#/definitions/stac_extensions"
@@ -26,7 +26,11 @@
                                 {
                                     "$comment": "Require fields here for Item Properties.",
                                     "required": [
-                                        "template:new_field"
+                                        "deltares:item_key",
+                                        "deltares:paint",
+                                        "deltares:type",
+                                        "deltares:stations",
+                                        "deltares:onclick"
                                     ]
                                 },
                                 {
@@ -65,12 +69,17 @@
             ],
             "anyOf": [
                 {
-                    "$comment": "This is the schema for the top-level fields in a Collection. Remove this if this extension does not define top-level fields for Collections.",
+                    "$comment": "This is the schema for the top-level fields in a Collection.",
                     "allOf": [
                         {
                             "$comment": "Require fields here for Collections (top-level).",
                             "required": [
-                                "template:new_field"
+                                "deltares:units",
+                                "deltares:plotSeries",
+                                "deltares:plotxAxis",
+                                "deltares:min",
+                                "deltares:max",
+                                "deltares:linearGradient"
                             ]
                         },
                         {
@@ -152,7 +161,7 @@
                 "stac_extensions": {
                     "type": "array",
                     "contains": {
-                        "const": "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+                        "const": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
                     }
                 }
             }
@@ -162,17 +171,57 @@
             "anyOf": [
                 {
                     "required": [
-                        "template:new_field"
+                        "deltares:item_id"
                     ]
                 },
                 {
                     "required": [
-                        "template:xyz"
+                        "deltares:paint"
                     ]
                 },
                 {
                     "required": [
-                        "template:another_one"
+                        "deltares:type"
+                    ]
+                },
+                {
+                    "required": [
+                        "deltares:stations"
+                    ]
+                },
+                {
+                    "required": [
+                        "deltares:onclick"
+                    ]
+                },
+                {
+                    "required": [
+                        "deltares:units"
+                    ]
+                },
+                {
+                    "required": [
+                        "deltares:plotSeries"
+                    ]
+                },
+                {
+                    "required": [
+                        "deltares:plotxAxis"
+                    ]
+                },
+                {
+                    "required": [
+                        "deltares:min"
+                    ]
+                },
+                {
+                    "required": [
+                        "deltares:max"
+                    ]
+                },
+                {
+                    "required": [
+                        "deltares:linearGradient"
                     ]
                 }
             ]
@@ -181,37 +230,42 @@
             "$comment": "Add your new fields here. Don't require them here, do that above in the corresponding schema.",
             "type": "object",
             "properties": {
-                "template:new_field": {
+                "deltares:item_key": {
                     "type": "string"
                 },
-                "template:xyz": {
-                    "type": "object",
-                    "required": [
-                        "x",
-                        "y",
-                        "z"
-                    ],
-                    "properties": {
-                        "x": {
-                            "type": "number"
-                        },
-                        "y": {
-                            "type": "number"
-                        },
-                        "z": {
-                            "type": "number"
-                        }
-                    }
+                "deltares:paint": {
+                    "type": "array"
                 },
-                "template:another_one": {
-                    "type": "array",
-                    "items": {
-                        "type": "number"
-                    }
+                "deltares:type": {
+                    "type": "string"
+                },
+                "deltares:stations": {
+                    "type": "string"
+                },
+                "deltares:onclick": {
+                    "type": "object"
+                },
+                "deltares:units": {
+                    "type": "string"
+                },
+                "deltares:plotSeries": {
+                    "type": "string"
+                },
+                "deltares:plotxAxis": {
+                    "type": "string"
+                },
+                "deltares:min": {
+                    "type": "number"
+                },
+                "deltares:max": {
+                    "type": "number"
+                },
+                "deltares:linearGradient": {
+                    "type": "array"
                 }
             },
             "patternProperties": {
-                "^(?!template:)": {
+                "^(?!deltares:)": {
                     "$comment": "Above, change `template` to the prefix of this extension"
                 }
             },
