@@ -234,8 +234,8 @@
         }
     ],
     "stac_extensions": [
-        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
-        "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
     "title": "Extreme surge level",
     "keywords": [
@@ -266,6 +266,7 @@
     },
     "deltares:units": "m",
     "deltares:plotSeries": "scenarios",
+    "deltares:plotxAxis": "rp",
     "deltares:min": 0,
     "deltares:max": 3,
     "deltares:linearGradient": [
@@ -285,7 +286,6 @@
             "opacity": 100
         }
     ],
-    "units": "m",
     "cube:dimensions": {
         "lon": {
             "axis": "x",
@@ -588,7 +588,6 @@
             ]
         }
     },
-    "deltares:plotxAxis": "rp",
     "extent": {
         "spatial": {
             "bbox": [
@@ -603,7 +602,7 @@
         "temporal": {
             "interval": [
                 [
-                    "2015-10-22T00:00:00Z",
+                    null,
                     null
                 ]
             ]
@@ -625,29 +624,6 @@
             "Historical",
             "RCP45",
             "RCP85"
-        ]
-    },
-    "properties": {
-        "deltares:units": "m",
-        "deltares:plotSeries": "scenario",
-        "deltares:min": 0,
-        "deltares:max": 3,
-        "deltares:linearGradient": [
-            {
-                "color": "hsl(110,90%,70%)",
-                "offset": "0.000%",
-                "opacity": 100
-            },
-            {
-                "color": "hsla(55,88%,53%,0.5)",
-                "offset": "50.000%",
-                "opacity": 100
-            },
-            {
-                "color": "hsl(0,90%,80%)",
-                "offset": "100.000%",
-                "opacity": 100
-            }
         ]
     }
 }

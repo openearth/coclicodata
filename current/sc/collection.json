@@ -144,8 +144,8 @@
         }
     ],
     "stac_extensions": [
-        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
-        "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
     "title": "Shoreline change",
     "keywords": [
@@ -176,6 +176,7 @@
     },
     "deltares:units": "m",
     "deltares:plotSeries": "ensemble",
+    "deltares:plotxAxis": "time",
     "deltares:min": -200,
     "deltares:max": 200,
     "deltares:linearGradient": [
@@ -195,7 +196,6 @@
             "opacity": 100
         }
     ],
-    "units": "m",
     "cube:dimensions": {
         "time": {
             "extent": [
@@ -507,7 +507,6 @@
             ]
         }
     },
-    "deltares:plotxAxis": "time",
     "extent": {
         "spatial": {
             "bbox": [
@@ -522,7 +521,7 @@
         "temporal": {
             "interval": [
                 [
-                    "2015-10-22T00:00:00Z",
+                    null,
                     null
                 ]
             ]

@@ -11634,9 +11634,8 @@
         }
     ],
     "stac_extensions": [
-        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
-        "https://stac-extensions.github.io/template/v1.0.0/schema.json",
-        "https://github.com/openearth/coclicodata/blob/feat/update-deltares-stac-properties/json-schema/schema.json"
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
     "title": "Extreme sea level",
     "keywords": [
@@ -11667,6 +11666,7 @@
     },
     "deltares:units": "m",
     "deltares:plotSeries": "scenario",
+    "deltares:plotxAxis": "time",
     "deltares:min": 0,
     "deltares:max": 3,
     "deltares:linearGradient": [
@@ -11686,7 +11686,6 @@
             "opacity": 100
         }
     ],
-    "units": "m",
     "cube:dimensions": {
         "time": {
             "extent": [
@@ -12060,7 +12059,6 @@
             ]
         }
     },
-    "deltares:plotxAxis": "time",
     "extent": {
         "spatial": {
             "bbox": [
@@ -12075,7 +12073,7 @@
         "temporal": {
             "interval": [
                 [
-                    "2015-10-22T00:00:00Z",
+                    null,
                     null
                 ]
             ]
