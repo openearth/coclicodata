@@ -118,15 +118,6 @@ if __name__ == "__main__":
     fpath = pathlib.Path.home().joinpath("data", "tmp", "global_wave_energy_flux.zarr")
     ds = xr.open_zarr(fpath)
 
-    # ds["time"] = ds["time"].astype(int)
-    # from etl.extract import clear_zarr_information
-
-    # ds = clear_zarr_information(ds)
-    # outpath = fpath.with_stem(fpath.stem + "_test")
-    # print(f"writing to {str(outpath)}")
-    # ds.to_zarr(outpath, mode="w")
-    # print("done")
-
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
 
