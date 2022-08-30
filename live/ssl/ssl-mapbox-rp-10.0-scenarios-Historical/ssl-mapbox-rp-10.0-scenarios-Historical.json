@@ -1,0 +1,121 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "ssl-mapbox-rp-10.0-scenarios-Historical",
+  "properties": {
+    "deltares:item_key": "rp-10.0-scenarios-Historical",
+    "deltares:paint": {
+      "circle-color": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "get",
+          "rp-10.0-scenarios-Historical"
+        ],
+        0,
+        "hsl(110,90%,80%)",
+        1.5,
+        "hsla(55, 88%, 53%, 0.5)",
+        3.0,
+        "hsl(0, 90%, 70%)"
+      ],
+      "circle-radius": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "zoom"
+        ],
+        0,
+        0.5,
+        1,
+        1,
+        5,
+        5
+      ]
+    },
+    "deltares:type": "circle",
+    "deltares:stations": "locationId",
+    "deltares:onclick": {},
+    "rp": 10.0,
+    "scenarios": "Historical",
+    "datetime": "2022-08-29T21:22:20.272472Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          -90.0
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/ssl/collection.json",
+      "type": "application/json",
+      "title": "Extreme surge level"
+    },
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/collection.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/ssl/collection.json",
+      "type": "application/json",
+      "title": "Extreme surge level"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/ssl/ssl-mapbox-rp-10.0-scenarios-Historical/ssl-mapbox-rp-10.0-scenarios-Historical.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "mapbox": {
+      "href": "mapbox://global-data-viewer.europe_storm_surge_level_ssl",
+      "type": "vector",
+      "title": "Point locations",
+      "description": "Mapbox url",
+      "source": "europe_storm_surge_level_ssl",
+      "roles": [
+        "mapbox"
+      ]
+    }
+  },
+  "bbox": [
+    -180,
+    -90,
+    180,
+    90
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+  ],
+  "collection": "ssl"
+}
