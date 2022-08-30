@@ -18,7 +18,8 @@ T = TypeVar("T", pystac.Collection, pystac.Item, pystac.Asset)
 
 # TODO: make schema for frontend coclico properties
 # host schema at a server, for example:
-SCHEMA_URI = "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+# SCHEMA_URI = "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+SCHEMA_URI = "https://github.com/openearth/coclicodata/blob/feat/update-deltares-stac-properties/json-schema/schema.json"
 
 
 # TODO: property getters/setters per property. Props below are not used yet.
