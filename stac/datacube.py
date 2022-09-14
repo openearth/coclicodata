@@ -3,6 +3,7 @@ from typing import Dict, Union
 import numpy as np
 import pandas as pd
 import pystac
+import rioxarray
 import xarray as xr
 from pystac.extensions.datacube import (
     AdditionalDimension,
@@ -69,7 +70,7 @@ def build_additional_dimension(ds, name, extent, values, step, reference_system)
 
 def add_datacube(
     ds: xr.Dataset,
-    stac_obj: Union[Dict, pystac.Item, pystac.Collection],
+    stac_obj: Union[pystac.Item, pystac.Collection],
     temporal_dimension=None,
     temporal_extent=None,
     temporal_values=False,
@@ -84,7 +85,7 @@ def add_datacube(
     y_step=None,
     additional_dimensions=[],
     reference_system=None,
-) -> pystac.Collection:
+) -> Union[pystac.Item, pystac.Collection]:
     """
     Adopted from xstac.xarray_to_stac.
 
@@ -113,7 +114,8 @@ def add_datacube(
             ds, temporal_dimension, temporal_extent, temporal_values, temporal_step
         )
 
-    if x_dimension is not False:
+    if x_dimension:
+
         dimensions[x_dimension] = build_horizontal_dimension(
             ds,
             x_dimension,
@@ -124,7 +126,7 @@ def add_datacube(
             reference_system=reference_system,
         )
 
-    if y_dimension is not False:
+    if y_dimension:
         dimensions[y_dimension] = build_horizontal_dimension(
             ds,
             y_dimension,
