@@ -70,7 +70,7 @@ def build_additional_dimension(ds, name, extent, values, step, reference_system)
 
 def add_datacube(
     ds: xr.Dataset,
-    stac_obj: Union[pystac.Item, pystac.Collection],
+    stac_obj: pystac.Collection,
     temporal_dimension=None,
     temporal_extent=None,
     temporal_values=False,
@@ -85,10 +85,12 @@ def add_datacube(
     y_step=None,
     additional_dimensions=[],
     reference_system=None,
-) -> Union[pystac.Item, pystac.Collection]:
+    add_variables=True,
+) -> pystac.Collection:
     """
-    Adopted from xstac.xarray_to_stac.
+    Add cube stac descriptions at collection level.
 
+    Snippet is adopted from xstac._xstac
 
     """
 
