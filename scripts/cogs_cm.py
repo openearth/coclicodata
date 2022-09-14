@@ -376,8 +376,6 @@ if __name__ == "__main__":
     # minx, miny, maxx, maxy = eu.geometry.bounds.iloc[0].tolist()
     # ds = ds.rio.clip_box(minx=minx, miny=miny, maxx=maxx, maxy=maxy)
 
-    catalog = pystac.Catalog(id="coclico-catalog", description="Simple CoCliCo Catalog")
-
     # generate pystac collection from stac collection file
     collection = Collection.from_file(
         os.path.join(rel_root, STAC_DIR, "collection.json")
@@ -428,25 +426,38 @@ if __name__ == "__main__":
     # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     ds_collection.summaries = Summaries({})
 
-    # save and limit number of folders
+    # # save and limit number of folders
     # collection.add_child(ds_collection)
-    # tmp_dir = pathlib.Path.home().joinpath("tmp", "coclico-stac")
-    # root_path = pathlib.Path(tmp_dir.name)
-    # tmp_dir.mkdir(parents=True, exist_ok=True)
-
-    collection.add_child(ds_collection)
-
-    # catalog.normalize_hrefs(
-    #     root_href=str(root_path),
-    #     # catalog_type=pystac.CatalogType.SELF_CONTAINED,
-    #     strategy=layout,
+    # ds_collection.normalize_hrefs(
+    #     os.path.join(rel_root, STAC_DIR, STAC_COLLECTION_NAME), strategy=layout
     # )
+
+    # collection.save(
+    #     catalog_type=CatalogType.SELF_CONTAINED,
+    #     dest_href=os.path.join(rel_root, STAC_DIR),
+    #     # dest_href=str(tmp_dir),
+    #     stac_io=IO(),
+    # )
+
+    tmp_dir = pathlib.Path.home().joinpath("tmp", "coclico-stac")
+    root_path = pathlib.Path(tmp_dir.name)
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+
+    catalog = pystac.Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
+
+    catalog.add_child(ds_collection)
 
     ds_collection.normalize_hrefs(
         os.path.join(rel_root, STAC_DIR, STAC_COLLECTION_NAME), strategy=layout
     )
 
-    collection.save(
+    # ds_collection.normalize_hrefs(
+    #     root_href=str(root_path),
+    #     # catalog_type=pystac.CatalogType.SELF_CONTAINED,
+    #     strategy=layout,
+    # )
+
+    catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(rel_root, STAC_DIR),
         # dest_href=str(tmp_dir),
