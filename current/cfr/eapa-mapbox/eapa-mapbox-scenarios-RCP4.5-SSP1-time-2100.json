@@ -42,7 +42,7 @@
         "deltares:onclick": {},
         "scenarios": "RCP4.5-SSP1",
         "time": 2100,
-        "datetime": "2022-08-22T19:30:45.961569Z"
+        "datetime": "2022-10-03T17:53:58.852004Z"
     },
     "geometry": {
         "type": "Polygon",
@@ -76,19 +76,18 @@
             "rel": "collection",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "cfr"
+            "title": "Coastal flood risk"
         },
         {
             "rel": "root",
-            "href": "../../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../../catalog.json",
+            "type": "application/json"
         },
         {
             "rel": "parent",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "cfr"
+            "title": "Coastal flood risk"
         }
     ],
     "assets": {
@@ -109,5 +108,8 @@
         180,
         90
     ],
-    "collection": "cfr-mapbox"
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+    ],
+    "collection": "cfr"
 }

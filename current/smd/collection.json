@@ -1,26 +1,25 @@
 {
     "type": "Collection",
-    "id": "smd-mapbox",
+    "id": "smd",
     "stac_version": "1.0.0",
-    "description": "smd",
+    "description": "Global long-term (1984-2015) shoreline evolution based on satellite observations. Per transect location (500 m spaced) it is assessed what the change from land to sea, land to active zone and active zone to sea (erosion) as well as sea to land, sea to active zone and active zone to land (accretion) is. This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41598-018-30904-w) for more dataset-specific information. ",
     "links": [
         {
             "rel": "root",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../catalog.json",
+            "type": "application/json"
         },
         {
             "rel": "parent",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../catalog.json",
+            "type": "application/json"
         }
     ],
     "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-    "title": "smd",
+    "title": "Global shoreline morphodynamics",
     "keywords": [
         "CoCliCo"
     ],
@@ -49,6 +48,7 @@
     },
     "deltares:units": "m",
     "deltares:plotSeries": "scenario",
+    "deltares:plotxAxis": "time",
     "deltares:min": 0,
     "deltares:max": 3,
     "deltares:linearGradient": [
@@ -68,7 +68,6 @@
             "opacity": 100
         }
     ],
-    "units": "m",
     "cube:dimensions": {
         "lon": {
             "axis": "x",
@@ -724,7 +723,6 @@
             ]
         }
     },
-    "plotSeries": "scenario",
     "extent": {
         "spatial": {
             "bbox": [
@@ -739,7 +737,7 @@
         "temporal": {
             "interval": [
                 [
-                    "2015-10-22T00:00:00Z",
+                    null,
                     null
                 ]
             ]
