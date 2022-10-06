@@ -35,6 +35,7 @@ ON_CLICK_PROP: str = PREFIX + "onclick"
 UNITS_PROP: str = PREFIX + "units"
 PLOT_SERIES_PROP: str = PREFIX + "plotSeries"
 PLOT_X_AXIS_PROP: str = PREFIX + "plotxAxis"
+PLOT_TYPE_PROP: str = PREFIX + "plotType"
 MIN_PROP: str = PREFIX + "min"
 MAX_PROP: str = PREFIX + "max"
 LINEAR_GRADIENT_PROP: str = PREFIX + "linearGradient"
@@ -62,6 +63,7 @@ class CoclicoExtension(
         units: Optional[str] = None,
         plot_series: Optional[str] = None,
         plot_x_axis: Optional[str] = None,
+        plot_type: Optional[str] = None,
         min_: Optional[int] = None,
         max_: Optional[int] = None,
         linear_gradient: Optional[List[Dict[str, Any]]] = None,
@@ -78,6 +80,7 @@ class CoclicoExtension(
         self.units = units
         self.plot_series = plot_series
         self.plot_x_axis = plot_x_axis
+        self.plot_type = plot_type
         self.min_ = min_
         self.max_ = max_
         self.linear_gradient = linear_gradient
@@ -145,6 +148,14 @@ class CoclicoExtension(
     @plot_x_axis.setter
     def plot_x_axis(self, v: Optional[str]) -> None:
         self._set_property(PLOT_X_AXIS_PROP, v)
+
+    @property
+    def plot_type(self) -> Optional[str]:
+        return self._get_property(PLOT_TYPE_PROP, str)
+
+    @plot_type.setter
+    def plot_type(self, v: Optional[str]) -> None:
+        self._set_property(PLOT_TYPE_PROP, v)
 
     @property
     def min_(self) -> Optional[int]:
