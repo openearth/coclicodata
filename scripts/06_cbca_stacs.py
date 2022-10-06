@@ -115,7 +115,7 @@ if __name__ == "__main__":
     # import xarray as xr
 
     # fpath = pathlib.Path.home().joinpath(
-    #     "ddata", "tmp", "europe_cost_benefit_coastal_adaptation.zarr"
+    #     "ddata", "tmp", "eu_coastal_adaptation.zarr"
     # )
     # ds = xr.open_zarr(fpath)
 
