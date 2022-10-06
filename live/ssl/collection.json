@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "ssl",
   "stac_version": "1.0.0",
-  "description": "European extreme storm surge level",
+  "description": "Dataset with extreme Storm Surge Levels (SSL) at the European scale. SSL are estimated for three climate scenarios (Historical, RCP4.5 and RCP8.5) for eight return periods (5, 10, 20, 50, 100, 200, 500 and 1000) according to the Peak Over Threshold method. This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1007/s00382-016-3019-5) for more dataset-specific information.",
   "links": [
     {
       "rel": "item",
@@ -222,15 +222,13 @@
     },
     {
       "rel": "root",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/collection.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/catalog.json",
+      "type": "application/json"
     },
     {
       "rel": "parent",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/collection.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/catalog.json",
+      "type": "application/json"
     },
     {
       "rel": "self",
@@ -239,8 +237,8 @@
     }
   ],
   "stac_extensions": [
-    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
-    "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
   "title": "Extreme surge level",
   "keywords": [
@@ -271,6 +269,8 @@
   },
   "deltares:units": "m",
   "deltares:plotSeries": "scenarios",
+  "deltares:plotxAxis": "rp",
+  "deltares:plotType": "line",
   "deltares:min": 0,
   "deltares:max": 3,
   "deltares:linearGradient": [
@@ -290,7 +290,6 @@
       "opacity": 100
     }
   ],
-  "units": "m",
   "cube:dimensions": {
     "lon": {
       "axis": "x",
@@ -593,7 +592,6 @@
       ]
     }
   },
-  "deltares:plotxAxis": "rp",
   "summaries": {
     "rp": [
       5.0,
@@ -611,29 +609,6 @@
       "RCP85"
     ]
   },
-  "properties": {
-    "deltares:units": "m",
-    "deltares:plotSeries": "scenario",
-    "deltares:min": 0,
-    "deltares:max": 3,
-    "deltares:linearGradient": [
-      {
-        "color": "hsl(110,90%,70%)",
-        "offset": "0.000%",
-        "opacity": 100
-      },
-      {
-        "color": "hsla(55,88%,53%,0.5)",
-        "offset": "50.000%",
-        "opacity": 100
-      },
-      {
-        "color": "hsl(0,90%,80%)",
-        "offset": "100.000%",
-        "opacity": 100
-      }
-    ]
-  },
   "extent": {
     "spatial": {
       "bbox": [
@@ -648,7 +623,7 @@
     "temporal": {
       "interval": [
         [
-          "2015-10-22T00:00:00Z",
+          null,
           null
         ]
       ]

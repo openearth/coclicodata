@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "cbca",
   "stac_version": "1.0.0",
-  "description": "cbca",
+  "description": "Dataset describing the costs and benefits of raising coastal defenses along the European coastline aggregated per coastal NUTS2 region (provinces), in view of climate change. Variables are cost (\u20ac), benefit (\u20ac), cost-benefit ratio (cbr, -) and extra benefit of raising coastal protection (eb, m) for two different climate scenarios (RCP4.5 and RCP8.5) coupled to two types of socio-economic growth (SSP1 \u2013 sustainability and SSP5 \u2013 fossil fuel development). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41467-020-15665-3) for more dataset-specific information.",
   "links": [
     {
       "rel": "item",
@@ -14,15 +14,13 @@
     },
     {
       "rel": "root",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/collection.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/catalog.json",
+      "type": "application/json"
     },
     {
       "rel": "parent",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/collection.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/catalog.json",
+      "type": "application/json"
     },
     {
       "rel": "self",
@@ -50,7 +48,7 @@
   ],
   "assets": {
     "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_cost_benefit_coastal_adaptation.zarr",
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/eu_coastal_adaptation.zarr",
       "title": "cbca zarr root",
       "description": "The root of the cbca zarr dataset on public Google Cloud Storage.",
       "roles": [
@@ -62,6 +60,7 @@
   },
   "deltares:units": "m",
   "deltares:plotSeries": "scenario",
+  "deltares:plotType": "bar",
   "deltares:min": 0,
   "deltares:max": 3,
   "deltares:linearGradient": [

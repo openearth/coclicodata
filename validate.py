@@ -1,8 +1,7 @@
-import pystac
-from pystac import Collection
+from pystac import Catalog
 
 href = "./current/catalog.json"
-root = pystac.Catalog.from_file(href)
+root = Catalog.from_file(href)
 root.describe()
 
 

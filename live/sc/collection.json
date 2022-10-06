@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "sc",
   "stac_version": "1.0.0",
-  "description": "Global shoreline change projections for the year 2050 under RCP4.5",
+  "description": "Projections of global shoreline change in view of climate change. This assessment considers the combined effects of ambient change (historical trends), sea level rise (RCP4.5 and RCP8.5) and storm driven (instantaneous) erosion. Data is computed for seven ensembles (1, 5, 17, 50, 83, 95 and 99th percentile) and two timesteps (2050 and 2100). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41558-020-0697-0) for more dataset-specific information.",
   "links": [
     {
       "rel": "item",
@@ -132,15 +132,13 @@
     },
     {
       "rel": "root",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/collection.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/catalog.json",
+      "type": "application/json"
     },
     {
       "rel": "parent",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/collection.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/live/catalog.json",
+      "type": "application/json"
     },
     {
       "rel": "self",
@@ -149,8 +147,8 @@
     }
   ],
   "stac_extensions": [
-    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
-    "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
   "title": "Shoreline change",
   "keywords": [
@@ -181,6 +179,8 @@
   },
   "deltares:units": "m",
   "deltares:plotSeries": "ensemble",
+  "deltares:plotxAxis": "time",
+  "deltares:plotType": "area",
   "deltares:min": -200,
   "deltares:max": 200,
   "deltares:linearGradient": [
@@ -200,7 +200,6 @@
       "opacity": 100
     }
   ],
-  "units": "m",
   "cube:dimensions": {
     "time": {
       "extent": [
@@ -512,7 +511,6 @@
       ]
     }
   },
-  "deltares:plotxAxis": "time",
   "summaries": {
     "ensemble": [
       "1",
@@ -542,7 +540,7 @@
     "temporal": {
       "interval": [
         [
-          "2015-10-22T00:00:00Z",
+          null,
           null
         ]
       ]
