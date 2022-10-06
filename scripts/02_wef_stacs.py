@@ -66,6 +66,7 @@ if __name__ == "__main__":
     UNITS = "m"
     PLOT_SERIES = "rp"
     PLOT_X_AXIS = "time"
+    PLOT_TYPE = "line"
     MIN = 0
     MAX = 1000000
     LINEAR_GRADIENT = [
@@ -217,6 +218,7 @@ if __name__ == "__main__":
     coclico_ext.units = UNITS
     coclico_ext.plot_series = PLOT_SERIES
     coclico_ext.plot_x_axis = PLOT_X_AXIS
+    coclico_ext.plot_type = PLOT_TYPE
     coclico_ext.min_ = MIN
     coclico_ext.max_ = MAX
     coclico_ext.linear_gradient = LINEAR_GRADIENT

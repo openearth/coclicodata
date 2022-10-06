@@ -62,6 +62,7 @@ if __name__ == "__main__":
     STAC_COLLECTION_TITLE = "Global shoreline morphodynamics"
     UNITS = "m"
     PLOT_SERIES = "scenario"
+    PLOT_TYPE = "line"
     MIN = 0
     MAX = 3
     LINEAR_GRADIENT = [
@@ -208,6 +209,7 @@ if __name__ == "__main__":
     # the stac collection.
     coclico_ext.units = UNITS
     coclico_ext.plot_series = PLOT_SERIES
+    coclico_ext.plot_type = PLOT_TYPE
     coclico_ext.min_ = MIN
     coclico_ext.max_ = MAX
     coclico_ext.linear_gradient = LINEAR_GRADIENT
