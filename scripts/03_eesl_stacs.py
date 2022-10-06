@@ -110,15 +110,15 @@ if __name__ == "__main__":
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
 
-    # read data from gcs zarr store
-    ds = dataset_from_google_cloud(
-        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    )
+    # # read data from gcs zarr store
+    # ds = dataset_from_google_cloud(
+    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
+    # )
 
-    # import xarray as xr
+    import xarray as xr
 
-    # fpath = pathlib.Path.home().joinpath("data", "tmp", DATASET_FILENAME)
-    # ds = xr.open_zarr(fpath)
+    fpath = pathlib.Path.home().joinpath("data", "tmp", DATASET_FILENAME)
+    ds = xr.open_zarr(fpath)
 
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
@@ -153,7 +153,19 @@ if __name__ == "__main__":
         additional_dimensions=ADDITIONAL_DIMENSIONS,
     )
 
-    # generate stac feature keys (strings which will be stac item ids) for mapbox layers
+    # This dataset has quite some dimensions, so if we would parse all information the end-user
+    # would be overwhelmed by all options. So for the stac items that we generate for the frontend
+    # visualizations a subset of the data is selected. Of course, this operation is dataset specific.
+
+    # If less timesteps are desired, the ones included can be added to the time list below.
+    # if "time" in ds:
+    #     ds = ds.sel({"time": [1995, 2020, 2050, 2100]})
+
+    # TODO: ens filter that works for both '50%' and 'mean'
+    if "ensemble" in ds:
+        ds = ds.sel({"nensemble": "ensemble" == "mean"})
+    #     ds = ds.sel({"nensemble": "ensemble" == "50%"})
+
     dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
     dimcombs = get_dimension_dot_product(dimvals)
 
@@ -193,7 +205,7 @@ if __name__ == "__main__":
             # add stac item to collection
             stac_obj.add_item(feature, strategy=layout)
 
-    # if no variables present we still need to add zarr reference at colleciton level
+    # if no variables present we still need to add zarr reference at collection level
     if not VARIABLES:
         stac_obj.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
