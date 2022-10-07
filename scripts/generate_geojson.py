@@ -40,6 +40,8 @@ if __name__ == "__main__":
         "ensemble",
         "scenarios",
     ]
+    # use these to reduce dimension, e.g., {ensemble: "mean", "time": [1995, 2020, 2100]}
+    MAP_SELECTION_DIMS = {"time": [2100]}
 
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
 
@@ -63,14 +65,17 @@ if __name__ == "__main__":
     )
 
     # This dataset has quite some dimensions, so if we would parse all information the end-user
-    # would be overwhelmed by all options. So we select a subset of the data. This option is of
-    # course dataset specific.
-    if "time" in ds:
-        ds = ds.sel({"time": 2100})
-    # if "ensemble" in ds:
-    #     # TODO: ens filter that works for both '50%' and 'mean'
-    #     # ds = ds.sel({"nensemble": "ensemble" == "mean"})
-    #     ds = ds.sel({"nensemble": "ensemble" == "50%"})
+    # would be overwhelmed by all options. So for the stac items that we generate for the frontend
+    # visualizations a subset of the data is selected. Of course, this operation is dataset specific.
+    for k, v in MAP_SELECTION_DIMS.items():
+        if k in ds.dims and ds.coords:
+            ds = ds.sel({k: v})
+        else:
+            try:
+                # assume that coordinates with strings always have same dim name but with n
+                ds = ds.sel({"n" + k: k == v})
+            except:
+                raise ValueError(f"Cannot find {k}")
 
     dimvals = get_dimension_values(ds, dimensions_to_ignore=["stations"])
     dimcombs = get_dimension_dot_product(dimvals)
@@ -82,18 +87,24 @@ if __name__ == "__main__":
         )
 
         # save feature collection as geojson in tempdir and upload to cloud
-        with tempfile.TemporaryDirectory() as tempdir:
-
-            fp = pathlib.Path(tempdir, "data.geojson")
-
-            with open(fp, "w") as f:
-                # load
-                geojson.dump(collection, f)
+        with pathlib.Path.home().joinpath("data", "tmp") as outdir:
+            # with tempfile.TemporaryDirectory() as outdir:
 
             # TODO: put this in a function because this is also used in generate_stace scripts?
             mapbox_url = get_mapbox_url(
                 MAPBOX_PROJ, DATASET_FILENAME, var, add_mapbox_protocol=False
             )
+
+            fn = mapbox_url.split(".")[1]
+
+            fp = pathlib.Path(outdir, fn).with_suffix(".geojson")
+
+            with open(fp, "w") as f:
+                # load
+                print(f"Writing data to {fp}")
+                geojson.dump(collection, f)
+            print("Done!")
+
             # Note, if mapbox cli raises en util collection error, this should be monkey
             # patched. Instructions are in documentation of the function.
-            geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
+            # geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
