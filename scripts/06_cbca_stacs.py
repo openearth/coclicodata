@@ -10,7 +10,7 @@ import pystac
 from etl import rel_root
 from etl.cloud_services import dataset_from_google_cloud
 from etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
-from pystac import CatalogType, Collection, Summaries
+from pystac import Catalog, CatalogType, Collection, Summaries
 from stac.blueprint import (
     IO,
     Layout,
@@ -21,7 +21,7 @@ from stac.blueprint import (
     gen_default_summaries,
     gen_mapbox_asset,
     gen_zarr_asset,
-    get_stac_obj_from_template,
+    get_template_collection,
 )
 from stac.coclico_extension import CoclicoExtension
 from stac.datacube import add_datacube
@@ -36,13 +36,15 @@ if __name__ == "__main__":
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
-    TEMPLATE = "template"  # stac template for dataset collection
+
     STAC_DIR = "current"
+    TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
+    COLLECTION_ID = "cbca"  # name of stac collection
+    COLLECTION_TITLE = "Cost benefit coastal adaptation"
+    DATASET_DESCRIPTION = """Dataset describing the costs and benefits of raising coastal defenses along the European coastline aggregated per coastal NUTS2 region (provinces), in view of climate change. Variables are cost (€), benefit (€), cost-benefit ratio (cbr, -) and extra benefit of raising coastal protection (eb, m) for two different climate scenarios (RCP4.5 and RCP8.5) coupled to two types of socio-economic growth (SSP1 – sustainability and SSP5 – fossil fuel development). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41467-020-15665-3) for more dataset-specific information."""
 
     # hard-coded input params which differ per dataset
-    STAC_COLLECTION_TITLE = "Cost benefit coastal adaptation"
     DATASET_FILENAME = "eu_coastal_adaptation.zarr"
-    STAC_COLLECTION_NAME = "cbca"  # name of stac collection
     VARIABLES = ["benefit", "cost", "cbr", "eb"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
@@ -56,7 +58,6 @@ if __name__ == "__main__":
         "geometry"
         # "geometry"
     ]  # List of str; dims ignored by datacube
-    DATASET_DESCRIPTION = """Dataset describing the costs and benefits of raising coastal defenses along the European coastline aggregated per coastal NUTS2 region (provinces), in view of climate change. Variables are cost (€), benefit (€), cost-benefit ratio (cbr, -) and extra benefit of raising coastal protection (eb, m) for two different climate scenarios (RCP4.5 and RCP8.5) coupled to two types of socio-economic growth (SSP1 – sustainability and SSP5 – fossil fuel development). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41467-020-15665-3) for more dataset-specific information."""
     # hard-coded frontend properties
     STATIONS = "locationId"
     TYPE = "circle"
@@ -123,38 +124,36 @@ if __name__ == "__main__":
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
 
-    # load coclico data catalog
-    catalog = pystac.Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
+    title = ds.attrs.get("title", COLLECTION_ID)
 
-    # generate pystac collection from stac collection file
-    collection = Collection.from_file(
-        os.path.join(rel_root, STAC_DIR, "collection.json")
+    # load coclico data catalog
+    catalog = Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
+
+    template_fp = os.path.join(
+        rel_root, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
     )
 
-    # get description/title from dataset, but if not exists just use stac collection name
-    title = ds.attrs.get("title", STAC_COLLECTION_NAME)
-
-    # generate stac_obj for dataset
-    stac_obj = get_stac_obj_from_template(
-        collection,
-        template_fn=TEMPLATE,
-        collection_id=STAC_COLLECTION_NAME,
-        title=STAC_COLLECTION_TITLE,
+    # generate collection for dataset
+    collection = get_template_collection(
+        template_fp=template_fp,
+        collection_id=COLLECTION_ID,
+        title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
-    stac_obj = add_datacube(
-        stac_obj=stac_obj,
+    collection = add_datacube(
+        stac_obj=collection,
         ds=ds,
         x_dimension=X_DIMENSION,
         y_dimension=Y_DIMENSION,
         temporal_dimension=TEMPORAL_DIMENSION,
         additional_dimensions=ADDITIONAL_DIMENSIONS,
     )
+
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
-    stac_obj = add_datacube(
-        stac_obj=stac_obj,
+    collection = add_datacube(
+        stac_obj=collection,
         ds=ds,
         x_dimension=X_DIMENSION,
         y_dimension=Y_DIMENSION,
@@ -173,7 +172,7 @@ if __name__ == "__main__":
     for var in VARIABLES:
 
         # add zarr store as asset to stac_obj
-        stac_obj.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
+        collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
@@ -200,21 +199,21 @@ if __name__ == "__main__":
                 feature.properties[k] = v
 
             # add stac item to collection
-            stac_obj.add_item(feature, strategy=layout)
+            collection.add_item(feature, strategy=layout)
 
     # if no variables present we still need to add zarr reference at colleciton level
     if not VARIABLES:
-        stac_obj.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
+        collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
     # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
-    stac_obj.summaries = Summaries({})
+    collection.summaries = Summaries({})
     # TODO: check if maxcount is required (inpsired on xstac library)
     # stac_obj.summaries.maxcount = 50
     for k, v in dimvals.items():
-        stac_obj.summaries.add(k, v)
+        collection.summaries.add(k, v)
 
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
-    coclico_ext = CoclicoExtension.ext(stac_obj, add_if_missing=True)
+    coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
 
     # Add frontend properties defined above to collection extension properties. The
     # properties attribute of this extension is linked to the extra_fields attribute of
@@ -227,26 +226,17 @@ if __name__ == "__main__":
     coclico_ext.linear_gradient = LINEAR_GRADIENT
 
     # set extra link properties
-    extend_links(stac_obj, dimvals.keys())
+    extend_links(collection, dimvals.keys())
 
     # save and limit number of folders
-    # TODO: delete commented line below when migrated to catalog.json
-    # collection.add_child(stac_obj)
-    catalog.add_child(stac_obj)
+    catalog.add_child(collection)
 
-    stac_obj.normalize_hrefs(
-        os.path.join(rel_root, STAC_DIR, STAC_COLLECTION_NAME), strategy=layout
+    collection.normalize_hrefs(
+        os.path.join(rel_root, STAC_DIR, COLLECTION_ID), strategy=layout
     )
-
-    # TODO: delete commented lines below when migrated to catalog.json
-    # collection.save( catalog_type=CatalogType.SELF_CONTAINED,
-    #     dest_href=os.path.join(rel_root, STAC_DIR),
-    #     stac_io=IO(),
-    # )
 
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(rel_root, STAC_DIR),
-        # dest_href=str(tmp_dir),
         stac_io=IO(),
     )

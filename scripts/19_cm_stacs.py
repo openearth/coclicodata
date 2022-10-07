@@ -379,8 +379,6 @@ if __name__ == "__main__":
     minx, miny, maxx, maxy = nl.geometry.bounds.iloc[0].tolist()
     ds = ds.rio.clip_box(minx=minx, miny=miny, maxx=maxx, maxy=maxy)
 
-    # TODO: change this to template.json? And add default values to template.json?
-    # generate pystac collection from stac collection file
     catalog = Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
 
     template_fp = os.path.join(

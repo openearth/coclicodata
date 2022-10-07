@@ -18,7 +18,7 @@ import shapely
 import xarray as xr
 from datacube.utils.cog import write_cog
 from etl import p_drive, rel_root
-from pystac import CatalogType, Collection, Summaries
+from pystac import Catalog, CatalogType, Collection, Summaries
 from stac.blueprint import (
     IO,
     Layout,
@@ -29,7 +29,7 @@ from stac.blueprint import (
     gen_default_summaries,
     gen_mapbox_asset,
     gen_zarr_asset,
-    get_stac_obj_from_template,
+    get_template_collection,
 )
 
 
@@ -188,12 +188,16 @@ if __name__ == "__main__":
     GCS_PROTOCOL = "https://storage.googleapis.com"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
-    TEMPLATE = "template-mapbox"  # stac template for dataset collection
+
     STAC_DIR = "current"
+    TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
+    COLLECTION_ID = "slp"  # name of stac collection
+    COLLECTION_TITLE = "AR5 Sea level change projections"
+    DATASET_DESCRIPTION = "AR5 Sea level change projections"
 
     # hard-coded input params which differ per dataset
     DATASET_FILENAME = "ar5_slp"
-    STAC_COLLECTION_NAME = "slp"  # name of stac collection
+    DATASET_DIR = "18_AR5_SLP_IPCC"
 
     # define local directories
     home = pathlib.Path().home()
@@ -204,12 +208,11 @@ if __name__ == "__main__":
 
     # use local or remote data dir
     use_local_data = True
-    ds_dirname = "18_AR5_SLP_IPCC"
 
     if use_local_data:
-        ds_dir = tmp_dir.joinpath(ds_dirname)
+        ds_dir = tmp_dir.joinpath(DATASET_DIR)
     else:
-        ds_dir = coclico_data_dir.joinpath(ds_dirname)
+        ds_dir = coclico_data_dir.joinpath(DATASET_DIR)
 
     if not ds_dir.exists():
         raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
@@ -218,18 +221,18 @@ if __name__ == "__main__":
     cog_dir = ds_dir.joinpath("cogs")
     cog_dir.mkdir(parents=True, exist_ok=True)
 
-    # generate pystac collection from stac collection file
-    collection = Collection.from_file(
-        os.path.join(rel_root, STAC_DIR, "collection.json")
+    catalog = Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
+
+    template_fp = os.path.join(
+        rel_root, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
     )
 
-    # generate stac_obj for dataset
-    stac_obj = get_stac_obj_from_template(
-        collection,
-        template_fn=TEMPLATE,
-        title=STAC_COLLECTION_NAME,
-        description=DATASET_FILENAME,
-        hosting_platform="gcs",
+    # generate collection for dataset
+    collection = get_template_collection(
+        template_fp=template_fp,
+        collection_id=COLLECTION_ID,
+        title=COLLECTION_TITLE,
+        description=DATASET_DESCRIPTION,
     )
 
     layout = Layout()
@@ -293,21 +296,27 @@ if __name__ == "__main__":
                 )
 
                 item = itemize(da, template_item, blob_name=str(blob_name))
-                stac_obj.add_item(item, strategy=layout)
+                collection.add_item(item, strategy=layout)
 
                 # set overwrite is false because tifs should be unique
                 # write_cog(da, fname=outpath, overwrite=False)
 
-    # save and limit number of folders
-    collection.add_child(stac_obj)
-    stac_obj.normalize_hrefs(
-        os.path.join(rel_root, STAC_DIR, STAC_COLLECTION_NAME), strategy=layout
+    # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
+    collection.summaries = Summaries({})
+
+    # add collection to catalog
+    catalog.add_child(collection)
+
+    # normalize the paths
+    collection.normalize_hrefs(
+        os.path.join(rel_root, STAC_DIR, COLLECTION_ID), strategy=layout
     )
 
-    collection.save(
+    # save updated catalog
+    catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(rel_root, STAC_DIR),
+        # dest_href=str(tmp_dir),
         stac_io=IO(),
     )
-
-    print("Done!")
+    print("done")
