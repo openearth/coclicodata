@@ -62,7 +62,7 @@
     }
   },
   "deltares:units": "m",
-  "deltares:plotSeries": "scenario",
+  "deltares:plotSeries": "scenarios",
   "deltares:plotxAxis": "time",
   "deltares:plotType": "line",
   "deltares:min": 0,
@@ -84,6 +84,7 @@
       "opacity": 100
     }
   ],
+  "units": "m",
   "cube:dimensions": {
     "time": {
       "extent": [
@@ -91,6 +92,7 @@
         "2100-01-01T00:00:00Z"
       ],
       "description": "time",
+      "step": "P50Y",
       "type": "temporal"
     },
     "lon": {
@@ -325,7 +327,7 @@
         "stations",
         "time"
       ],
-      "unit": "1e12",
+      "unit": "annual damage (1e12 euro)",
       "attrs": {
         "End_date": "2099-12-31",
         "Starting_date": "1980-12-31",
@@ -352,7 +354,7 @@
         "stations",
         "time"
       ],
-      "unit": "1",
+      "unit": "annual damage (share of GDP)",
       "attrs": {
         "End_date": "2099-12-31",
         "Starting_date": "1980-12-31",
@@ -379,7 +381,7 @@
         "stations",
         "time"
       ],
-      "unit": "1e3",
+      "unit": "people affected (1e3)",
       "attrs": {
         "End_date": "2099-12-31",
         "Starting_date": "1980-12-31",
@@ -457,6 +459,7 @@
       ]
     }
   },
+  "plotSeries": "scenario",
   "summaries": {
     "scenarios": [
       "RCP4.5-SSP1",
@@ -483,7 +486,7 @@
     "temporal": {
       "interval": [
         [
-          null,
+          "2015-10-22T00:00:00Z",
           null
         ]
       ]
