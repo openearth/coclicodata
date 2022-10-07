@@ -59,6 +59,7 @@ if __name__ == "__main__":
         "nscenarios",
         "nensemble",
     ]  # List of str; dims ignored by datacube
+    MAP_SELECTION_DIMS = {"ensemble": "mean"}
     STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
@@ -153,15 +154,15 @@ if __name__ == "__main__":
     # This dataset has quite some dimensions, so if we would parse all information the end-user
     # would be overwhelmed by all options. So for the stac items that we generate for the frontend
     # visualizations a subset of the data is selected. Of course, this operation is dataset specific.
-
-    # If less timesteps are desired, the ones included can be added to the time list below.
-    # if "time" in ds:
-    #     ds = ds.sel({"time": [1995, 2020, 2050, 2100]})
-
-    # TODO: ens filter that works for both '50%' and 'mean'
-    if "ensemble" in ds:
-        ds = ds.sel({"nensemble": "ensemble" == "mean"})
-    #     ds = ds.sel({"nensemble": "ensemble" == "50%"})
+    for k, v in MAP_SELECTION_DIMS.items():
+        if k in ds.dims and ds.coords:
+            ds = ds.sel({k: v})
+        else:
+            try:
+                # assume that coordinates with strings always have same dim name but with n
+                ds = ds.sel({"n" + k: k == v})
+            except:
+                raise ValueError(f"Cannot find {k}")
 
     dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
     dimcombs = get_dimension_dot_product(dimvals)
@@ -211,6 +212,9 @@ if __name__ == "__main__":
     # TODO: check if maxcount is required (inpsired on xstac library)
     # stac_obj.summaries.maxcount = 50
     for k, v in dimvals.items():
+        collection.summaries.add(k, v)
+
+    for k, v in MAP_SELECTION_DIMS.items():
         collection.summaries.add(k, v)
 
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
