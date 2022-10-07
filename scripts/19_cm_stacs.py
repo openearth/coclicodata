@@ -22,6 +22,7 @@ import rasterio.warp
 import shapely.geometry
 import xarray as xr
 from etl import p_drive, rel_root
+from etl.keys import load_google_credentials
 from pystac import Catalog, CatalogType, Collection, Summaries
 from stac.blueprint import IO, Layout, get_template_collection
 from stac.datacube import add_datacube
@@ -80,6 +81,7 @@ def name_block(
 def write_block(
     block: xr.DataArray,
     prefix: str = "",
+    href_prefix: str = "",
     x_dim: str = "x",
     y_dim: str = "y",
     storage_options: Optional[Mapping[str, str]] = None,
@@ -145,7 +147,13 @@ def write_block(
     )
     template_item = pystac.Item("id", None, None, datetime.datetime(2000, 1, 1), {})
     item = itemize(
-        block, template_item, nbytes=nbytes, x_dim=x_dim, y_dim=y_dim, prefix=prefix
+        block,
+        template_item,
+        nbytes=nbytes,
+        x_dim=x_dim,
+        y_dim=y_dim,
+        prefix=prefix,
+        href_prefix=href_prefix,
     )
 
     # indexing first entry along all dimensions and store pystac item as data value
@@ -161,6 +169,7 @@ def itemize(
     asset_roles: list[str] | None = None,
     asset_media_type=pystac.MediaType.COG,
     prefix: str = "",
+    href_prefix: str = "",
     time_dim="time",
     x_dim="x",
     y_dim="y",
@@ -244,7 +253,7 @@ def itemize(
 
     # TODO: We need to generalize this `href` somewhat.
     asset = pystac.Asset(
-        href=name_block(block, x_dim=x_dim, y_dim=y_dim, prefix=prefix),
+        href=name_block(block, x_dim=x_dim, y_dim=y_dim, prefix=href_prefix),
         media_type=asset_media_type,
         roles=roles,
     )
@@ -324,6 +333,7 @@ if __name__ == "__main__":
 
     # hard-coded input params at project level
     GCS_PROTOCOL = "https://storage.googleapis.com"
+    GCS_PROJECT = "DGDS - I1000482-002"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
 
@@ -345,6 +355,7 @@ if __name__ == "__main__":
     COCLICO_DATA_DIR = p_drive.joinpath("11205479-coclico", "data")
     DATASET_DIR = "19_coastal_mask"
     OUTDIR = pathlib.Path.home() / "data" / "tmp" / "cogs_test"
+    HREF_PREFIX = "https://storage.googleapis.com/dgds-data-public/coclico/coastal_mask"
     USE_LOCAL_DATA = True  # can be used when data is also stored locally
 
     # TODO: check what can be customized with layout.
@@ -412,7 +423,9 @@ if __name__ == "__main__":
         kwargs=dict(
             # TODO: adjust the prefix str to osm slippy max box and use the collate function
             # to categorize the items in a collection at slippy max box level
+            # prefix=str(OUTDIR),
             prefix=str(OUTDIR),
+            href_prefix=HREF_PREFIX,
             storage_options=dict(auto_mkdir=True),
         ),
         template=template,
@@ -438,7 +451,6 @@ if __name__ == "__main__":
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(rel_root, STAC_DIR),
-        # dest_href=str(tmp_dir),
         stac_io=IO(),
     )
     print("done")
