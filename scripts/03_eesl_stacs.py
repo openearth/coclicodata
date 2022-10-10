@@ -59,7 +59,7 @@ if __name__ == "__main__":
         "nscenarios",
         "nensemble",
     ]  # List of str; dims ignored by datacube
-    MAP_SELECTION_DIMS = {"ensemble": "mean"}
+    MAP_SELECTION_DIMS = {"ensemble": "mean", "time": 2100}
     STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
@@ -195,6 +195,12 @@ if __name__ == "__main__":
             coclico_ext.stations = STATIONS
             coclico_ext.on_click = ON_CLICK
 
+            # some datasets are reduced for frontend along certain dimension. Add that
+            # dimension to the properties
+            for k, v in MAP_SELECTION_DIMS.items():
+                if k not in dimcomb:
+                    feature.properties[k] = v
+
             # TODO: include this in our datacube?
             # add dimension key-value pairs to stac item properties dict
             for k, v in dimcomb.items():
@@ -214,9 +220,6 @@ if __name__ == "__main__":
     for k, v in dimvals.items():
         collection.summaries.add(k, v)
 
-    for k, v in MAP_SELECTION_DIMS.items():
-        collection.summaries.add(k, v)
-
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
     coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
 
@@ -233,6 +236,12 @@ if __name__ == "__main__":
 
     # set extra link properties
     extend_links(collection, dimvals.keys())
+
+    # add reduced dimensions as links as well
+    extend_links(
+        collection,
+        {k: v for k, v in MAP_SELECTION_DIMS.items() if k not in dimvals.keys()}.keys(),
+    )
 
     catalog.add_child(collection)
 
