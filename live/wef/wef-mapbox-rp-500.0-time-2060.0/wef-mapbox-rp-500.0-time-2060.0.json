@@ -1,0 +1,122 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "wef-mapbox-rp-500.0-time-2060.0",
+  "properties": {
+    "deltares:item_key": "rp-500.0-time-2060.0",
+    "deltares:paint": {
+      "circle-color": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "get",
+          "rp-500.0-time-2060.0"
+        ],
+        0,
+        "hsl(110,90%,80%)",
+        500000,
+        "hsla(55, 88%, 53%, 0.5)",
+        1000000,
+        "hsl(0, 90%, 70%)"
+      ],
+      "circle-radius": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "zoom"
+        ],
+        0,
+        0.5,
+        1,
+        1,
+        5,
+        5
+      ],
+      "circle-stroke-color": "hsl(0, 72%, 100%)"
+    },
+    "deltares:type": "circle",
+    "deltares:stations": "locationId",
+    "deltares:onclick": {},
+    "rp": 500.0,
+    "time": 2060.0,
+    "datetime": "2022-10-07T12:08:25.776057Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          -90.0
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/wef/collection.json",
+      "type": "application/json",
+      "title": "Wave energy flux"
+    },
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/wef/collection.json",
+      "type": "application/json",
+      "title": "Wave energy flux"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/wef/wef-mapbox-rp-500.0-time-2060.0/wef-mapbox-rp-500.0-time-2060.0.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "mapbox": {
+      "href": "mapbox://global-data-viewer.global_wave_energy_flux_wef",
+      "type": "vector",
+      "title": "Point locations",
+      "description": "Mapbox url",
+      "source": "global_wave_energy_flux_wef",
+      "roles": [
+        "mapbox"
+      ]
+    }
+  },
+  "bbox": [
+    -180,
+    -90,
+    180,
+    90
+  ],
+  "stac_extensions": [
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+  ],
+  "collection": "wef"
+}
