@@ -4,31 +4,29 @@
     "stac_version": "1.0.0",
     "description": "Dataset describing the costs and benefits of raising coastal defenses along the European coastline aggregated per coastal NUTS2 region (provinces), in view of climate change. Variables are cost (€), benefit (€), cost-benefit ratio (cbr, -) and extra benefit of raising coastal protection (eb, m) for two different climate scenarios (RCP4.5 and RCP8.5) coupled to two types of socio-economic growth (SSP1 – sustainability and SSP5 – fossil fuel development). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41467-020-15665-3) for more dataset-specific information.",
     "links": [
-    {
-      "rel": "item",
-      "href": "./nuts2-regions/nuts2-regions.json",
-      "type": "application/json",
-      "properties": {
-        "scenarios": "RCP45-SSP1"
-      }
-    },
+        {
+            "rel": "item",
+            "href": "./nuts2-regions/nuts2-regions.json",
+            "type": "application/json",
+            "properties": {
+                "scenarios": "RCP45-SSP1"
+            }
+        },
         {
             "rel": "root",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../catalog.json",
+            "type": "application/json"
         },
         {
             "rel": "parent",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../catalog.json",
+            "type": "application/json"
         }
     ],
     "stac_extensions": [
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-  "title": "Cost & benefit adaptation",
+    "title": "Cost & benefit adaptation",
     "keywords": [
         "CoCliCo"
     ],
@@ -45,7 +43,7 @@
     ],
     "assets": {
         "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_cost_benefit_coastal_adaptation.zarr",
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/eu_coastal_adaptation.zarr",
             "title": "cbca zarr root",
             "description": "The root of the cbca zarr dataset on public Google Cloud Storage.",
             "roles": [

@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import datetime
 from itertools import product
 from sre_constants import GROUPREF_EXISTS
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 import pystac
 import zarr
@@ -87,12 +87,12 @@ def gen_default_item(name="unique"):
     )
 
 
-def get_stac_obj_from_template(
-    collection: pystac.Collection,
-    template_fn: str,
+def get_template_collection(
+    template_fp: str,
+    collection_id: str,
     title: str,
     description: str,
-    hosting_platform: str,
+    # hosting_platform: str,
 ) -> pystac.Collection:
     """Deltares CoCliCo STAC Obj from template file.
 
@@ -104,33 +104,37 @@ def get_stac_obj_from_template(
         variable (str): variable which will be described in this stac collection.
 
     Returns:
-        pystac.Collection: Template STAC Obj collection.
+        pystac.Collection or pystac.Catalog: Template STAC Obj collection.
     """
-    datasetid = f"{title}-{hosting_platform}"
+    # datasetid = f"{title}-{hosting_platform}"
 
     # Get template and set items
-    templatedataset = collection.get_child(template_fn)
-    stac_obj = templatedataset.full_copy()
-    stac_obj.id = f"{title}-{hosting_platform}"
-    stac_obj.title = title
-    stac_obj.description = description
+
+    template_collection = Collection.from_file(template_fp)
+    collection = template_collection.full_copy()
+    # stac_obj.id = f"{title}-{hosting_platform}"
+    collection.id = collection_id
+    collection.title = title
+    collection.description = description
 
     # Drop existing items, dimensions and summaries
-    stac_obj.set_root(None)
-    stac_obj.clear_items()
-    stac_obj.assets = {}
-    stac_obj.extra_fields = deepcopy(
-        stac_obj.extra_fields
+    collection.set_root(None)
+    collection.clear_items()
+    collection.assets = {}
+    collection.extra_fields = deepcopy(
+        collection.extra_fields
     )  # workaround for https://github.com/stac-utils/pystac/issues/787
+
     # TODO: check what can be used for stac_obj.summaries = None instead because now it
     # raises AttributeError 'dict' object has no attribute 'is_empty' when no summaries
     # added.
     # stac_obj.summaries = None
-    stac_obj.extra_fields.pop("cube:dimensions", None)
-    stac_obj.extra_fields.pop("cube:variables", None)
-    stac_obj.extra_fields.pop("summaries", None)
 
-    return stac_obj
+    collection.extra_fields.pop("cube:dimensions", None)
+    collection.extra_fields.pop("cube:variables", None)
+    collection.extra_fields.pop("summaries", None)
+
+    return collection
 
 
 def gen_mapbox_asset(

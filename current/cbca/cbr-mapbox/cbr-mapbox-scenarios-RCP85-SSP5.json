@@ -41,7 +41,7 @@
         "deltares:stations": "locationId",
         "deltares:onclick": {},
         "scenarios": "RCP85-SSP5",
-        "datetime": "2022-08-04T17:18:28.339112Z"
+        "datetime": "2022-10-07T13:46:04.241543Z"
     },
     "geometry": {
         "type": "Polygon",
@@ -75,28 +75,27 @@
             "rel": "collection",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "cbca"
+            "title": "Cost benefit coastal adaptation"
         },
         {
             "rel": "root",
-            "href": "../../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../../catalog.json",
+            "type": "application/json"
         },
         {
             "rel": "parent",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "cbca"
+            "title": "Cost benefit coastal adaptation"
         }
     ],
     "assets": {
         "mapbox": {
-            "href": "mapbox://global-data-viewer.europe_cost_benefit_coastal_adaptation",
+            "href": "mapbox://global-data-viewer.eu_coastal_adaptation_cbr",
             "title": "Point locations",
             "description": "Mapbox url",
             "type": "vector",
-            "source": "europe_cost_benefit_coastal_adaptation",
+            "source": "eu_coastal_adaptation_cbr",
             "roles": [
                 "mapbox"
             ]
@@ -108,5 +107,8 @@
         180,
         90
     ],
-    "collection": "cbca-mapbox"
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+    ],
+    "collection": "cbca"
 }

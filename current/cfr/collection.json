@@ -4,33 +4,32 @@
     "stac_version": "1.0.0",
     "description": "Dataset presenting the results of a European coastal flood risk assessment (present till 2100), incorporating impacts of climate change scenarios (RCP4.5 and RCP8.5) and different socio-economic pathways (SSP1, SSP3 and SSP5). Outcomes are expressed in Expected Annual Damage (EAD), EAD per Gross Domestic Product (EAD_GDP) and the Expected Annual number of People Affected (AEPA) per NUTS0 region (country) and are available for the years 2000, 2050 and 2100. This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41558-018-0260-4) for more dataset-specific information.",
     "links": [
-    {
-      "rel": "item",
-      "href": "./nuts0-regions/nuts0-regions.json",
-      "type": "application/json",
-      "title": "nuts0-regions",
-      "properties": {
-        "scenarios": "RCP4.5-SSP1",
-        "time": 2000
-      }
-    }, 
+        {
+            "rel": "item",
+            "href": "./nuts0-regions/nuts0-regions.json",
+            "type": "application/json",
+            "title": "nuts0-regions",
+            "properties": {
+              "scenarios": "RCP4.5-SSP1",
+              "time": 2000
+            }
+        },
         {
             "rel": "root",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../catalog.json",
+            "type": "application/json"
         },
         {
             "rel": "parent",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../catalog.json",
+            "type": "application/json"
         }
     ],
     "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-  "title": "Coastal flood risk",
+    "title": "Coastal flood risk",
     "keywords": [
         "CoCliCo"
     ],
@@ -84,11 +83,10 @@
     "cube:dimensions": {
         "time": {
             "extent": [
-              "2000-01-01T00:00:00Z",
-              "2100-01-01T00:00:00Z"
+                "2000",
+                "2100"
             ],
             "description": "time",
-            "step": "P50Y",
             "type": "temporal"
         },
         "lon": {
@@ -455,7 +453,6 @@
             ]
         }
     },
-    "plotSeries": "scenario",
     "extent": {
         "spatial": {
             "bbox": [
@@ -470,13 +467,14 @@
         "temporal": {
             "interval": [
                 [
-                    "2015-10-22T00:00:00Z",
+                    null,
                     null
                 ]
             ]
         }
     },
     "license": "proprietary",
+    "plotSeries": "scenario", 
     "summaries": {
         "scenarios": [
             "RCP4.5-SSP1",

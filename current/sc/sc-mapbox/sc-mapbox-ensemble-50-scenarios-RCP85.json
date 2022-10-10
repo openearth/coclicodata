@@ -42,8 +42,7 @@
         "deltares:onclick": {},
         "ensemble": "50",
         "scenarios": "RCP85",
-        "time": 2100,
-        "datetime": "2022-08-23T11:57:58.126144Z"
+        "datetime": "2022-10-07T18:08:47.251242Z"
     },
     "geometry": {
         "type": "Polygon",
@@ -77,19 +76,18 @@
             "rel": "collection",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "sc"
+            "title": "Shoreline change"
         },
         {
             "rel": "root",
-            "href": "../../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../../catalog.json",
+            "type": "application/json"
         },
         {
             "rel": "parent",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "sc"
+            "title": "Shoreline change"
         }
     ],
     "assets": {
@@ -110,5 +108,8 @@
         180,
         90
     ],
-    "collection": "sc-mapbox"
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+    ],
+    "collection": "sc"
 }

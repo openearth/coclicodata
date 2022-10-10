@@ -42,7 +42,7 @@
         "deltares:onclick": {},
         "rp": 200.0,
         "scenarios": "RCP45",
-        "datetime": "2022-08-22T19:22:47.307435Z"
+        "datetime": "2022-10-07T12:05:45.519138Z"
     },
     "geometry": {
         "type": "Polygon",
@@ -76,19 +76,18 @@
             "rel": "collection",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "ssl"
+            "title": "Extreme surge level"
         },
         {
             "rel": "root",
-            "href": "../../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../../catalog.json",
+            "type": "application/json"
         },
         {
             "rel": "parent",
             "href": "../collection.json",
             "type": "application/json",
-            "title": "ssl"
+            "title": "Extreme surge level"
         }
     ],
     "assets": {
@@ -109,5 +108,8 @@
         180,
         90
     ],
-    "collection": "ssl-mapbox"
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+    ],
+    "collection": "ssl"
 }

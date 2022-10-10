@@ -798,21 +798,20 @@
         },
         {
             "rel": "root",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../catalog.json",
+            "type": "application/json"
         },
         {
             "rel": "parent",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
+            "href": "../catalog.json",
+            "type": "application/json"
         }
     ],
     "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-  "title": "Wave energy flux",
+    "title": "Wave energy flux",
     "keywords": [
         "CoCliCo"
     ],
@@ -862,12 +861,11 @@
             "opacity": 100
         }
     ],
-    "units": "-",
     "cube:dimensions": {
         "time": {
             "extent": [
-              "2000-01-01T00:00:00Z",
-              "2100-01-01T00:00:00Z"
+                "2000-01-01T00:00:00Z",
+                "2100-01-01T00:00:00Z"
             ],
             "description": "decade window",
             "type": "temporal"
@@ -1165,7 +1163,6 @@
             ]
         }
     },
-    "plotSeries": "rp",
     "extent": {
         "spatial": {
             "bbox": [
@@ -1180,7 +1177,7 @@
         "temporal": {
             "interval": [
                 [
-                    "2015-10-22T00:00:00Z",
+                    null,
                     null
                 ]
             ]
@@ -1210,29 +1207,6 @@
             2080.0,
             2090.0,
             2100.0
-        ]
-    },
-    "properties": {
-        "deltares:units": "-",
-        "deltares:plotSeries": "RP",
-        "deltares:min": 0,
-        "deltares:max": 1000000,
-        "deltares:linearGradient": [
-            {
-                "color": "hsl(110,90%,70%)",
-                "offset": "0.000%",
-                "opacity": 100
-            },
-            {
-                "color": "hsla(55,88%,53%,0.5)",
-                "offset": "50.000%",
-                "opacity": 100
-            },
-            {
-                "color": "hsl(0,90%,80%)",
-                "offset": "100.000%",
-                "opacity": 100
-            }
         ]
     }
 }
