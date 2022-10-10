@@ -42,8 +42,7 @@
     "deltares:onclick": {},
     "ensemble": "95",
     "scenarios": "RCP45",
-    "time": 2100,
-    "datetime": "2022-08-23T11:57:58.126419Z"
+    "datetime": "2022-10-07T18:08:47.251398Z"
   },
   "geometry": {
     "type": "Polygon",
@@ -77,11 +76,11 @@
       "rel": "collection",
       "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/sc/collection.json",
       "type": "application/json",
-      "title": "sc"
+      "title": "Shoreline change"
     },
     {
       "rel": "root",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
     },
@@ -115,6 +114,8 @@
     180,
     90
   ],
-  "stac_extensions": [],
-  "collection": "sc-mapbox"
+  "stac_extensions": [
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+  ],
+  "collection": "sc"
 }

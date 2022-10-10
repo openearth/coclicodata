@@ -16,9 +16,9 @@
         ],
         0,
         "hsl(110,90%,80%)",
-        3.0,
+        1.5,
         "hsla(55, 88%, 53%, 0.5)",
-        6.0,
+        3.0,
         "hsl(0, 90%, 70%)"
       ],
       "circle-radius": [
@@ -40,11 +40,11 @@
     "deltares:type": "circle",
     "deltares:stations": "locationId",
     "deltares:onclick": {},
+    "ensemble": "mean",
+    "time": 2100,
     "scenarios": "RCP85",
     "rp": 5.0,
-    "time": 2100.0,
-    "ensemble": "mean",
-    "datetime": "2022-08-11T15:33:14.251740Z"
+    "datetime": "2022-10-10T09:48:24.071737Z"
   },
   "geometry": {
     "type": "Polygon",
@@ -78,11 +78,11 @@
       "rel": "collection",
       "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/eesl/collection.json",
       "type": "application/json",
-      "title": "eesl"
+      "title": "Extreme sea level"
     },
     {
       "rel": "root",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
     },
@@ -90,7 +90,7 @@
       "rel": "parent",
       "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/eesl/collection.json",
       "type": "application/json",
-      "title": "Extreme sea levels"
+      "title": "Extreme sea level"
     },
     {
       "rel": "self",
@@ -116,6 +116,8 @@
     180,
     90
   ],
-  "stac_extensions": [],
-  "collection": "eesl-mapbox"
+  "stac_extensions": [
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+  ],
+  "collection": "eesl"
 }

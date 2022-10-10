@@ -132,13 +132,13 @@
     },
     {
       "rel": "root",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
     },
     {
       "rel": "parent",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/collection.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
     },
@@ -149,6 +149,7 @@
     }
   ],
   "stac_extensions": [
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
     "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
   "title": "Shoreline change",
@@ -201,7 +202,6 @@
       "opacity": 100
     }
   ],
-  "units": "m",
   "cube:dimensions": {
     "time": {
       "extent": [
@@ -433,7 +433,7 @@
         "50",
         "83",
         "95",
-        "99%"
+        "99"
       ],
       "type": "temporal"
     },
@@ -446,16 +446,6 @@
     }
   },
   "cube:variables": {
-    "ensemble": {
-      "type": "auxiliary",
-      "dimensions": [
-        "nensemble"
-      ],
-      "attrs": {},
-      "shape": [
-        7
-      ]
-    },
     "lat": {
       "type": "auxiliary",
       "description": "latitude",
@@ -521,19 +511,8 @@
         1,
         2
       ]
-    },
-    "scenarios": {
-      "type": "auxiliary",
-      "dimensions": [
-        "nscenarios"
-      ],
-      "attrs": {},
-      "shape": [
-        2
-      ]
     }
   },
-  "plotSeries": "scenario",
   "summaries": {
     "ensemble": [
       "1",
@@ -542,7 +521,7 @@
       "50",
       "83",
       "95",
-      "99%"
+      "99"
     ],
     "scenarios": [
       "RCP45",
@@ -563,7 +542,7 @@
     "temporal": {
       "interval": [
         [
-          "2015-10-22T00:00:00Z",
+          null,
           null
         ]
       ]
