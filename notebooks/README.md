@@ -7,25 +7,6 @@ Datasets should follow CF conventions where possible. These conventions are desc
 
 ## TODO: Description dimension, coordinates, variables
 
-### Attribute requirements for CoCliCo datasets
-
-The following attributes are required at dataset level
-
-- title
-- history
-- institution
-- source
-
-The following attributes are required at variable level
-
-- units
-- long_name
-- standard_name
-
-The following coordinate labels are required:
-
-- crs or crs_wkt
-- time  
 
 ### Controlled vocabulary  
 

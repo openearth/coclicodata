@@ -18,14 +18,50 @@ from zarr stores. The methods rely and are inspired on
 [utils.py](./utils.py) contains a few custom functins useful for migrating xarray data to
 a stac catalogue.
 
-## Controlled vocabulary
+
+## Metadata
+
+The following attributes are required at dataset level:
+
+- title
+- description
+- institution
+- providers
+- source
+- history
+- media_type
+- extent
+- license
+- author
+
+The following attributes are optional at dataset level:
+- keywords
+- tags
+- citation
+- doi
+
+The following attributes are required at variable level
+
+- long_name
+- standard_name
+- units 
+
+The following attributes are optional at variable level:
+- comment
+
+The following coordinate labels are required:
+
+- crs or spatial_ref
+- time  
+
+### Controlled vocabulary
 | **name**    | **long_name**                                                                               | **standard_name** | **data_structure_type** | **dtype**             |
 |-------------|---------------------------------------------------------------------------------------------|-------------------|-------------------------|-----------------------|
 | lat         | Latitude                                                                                    | latitude          | dim                     | float                 |
 | lon         | Longitude                                                                                   | longitude         | dim                     | float                 |
 | nensemble   | Number of ensembles                                                                         |                   | dim                     | int                   |
 | nscenario   | Number of scenarios                                                                         |                   | dim                     | int                   |
-| nstations   | Number of stations                                                                          |                   | dim                     | int                   |
+| nstation   | Number of station                                                                          |                   | dim                     | int                   |
 | rp          | Return period                                                                               |                   | dim                     | int                   |
 | time        | Time                                                                                        | time              | dim                     | cftime                |
 | ensemble    | Ensemble                                                                                    |                   | coord                   | zero-terminated bytes |
