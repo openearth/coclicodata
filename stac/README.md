@@ -17,3 +17,35 @@ from zarr stores. The methods rely and are inspired on
 
 [utils.py](./utils.py) contains a few custom functins useful for migrating xarray data to
 a stac catalogue.
+
+## Controlled vocabulary
+| **name**    | **long_name**                                                                               | **standard_name** | **data_structure_type** | **dtype**             |
+|-------------|---------------------------------------------------------------------------------------------|-------------------|-------------------------|-----------------------|
+| lat         | Latitude                                                                                    | latitude          | dim                     | float                 |
+| lon         | Longitude                                                                                   | longitude         | dim                     | float                 |
+| nensemble   | Number of ensembles                                                                         |                   | dim                     | int                   |
+| nscenario   | Number of scenarios                                                                         |                   | dim                     | int                   |
+| nstations   | Number of stations                                                                          |                   | dim                     | int                   |
+| rp          | Return period                                                                               |                   | dim                     | int                   |
+| time        | Time                                                                                        | time              | dim                     | cftime                |
+| ensemble    | Ensemble                                                                                    |                   | coord                   | zero-terminated bytes |
+| scenario    | Scenario                                                                                    |                   | coord                   | zero-terminated bytes |
+| stations    | Stations                                                                                    |                   | coord                   | zero-terminated bytes |
+| geometry    | Geometry                                                                                    |                   | coord                   | well-known binary     |
+| spatial_ref | Coordinate system and its properties                                                        |                   | coord                   | zero-terminated bytes |
+| country     | Country                                                                                     |                   | var                     | zero-terminated bytes |
+| esl         | Extreme sea level                                                                           |                   | var                     | float                 |
+| ssl         | Sea surface level                                                                           |                   | var                     | float                 |
+| sustain     | Sustainability                                                                              |                   | var                     | float                 |
+| wef         | Wave energy flux                                                                            |                   | var                     | float                 |
+| benefit     | Benefits of raising coastal defences along the European coastline in view of climate change |                   | var                     | float                 |
+| cbr         | Benefits of raising coastal defences along the European coastline in view of climate change |                   | var                     | float                 |
+| cost        | Cost of raising coastal defences along the European coastline in view of climate change     |                   | var                     | float                 |
+| ead         | Expected annual damage                                                                      |                   | var                     | float                 |
+| ead_gdp     | Expected annual damage per GDP                                                              |                   | var                     | float                 |
+| eapa        | Expected annual people affected                                                             |                   | var                     | float                 |
+| eb          | Expected benefit to cost ratios of raising coastal protection per NUTS2 region              |                   | var                     | float                 |
+| eewl        | Episodic extreme water level                                                                |                   | var                     | float                 |
+| sc          | Shoreline change                                                                            |                   | var                     | float                 |
+| ssl         | Storm surge level                                                                           |                   | var                     | float                 |
+| wef         | Wave energy flux                                                                            |                   | var                     | float                 |
