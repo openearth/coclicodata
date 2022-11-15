@@ -1,8 +1,8 @@
 import datetime
+import json
 import os
 import pathlib
 import sys
-from re import S, template
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
@@ -234,7 +234,7 @@ def itemize(
     # feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url))
 
     name = pathlib.Path(name_block(block, x_dim=x_dim, y_dim=y_dim)).stem
-    item.id = f"{COLLECTION_ID}-{name}"
+    item.id = f"{metadata['TITLE_ABBREVIATION']}-{name}"
     # item.id = pathlib.Path(name_block(block, x_dim=x_dim, y_dim=y_dim)).stem
     item.geometry = geometry
     item.bbox = bbox
@@ -331,74 +331,10 @@ def collate(items: xr.DataArray) -> List[pystac.Item]:
 
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-    TITLE = "Critical Infrastructure Spatial Index"
-    TITLE_ABBREVIATION = "cisi"
-    DESCRIPTION = (
-        "Critical infrastructure (CI) is fundamental for the functioning of a society"
-        " and forms the backbone for socio-economic development. Natural and human-made"
-        " threats, however, pose a major risk to CI. Therefore, geospatial data on the"
-        " location of CI are fundamental for in-depth risk analyses, which are required"
-        " to inform policy decisions aiming to reduce risk. We present a"
-        " first-of-its-kind globally harmonized spatial dataset for the representation"
-        " of CI. In this study, we: (1) collect and harmonize detailed geospatial data"
-        " of the world’s main CI systems into a single geospatial database; and (2)"
-        " develop the Critical Infrastructure Spatial Index (CISI) to express the"
-        " global spatial intensity of CI. The CISI aggregates high-resolution"
-        " geospatial OpenStreetMap (OSM) data of 39 CI types that are categorized under"
-        " seven overarching CI systems. The detailed geospatial data are rasterized"
-        " into a harmonized and consistent dataset with a resolution of 0.10 × 0.10."
-    )
-    SHORT_DESCRIPTION = (
-        "The CISI aggregates high-resolution geospatial OpenStreetMap (OSM) data of 39"
-        " CI types that are categorized under seven overarching CI systems, rasterized"
-        " into a harmonized and consistent dataset with a resolution of 0.10 × 0.10"
-        " degrees."
-    )
-    INSTITUTION = "Institute for Environmental Studies, Vrije Universiteit Amsterdam"
-    PROVIDERS = {
-        "name": "Institute for Environmental Studies, Vrije Universiteit Amsterdam",
-        "url": "www.ivm.nl",
-        "roles": "provider",
-        "description": (
-            "The Institute for Environmental Studies (IVM) is one of the world’s"
-            " leading institute’s in natural hazard risk assessment and analysis. IVM"
-            " has a long history of natural hazard risk assessment at the local to"
-            " national scale, and the institute and its staff are at the forefront of"
-            " driving risk science towards a multi-hazard approach. Research at VUA and"
-            " IVM is characterised by a successful integration of research and policy."
-        ),
-    }
-    # source -	https://doi.org/10.5281/zenodo.4957646
-    HISTORY = "Institute for Environmental Studies, Vrije Universiteit Amsterdam"
-    MEDIA_TYPE = "IMAGE/TIFF"
-    SPATIAL_EXTENT = [-180, -90, 180, 90]
-    TEMPORAL_EXTENT = "2021-08-01T00:00:00Z"
-    LICENSE = "Creative Commons Attribution 4.0 International"
-    AUTHOR = "Nirandjan, S., Koks, E. E., Ward, P. J., & Aerts, J. C."
 
-    KEYWORDS = ["critical infrastructure", "infrastructure", "spatial index"]
-    TAGS = ["critical infrastructure", "infrastructure", "spatial index"]
-    CITATION = (
-        "Nirandjan, S., Koks, E. E., Ward, P. J., & Aerts, J. C. (2022). A"
-        " spatially-explicit harmonized global dataset of critical infrastructure."
-        " Scientific Data, 9(1), 1-13."
-    )
-    DOI = "https://doi.org/10.5281/zenodo.4957646"
-    # THUMBNAIL = "image that will be shown to represent the dataset"
-
-    LONG_NAME = "CRITICAL_INFRASTRUCTURE_SPATIAL_INDEX"
-    UNITS = ""
-    COMMENT = (
-        "The CISI is expressed in a dimensionless value ranging between 0 (no CI"
-        " intensity) and 1 (highest CI intensity). The index aggregates high resolution"
-        " geospatial information on multiple CI assets per CI system. For the"
-        " development of this index, we selected 39 CI types and categorized them under"
-        " seven overarching CI systems: transportation, energy, telecommunication,"
-        " waste, water, education and health."
-    )
-
-    CRS = 4326
-    TIME = "2021-08-01T00:00:00Z"
+    metadata_fp = rel_root.joinpath("metadata_template.json")
+    with open(metadata_fp, "r") as f:
+        metadata = json.load(f)
 
     # hard-coded input params at project level
     GCS_PROTOCOL = "https://storage.googleapis.com"
@@ -407,8 +343,6 @@ if __name__ == "__main__":
     BUCKET_PROJ = "coclico"
 
     # hard-coded input params which differ per dataset
-    COLLECTION_ID = "cisi"  # name of stac collection
-    COLLECTION_TITLE = TITLE
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
 
@@ -420,7 +354,7 @@ if __name__ == "__main__":
     COCLICO_DATA_DIR = p_drive.joinpath("11205479-coclico", "data")
     DATASET_DIR = "19_coastal_mask"
     OUTDIR = pathlib.Path.home() / "data" / "tmp" / "cisi_test"
-    HREF_PREFIX = "https://storage.googleapis.com/dgds-data-public/coclico/coastal_mask"
+    HREF_PREFIX = f"https://storage.googleapis.com/dgds-data-public/coclico/{metadata['TITLE_ABBREVIATION']}"
     USE_LOCAL_DATA = True  # can be used when data is also stored locally
 
     # TODO: check what can be customized with layout.
@@ -446,14 +380,7 @@ if __name__ == "__main__":
 
     ds.rio.set_spatial_dims(x_dim="x", y_dim="y")
     if not ds.rio.crs:
-        ds = ds.rio.write_crs(CRS)
-
-    # # # get approximately eu data
-    # world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
-    # eu = world.loc[(world["continent"] == "Europe") & (world["name"] != "Russia")]
-    # nl = world.loc[(world["continent"] == "Europe") & (world["name"] == "Netherlands")]
-    # minx, miny, maxx, maxy = nl.geometry.bounds.iloc[0].tolist()
-    # ds = ds.rio.clip_box(minx=minx, miny=miny, maxx=maxx, maxy=maxy)
+        ds = ds.rio.write_crs(metadata["CRS"])
 
     catalog = Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
 
@@ -464,9 +391,9 @@ if __name__ == "__main__":
     # generate collection for dataset
     collection = get_template_collection(
         template_fp=template_fp,
-        collection_id=TITLE_ABBREVIATION,
-        title=TITLE,
-        description=DESCRIPTION,
+        collection_id=metadata["TITLE_ABBREVIATION"],
+        title=metadata["TITLE"],
+        description=metadata["DESCRIPTION"],
     )
 
     # add datacube defaults at collection level
@@ -509,7 +436,8 @@ if __name__ == "__main__":
 
     # normalize the paths
     collection.normalize_hrefs(
-        os.path.join(rel_root, STAC_DIR, COLLECTION_ID), strategy=layout
+        os.path.join(rel_root, STAC_DIR, metadata["TITLE_ABBREVIATION"]),
+        strategy=layout,
     )
 
     # save updated catalog
