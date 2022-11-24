@@ -23,10 +23,10 @@ The following attributes are required at dataset level:
   - name
   - url
   - roles - e.g., providers, licensor
-  - description - the
+  - description -  
 - source - 
 - history - list of institutions and people who have processed the data 
-- media_type - [also known as mime type](https://en.wikipedia.org/wiki/Media_type)
+- media_type - [also known as mime type](https://www.iana.org/assignments/media-types/media-types.xhtml)
 - spatial extent - bbox [minx, miny, maxx, maxy]
 - temporal extent - time interval in [iso 8601](https://en.wikipedia.org/wiki/ISO_8601), i.e., YYYY-MM-DDTHH:mm:ssZ
 - license - 
@@ -46,6 +46,7 @@ The following attributes are required at variable level
 - long_name - descriptive name
 - standard_name - iff available in [CF convention standard table](https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html)
 - units - follow CF conventions where possible; leave blank when no units. 
+- cell_bnds
 
 The following attributes are optional at variable level:
 - comment - provide extra information about variable

@@ -1,0 +1,251 @@
+{
+    "type": "Collection",
+    "id": "cisi",
+    "stac_version": "1.0.0",
+    "description": "Critical infrastructure (CI) is fundamental for the functioning of a society and forms the backbone for socio-economic development. Natural and human-made threats, however, pose a major risk to CI. Therefore, geospatial data on the location of CI are fundamental for in-depth risk analyses, which are required to inform policy decisions aiming to reduce risk. We present a first-of-its-kind globally harmonized spatial dataset for the representation of CI. In this study, we: (1) collect and harmonize detailed geospatial data of the world\u2019s main CI systems into a single geospatial database; and (2) develop the Critical Infrastructure Spatial Index (CISI) to express the global spatial intensity of CI. The CISI aggregates high-resolution geospatial OpenStreetMap (OSM) data of 39 CI types that are categorized under seven overarching CI systems. The detailed geospatial data are rasterized into a harmonized and consistent dataset with a resolution of 0.10\u2009\u00d7\u20090.10.",
+    "links": [
+        {
+            "rel": "item",
+            "href": "./cisi-minx=/cisi-minx=-128.75-miny=80.71.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./cisi-minx=/cisi-minx=-179.95-miny=80.71.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./cisi-minx=/cisi-minx=-26.35-miny=80.71.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./cisi-minx=/cisi-minx=-77.55-miny=80.71.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./cisi-minx=127.25/cisi-minx=127.25-miny=80.71.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./cisi-minx=178.45/cisi-minx=178.45-miny=80.71.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./cisi-minx=24.85/cisi-minx=24.85-miny=80.71.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./cisi-minx=76.05/cisi-minx=76.05-miny=80.71.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "root",
+            "href": "../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        }
+    ],
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+    ],
+    "title": "Critical Infrastructure Spatial Index",
+    "keywords": [
+        "CoCliCo"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+            "roles": [
+                "producer",
+                "processor"
+            ],
+            "url": "https://www.deltares.nl"
+        }
+    ],
+    "assets": {},
+    "deltares:units": "-",
+    "deltares:plotSeries": "scenario",
+    "deltares:plotxAxis": "time",
+    "deltares:plotType": "line",
+    "deltares:min": 0,
+    "deltares:max": 3,
+    "deltares:linearGradient": [
+        {
+            "color": "hsl(0,90%,80%)",
+            "offset": "0.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsla(55,88%,53%,0.5)",
+            "offset": "50.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsl(110,90%,70%)",
+            "offset": "100.000%",
+            "opacity": 100
+        }
+    ],
+    "cube:dimensions": {
+        "x": {
+            "axis": "x",
+            "extent": [
+                -179.94999999999996,
+                179.95000000000007
+            ],
+            "reference_system": {
+                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+                "type": "GeographicCRS",
+                "name": "WGS 84",
+                "datum": {
+                    "type": "GeodeticReferenceFrame",
+                    "name": "World Geodetic System 1984",
+                    "ellipsoid": {
+                        "name": "WGS 84",
+                        "semi_major_axis": 6378137,
+                        "inverse_flattening": 298.257223563
+                    }
+                },
+                "coordinate_system": {
+                    "subtype": "ellipsoidal",
+                    "axis": [
+                        {
+                            "name": "Geodetic latitude",
+                            "abbreviation": "Lat",
+                            "direction": "north",
+                            "unit": "degree"
+                        },
+                        {
+                            "name": "Geodetic longitude",
+                            "abbreviation": "Lon",
+                            "direction": "east",
+                            "unit": "degree"
+                        }
+                    ]
+                },
+                "id": {
+                    "authority": "EPSG",
+                    "code": 4326
+                }
+            },
+            "type": "spatial"
+        },
+        "y": {
+            "axis": "y",
+            "extent": [
+                32.608332820000165,
+                80.70833282000017
+            ],
+            "reference_system": {
+                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+                "type": "GeographicCRS",
+                "name": "WGS 84",
+                "datum": {
+                    "type": "GeodeticReferenceFrame",
+                    "name": "World Geodetic System 1984",
+                    "ellipsoid": {
+                        "name": "WGS 84",
+                        "semi_major_axis": 6378137,
+                        "inverse_flattening": 298.257223563
+                    }
+                },
+                "coordinate_system": {
+                    "subtype": "ellipsoidal",
+                    "axis": [
+                        {
+                            "name": "Geodetic latitude",
+                            "abbreviation": "Lat",
+                            "direction": "north",
+                            "unit": "degree"
+                        },
+                        {
+                            "name": "Geodetic longitude",
+                            "abbreviation": "Lon",
+                            "direction": "east",
+                            "unit": "degree"
+                        }
+                    ]
+                },
+                "id": {
+                    "authority": "EPSG",
+                    "code": 4326
+                }
+            },
+            "type": "spatial"
+        }
+    },
+    "cube:variables": {
+        "spatial_ref": {
+            "type": "auxiliary",
+            "dimensions": [],
+            "attrs": {
+                "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+                "semi_major_axis": 6378137.0,
+                "semi_minor_axis": 6356752.314245179,
+                "inverse_flattening": 298.257223563,
+                "reference_ellipsoid_name": "WGS 84",
+                "longitude_of_prime_meridian": 0.0,
+                "prime_meridian_name": "Greenwich",
+                "geographic_crs_name": "WGS 84",
+                "grid_mapping_name": "latitude_longitude",
+                "spatial_ref": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+                "GeoTransform": "-179.99999999999997 0.1 0.0 80.75833282000016 0.0 -0.1"
+            },
+            "shape": []
+        },
+        "band_data": {
+            "type": "data",
+            "dimensions": [
+                "band",
+                "y",
+                "x"
+            ],
+            "attrs": {},
+            "shape": [
+                1,
+                482,
+                3600
+            ],
+            "chunks": [
+                1,
+                482,
+                512
+            ]
+        }
+    },
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    -180.0,
+                    -90.0,
+                    180.0,
+                    90.0
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    null,
+                    null
+                ]
+            ]
+        }
+    },
+    "license": "proprietary"
+}
