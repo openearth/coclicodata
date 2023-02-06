@@ -66,6 +66,7 @@ class Layout(BestPracticesLayoutStrategy):
         return join_path_or_url(join_type, item_root, "{}.json".format(item.id))
 
 
+# TODO: rename to template_item?
 def gen_default_item(name="unique"):
     return pystac.Item(
         id=name,
@@ -87,6 +88,7 @@ def gen_default_item(name="unique"):
     )
 
 
+# TODO: rename to template_colletion?
 def get_template_collection(
     template_fp: str,
     collection_id: str,
@@ -158,7 +160,6 @@ def gen_mapbox_asset(
 def gen_default_collection_props(
     **kwargs,
 ):
-
     return {
         **kwargs,
         "deltares:units": "m",
@@ -179,7 +180,6 @@ def gen_default_item_props(
     color_properties,
     **kwargs,
 ):
-
     return {
         "deltares:stations": "locationid",
         "deltares:type": "circle",
@@ -214,7 +214,6 @@ def gen_default_item_props(
 
 
 def gen_cog_asset(url):
-
     return pystac.Asset(
         href=url,
         title=f"Cloud Optimized GeoTIFFs",

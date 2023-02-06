@@ -1,0 +1,146 @@
+{
+    "type": "Collection",
+    "id": "cl-osm",
+    "stac_version": "1.0.0",
+    "description": "Coastlines Open Street Map",
+    "links": [
+        {
+            "rel": "license",
+            "href": "https://www.census.gov/about/policies/open-gov/open-data.html",
+            "type": "text/html",
+            "title": "Terms of use"
+        },
+        {
+            "rel": "item",
+            "href": "./32601/32601.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./32602/32602.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./32603/32603.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "root",
+            "href": "../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        }
+    ],
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+    ],
+    "title": "Coastlines Open Street Map",
+    "keywords": [
+        "Coastlines",
+        "OpenStreetMap",
+        "Coast"
+    ],
+    "providers": [
+        {
+            "name": "Open Street Map",
+            "roles": [
+                "producer",
+                "licensor",
+                "processor"
+            ],
+            "url": "https://wiki.openstreetmap.org/wiki/Coastline"
+        },
+        {
+            "name": "Deltares",
+            "roles": [
+                "processor"
+            ],
+            "url": "https://deltares.nl"
+        },
+        {
+            "name": "Deltares",
+            "roles": [
+                "host"
+            ],
+            "url": "https://deltares.nl"
+        }
+    ],
+    "assets": {},
+    "deltares:units": "-",
+    "deltares:plotSeries": "scenario",
+    "deltares:plotxAxis": "time",
+    "deltares:plotType": "line",
+    "deltares:min": 0,
+    "deltares:max": 3,
+    "deltares:linearGradient": [
+        {
+            "color": "hsl(0,90%,80%)",
+            "offset": "0.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsla(55,88%,53%,0.5)",
+            "offset": "50.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsl(110,90%,70%)",
+            "offset": "100.000%",
+            "opacity": 100
+        }
+    ],
+    "item_assets": {
+        "data": {
+            "type": "application/x-parquet",
+            "title": "Dataset root",
+            "roles": [
+                "data"
+            ]
+        }
+    },
+    "coclico:short_description": "OpenStreetMap coastlines",
+    "coclico:container": "coastlines-osm",
+    "coclico:storage_account": "coclico",
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    406091.58614345954,
+                    3122008.9327252316,
+                    694452.8184753559,
+                    7943864.822675268
+                ],
+                [
+                    406091.58614345954,
+                    3122008.9327252316,
+                    694452.8184753559,
+                    7943864.822675268
+                ],
+                [
+                    406091.58614345954,
+                    3122008.9327252316,
+                    694452.8184753559,
+                    7943864.822675268
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    "2022-09-01T00:00:00Z",
+                    "2022-09-01T00:00:00Z"
+                ]
+            ]
+        }
+    },
+    "license": "proprietary"
+}
