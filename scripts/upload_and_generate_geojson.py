@@ -1,18 +1,14 @@
-import os
 import pathlib
 import sys
-import tempfile
 from importlib.resources import path
-from typing import List
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
 import geojson
-import geopandas as gpd
 import xarray as xr
-from etl import p_drive, rel_root
-from etl.cloud_services import dataset_from_google_cloud, geojson_to_mapbox
+from etl import p_drive
+from etl.cloud_services import dataset_to_google_cloud, dataset_from_google_cloud, geojson_to_mapbox
 from etl.extract import (
     clear_zarr_information,
     get_geojson,
@@ -29,11 +25,14 @@ from stac.utils import (
 
 if __name__ == "__main__":
     # hard-coded input params
+    GCS_PROJECT = "DGDS - I1000482-002"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
 
     # hard-coded input params at project level
+    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
+    dataset_dir = coclico_data_dir.joinpath("01_storm_surge_jrc")
     DATASET_FILENAME = "shoreline_change_projections.zarr"
     VARIABLES = ["sc"]
     ADDITIONAL_DIMENSIONS = [
@@ -43,19 +42,35 @@ if __name__ == "__main__":
     # use these to reduce dimension, e.g., {ensemble: "mean", "time": [1995, 2020, 2100]}
     MAP_SELECTION_DIMS = {"time": [2100]}
 
+    # TODO: safe cloud creds in password client 
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
-
-    # # read data from gcs zarr store
-    # ds = dataset_from_google_cloud(
-    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    # )
-
-    import xarray as xr
-
-    fpath = pathlib.Path.home().joinpath(
-        "data", "tmp", "shoreline_change_projections.zarr"
+    load_google_credentials(
+        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
     )
-    ds = xr.open_zarr(fpath)
+
+    # TODO: come up with checks for zarr data
+
+    # upload data to gcs from local drive
+    source_data_fp = dataset_dir.joinpath(DATASET_FILENAME)
+
+    dataset_to_google_cloud(
+        ds=source_data_fp,
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        zarr_filename=DATASET_FILENAME,
+    )
+
+    # read data from gcs 
+    ds = dataset_from_google_cloud(
+        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
+    )
+
+    # # read data from local source
+    # fpath = pathlib.Path.home().joinpath(
+    #     "data", "tmp", "shoreline_change_projections.zarr"
+    # )
+    # ds = xr.open_zarr(fpath)
 
     ds = zero_terminated_bytes_as_str(ds)
 
@@ -90,7 +105,7 @@ if __name__ == "__main__":
         with pathlib.Path.home().joinpath("data", "tmp") as outdir:
             # with tempfile.TemporaryDirectory() as outdir:
 
-            # TODO: put this in a function because this is also used in generate_stace scripts?
+            # TODO: put this in a function because this is also used in generate_stac scripts?
             mapbox_url = get_mapbox_url(
                 MAPBOX_PROJ, DATASET_FILENAME, var, add_mapbox_protocol=False
             )

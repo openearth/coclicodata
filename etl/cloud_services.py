@@ -3,6 +3,7 @@ import pathlib
 import subprocess
 import tempfile
 from itertools import product
+from posixpath import join as urljoin
 
 import gcsfs
 import geojson
@@ -33,7 +34,7 @@ def _validate_fpath(*args: pathlib.Path) -> None:
 def dataset_to_google_cloud(ds, gcs_project, bucket_name, bucket_proj, zarr_filename):
     """Upload zarr store to Google Cloud Services
 
-    # TODO: fails when uploading to store that already exists
+    # TODO: fails when uploading to store that already exists, UPDATE; not for Windows OS
 
     """
 
@@ -51,7 +52,7 @@ def dataset_to_google_cloud(ds, gcs_project, bucket_name, bucket_proj, zarr_file
         gcs_project, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
     )
 
-    target_path = os.path.join(bucket_name, bucket_proj, zarr_filename)
+    target_path = urljoin(bucket_name, bucket_proj, zarr_filename)
 
     gcsmap = gcsfs.mapping.GCSMap(target_path, gcs=fs)
 
@@ -64,7 +65,7 @@ def dataset_to_google_cloud(ds, gcs_project, bucket_name, bucket_proj, zarr_file
 
 
 def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
-    uri = os.path.join("gs://" + bucket_name, bucket_proj, zarr_filename)
+    uri = urljoin("gs://" + bucket_name, bucket_proj, zarr_filename)
     return xr.open_zarr(uri)
 
 
@@ -116,23 +117,23 @@ if __name__ == "__main__":
     # TODO: safe cloud creds in password client
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
     load_google_credentials(
-        google_token=coclico_data_dir.joinpath("google_credentials.json")
+        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
     )
 
-    # upload data to cloud from local drive
-    source_data_fp = local_dir.joinpath(DATASET_FILENAME)
+    # # commented code is here to provide an example of how this file can be used as a script to
+    # # interact with cloud services.
+
+    # # upload data to cloud from local drive
+    # source_data_fp = local_dir.joinpath(DATASET_FILENAME)
 
     # dataset_to_google_cloud(
     #     ds=source_data_fp,
     #     gcs_project=GCS_PROJECT,
     #     bucket_name=BUCKET_NAME,
     #     bucket_proj=BUCKET_PROJ,
-    #     zarr_filename="test.zarr",
+    #     zarr_filename=DATASET_FILENAME,
     # )
 
-    # commented code is here to provide an example of how this file can be used as a script to
-    # interact with cloud services.
-    #
     # # read data from cloud
     # ds = dataset_from_google_cloud(
     #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
