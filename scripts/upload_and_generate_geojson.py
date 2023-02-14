@@ -136,4 +136,4 @@ if __name__ == "__main__":
 
             # Note, if mapbox cli raises en util collection error, this should be monkey
             # patched. Instructions are in documentation of the function.
-            # geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
+            geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
