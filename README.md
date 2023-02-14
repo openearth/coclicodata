@@ -15,6 +15,7 @@ of the catalog will be published in the `live` branch that can be used externall
 The following attributes are required at dataset level:
 
 - title - 
+- title abbreviation - 
 - description - description that will be used to as dataset explanation in the web portal. 
 - short description - description which is convenient when loading the data into a
   programming environment
@@ -24,7 +25,6 @@ The following attributes are required at dataset level:
   - url
   - roles - e.g., providers, licensor
   - description -  
-- source - 
 - history - list of institutions and people who have processed the data 
 - media_type - [also known as mime type](https://www.iana.org/assignments/media-types/media-types.xhtml)
 - spatial extent - bbox [minx, miny, maxx, maxy]
