@@ -92,7 +92,7 @@ def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
     if not source_fpath.exists():
         raise FileNotFoundError(f": {source_fpath} not found.")
 
-    print(f"uploading {source_fpath} to {mapbox_url}")
+    print(f"Writing to mapbox at {mapbox_url}")
 
     mapbox_cmd = r"mapbox --access-token {} upload {} {}".format(
         os.environ.get("MAPBOX_ACCESS_TOKEN", ""), mapbox_url, str(source_fpath)
