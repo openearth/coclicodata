@@ -10,7 +10,7 @@ sys.path.append(str(pathlib.Path(__file__).parent.parent))
 import datetime
 import itertools
 import operator
-import os/templ
+import os
 from typing import List, Mapping, Optional
 
 import fsspec
@@ -331,7 +331,6 @@ def collate(items: xr.DataArray) -> List[pystac.Item]:
 
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-
     metadata_fp = rel_root.joinpath("metadata_template.json")
     with open(metadata_fp, "r") as f:
         metadata = json.load(f)
