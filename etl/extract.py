@@ -86,15 +86,14 @@ def clear_zarr_information(ds):
 
 
 def get_geojson(ds, variable, dimension_combinations, stations_dim):
-
     # deep copy is required because pop will otherwise mutate global dimcombs dictionaries
     dimcombs = copy.deepcopy(dimension_combinations)
 
     da = ds[variable]
     idxs = da[stations_dim].values.tolist()
 
-    # data with geometries can be read into geojson format directoy, but features from data
-    # wil no # geometry coordinates are constructed from lons/lats.
+    # data with geometries can be read into geojson format directly, but features from data
+    # with no geometry coordinates are constructed from lons/lats.
     if "geometry" in ds:
         features = [geojson.Feature(geometry=mapping(i)) for i in ds.geometry.values]
     else:
@@ -118,7 +117,9 @@ def get_geojson(ds, variable, dimension_combinations, stations_dim):
             if dim not in da.dims:
                 dimkey = "n" + dim
                 if dimkey in da.dims:
-                    da_ = da_.sel({dimkey: dim == dimdict.pop(dim)})
+                    da_ = da_.sel(
+                        {dimkey: list(da_[dimkey].values).index(list(ds[dim].values).index(dimdict.pop(dim)))} # indexing goes well for strings and indices
+                    )
 
         vals = da_.sel(dimdict).values.tolist()
         for feature, value in zip(features, vals):

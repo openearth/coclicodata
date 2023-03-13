@@ -1,7 +1,7 @@
 import os
 import pathlib
 import sys
-from curses import color_content
+from posixpath import join as urljoin
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
@@ -23,7 +23,7 @@ from stac.blueprint import (
     gen_zarr_asset,
     get_template_collection,
 )
-from stac.coclico_extension import CoclicoExtension
+from stac.coclico_extension import CoclicoExtension  # self built stac extension
 from stac.datacube import add_datacube
 from stac.utils import (
     get_dimension_dot_product,
@@ -41,20 +41,28 @@ if __name__ == "__main__":
     # STAC configs
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
-    COLLECTION_TITLE = "Extreme surge level"
-    COLLECTION_ID = "ssl"  # name of stac collection
-    DATASET_DESCRIPTION = """Dataset with extreme Storm Surge Levels (SSL) at the European scale. SSL are estimated for three climate scenarios (Historical, RCP4.5 and RCP8.5) for eight return periods (5, 10, 20, 50, 100, 200, 500 and 1000) according to the Peak Over Threshold method. This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1007/s00382-016-3019-5) for more dataset-specific information."""
+    COLLECTION_TITLE = "Extreme surge level"  # name of stac collection
+    COLLECTION_ID = "ssl"  # id of stac collection
+    DATASET_DESCRIPTION = (  # description, will be used in info boxes
+        "Dataset with extreme Storm Surge Levels (SSL) at the European scale. SSL are"
+        " estimated for three climate scenarios (Historical, RCP4.5 and RCP8.5) for"
+        " eight return periods (5, 10, 20, 50, 100, 200, 500 and 1000) according to the"
+        " Peak Over Threshold method. This dataset is part of the"
+        " [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See"
+        " this [article](https://doi.org/10.1007/s00382-016-3019-5) for more"
+        " dataset-specific information."
+    )
 
     # hard-coded input params which differ per dataset
     DATASET_FILENAME = "europe_storm_surge_level.zarr"
     VARIABLES = ["ssl"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
-    Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
-    TEMPORAL_DIMENSION = False  # False, None or str; temporal ""
+    Y_DIMENSION = "lat"  # False, None or str; spatial lat dim used by datacube
+    TEMPORAL_DIMENSION = False  # False, None or str; temporal dim ""
     ADDITIONAL_DIMENSIONS = [
         "rp",
         "scenarios",
-    ]  # False, None, or str; additional dims ""
+    ]  # List of str; dims added to datacube
     DIMENSIONS_TO_IGNORE = [
         "stations",
         "nscenarios",
@@ -65,7 +73,7 @@ if __name__ == "__main__":
     TYPE = "circle"
     ON_CLICK = {}
 
-    # these are added at collection level
+    # these are added at collection level, determine dashboard graph layout using all items
     UNITS = "m"
     PLOT_SERIES = "scenarios"
     PLOT_X_AXIS = "rp"
@@ -78,8 +86,8 @@ if __name__ == "__main__":
         {"color": "hsl(0,90%,70%)", "offset": "100.000%", "opacity": 100},
     ]
 
-    # functions to generate properties that vary per dataset but cannot be hard-corded because
-    # they also require input arguments
+    # functions to generate properties at item level that vary per dataset but cannot be hard-coded
+    # because they also require input arguments, (copied from mapbox layer styling if applicable)
     def get_paint_props(item_key: str):
         return {
             "circle-color": [
@@ -107,8 +115,8 @@ if __name__ == "__main__":
         }
 
     # semi hard-coded input params
-    gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
-    gcs_api_zarr_store = os.path.join(
+    gcs_zarr_store = urljoin("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
+    gcs_api_zarr_store = urljoin(
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
 
@@ -147,7 +155,7 @@ if __name__ == "__main__":
         description=DATASET_DESCRIPTION,
     )
 
-    # add datacube dimensions derived from xarray dataset to dataset stac_obj
+    # add datacube dimensions derived from xarray dataset to dataset collection
     collection = add_datacube(
         stac_obj=collection,
         ds=ds,
@@ -166,13 +174,11 @@ if __name__ == "__main__":
 
     # create stac collection per variable and add to dataset collection
     for var in VARIABLES:
-
-        # add zarr store as asset to stac_obj
+        # add zarr store as asset to collection
         collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
-
             mapbox_url = get_mapbox_url(MAPBOX_PROJ, DATASET_FILENAME, var)
 
             # generate stac item key and add link to asset to the stac item
@@ -197,7 +203,7 @@ if __name__ == "__main__":
             # add stac item to collection
             collection.add_item(feature, strategy=layout)
 
-    # if no variables present we still need to add zarr reference at colleciton level
+    # if no variables present we still need to add zarr reference at collection level
     if not VARIABLES:
         collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
@@ -225,7 +231,7 @@ if __name__ == "__main__":
     # set extra link properties
     extend_links(collection, dimvals.keys())
 
-    # save and limit number of folders
+    # save and limit number of folders, TODO: check if duplicate, then skip..
     catalog.add_child(collection)
 
     collection.normalize_hrefs(

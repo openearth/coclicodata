@@ -26,28 +26,31 @@ def check_compliancy(testfile, working_dir, update_versions=True, download_table
     """
     
     # CF check initialization
-    homepage = "https://cfconventions.org/standard-names.html"  # CF convention website
-    table_dict = {  # standard table format
-        "cf-standard-name-table": {"version": 76},  # default number
-        "area-type-table": {"version": 9},  # default number
-        "standardized-region-list": {"version": 4},  # default number
+    table_dict = {
+        "cf-standard-name-table": {
+            "version": 76,
+            "page": "http://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html", # default number
+        },
+        "area-type-table": {
+            "version": 9,
+            "page": "http://cfconventions.org/Data/area-type-table/current/build/area-type-table.html", # default number
+        },
+        "standardized-region-list": {
+            "version": 4,
+            "page": "http://cfconventions.org/Data/standardized-region-list/standardized-region-list.current.html", # default number
+        },
     }
     
     # function to retrieve recent CF tables from the CF convention website if update_versions == True
-    def _get_recent_versions():
-        response = requests.get(homepage)
-        parsed_html = BeautifulSoup(response.content, features='lxml')
-        return [
-            re.findall(r"v([\d]+)", str(caption))[0]
-            for caption in parsed_html.body.find_all("h4")
-        ]
-    
-    
+    def _get_recent_versions(page):
+        response = requests.get(page)
+        parsed_html = BeautifulSoup(response.content, features="lxml")
+        return int(str(parsed_html).split("Version")[1].split(",")[0])
+
     # update table_dict if update_version == True
     if update_versions:
-        recent_versions = _get_recent_versions()
         for idx, key in enumerate(table_dict.keys()):
-            table_dict[key]["version"] = recent_versions[idx]
+            table_dict[key]["version"] = _get_recent_versions(table_dict[key]["page"])
             
     # extend table_dict with CF tables URL from CF conventions website
     table_dict["cf-standard-name-table"][
@@ -67,11 +70,12 @@ def check_compliancy(testfile, working_dir, update_versions=True, download_table
     )
     
     # extend table_dict with local path to save downloaded CF tables, if enabled
-    for tablename in table_dict.keys():
-        table_dict[tablename]["local_path"] = "{0}\{1}-{2}.xml".format(
-            working_dir, tablename, table_dict[tablename]["version"]
-        )
-        if download_tables:  # save CF tables to working folder if download_tables == True
+    if download_tables:  # save CF tables to working folder if download_tables == True
+        for tablename in table_dict.keys():
+            table_dict[tablename]["local_path"] = "{0}\{1}-{2}.xml".format(
+                working_folder, tablename, table_dict[tablename]["version"]
+            )
+        
             response = requests.get(table_dict[tablename]["url"])
             with open(table_dict[tablename]["local_path"], "wb",) as file:
                 file.write(response.content)
