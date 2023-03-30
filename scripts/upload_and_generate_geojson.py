@@ -35,7 +35,7 @@ if __name__ == "__main__":
     MAPBOX_PROJ = "global-data-viewer"
 
     # hard-coded input params at project level
-    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
+    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
     dataset_dir = coclico_data_dir.joinpath("01_storm_surge_jrc")
     IN_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"  # original filename as on P drive
     OUT_FILENAME = (  # file name in the cloud and on MapBox
@@ -67,13 +67,13 @@ if __name__ == "__main__":
     # upload data to gcs from local drive
     source_data_fp = dataset_dir.joinpath(IN_FILENAME)
 
-    dataset_to_google_cloud(
-        ds=source_data_fp,
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        zarr_filename=OUT_FILENAME,
-    )
+    # dataset_to_google_cloud(
+    #     ds=source_data_fp,
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     zarr_filename=OUT_FILENAME,
+    # )
 
     # read data from gcs
     ds = dataset_from_google_cloud(
