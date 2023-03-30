@@ -152,33 +152,6 @@
     "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
     "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
-  "title": "Shoreline change",
-  "keywords": [
-    "CoCliCo"
-  ],
-  "providers": [
-    {
-      "name": "Deltares",
-      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-      "roles": [
-        "producer",
-        "processor"
-      ],
-      "url": "https://www.deltares.nl"
-    }
-  ],
-  "assets": {
-    "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/shoreline_change_projections.zarr",
-      "title": "Global shoreline change projections for the year 2050 under RCP4.5 zarr root",
-      "description": "The root of the Global shoreline change projections for the year 2050 under RCP4.5 zarr dataset on public Google Cloud Storage.",
-      "roles": [
-        "data",
-        "zarr-root",
-        "gcs"
-      ]
-    }
-  },
   "deltares:units": "m",
   "deltares:plotSeries": "ensemble",
   "deltares:plotxAxis": "time",
@@ -513,21 +486,7 @@
       ]
     }
   },
-  "summaries": {
-    "ensemble": [
-      "1",
-      "5",
-      "17",
-      "50",
-      "83",
-      "95",
-      "99"
-    ],
-    "scenarios": [
-      "RCP45",
-      "RCP85"
-    ]
-  },
+  "title": "Shoreline change",
   "extent": {
     "spatial": {
       "bbox": [
@@ -548,5 +507,46 @@
       ]
     }
   },
-  "license": "proprietary"
+  "license": "proprietary",
+  "keywords": [
+    "CoCliCo"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+      "roles": [
+        "producer",
+        "processor"
+      ],
+      "url": "https://www.deltares.nl"
+    }
+  ],
+  "summaries": {
+    "ensemble": [
+      "1",
+      "5",
+      "17",
+      "50",
+      "83",
+      "95",
+      "99"
+    ],
+    "scenarios": [
+      "RCP45",
+      "RCP85"
+    ]
+  },
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/shoreline_change_projections.zarr",
+      "title": "Global shoreline change projections for the year 2050 under RCP4.5 zarr root",
+      "description": "The root of the Global shoreline change projections for the year 2050 under RCP4.5 zarr dataset on public Google Cloud Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "gcs"
+      ]
+    }
+  }
 }

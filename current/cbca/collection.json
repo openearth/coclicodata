@@ -33,33 +33,6 @@
   "stac_extensions": [
     "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
-  "title": "Cost & benefit adaptation",
-  "keywords": [
-    "CoCliCo"
-  ],
-  "providers": [
-    {
-      "name": "Deltares",
-      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-      "roles": [
-        "producer",
-        "processor"
-      ],
-      "url": "https://www.deltares.nl"
-    }
-  ],
-  "assets": {
-    "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/eu_coastal_adaptation.zarr",
-      "title": "cbca zarr root",
-      "description": "The root of the cbca zarr dataset on public Google Cloud Storage.",
-      "roles": [
-        "data",
-        "zarr-root",
-        "gcs"
-      ]
-    }
-  },
   "deltares:units": "m",
   "deltares:plotSeries": "scenario",
   "deltares:plotType": "bar",
@@ -427,12 +400,7 @@
     }
   },
   "plotSeries": "scenario",
-  "summaries": {
-    "scenarios": [
-      "RCP45-SSP1",
-      "RCP85-SSP5"
-    ]
-  },
+  "title": "Cost & benefit adaptation",
   "extent": {
     "spatial": {
       "bbox": [
@@ -453,5 +421,37 @@
       ]
     }
   },
-  "license": "proprietary"
+  "license": "proprietary",
+  "keywords": [
+    "CoCliCo"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+      "roles": [
+        "producer",
+        "processor"
+      ],
+      "url": "https://www.deltares.nl"
+    }
+  ],
+  "summaries": {
+    "scenarios": [
+      "RCP45-SSP1",
+      "RCP85-SSP5"
+    ]
+  },
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/eu_coastal_adaptation.zarr",
+      "title": "cbca zarr root",
+      "description": "The root of the cbca zarr dataset on public Google Cloud Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "gcs"
+      ]
+    }
+  }
 }

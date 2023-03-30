@@ -36,33 +36,6 @@
     "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
     "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
-  "title": "Coastal flood risk",
-  "keywords": [
-    "CoCliCo"
-  ],
-  "providers": [
-    {
-      "name": "Deltares",
-      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-      "roles": [
-        "producer",
-        "processor"
-      ],
-      "url": "https://www.deltares.nl"
-    }
-  ],
-  "assets": {
-    "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/coastal_flood_risk.zarr",
-      "title": "Expected Annual Damage zarr root",
-      "description": "The root of the Expected Annual Damage zarr dataset on public Google Cloud Storage.",
-      "roles": [
-        "data",
-        "zarr-root",
-        "gcs"
-      ]
-    }
-  },
   "deltares:units": "m",
   "deltares:plotSeries": "scenarios",
   "deltares:plotxAxis": "time",
@@ -461,18 +434,7 @@
     }
   },
   "plotSeries": "scenario",
-  "summaries": {
-    "scenarios": [
-      "RCP4.5-SSP1",
-      "RCP8.5-SSP3",
-      "RCP8.5-SSP5"
-    ],
-    "time": [
-      2000,
-      2050,
-      2100
-    ]
-  },
+  "title": "Coastal flood risk",
   "extent": {
     "spatial": {
       "bbox": [
@@ -493,5 +455,43 @@
       ]
     }
   },
-  "license": "proprietary"
+  "license": "proprietary",
+  "keywords": [
+    "CoCliCo"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+      "roles": [
+        "producer",
+        "processor"
+      ],
+      "url": "https://www.deltares.nl"
+    }
+  ],
+  "summaries": {
+    "scenarios": [
+      "RCP4.5-SSP1",
+      "RCP8.5-SSP3",
+      "RCP8.5-SSP5"
+    ],
+    "time": [
+      2000,
+      2050,
+      2100
+    ]
+  },
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/coastal_flood_risk.zarr",
+      "title": "Expected Annual Damage zarr root",
+      "description": "The root of the Expected Annual Damage zarr dataset on public Google Cloud Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "gcs"
+      ]
+    }
+  }
 }

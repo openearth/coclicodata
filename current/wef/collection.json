@@ -818,33 +818,6 @@
     "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
     "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
-  "title": "Wave energy flux",
-  "keywords": [
-    "CoCliCo"
-  ],
-  "providers": [
-    {
-      "name": "Deltares",
-      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-      "roles": [
-        "producer",
-        "processor"
-      ],
-      "url": "https://www.deltares.nl"
-    }
-  ],
-  "assets": {
-    "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/global_wave_energy_flux.zarr",
-      "title": "Global Wave Energy Flux zarr root",
-      "description": "The root of the Global Wave Energy Flux zarr dataset on public Google Cloud Storage.",
-      "roles": [
-        "data",
-        "zarr-root",
-        "gcs"
-      ]
-    }
-  },
   "deltares:units": "m",
   "deltares:plotSeries": "rp",
   "deltares:plotxAxis": "time",
@@ -1170,6 +1143,42 @@
       ]
     }
   },
+  "title": "Wave energy flux",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180.0,
+          -90.0,
+          180.0,
+          90.0
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          null,
+          null
+        ]
+      ]
+    }
+  },
+  "license": "proprietary",
+  "keywords": [
+    "CoCliCo"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+      "roles": [
+        "producer",
+        "processor"
+      ],
+      "url": "https://www.deltares.nl"
+    }
+  ],
   "summaries": {
     "rp": [
       5.0,
@@ -1195,25 +1204,16 @@
       2100.0
     ]
   },
-  "extent": {
-    "spatial": {
-      "bbox": [
-        [
-          -180.0,
-          -90.0,
-          180.0,
-          90.0
-        ]
-      ]
-    },
-    "temporal": {
-      "interval": [
-        [
-          null,
-          null
-        ]
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/global_wave_energy_flux.zarr",
+      "title": "Global Wave Energy Flux zarr root",
+      "description": "The root of the Global Wave Energy Flux zarr dataset on public Google Cloud Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "gcs"
       ]
     }
-  },
-  "license": "proprietary"
+  }
 }

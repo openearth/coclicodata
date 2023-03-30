@@ -103,8 +103,29 @@
       "type": "application/json"
     }
   ],
-  "stac_extensions": [],
+  "deltares:mapService": "WMS",
   "title": "Floodmaps",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180.0,
+          -90.0,
+          180.0,
+          90.0
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2015-10-22T00:00:00Z",
+          null
+        ]
+      ]
+    }
+  },
+  "license": "proprietary",
   "keywords": [
     "CoCliCo"
   ],
@@ -131,27 +152,5 @@
       "3.5",
       "4.0"
     ]
-  },
-  "deltares:mapService": "WMS",
-  "extent": {
-    "spatial": {
-      "bbox": [
-        [
-          -180.0,
-          -90.0,
-          180.0,
-          90.0
-        ]
-      ]
-    },
-    "temporal": {
-      "interval": [
-        [
-          "2015-10-22T00:00:00Z",
-          null
-        ]
-      ]
-    }
-  },
-  "license": "proprietary"
+  }
 }

@@ -242,33 +242,6 @@
     "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
     "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
   ],
-  "title": "Extreme surge level",
-  "keywords": [
-    "CoCliCo"
-  ],
-  "providers": [
-    {
-      "name": "Deltares",
-      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-      "roles": [
-        "producer",
-        "processor"
-      ],
-      "url": "https://www.deltares.nl"
-    }
-  ],
-  "assets": {
-    "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_storm_surge_level.zarr",
-      "title": "European extreme storm surge level zarr root",
-      "description": "The root of the European extreme storm surge level zarr dataset on public Google Cloud Storage.",
-      "roles": [
-        "data",
-        "zarr-root",
-        "gcs"
-      ]
-    }
-  },
   "deltares:units": "m",
   "deltares:plotSeries": "scenarios",
   "deltares:plotxAxis": "rp",
@@ -594,23 +567,7 @@
       ]
     }
   },
-  "summaries": {
-    "rp": [
-      5.0,
-      10.0,
-      20.0,
-      50.0,
-      100.0,
-      200.0,
-      500.0,
-      1000.0
-    ],
-    "scenarios": [
-      "Historical",
-      "RCP45",
-      "RCP85"
-    ]
-  },
+  "title": "Extreme surge level",
   "extent": {
     "spatial": {
       "bbox": [
@@ -631,5 +588,48 @@
       ]
     }
   },
-  "license": "proprietary"
+  "license": "proprietary",
+  "keywords": [
+    "CoCliCo"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+      "roles": [
+        "producer",
+        "processor"
+      ],
+      "url": "https://www.deltares.nl"
+    }
+  ],
+  "summaries": {
+    "rp": [
+      5.0,
+      10.0,
+      20.0,
+      50.0,
+      100.0,
+      200.0,
+      500.0,
+      1000.0
+    ],
+    "scenarios": [
+      "Historical",
+      "RCP45",
+      "RCP85"
+    ]
+  },
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_storm_surge_level.zarr",
+      "title": "European extreme storm surge level zarr root",
+      "description": "The root of the European extreme storm surge level zarr dataset on public Google Cloud Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "gcs"
+      ]
+    }
+  }
 }
