@@ -107,22 +107,36 @@ def get_geojson(ds, variable, dimension_combinations, stations_dim):
         feature["properties"]["locationId"] = idx
 
     # add variable values per mapbox layer to the geojson properties
-    for dimdict in dimcombs:
-        da_ = da.copy()  # copy is required because each iteration da will be indexed
-        mapbox_layer_id = get_mapbox_item_id(dimdict)
+    if dimcombs != []:
+        for dimdict in dimcombs:
+            da_ = (
+                da.copy()
+            )  # copy is required because each iteration da will be indexed
+            mapbox_layer_id = get_mapbox_item_id(dimdict)
 
-        # read dimensions that are coordinates from dataset because slice (sel) cannot be used
-        # on non-index coordinates https://github.com/pydata/xarray/issues/2028
-        for dim in list(dimdict.keys()):
-            if dim not in da.dims:
-                dimkey = "n" + dim
-                if dimkey in da.dims:
-                    da_ = da_.sel(
-                        {dimkey: list(da_[dimkey].values).index(list(ds[dim].values).index(dimdict.pop(dim)))} # indexing goes well for strings and indices
-                    )
+            # read dimensions that are coordinates from dataset because slice (sel) cannot be used
+            # on non-index coordinates https://github.com/pydata/xarray/issues/2028
+            for dim in list(dimdict.keys()):
+                if dim not in da.dims:
+                    dimkey = "n" + dim
+                    if dimkey in da.dims:
+                        da_ = da_.sel(
+                            {
+                                dimkey: list(da_[dimkey].values).index(
+                                    list(ds[dim].values).index(dimdict.pop(dim))
+                                )
+                            }  # indexing goes well for strings and indices
+                        )
 
-        vals = da_.sel(dimdict).values.tolist()
+            vals = da_.sel(dimdict).values.tolist()
+            for feature, value in zip(features, vals):
+                feature["properties"][mapbox_layer_id] = value
+
+    if dimcombs == []:  # add independent variable property for mapbox layer styling
+        vals = da.values.tolist()
         for feature, value in zip(features, vals):
-            feature["properties"][mapbox_layer_id] = value
+            feature["properties"][
+                "value"
+            ] = value  # TODO: might change 'value' into selected variable name later
 
     return geojson.FeatureCollection(features)
