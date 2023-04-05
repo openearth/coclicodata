@@ -20,7 +20,6 @@ from etl.keys import load_env_variables, load_google_credentials
 
 
 def _validate_fpath(*args: pathlib.Path) -> None:
-
     for fpath in args:
         if not isinstance(fpath, pathlib.Path):
             raise TypeError(
@@ -69,6 +68,31 @@ def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
     return xr.open_zarr(uri)
 
 
+def dir_to_google_cloud(
+    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str
+) -> None:
+    """Upload directory to Google Cloud Services
+
+    # TODO: fails when uploading to store that already exists, UPDATE; not for Windows OS
+
+    """
+
+    # file system interface for google cloud storage
+    fs = gcsfs.GCSFileSystem(
+        gcs_project, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+    )
+
+    target_path = urljoin(bucket_name, bucket_proj, dir_name)
+
+    # saved directory to google cloud
+    print(f"Writing to directory at {target_path}...")
+    try:
+        fs.put(dir_path, target_path, recursive=True)
+        print("Done!")
+    except OSError as e:
+        print(f"Failed uploading: \n {e}")
+
+
 def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
     """Upload GeoJSON to Mapbox by CLI.
 
@@ -102,7 +126,6 @@ def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
 
 
 if __name__ == "__main__":
-
     # hard-coded input params
     DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
     GCS_PROJECT = "DGDS - I1000482-002"
