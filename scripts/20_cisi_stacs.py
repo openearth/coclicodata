@@ -167,7 +167,7 @@ def itemize(
     item: pystac.Item,
     nbytes: int,
     *,
-    asset_roles: list[str] | None = None,
+    asset_roles: "List[str] | None" = None,  # "" enables Python 3.8 development not to crash: https://github.com/tiangolo/typer/issues/371
     asset_media_type=pystac.MediaType.COG,
     prefix: str = "",
     href_prefix: str = "",
@@ -331,7 +331,6 @@ def collate(items: xr.DataArray) -> List[pystac.Item]:
 
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-
     metadata_fp = rel_root.joinpath("metadata_template.json")
     with open(metadata_fp, "r") as f:
         metadata = json.load(f)
