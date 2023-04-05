@@ -19,6 +19,8 @@ import xarray as xr
 from datacube.utils.cog import write_cog
 from etl import p_drive, rel_root
 from pystac import Catalog, CatalogType, Collection, Summaries
+from etl.keys import load_google_credentials
+from etl.cloud_services import dir_to_google_cloud
 from stac.blueprint import (
     IO,
     Layout,
@@ -63,7 +65,6 @@ def name_tif(da: xr.DataArray, prefix: str = "", scenario: str = "") -> str:
 
 
 def make_cf_compliant(ds: xr.Dataset) -> xr.Dataset:
-
     # TODO: check with etienne if nv is also used for time bounds
     ds = ds.rename_dims({"ens": "nensemble", "bnds": "nv"})  # nv = number of vertices
 
@@ -136,7 +137,7 @@ def itemize(
     da,
     item: pystac.Item,
     blob_name: str,
-    asset_roles: list[str] | None = None,
+    asset_roles: "List[str] | None" = None,  # "" enables Python 3.8 development not to crash: https://github.com/tiangolo/typer/issues/371
     asset_media_type=pystac.MediaType.COG,
 ) -> pystac.Item:
     """ """
@@ -181,11 +182,10 @@ def itemize(
     return item
 
 
-# rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-
     # hard-coded input params at project level
     GCS_PROTOCOL = "https://storage.googleapis.com"
+    GCS_PROJECT = "DGDS - I1000482-002"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
 
@@ -204,10 +204,10 @@ if __name__ == "__main__":
     tmp_dir = home.joinpath("data", "tmp")
 
     # remote p drive
-    coclico_data_dir = p_drive.joinpath("11205479-coclico", "data")
+    coclico_data_dir = p_drive.joinpath("11205479-coclico", "FASTTRACK_DATA")
 
     # use local or remote data dir
-    use_local_data = True
+    use_local_data = False
 
     if use_local_data:
         ds_dir = tmp_dir.joinpath(DATASET_DIR)
@@ -240,15 +240,15 @@ if __name__ == "__main__":
     # the dataset contains three different rcp scenario's
     RCPS = ["26", "45", "85"]
     for rcp in RCPS:
-
         # load dataset and do some pre-processsing
         ds_fp = ds_dir.joinpath(f"total-ens-slr-{rcp}-5.nc")
         ds = xr.open_dataset(ds_fp)
 
         # format dataset based upon notebooks/18_SLR_AR5.ipynb
         ds = make_cf_compliant(ds)
+        # TODO: write CF compliancy output file?
 
-        # # convert cf noleap yrs to datetimei
+        # # convert cf noleap yrs to datetime
         # ds["time"] = ds.indexes["time"].to_datetimeindex()
 
         # add crs and spatial dims
@@ -276,7 +276,6 @@ if __name__ == "__main__":
             time_name = "_".join([t for t in time_bounds])
 
             for var_name in variables:
-
                 # time bounds are extracted, so nv dim can be dropped, as tiff should be 2D or 3D.
                 da = ds2[var_name]
 
@@ -299,7 +298,10 @@ if __name__ == "__main__":
                 collection.add_item(item, strategy=layout)
 
                 # set overwrite is false because tifs should be unique
-                # write_cog(da, fname=outpath, overwrite=False)
+                try:
+                    write_cog(da, fname=outpath, overwrite=False)
+                except OSError as e:
+                    continue
 
     # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     collection.summaries = Summaries({})
@@ -312,11 +314,24 @@ if __name__ == "__main__":
         os.path.join(rel_root, STAC_DIR, COLLECTION_ID), strategy=layout
     )
 
-    # save updated catalog
+    # save updated catalog to local drive
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(rel_root, STAC_DIR),
         # dest_href=str(tmp_dir),
         stac_io=IO(),
     )
-    print("done")
+    print("Done!")
+
+    # upload directory with cogs to google cloud
+    load_google_credentials(
+        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+    )
+
+    dir_to_google_cloud(
+        dir_path=str(cog_dir),
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        dir_name=DATASET_FILENAME,
+    )
