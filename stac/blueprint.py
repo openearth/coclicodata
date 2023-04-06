@@ -4,6 +4,7 @@ from datetime import datetime
 from itertools import product
 from sre_constants import GROUPREF_EXISTS
 from typing import Any, Dict, Optional, Union
+import pathlib
 
 import pystac
 import zarr
@@ -48,13 +49,14 @@ class IO(DefaultStacIO):
         )
 
 
-class Layout(BestPracticesLayoutStrategy):
-    """Custom layout for CoCliCo STAC collections.
+class LayoutZarr(BestPracticesLayoutStrategy):
+    """Custom layout for Zarrs within CoCliCo STAC collections.
 
     Set the item path to
     variable-mapbox/variable-mapbox-dim-value-dim-value.json
     instead of
     /variable-mapbox-dim-value-dim-value/variable-mapbox-dim-value-dim-value.json
+
     """
 
     def get_item_href(self, item, parent_dir) -> str:
@@ -64,6 +66,25 @@ class Layout(BestPracticesLayoutStrategy):
         custom_id = "-".join(item.id.split("-")[0:2])
         item_root = join_path_or_url(join_type, parent_dir, "{}".format(custom_id))
         return join_path_or_url(join_type, item_root, "{}.json".format(item.id))
+    
+    
+class LayoutCoG(BestPracticesLayoutStrategy):
+    """Custom layout for CoGs within CoCliCo STAC collections.
+
+    Set the item path to
+    items/variable-mapbox-dim-value-dim-value.json
+    instead of
+    /variable-mapbox-dim-value-dim-value/variable-mapbox-dim-value-dim-value.json
+
+    """
+
+    def get_item_href(self, item, parent_dir) -> str:
+        parsed_parent_dir = safe_urlparse(parent_dir)
+        join_type = JoinType.from_parsed_uri(parsed_parent_dir)
+        items_dir = "items"
+        custom_id = pathlib.Path(item.id).with_suffix(".json")
+        # item_root = join_path_or_url(join_type, parent_dir, items_dir)
+        return join_path_or_url(join_type, parent_dir, items_dir, str(custom_id))
 
 
 def gen_default_item(name="unique"):
