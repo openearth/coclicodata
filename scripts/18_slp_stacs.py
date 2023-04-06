@@ -23,7 +23,7 @@ from etl.keys import load_google_credentials
 from etl.cloud_services import dir_to_google_cloud
 from stac.blueprint import (
     IO,
-    Layout,
+    LayoutCoG,
     extend_links,
     gen_default_collection_props,
     gen_default_item,
@@ -235,7 +235,7 @@ if __name__ == "__main__":
         description=DATASET_DESCRIPTION,
     )
 
-    layout = Layout()
+    layout = LayoutCoG()
 
     # the dataset contains three different rcp scenario's
     RCPS = ["26", "45", "85"]
