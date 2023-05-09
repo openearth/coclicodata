@@ -66,12 +66,12 @@ def name_tif(da: xr.DataArray, prefix: str = "", scenario: str = "") -> str:
 
 def make_cf_compliant(ds: xr.Dataset) -> xr.Dataset:
     # TODO: check with etienne if nv is also used for time bounds
-    ds = ds.rename_dims({"ens": "nmodelname", "bnds": "nv"})  # nv = number of vertices
+    ds = ds.rename_dims({"ens": "nensemble", "bnds": "nv"})  # nv = number of vertices
 
-    # ds = ds.rename_vars({"modelname": "ensemble"})
+    ds = ds.rename_vars({"modelname": "ensemble"})
 
     # # set some data variables to coordinates to avoid duplication of dimensions in later stage
-    ds = ds.set_coords(["modelname", "time_bnds"])
+    ds = ds.set_coords(["ensemble", "time_bnds"])
 
     # TODO: check with Etienne why this is required
     ds.time_bnds.encoding[
@@ -83,12 +83,12 @@ def make_cf_compliant(ds: xr.Dataset) -> xr.Dataset:
 
     # remove extra spaces in model names and use the updated values as coordinate axis for ensemble
     model_names = np.array(
-        [s.strip() for s in ds["modelname"].astype(str).values], dtype="S"
+        [s.strip() for s in ds["ensemble"].astype(str).values], dtype="S"
     )
-    ds = ds.assign_coords(modelname=("nmodelname", model_names))
+    ds = ds.assign_coords(ensemble=("nensemble", model_names))
 
     # this long name is copied from netcdf description
-    ds["modelname"].attrs[
+    ds["ensemble"].attrs[
         "long_name"
     ] = "Model names in the same order as in totslr_ens var"
 
@@ -262,7 +262,7 @@ if __name__ == "__main__":
         # extract list of data variables
         variables = set(ds.variables) - set(ds.dims) - set(ds.coords)
 
-        ds["modelname"] = ds.coords["modelname"].astype(str)
+        ds["ensemble"] = ds.coords["ensemble"].astype(str)
 
         ntimes = ds.dims["time"]
         for ntime in range(ntimes):
