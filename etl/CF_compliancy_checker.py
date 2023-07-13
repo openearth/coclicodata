@@ -5,11 +5,13 @@ Created on Tue Jul 19 07:05:09 2022
 @author: kras
 """
 
-import mock
+import re
+import unittest.mock as mock
+from ctypes import CDLL
+
 import requests
 from bs4 import BeautifulSoup
-import re
-from ctypes import CDLL
+
 
 def check_compliancy(testfile, working_dir, update_versions=True, download_tables=False):
     """
@@ -84,9 +86,8 @@ def check_compliancy(testfile, working_dir, update_versions=True, download_table
     with mock.patch.object(
         CDLL.__init__, "__defaults__", (0, None, False, False, 0)
     ):  # monkeypatch workaround for the Windows OS (10) ctypes.dll error: https://stackoverflow.com/questions/59330863/cant-import-dll-module-in-python
-        from cfchecker.cfchecks import (
-            CFChecker,
-        )  # import the cfchecker package i.s.o. subprocess application as in https://cmip-data-pool.dkrz.de/quality-assurance-cfchecker-ceda.html
+        from cfchecker.cfchecks import \
+            CFChecker  # import the cfchecker package i.s.o. subprocess application as in https://cmip-data-pool.dkrz.de/quality-assurance-cfchecker-ceda.html
     
         inst = CFChecker(
             useFileName="yes",
@@ -156,4 +157,4 @@ def save_compliancy(cap, testfile, working_dir):
     for idx, f in enumerate(files):
         result_dict[f] = {"warnings": warnings[idx], "errors": errors[idx]}
      
-    print(result_dict)
+    print(result_dict)    print(result_dict)
