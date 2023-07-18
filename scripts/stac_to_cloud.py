@@ -20,7 +20,7 @@ if __name__ == "__main__":
     coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
 
     # upload dir to gcs from local drive
-    source_dir_fp = str(rel_root.joinpath(IN_DIRNAME))
+    source_dir_fp = str(pathlib.Path(__file__).parent.parent.joinpath(IN_DIRNAME))
 
     load_google_credentials(
         google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
