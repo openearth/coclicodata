@@ -73,7 +73,7 @@ def dir_to_google_cloud(
 ) -> None:
     """Upload directory to Google Cloud Services
 
-    # TODO: fails when uploading to store that already exists, UPDATE; not for Windows OS
+    # TODO: fails when uploading to store that already exists
 
     """
 
