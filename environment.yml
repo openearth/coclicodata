@@ -1,37 +1,128 @@
 name: coclico
 channels:
   - conda-forge
-  - nodefaults
+  - defaults
 dependencies:
-  - python=3.10
-  - pygeos
-  - pyogrio
-  - xarray
-  - netcdf4
-  - numpy
-  - pandas
-  - matplotlib
+  - python=3.*
+  - pip>=20
+  - ipykernel
+  - ipywidgets
+  - ipyleaflet
+  - adlfs
+  - astropy
+  - awscli
+  - azure-data-tables
+  - azure-identity
+  - bandit
+  - beautifulsoup4
+  - black
+  - boltons
+  - boto3
+  - cartopy
+  - cattrs
+  - cfgrib
+  - ciso8601
+  - click
+  - codespell
+  - contextily
+  - dask
+  - dask-cloudprovider
+  - dask-gateway
+  - dask-geopandas
+  - dask-image
+  - dask-ml
+  - datacube
+  - datashader
+  - defusedxml
+  - descartes
+  - distributed
+  - earthengine-api
+  - eccodes>=2.24.2
+  - eodatasets3
+  - fiona
+  - flake8
   - folium
+  - fsspec
+  - gcsfs
+  - geodatasets
+  - geojson
+  - geopandas>=0.11.0
+  - geoviews-core
+  - google-cloud-storage
+  - h3
+  - h5netcdf
+  - h5py
+  - h5py
+  - holoviews
+  - hvplot
+  - intake
+  - intake-esm
+  - intake-geopandas
+  - intake-stac
+  - intake-xarray
+  - isort
+  - jsonschema
+  - jupyter-ui-poll
+  - lmdb
+  - lxml
   - mapclassify
+  - matplotlib-base
+  - mypy
+  - netcdf4
+  - numcodecs
+  - numexpr
+  - numpy
+  - odc-geo
+  - odc-stac
+  - opencv
+  - pandas
+  - panel
+  - param
+  - pims
+  - planetary-computer
+  - pooch
+  - pre-commit
   - pyarrow
+  - pydantic
+  - pyogrio
+  - pyrsistent
+  - pystac
+  - pytest
+  - pytest-cov
+  - python-dotenv
+  - python-graphviz
+  - python-rapidjson
+  - pyyaml
   - rasterio
   - rioxarray
-  - jupyterlab
-  - bandit
-  - jupyterlab_code_formatter
-  - isort
-  - black
+  - s3fs
+  - scikit-image
+  - scikit-learn
+  - scipy
+  - seaborn
+  - slicerator
+  - spatialpandas
+  - stac-geoparquet
+  - stac-vrt
+  - stackstac
+  - stactools
+  - structlog
+  - tabulate
+  - tqdm
+  - xarray
+  - xarray-spatial
+  - xvec
   - zarr
-  - h5py
-  - nb_black
-  - fiona
-  - geojson
-  - gcsfs
-  - pystac
-  - python-dotenv
-  - datacube
-  - google-cloud-storage
-  - pip3:
+  - zstandard
+  - pip:
+      - stactools-geoparquet-items
+      - odc-ui
+      - odc-stac
+      - odc-stats
+      - odc-algo
+      - odc-io
+      - odc-cloud[ASYNC]
+      - odc-dscache
+      - mapbox # not sure if this is still being used
+      # - mapboxcli # requires monkeypatch for Python 3.10
       - xstac
-      - mapbox
-      - mapboxcli # requires monkey patch for python 3.10
