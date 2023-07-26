@@ -38,35 +38,6 @@ from stac.blueprint import (
 from stac.coclico_extension import CoclicoExtension  # self built stac extension
 
 
-def cftime_to_pdts(t: cftime._cftime) -> pd.Timestamp:
-    return pd.Timestamp(
-        t.year,
-        t.month,
-        t.day,
-        t.hour,
-        t.minute,
-        t.second,
-        t.microsecond,
-    )
-
-
-def name_tif(da: xr.DataArray, prefix: str = "", scenario: str = "") -> str:
-    """ """
-    time = pd.Timestamp(da.coords["time"].item()).isoformat()
-
-    # store files per timestep in seperate dirs (include validate if exists)
-    dirname = pathlib.Path(prefix, f"time={time}")
-    dirname.mkdir(parents=True, exist_ok=True)
-
-    if scenario:
-        scenario = f"rcp={scenario}"
-
-    fname = "-".join([e for e in [da.name, scenario] if e])
-
-    blob_name = dirname.joinpath(f"{fname}.tif")
-    return str(blob_name)
-
-
 # TODO: move itemize to ETL or stac.blueprint when generalized
 def itemize(
     da,
@@ -87,9 +58,7 @@ def itemize(
     item.id = blob_name
     item.geometry = geometry
     item.bbox = bbox
-    item.datetime = pd.Timestamp(
-        da["time"].item().decode("utf-8")
-    ).to_pydatetime()  # dataset specific
+    item.datetime = pd.Timestamp(da["time"].item()).to_pydatetime()  # dataset specific
     # item.datetime = cftime_to_pdts(da["time"].item()).to_pydatetime() # dataset specific
 
     ext = pystac.extensions.projection.ProjectionExtension.ext(
@@ -133,12 +102,12 @@ if __name__ == "__main__":
 
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
-    COLLECTION_ID = "slp5"  # name of stac collection
+    COLLECTION_ID = "slp6"  # name of stac collection
 
     # hard-coded input params which differ per dataset
-    METADATA = "metadata_AR5_slp.json"
-    DATASET_DIR = "18_AR5_SLP_IPCC"
-    CF_FILE = "total-ens-slr_CF.nc"
+    METADATA = "metadata_AR6_slp.json"
+    DATASET_DIR = "17_AR6_SLP_IPCC"
+    CF_FILE = "slr_medium_confidence_values_CF.nc"
 
     # these are added at collection level, determine dashboard graph layout using all items
     PLOT_SERIES = "scenarios"
@@ -222,25 +191,23 @@ if __name__ == "__main__":
     # TODO: check what we can generalize and put into a function for temporal CoGs
     # loop over CF compliant NC file, same code as in related .ipynb
     for idx, scen in enumerate(ds["scenarios"].values):
-        rcp = scen.decode("utf-8")
+        ssp = scen.decode("utf-8")
 
-        # format rcp name for filenaming
-        rcp_name = "rcp=%s" % rcp.strip("RCP")
-        print(rcp_name)
+        # format ssp name for filenaming
+        ssp_name = "ssp=%s" % ssp.strip("SSP")
+        print(ssp_name)
 
         # extract list of data variables
         variables = set(ds.variables) - set(ds.dims) - set(ds.coords)
+        # print(variables)
 
         ntimes = ds.dims["time"]
         for ntime in range(ntimes):
             ds2 = ds.copy()
             ds2 = ds2.isel({"time": ntime})
 
-            # extract time boundaries for use in tif naming
-            time_bounds = [
-                cftime_to_pdts(t).strftime("%Y-%m-%d") for t in ds2.time_bnds.values
-            ]
-            time_name = "_".join([t for t in time_bounds])
+            # extract time boundaries for use in tif naming (dataset specific)
+            time_name = str(ds2.time.values)
 
             for var_name in variables:
                 # time bounds are extracted, so nv dim can be dropped, as tiff should be 2D or 3D.
@@ -254,21 +221,12 @@ if __name__ == "__main__":
                     if not da2.rio.crs:
                         da2 = da2.rio.write_crs("EPSG:4326")
 
-                    # reset some variables and attributes
-                    da2["time"] = np.array(
-                        cftime_to_pdts(da2["time"].item()).strftime(
-                            "%Y-%m-%d %H:%M:%S"
-                        ),
-                        dtype="S",
-                    )
-                    da2["time"].attrs["standard_name"] = "time"
-                    da2["time_bnds"] = np.array(time_name, dtype="S")
-                    da2["time_bnds"].attrs["long_name"] = "time boundaries"
-
                     # compose tif name
                     fname = time_name + ".tif"
                     blob_name = pathlib.Path(
-                        rcp_name, var_name + "_ens%s" % int(ens), fname
+                        ssp_name,
+                        var_name + "_ens%s" % np.around(ens, decimals=2),
+                        fname,
                     )
                     outpath = cog_dirs.joinpath(blob_name)
                     template_item = pystac.Item(
