@@ -66,8 +66,8 @@ class LayoutZarr(BestPracticesLayoutStrategy):
         custom_id = "-".join(item.id.split("-")[0:2])
         item_root = join_path_or_url(join_type, parent_dir, "{}".format(custom_id))
         return join_path_or_url(join_type, item_root, "{}.json".format(item.id))
-    
-    
+
+
 class LayoutCoG(BestPracticesLayoutStrategy):
     """Custom layout for CoGs within CoCliCo STAC collections.
 
@@ -108,11 +108,17 @@ def gen_default_item(name="unique"):
     )
 
 
+# TODO: incorporate more items from the metadata templates to be delivered (media_tyoe, citation, doi, author, tags?, long_name?, comment?, crs?) and fix providers, spatial_extent and temporal_extent
 def get_template_collection(
     template_fp: str,
     collection_id: str,
     title: str,
     description: str,
+    keywords: list,
+    license: str,
+    # spatial_extent: list,
+    # temporal_extent: list,
+    # providers: list,
     # hosting_platform: str,
 ) -> pystac.Collection:
     """Deltares CoCliCo STAC Obj from template file.
@@ -137,6 +143,11 @@ def get_template_collection(
     collection.id = collection_id
     collection.title = title
     collection.description = description
+    collection.keywords = keywords
+    collection.license = license
+    # collection.extent.spatial.bbox = spatial_extent
+    # collection.extent.temporal.interval = temporal_extent
+    # collection.providers = providers
 
     # Drop existing items, dimensions and summaries
     collection.set_root(None)
@@ -179,7 +190,6 @@ def gen_mapbox_asset(
 def gen_default_collection_props(
     **kwargs,
 ):
-
     return {
         **kwargs,
         "deltares:units": "m",
@@ -200,7 +210,6 @@ def gen_default_item_props(
     color_properties,
     **kwargs,
 ):
-
     return {
         "deltares:stations": "locationid",
         "deltares:type": "circle",
@@ -235,7 +244,6 @@ def gen_default_item_props(
 
 
 def gen_cog_asset(url):
-
     return pystac.Asset(
         href=url,
         title=f"Cloud Optimized GeoTIFFs",
