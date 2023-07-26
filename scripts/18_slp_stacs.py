@@ -50,23 +50,6 @@ def cftime_to_pdts(t: cftime._cftime) -> pd.Timestamp:
     )
 
 
-def name_tif(da: xr.DataArray, prefix: str = "", scenario: str = "") -> str:
-    """ """
-    time = pd.Timestamp(da.coords["time"].item()).isoformat()
-
-    # store files per timestep in seperate dirs (include validate if exists)
-    dirname = pathlib.Path(prefix, f"time={time}")
-    dirname.mkdir(parents=True, exist_ok=True)
-
-    if scenario:
-        scenario = f"rcp={scenario}"
-
-    fname = "-".join([e for e in [da.name, scenario] if e])
-
-    blob_name = dirname.joinpath(f"{fname}.tif")
-    return str(blob_name)
-
-
 # TODO: move itemize to ETL or stac.blueprint when generalized
 def itemize(
     da,
