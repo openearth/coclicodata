@@ -191,7 +191,7 @@ if __name__ == "__main__":
         title=metadata["TITLE"],
         description=metadata["SHORT_DESCRIPTION"],
         keywords=metadata["KEYWORDS"],
-        license=metadata["LICENSE"],
+        # license=metadata["LICENSE"],
         # spatial_extent=metadata["SPATIAL_EXTENT"],
         # temporal_extent=metadata["TEMPORAL_EXTENT"],
         # providers=metadata["PROVIDERS"],

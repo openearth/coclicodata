@@ -108,14 +108,14 @@ def gen_default_item(name="unique"):
     )
 
 
-# TODO: incorporate more items from the metadata templates to be delivered (media_tyoe, citation, doi, author, tags?, long_name?, comment?, crs?) and fix providers, spatial_extent and temporal_extent
+# TODO: incorporate more items from the metadata templates to be delivered (media_tyoe, citation, doi, author, tags?, long_name?, comment?, crs?) and fix license, providers, spatial_extent and temporal_extent
 def get_template_collection(
     template_fp: str,
     collection_id: str,
     title: str,
     description: str,
     keywords: list,
-    license: str,
+    # license: str,
     # spatial_extent: list,
     # temporal_extent: list,
     # providers: list,
@@ -144,7 +144,7 @@ def get_template_collection(
     collection.title = title
     collection.description = description
     collection.keywords = keywords
-    collection.license = license
+    # collection.license = license
     # collection.extent.spatial.bbox = spatial_extent
     # collection.extent.temporal.interval = temporal_extent
     # collection.providers = providers
