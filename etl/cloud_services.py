@@ -73,7 +73,8 @@ def dir_to_google_cloud(
 ) -> None:
     """Upload directory to Google Cloud Services
 
-    # TODO: fails when uploading to store that already exists
+    # TODO: fails when uploading to store that already exists or;
+    # TODO: creates a subfolder in the desired folder when a store already exists, fix this..
 
     """
 
