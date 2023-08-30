@@ -1,14 +1,79 @@
 # coclicodata
-STAC catalog for CoCliCo 
 
-This is a **relative** STAC catalog for development purposes.
+This repository contains code to maintain the CoCliCo STAC catalog. Please note that
+this is a **relative** STAC catalog for development purposes.
+
+## Usage
+
+Given that `coclicodata` is under active development, it's recommended to clone the repository and then install it in 'editable' mode. This way, any changes made to the package are immediately available without needing a reinstall.
+
+Follow these steps for installation:
+
+1. **Clone the repository**:
+
+   ``` bash
+   git clone https://github.com/openearth/coclicodata.git
+   ```
+
+2. **Install the environment**:
+
+   ``` bash
+   mamba install -f /path/to/coclicodata/environment.yaml
+   ```
+
+3. **Activate the environment**:
+
+   ``` bash
+   mamba activate coclico
+   ```
+
+4. **Install the package in editable mode**:
+
+   ``` bash
+   pip install -e /path/to/coclicodata
+   ```
+
+After installation, you can easily import and use any module or function from the
+`coclicodata` package in your Python scripts or interactive sessions:
+
+```python
+from coclicodata.coclico_stac import utils
+# Further code utilizing the utils module...
+```
 
 ## Test
-You can run pytest to check whether you current STAC collection is valid
+
+You can run `pytest` to check whether you current STAC collection is valid. The command
+will automatically run the test scripts that are maintained in `tests/test_*.py`
 
 ## Release
-On succesfull validation of STAC catalog in the main branch, an **absolute** version 
+
+On successful validation of STAC catalog in the main branch, an **absolute** version 
 of the catalog will be published in the `live` branch that can be used externally.
+
+### CoCliCoData Package Structure
+
+- **coclicodata**
+  - `__init__.py`: Main package initialization.
+  - `drive_config.py`: Configuration settings for the drive or storage medium.
+  - **etl**
+    - `__init__.py`: Subpackage initialization.
+    - `cf_compliancy_checker.py`: Checks for compliancy with the Climate and Forecast (CF) conventions.
+    - `cloud_utils.py`: Utilities for cloud-based operations and data processing.
+    - `extract.py`: Data extraction and transform functionalities.
+
+  - **coclico_stac**
+    - `__init__.py`: Subpackage initialization.
+    - `datacube.py`: Functions for extracting dimension shapes and metadata from zarr stores.
+    - `extension.py`: CoCliCo STAC extension that is used for frontend visualization. 
+    - `io.py`: Defines the CoCLiCo JSON I/O strategy for STAC catalogs. 
+    - `layouts.py`: Provides CoCliCo layout strategies for STAC for the data formats used.
+    - `templates.py`: Defines CoCliCo templates for generating STAC items, assets and collections.
+    - `utils.py`: Utility functions for data migration and other STAC-related operations.
+
+
+
+
 
 ## Metadata
 
