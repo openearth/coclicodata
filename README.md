@@ -51,7 +51,7 @@ will automatically run the test scripts that are maintained in `tests/test_*.py`
 On successful validation of STAC catalog in the main branch, an **absolute** version 
 of the catalog will be published in the `live` branch that can be used externally.
 
-### CoCliCoData Package Structure
+## CoCliCoData Package Structure
 
 - **coclicodata**
   - `__init__.py`: Main package initialization.
