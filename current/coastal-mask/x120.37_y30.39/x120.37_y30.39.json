@@ -1,0 +1,144 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "x120.37_y30.39",
+  "properties": {
+    "created": "2023-08-25T17:09:19.952066Z",
+    "proj:bbox": [
+      120.37291666666667,
+      16.732916666666668,
+      134.02625000000003,
+      30.386249999999997
+    ],
+    "proj:shape": [
+      16384,
+      16384
+    ],
+    "proj:epsg": 4326,
+    "proj:geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            134.02625000000003,
+            16.732916666666668
+          ],
+          [
+            134.02625000000003,
+            30.386249999999997
+          ],
+          [
+            120.37291666666667,
+            30.386249999999997
+          ],
+          [
+            120.37291666666667,
+            16.732916666666668
+          ],
+          [
+            134.02625000000003,
+            16.732916666666668
+          ]
+        ]
+      ]
+    },
+    "proj:transform": [
+      0.0008333333333333334,
+      0.0,
+      120.37291666666667,
+      0.0,
+      -0.0008333333333333334,
+      30.386249999999997
+    ],
+    "datetime": "2022-02-22T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          134.02625000000003,
+          16.732916666666668
+        ],
+        [
+          134.02625000000003,
+          30.386249999999997
+        ],
+        [
+          120.37291666666667,
+          30.386249999999997
+        ],
+        [
+          120.37291666666667,
+          16.732916666666668
+        ],
+        [
+          134.02625000000003,
+          16.732916666666668
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/coastal-mask/collection.json",
+      "type": "application/json",
+      "title": "Coastal Mask"
+    },
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/coastal-mask/collection.json",
+      "type": "application/json",
+      "title": "Coastal Mask"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/coastal-mask/x120.37_y30.39/x120.37_y30.39.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "B01": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/coastal_mask/B01_x120.37_y30.39.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "B01",
+      "file:size": 768694,
+      "raster:bands": [
+        {
+          "nodata": 0,
+          "data_type": "uint8",
+          "spatial_resolution": 30
+        }
+      ],
+      "eo:bands": [
+        {
+          "name": "B01",
+          "description": "Coastal mask for this region."
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    120.37291666666667,
+    16.732916666666668,
+    134.02625000000003,
+    30.386249999999997
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+  ],
+  "collection": "coastal-mask"
+}
