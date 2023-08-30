@@ -1,545 +1,547 @@
 {
-    "type": "Collection",
-    "id": "sc",
-    "stac_version": "1.0.0",
-    "description": "Projections of global shoreline change in view of climate change. This assessment considers the combined effects of ambient change (historical trends), sea level rise (RCP4.5 and RCP8.5) and storm driven (instantaneous) erosion. Data is computed for seven ensembles (1, 5, 17, 50, 83, 95 and 99th percentile) and two timesteps (2050 and 2100). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41558-020-0697-0) for more dataset-specific information.",
-    "links": [
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-1-scenarios-RCP45.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "1",
-                "scenarios": "RCP45"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-1-scenarios-RCP85.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "1",
-                "scenarios": "RCP85"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-5-scenarios-RCP45.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "5",
-                "scenarios": "RCP45"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-5-scenarios-RCP85.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "5",
-                "scenarios": "RCP85"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-17-scenarios-RCP45.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "17",
-                "scenarios": "RCP45"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-17-scenarios-RCP85.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "17",
-                "scenarios": "RCP85"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-50-scenarios-RCP45.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "50",
-                "scenarios": "RCP45"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-50-scenarios-RCP85.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "50",
-                "scenarios": "RCP85"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-83-scenarios-RCP45.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "83",
-                "scenarios": "RCP45"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-83-scenarios-RCP85.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "83",
-                "scenarios": "RCP85"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-95-scenarios-RCP45.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "95",
-                "scenarios": "RCP45"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-95-scenarios-RCP85.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "95",
-                "scenarios": "RCP85"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-99-scenarios-RCP45.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "99",
-                "scenarios": "RCP45"
-            }
-        },
-        {
-            "rel": "item",
-            "href": "./sc-mapbox/sc-mapbox-ensemble-99-scenarios-RCP85.json",
-            "type": "application/json",
-            "properties": {
-                "ensemble": "99",
-                "scenarios": "RCP85"
-            }
-        },
-        {
-            "rel": "root",
-            "href": "../catalog.json",
-            "type": "application/json"
-        },
-        {
-            "rel": "parent",
-            "href": "../catalog.json",
-            "type": "application/json"
-        }
-    ],
-    "stac_extensions": [
-        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
-        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
-    ],
-    "title": "Shoreline change",
-    "keywords": [
-        "CoCliCo"
-    ],
-    "providers": [
-        {
-            "name": "Deltares",
-            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-            "roles": [
-                "producer",
-                "processor"
-            ],
-            "url": "https://www.deltares.nl"
-        }
-    ],
-    "assets": {
-        "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/shoreline_change_projections.zarr",
-            "title": "Global shoreline change projections for the year 2050 under RCP4.5 zarr root",
-            "description": "The root of the Global shoreline change projections for the year 2050 under RCP4.5 zarr dataset on public Google Cloud Storage.",
-            "roles": [
-                "data",
-                "zarr-root",
-                "gcs"
-            ]
-        }
+  "type": "Collection",
+  "id": "sc",
+  "stac_version": "1.0.0",
+  "description": "Projections of global shoreline change in view of climate change. This assessment considers the combined effects of ambient change (historical trends), sea level rise (RCP4.5 and RCP8.5) and storm driven (instantaneous) erosion. Data is computed for seven ensembles (1, 5, 17, 50, 83, 95 and 99th percentile) and two timesteps (2050 and 2100). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41558-020-0697-0) for more dataset-specific information.",
+  "links": [
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-1-scenarios-RCP45.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "1",
+        "scenarios": "RCP45"
+      }
     },
-    "deltares:units": "m",
-    "deltares:plotSeries": "ensemble",
-    "deltares:plotxAxis": "time",
-    "deltares:plotType": "area",
-    "deltares:min": -200,
-    "deltares:max": 200,
-    "deltares:linearGradient": [
-        {
-            "color": "hsla(8,100%,43%, 0.7)",
-            "offset": "0.000%",
-            "opacity": 100
-        },
-        {
-            "color": "hsla(39, 203%, 221%, 0.5)",
-            "offset": "50.000%",
-            "opacity": 100
-        },
-        {
-            "color": "hsla(228,100%,42%, 0.7)",
-            "offset": "100.000%",
-            "opacity": 100
-        }
-    ],
-    "cube:dimensions": {
-        "time": {
-            "extent": [
-                "2050",
-                "2100"
-            ],
-            "description": "time",
-            "type": "temporal"
-        },
-        "lon": {
-            "axis": "x",
-            "extent": [
-                -179.3,
-                179.43
-            ],
-            "description": "longitude",
-            "reference_system": {
-                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
-                "type": "GeographicCRS",
-                "name": "WGS 84",
-                "datum_ensemble": {
-                    "name": "World Geodetic System 1984 ensemble",
-                    "members": [
-                        {
-                            "name": "World Geodetic System 1984 (Transit)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1166
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G730)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1152
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G873)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1153
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G1150)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1154
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G1674)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1155
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G1762)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1156
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G2139)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1309
-                            }
-                        }
-                    ],
-                    "ellipsoid": {
-                        "name": "WGS 84",
-                        "semi_major_axis": 6378137,
-                        "inverse_flattening": 298.257223563
-                    },
-                    "accuracy": "2.0",
-                    "id": {
-                        "authority": "EPSG",
-                        "code": 6326
-                    }
-                },
-                "coordinate_system": {
-                    "subtype": "ellipsoidal",
-                    "axis": [
-                        {
-                            "name": "Geodetic latitude",
-                            "abbreviation": "Lat",
-                            "direction": "north",
-                            "unit": "degree"
-                        },
-                        {
-                            "name": "Geodetic longitude",
-                            "abbreviation": "Lon",
-                            "direction": "east",
-                            "unit": "degree"
-                        }
-                    ]
-                },
-                "scope": "Horizontal component of 3D system.",
-                "area": "World.",
-                "bbox": {
-                    "south_latitude": -90,
-                    "west_longitude": -180,
-                    "north_latitude": 90,
-                    "east_longitude": 180
-                },
-                "id": {
-                    "authority": "EPSG",
-                    "code": 4326
-                }
-            },
-            "type": "spatial"
-        },
-        "lat": {
-            "axis": "y",
-            "extent": [
-                -55.973,
-                66.414
-            ],
-            "description": "latitude",
-            "reference_system": {
-                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
-                "type": "GeographicCRS",
-                "name": "WGS 84",
-                "datum_ensemble": {
-                    "name": "World Geodetic System 1984 ensemble",
-                    "members": [
-                        {
-                            "name": "World Geodetic System 1984 (Transit)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1166
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G730)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1152
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G873)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1153
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G1150)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1154
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G1674)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1155
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G1762)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1156
-                            }
-                        },
-                        {
-                            "name": "World Geodetic System 1984 (G2139)",
-                            "id": {
-                                "authority": "EPSG",
-                                "code": 1309
-                            }
-                        }
-                    ],
-                    "ellipsoid": {
-                        "name": "WGS 84",
-                        "semi_major_axis": 6378137,
-                        "inverse_flattening": 298.257223563
-                    },
-                    "accuracy": "2.0",
-                    "id": {
-                        "authority": "EPSG",
-                        "code": 6326
-                    }
-                },
-                "coordinate_system": {
-                    "subtype": "ellipsoidal",
-                    "axis": [
-                        {
-                            "name": "Geodetic latitude",
-                            "abbreviation": "Lat",
-                            "direction": "north",
-                            "unit": "degree"
-                        },
-                        {
-                            "name": "Geodetic longitude",
-                            "abbreviation": "Lon",
-                            "direction": "east",
-                            "unit": "degree"
-                        }
-                    ]
-                },
-                "scope": "Horizontal component of 3D system.",
-                "area": "World.",
-                "bbox": {
-                    "south_latitude": -90,
-                    "west_longitude": -180,
-                    "north_latitude": 90,
-                    "east_longitude": 180
-                },
-                "id": {
-                    "authority": "EPSG",
-                    "code": 4326
-                }
-            },
-            "type": "spatial"
-        },
-        "ensemble": {
-            "values": [
-                "1",
-                "5",
-                "17",
-                "50",
-                "83",
-                "95",
-                "99"
-            ],
-            "type": "temporal"
-        },
-        "scenarios": {
-            "values": [
-                "RCP45",
-                "RCP85"
-            ],
-            "type": "temporal"
-        }
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-1-scenarios-RCP85.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "1",
+        "scenarios": "RCP85"
+      }
     },
-    "cube:variables": {
-        "lat": {
-            "type": "auxiliary",
-            "description": "latitude",
-            "dimensions": [
-                "stations"
-            ],
-            "unit": "degrees_north",
-            "attrs": {
-                "long_name": "latitude",
-                "standard_name": "latitude",
-                "units": "degrees_north"
-            },
-            "shape": [
-                518005
-            ],
-            "chunks": [
-                64751
-            ]
-        },
-        "lon": {
-            "type": "auxiliary",
-            "description": "longitude",
-            "dimensions": [
-                "stations"
-            ],
-            "unit": "degrees_east",
-            "attrs": {
-                "long_name": "longitude",
-                "standard_name": "longitude",
-                "units": "degrees_east"
-            },
-            "shape": [
-                518005
-            ],
-            "chunks": [
-                64751
-            ]
-        },
-        "sc": {
-            "type": "data",
-            "description": "Shoreline change",
-            "dimensions": [
-                "nscenarios",
-                "stations",
-                "time",
-                "nensemble"
-            ],
-            "unit": "m",
-            "attrs": {
-                "contents": "Global average long-term shoreline change",
-                "long_name": "Shoreline change",
-                "units": "m"
-            },
-            "shape": [
-                2,
-                518005,
-                2,
-                7
-            ],
-            "chunks": [
-                1,
-                64751,
-                1,
-                2
-            ]
-        }
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-5-scenarios-RCP45.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "5",
+        "scenarios": "RCP45"
+      }
     },
-    "extent": {
-        "spatial": {
-            "bbox": [
-                [
-                    -180.0,
-                    -90.0,
-                    180.0,
-                    90.0
-                ]
-            ]
-        },
-        "temporal": {
-            "interval": [
-                [
-                    null,
-                    null
-                ]
-            ]
-        }
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-5-scenarios-RCP85.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "5",
+        "scenarios": "RCP85"
+      }
     },
-    "license": "proprietary",
-    "summaries": {
-        "ensemble": [
-            "1",
-            "5",
-            "17",
-            "50",
-            "83",
-            "95",
-            "99"
-        ],
-        "scenarios": [
-            "RCP45",
-            "RCP85"
-        ]
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-17-scenarios-RCP45.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "17",
+        "scenarios": "RCP45"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-17-scenarios-RCP85.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "17",
+        "scenarios": "RCP85"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-50-scenarios-RCP45.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "50",
+        "scenarios": "RCP45"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-50-scenarios-RCP85.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "50",
+        "scenarios": "RCP85"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-83-scenarios-RCP45.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "83",
+        "scenarios": "RCP45"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-83-scenarios-RCP85.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "83",
+        "scenarios": "RCP85"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-95-scenarios-RCP45.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "95",
+        "scenarios": "RCP45"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-95-scenarios-RCP85.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "95",
+        "scenarios": "RCP85"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-99-scenarios-RCP45.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "99",
+        "scenarios": "RCP45"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-99-scenarios-RCP85.json",
+      "type": "application/json",
+      "properties": {
+        "ensemble": "99",
+        "scenarios": "RCP85"
+      }
+    },
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
     }
+  ],
+  "stac_extensions": [
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+  ],
+  "deltares:units": "m",
+  "deltares:plotSeries": "ensemble",
+  "deltares:plotxAxis": "time",
+  "deltares:plotType": "area",
+  "deltares:min": -200,
+  "deltares:max": 200,
+  "deltares:linearGradient": [
+    {
+      "color": "hsla(8,100%,43%, 0.7)",
+      "offset": "0.000%",
+      "opacity": 100
+    },
+    {
+      "color": "hsla(39, 203%, 221%, 0.5)",
+      "offset": "50.000%",
+      "opacity": 100
+    },
+    {
+      "color": "hsla(228,100%,42%, 0.7)",
+      "offset": "100.000%",
+      "opacity": 100
+    }
+  ],
+  "cube:dimensions": {
+    "time": {
+      "extent": [
+        "2050",
+        "2100"
+      ],
+      "description": "time",
+      "type": "temporal"
+    },
+    "lon": {
+      "axis": "x",
+      "extent": [
+        -179.3,
+        179.43
+      ],
+      "description": "longitude",
+      "reference_system": {
+        "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+        "type": "GeographicCRS",
+        "name": "WGS 84",
+        "datum_ensemble": {
+          "name": "World Geodetic System 1984 ensemble",
+          "members": [
+            {
+              "name": "World Geodetic System 1984 (Transit)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1166
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G730)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1152
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G873)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1153
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G1150)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1154
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G1674)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1155
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G1762)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1156
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G2139)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1309
+              }
+            }
+          ],
+          "ellipsoid": {
+            "name": "WGS 84",
+            "semi_major_axis": 6378137,
+            "inverse_flattening": 298.257223563
+          },
+          "accuracy": "2.0",
+          "id": {
+            "authority": "EPSG",
+            "code": 6326
+          }
+        },
+        "coordinate_system": {
+          "subtype": "ellipsoidal",
+          "axis": [
+            {
+              "name": "Geodetic latitude",
+              "abbreviation": "Lat",
+              "direction": "north",
+              "unit": "degree"
+            },
+            {
+              "name": "Geodetic longitude",
+              "abbreviation": "Lon",
+              "direction": "east",
+              "unit": "degree"
+            }
+          ]
+        },
+        "scope": "Horizontal component of 3D system.",
+        "area": "World.",
+        "bbox": {
+          "south_latitude": -90,
+          "west_longitude": -180,
+          "north_latitude": 90,
+          "east_longitude": 180
+        },
+        "id": {
+          "authority": "EPSG",
+          "code": 4326
+        }
+      },
+      "type": "spatial"
+    },
+    "lat": {
+      "axis": "y",
+      "extent": [
+        -55.973,
+        66.414
+      ],
+      "description": "latitude",
+      "reference_system": {
+        "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+        "type": "GeographicCRS",
+        "name": "WGS 84",
+        "datum_ensemble": {
+          "name": "World Geodetic System 1984 ensemble",
+          "members": [
+            {
+              "name": "World Geodetic System 1984 (Transit)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1166
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G730)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1152
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G873)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1153
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G1150)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1154
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G1674)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1155
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G1762)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1156
+              }
+            },
+            {
+              "name": "World Geodetic System 1984 (G2139)",
+              "id": {
+                "authority": "EPSG",
+                "code": 1309
+              }
+            }
+          ],
+          "ellipsoid": {
+            "name": "WGS 84",
+            "semi_major_axis": 6378137,
+            "inverse_flattening": 298.257223563
+          },
+          "accuracy": "2.0",
+          "id": {
+            "authority": "EPSG",
+            "code": 6326
+          }
+        },
+        "coordinate_system": {
+          "subtype": "ellipsoidal",
+          "axis": [
+            {
+              "name": "Geodetic latitude",
+              "abbreviation": "Lat",
+              "direction": "north",
+              "unit": "degree"
+            },
+            {
+              "name": "Geodetic longitude",
+              "abbreviation": "Lon",
+              "direction": "east",
+              "unit": "degree"
+            }
+          ]
+        },
+        "scope": "Horizontal component of 3D system.",
+        "area": "World.",
+        "bbox": {
+          "south_latitude": -90,
+          "west_longitude": -180,
+          "north_latitude": 90,
+          "east_longitude": 180
+        },
+        "id": {
+          "authority": "EPSG",
+          "code": 4326
+        }
+      },
+      "type": "spatial"
+    },
+    "ensemble": {
+      "values": [
+        "1",
+        "5",
+        "17",
+        "50",
+        "83",
+        "95",
+        "99"
+      ],
+      "type": "temporal"
+    },
+    "scenarios": {
+      "values": [
+        "RCP45",
+        "RCP85"
+      ],
+      "type": "temporal"
+    }
+  },
+  "cube:variables": {
+    "lat": {
+      "type": "auxiliary",
+      "description": "latitude",
+      "dimensions": [
+        "stations"
+      ],
+      "unit": "degrees_north",
+      "attrs": {
+        "long_name": "latitude",
+        "standard_name": "latitude",
+        "units": "degrees_north"
+      },
+      "shape": [
+        518005
+      ],
+      "chunks": [
+        64751
+      ]
+    },
+    "lon": {
+      "type": "auxiliary",
+      "description": "longitude",
+      "dimensions": [
+        "stations"
+      ],
+      "unit": "degrees_east",
+      "attrs": {
+        "long_name": "longitude",
+        "standard_name": "longitude",
+        "units": "degrees_east"
+      },
+      "shape": [
+        518005
+      ],
+      "chunks": [
+        64751
+      ]
+    },
+    "sc": {
+      "type": "data",
+      "description": "Shoreline change",
+      "dimensions": [
+        "nscenarios",
+        "stations",
+        "time",
+        "nensemble"
+      ],
+      "unit": "m",
+      "attrs": {
+        "contents": "Global average long-term shoreline change",
+        "long_name": "Shoreline change",
+        "units": "m"
+      },
+      "shape": [
+        2,
+        518005,
+        2,
+        7
+      ],
+      "chunks": [
+        1,
+        64751,
+        1,
+        2
+      ]
+    }
+  },
+  "title": "Shoreline change",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180.0,
+          -90.0,
+          180.0,
+          90.0
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          null,
+          null
+        ]
+      ]
+    }
+  },
+  "license": "proprietary",
+  "keywords": [
+    "CoCliCo"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+      "roles": [
+        "producer",
+        "processor"
+      ],
+      "url": "https://www.deltares.nl"
+    }
+  ],
+  "summaries": {
+    "ensemble": [
+      "1",
+      "5",
+      "17",
+      "50",
+      "83",
+      "95",
+      "99"
+    ],
+    "scenarios": [
+      "RCP45",
+      "RCP85"
+    ]
+  },
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/shoreline_change_projections.zarr",
+      "title": "Global shoreline change projections for the year 2050 under RCP4.5 zarr root",
+      "description": "The root of the Global shoreline change projections for the year 2050 under RCP4.5 zarr dataset on public Google Cloud Storage.",
+      "roles": [
+        "data",
+        "zarr-root",
+        "gcs"
+      ]
+    }
+  }
 }

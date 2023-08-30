@@ -6,4 +6,8 @@ root.describe()
 
 
 def test_catalog_is_valid():
-    assert root.validate_all() is None
+    # this will raise a Pystac exception if the catalog is not valid
+    n_validated = (
+        root.validate_all()
+    )  # validate all returns the number of items validated, but in older versions it returned None
+    assert type(n_validated) == int  # we used to test for None, but now we test for int
