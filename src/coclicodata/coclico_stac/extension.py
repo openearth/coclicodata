@@ -1,18 +1,16 @@
-import json
-from datetime import datetime, timedelta
-from pprint import pprint
+"""
+Module implementing the Coclico Extension for STAC items and collections.
+
+The Coclico Extension is a custom extension to the STAC specification that provides
+additional properties tailored to specific use-cases. This module offers utility
+methods and classes to apply and retrieve these properties.
+
+"""
+
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union, cast
-from uuid import uuid4
 
 import pystac
 from pystac.extensions.base import ExtensionManagementMixin, PropertiesExtension
-from pystac.utils import (
-    StringEnum,
-    datetime_to_str,
-    get_required,
-    map_opt,
-    str_to_datetime,
-)
 
 T = TypeVar("T", pystac.Collection, pystac.Item, pystac.Asset)
 
@@ -46,12 +44,8 @@ class CoclicoExtension(
     PropertiesExtension,
     ExtensionManagementMixin[Union[pystac.Collection, pystac.Item]],
 ):
-    """An abstract class that can be used to extend the properties of a
-    :class:`~pystac.Collection`, :class:`~pystac.Item`, or :class:`~pystac.Asset` with
-    properties from the :stac-ext:`CoCliCo Extension <coclico>`.
 
-
-    """
+    """A class extending the properties of STAC Collection, Item, or Asset with Coclico properties."""
 
     def apply(
         self,
@@ -68,7 +62,7 @@ class CoclicoExtension(
         max_: Optional[int] = None,
         linear_gradient: Optional[List[Dict[str, Any]]] = None,
     ) -> None:
-
+        """Apply Coclico properties to the STAC item or collection."""
         # these are added at item level
         self.item_key = item_key
         self.paint = paint
@@ -183,13 +177,12 @@ class CoclicoExtension(
 
     @classmethod
     def get_schema_uri(cls) -> str:
+        """Retrieve the schema URI for the Coclico properties."""
         return SCHEMA_URI
 
     @classmethod
     def ext(cls, obj: T, add_if_missing: bool = False) -> "CoclicoExtension[T]":
-        """Extends the given STAC Object with properties from the :stac-ext:`Coclico Extension
-         <coclico>`. This extension can be applied to instances of :class:`~pystac.Collection`,
-        :class:`~pystac.Item`.
+        """Extend the given STAC Object with the Coclico Extension properties.
 
         Adopted from both:
             - https://github.com/stac-utils/pystac/blob/3c5176f178a4345cb50d5dab83f1dab504ed2682/pystac/extensions/datacube.py
@@ -211,11 +204,7 @@ class CoclicoExtension(
 
 
 class CollectionCoclicoExtension(CoclicoExtension[pystac.Collection]):
-    """A concrete implementation of :class:`CoclicoExtension` on an
-    :class:`~pystac.Collection` that extends the properties of the Item to include
-    properties defined in the :stac-ext:`Coclico Extension <coclico>`.
-    This class should generally not be instantiated directly. Instead, call
-    :meth:`CoclicoExtension.ext` on an :class:`~pystac.Collection` to extend it.
+    """A class extending the properties of a STAC Collection with Coclico properties.
 
     Adopted from both:
         - https://github.com/stac-utils/pystac/blob/3c5176f178a4345cb50d5dab83f1dab504ed2682/pystac/extensions/datacube.py
@@ -228,6 +217,7 @@ class CollectionCoclicoExtension(CoclicoExtension[pystac.Collection]):
     properties: Dict[str, Any]
 
     def __init__(self, collection: pystac.Collection):
+        """Initialize the extension for a STAC collection."""
         self.collection = collection
         self.properties = collection.extra_fields
 
@@ -238,11 +228,7 @@ class CollectionCoclicoExtension(CoclicoExtension[pystac.Collection]):
 
 
 class ItemCoCliCoExtension(CoclicoExtension[pystac.Item]):
-    """A concrete implementation of :class:`DatacubeExtension` on an
-    :class:`~pystac.Item` that extends the properties of the Item to include properties
-    defined in the :stac-ext:`Datacube Extension <datacube>`.
-    This class should generally not be instantiated directly. Instead, call
-    :meth:`DatacubeExtension.ext` on an :class:`~pystac.Item` to extend it.
+    """A class extending the properties of a STAC Item with Coclico properties.
 
     Adopted from both:
         - https://github.com/stac-utils/pystac/blob/3c5176f178a4345cb50d5dab83f1dab504ed2682/pystac/extensions/datacube.py

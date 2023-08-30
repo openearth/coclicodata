@@ -9,11 +9,8 @@ import rioxarray as rioxarray
 import xarray as xr
 from shapely import wkb
 from shapely.geometry import mapping
-from stac.utils import get_mapbox_item_id
 
-# def get_mapbox_url(mapbox_proj: str, filename: str, var: str) -> str:
-#     """Generate tileset name"""
-#     return f"{mapbox_proj}.{pathlib.Path(filename).stem}_{var}"
+from coclicodata.coclico_stac.utils import get_mapbox_item_id
 
 
 def get_mapbox_url(

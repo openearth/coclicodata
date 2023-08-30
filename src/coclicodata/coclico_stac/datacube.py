@@ -1,5 +1,3 @@
-from typing import Dict, Union
-
 import numpy as np
 import pandas as pd
 import pystac
@@ -8,17 +6,12 @@ import xarray as xr
 from pystac.extensions.datacube import (
     AdditionalDimension,
     DatacubeExtension,
-    Dimension,
     DimensionType,
-    HorizontalSpatialDimension,
-    TemporalDimension,
-    Variable,
 )
 from xstac._xstac import (
     build_horizontal_dimension,
     build_temporal_dimension,
     build_variables,
-    maybe_infer_reference_system,
     maybe_infer_step,
 )
 
@@ -97,7 +90,6 @@ def add_datacube(
     dimensions = {}
 
     if temporal_dimension is not False:
-
         # convert time formatted year ([%Y]) to datetime. Without this conversion build_temporal_dimension
         # from xstac will interpret the time integer as 1970-01-01 00:00:00.000002015
         if ds[temporal_dimension].dtype.kind in np.typecodes["AllInteger"]:
@@ -117,7 +109,6 @@ def add_datacube(
         )
 
     if x_dimension:
-
         dimensions[x_dimension] = build_horizontal_dimension(
             ds,
             x_dimension,
@@ -140,7 +131,6 @@ def add_datacube(
         )
 
     for additional_dimension in additional_dimensions:
-
         dimensions[additional_dimension] = build_additional_dimension(
             ds,
             additional_dimension,

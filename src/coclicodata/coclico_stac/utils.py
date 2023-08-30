@@ -1,15 +1,10 @@
-import os
-import pathlib
 import re
-from copy import deepcopy
 from itertools import product
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
 import numpy as np
-import pystac
+import rioxarray
 import xarray as xr
-from pystac import Collection
-from pystac.extensions.datacube import DatacubeExtension, Dimension, Variable
 
 
 def rm_special_characters(
