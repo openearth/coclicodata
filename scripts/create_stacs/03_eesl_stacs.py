@@ -39,26 +39,27 @@ if __name__ == "__main__":
 
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
-    COLLECTION_ID = "cfr"  # name of stac collection
-    COLLECTION_TITLE = "Coastal flood risk"
-    DATASET_DESCRIPTION = """Dataset presenting the results of a European coastal flood risk assessment (present till 2100), incorporating impacts of climate change scenarios (RCP4.5 and RCP8.5) and different socio-economic pathways (SSP1, SSP3 and SSP5). Outcomes are expressed in Expected Annual Damage (EAD), EAD per Gross Domestic Product (EAD_GDP) and the Expected Annual number of People Affected (AEPA) per NUTS0 region (country) and are available for the years 2000, 2050 and 2100.  This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41558-018-0260-4) for more dataset-specific information. """
+    COLLECTION_ID = "eesl"  # name of stac collection
+    COLLECTION_TITLE = "Extreme sea level"
+    DATASET_DESCRIPTION = """The Extreme Sea Level (ESL) dataset represents the distribution of the total water level (TWL) design conditions at European scale. Both the ESL and the Episodic Extreme Water Level (EEWL, extreme sea level including storm surge level and wave height) are estimated for two climate scenarios (RCP4.5 and RCP8.5) as well as eight return periods (5, 10, 20, 50, 100, 200, 500 and 1000). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1002/2016EF000505) for more dataset-specific information."""
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "coastal_flood_risk.zarr"
-    VARIABLES = ["ead", "ead_gdp", "eapa"]  # xarray variables in dataset
+    DATASET_FILENAME = "europe_extreme_sea_level.zarr"
+    VARIABLES = ["eewl", "esl"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
     TEMPORAL_DIMENSION = "time"  # False, None or str; temporal ""
     ADDITIONAL_DIMENSIONS = [
+        "rp",
         "scenarios",
+        "ensemble",
     ]  # False, None, or str; additional dims ""
     DIMENSIONS_TO_IGNORE = [
         "stations",
         "nscenarios",
-        "geometry",
+        "nensemble",
     ]  # List of str; dims ignored by datacube
-
-    # hard-coded frontend properties
+    MAP_SELECTION_DIMS = {"ensemble": "mean", "time": 2100}
     STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
@@ -66,7 +67,8 @@ if __name__ == "__main__":
     # these are added at collection level
     UNITS = "m"
     PLOT_SERIES = "scenario"
-    PLOT_TYPE = "line"
+    PLOT_X_AXIS = "time"
+    PLOT_TYPE = "area"
     MIN = 0
     MAX = 3
     LINEAR_GRADIENT = [
@@ -109,17 +111,15 @@ if __name__ == "__main__":
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
 
-    # read data from gcs zarr store
-    ds = dataset_from_google_cloud(
-        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    )
-
-    # import xarray as xr
-
-    # fpath = pathlib.Path.home().joinpath(
-    #     "ddata", "tmp", "eu_coastal_flood_risk.zarr"
+    # # read data from gcs zarr store
+    # ds = dataset_from_google_cloud(
+    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     # )
-    # ds = xr.open_zarr(fpath)
+
+    import xarray as xr
+
+    fpath = pathlib.Path.home().joinpath("data", "tmp", DATASET_FILENAME)
+    ds = xr.open_zarr(fpath)
 
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
@@ -151,17 +151,19 @@ if __name__ == "__main__":
         additional_dimensions=ADDITIONAL_DIMENSIONS,
     )
 
-    # add datacube dimensions derived from xarray dataset to dataset stac_obj
-    collection = add_datacube(
-        stac_obj=collection,
-        ds=ds,
-        x_dimension=X_DIMENSION,
-        y_dimension=Y_DIMENSION,
-        temporal_dimension=TEMPORAL_DIMENSION,
-        additional_dimensions=ADDITIONAL_DIMENSIONS,
-    )
+    # This dataset has quite some dimensions, so if we would parse all information the end-user
+    # would be overwhelmed by all options. So for the stac items that we generate for the frontend
+    # visualizations a subset of the data is selected. Of course, this operation is dataset specific.
+    for k, v in MAP_SELECTION_DIMS.items():
+        if k in ds.dims and ds.coords:
+            ds = ds.sel({k: v})
+        else:
+            try:
+                # assume that coordinates with strings always have same dim name but with n
+                ds = ds.sel({"n" + k: k == v})
+            except:
+                raise ValueError(f"Cannot find {k}")
 
-    # generate stac feature keys (strings which will be stac item ids) for mapbox layers
     dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
     dimcombs = get_dimension_dot_product(dimvals)
 
@@ -170,13 +172,11 @@ if __name__ == "__main__":
 
     # create stac collection per variable and add to dataset collection
     for var in VARIABLES:
-
         # add zarr store as asset to stac_obj
         collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
-
             mapbox_url = get_mapbox_url(MAPBOX_PROJ, DATASET_FILENAME, var)
 
             # generate stac item key and add link to asset to the stac item
@@ -193,6 +193,12 @@ if __name__ == "__main__":
             coclico_ext.stations = STATIONS
             coclico_ext.on_click = ON_CLICK
 
+            # some datasets are reduced for frontend along certain dimension. Add that
+            # dimension to the properties
+            for k, v in MAP_SELECTION_DIMS.items():
+                if k not in dimcomb:
+                    feature.properties[k] = v
+
             # TODO: include this in our datacube?
             # add dimension key-value pairs to stac item properties dict
             for k, v in dimcomb.items():
@@ -201,7 +207,7 @@ if __name__ == "__main__":
             # add stac item to collection
             collection.add_item(feature, strategy=layout)
 
-    # if no variables present we still need to add zarr reference at colleciton level
+    # if no variables present we still need to add zarr reference at collection level
     if not VARIABLES:
         collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
@@ -220,6 +226,7 @@ if __name__ == "__main__":
     # the stac collection.
     coclico_ext.units = UNITS
     coclico_ext.plot_series = PLOT_SERIES
+    coclico_ext.plot_x_axis = PLOT_X_AXIS
     coclico_ext.plot_type = PLOT_TYPE
     coclico_ext.min_ = MIN
     coclico_ext.max_ = MAX
@@ -228,7 +235,12 @@ if __name__ == "__main__":
     # set extra link properties
     extend_links(collection, dimvals.keys())
 
-    # save and limit number of folders
+    # add reduced dimensions as links as well
+    extend_links(
+        collection,
+        {k: v for k, v in MAP_SELECTION_DIMS.items() if k not in dimvals.keys()}.keys(),
+    )
+
     catalog.add_child(collection)
 
     collection.normalize_hrefs(

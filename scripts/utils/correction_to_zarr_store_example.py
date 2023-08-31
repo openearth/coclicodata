@@ -9,7 +9,6 @@ from etl.cloud_services import dataset_from_google_cloud
 from etl.extract import clear_zarr_information
 
 if __name__ == "__main__":
-
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
     DATASET_FILENAME = "global_wave_energy_flux.zarr"

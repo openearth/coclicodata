@@ -2,21 +2,18 @@ import os
 import pathlib
 import subprocess
 import tempfile
+import warnings
 from itertools import product
 from posixpath import join as urljoin
+from typing import Optional, Union
 
 import gcsfs
 import geojson
 import xarray as xr
-from stac.utils import (
-    get_dimension_dot_product,
-    get_dimension_values,
-    get_mapbox_item_id,
-)
+from dotenv import load_dotenv
+from google.cloud import storage
 
-from etl import p_drive
-from etl.extract import clear_zarr_information, get_geojson
-from etl.keys import load_env_variables, load_google_credentials
+from coclicodata.drive_config import p_drive, proj_dir
 
 
 def _validate_fpath(*args: pathlib.Path) -> None:
@@ -126,6 +123,67 @@ def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
     subprocess.run(mapbox_cmd, shell=True)
 
 
+class CredentialLeakageWarning(Warning):
+    pass
+
+
+def load_env_variables(env_var_keys: list = list()) -> None:
+    warnings.warn(
+        "This function will be deprecated in the future, please the pacakge"
+        " python_dotenv to load environment variables.",
+        FutureWarning,
+    )
+    env_fpath = proj_dir.joinpath(".env")
+    if not env_fpath.exists():
+        raise FileNotFoundError(
+            "Processing data requires access keys for cloud services, which should be"
+            f" stored as environment variables in .../{proj_dir.joinpath('.env')}"
+        )
+
+    load_dotenv(env_fpath)
+    for env_var in env_var_keys:
+        if not env_var in os.environ:
+            raise KeyError(f"{env_var} not in environmental variables.")
+    print("Environmental variables loaded.")
+
+
+def load_google_credentials(google_token_fp: Union[pathlib.Path, None] = None) -> None:
+    warnings.warn(
+        "This function will be deprecated in the future, please use environment"
+        " variables instead. When Google cloud is installed on your computer"
+        " credentials can set using 'GOOGLE_DEFAULT' in the storage_kwargs argument",
+        FutureWarning,
+    )
+
+    if google_token_fp:
+        #  TODO: Manage keys at user level, not with shared drive. The code block below
+        # should tested by Windows users to see if gcloud credentials behave similar on
+        # that os. If so, the code block below can be used instead.
+        warnings.warn(
+            "Keys loaded from shared network drive.", CredentialLeakageWarning
+        )
+        if not google_token_fp.exists():
+            if not p_drive.exists():
+                raise FileNotFoundError(
+                    "Deltares drive not found, mount drive to access Google keys."
+                )
+            raise FileNotFoundError("Credential file does not exist.")
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(google_token_fp)
+        print("Google Application Credentials load into environment.")
+
+    else:
+        #  TODO: Migrate to token=None in gcsfs when bug that no credentials can be found is fixed.
+        gmail_pattern = "*@gmail.com"
+        p = pathlib.Path.home().joinpath(
+            ".config", "gcloud", "legacy_credentials", gmail_pattern, "adc.json"
+        )
+        p = list(p.parent.parent.expanduser().glob(p.parent.name))[0].joinpath(p.name)
+        if not p.exists():
+            raise FileNotFoundError("Google credentials not found.")
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(p)
+        print("Google Application Credentials load into environment.")
+
+
 if __name__ == "__main__":
     # hard-coded input params
     DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
@@ -161,4 +219,5 @@ if __name__ == "__main__":
     # # read data from cloud
     # ds = dataset_from_google_cloud(
     #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
+    # )
     # )

@@ -39,22 +39,25 @@ if __name__ == "__main__":
 
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
-    COLLECTION_ID = "smd"  # name of stac collection
-    COLLECTION_TITLE = "Global shoreline morphodynamics"
-    DATASET_DESCRIPTION = """Global long-term (1984-2015) shoreline evolution based on satellite observations. Per transect location (500 m spaced) it is assessed what the change from land to sea, land to active zone and active zone to sea (erosion) as well as sea to land, sea to active zone and active zone to land (accretion) is. This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41598-018-30904-w) for more dataset-specific information. """
+    COLLECTION_ID = "cbca"  # name of stac collection
+    COLLECTION_TITLE = "Cost benefit coastal adaptation"
+    DATASET_DESCRIPTION = """Dataset describing the costs and benefits of raising coastal defenses along the European coastline aggregated per coastal NUTS2 region (provinces), in view of climate change. Variables are cost (€), benefit (€), cost-benefit ratio (cbr, -) and extra benefit of raising coastal protection (eb, m) for two different climate scenarios (RCP4.5 and RCP8.5) coupled to two types of socio-economic growth (SSP1 – sustainability and SSP5 – fossil fuel development). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41467-020-15665-3) for more dataset-specific information."""
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "global_shoreline_morphodynamics.zarr"
-    VARIABLES = []  # xarray variables in dataset
+    DATASET_FILENAME = "eu_coastal_adaptation.zarr"
+    VARIABLES = ["benefit", "cost", "cbr", "eb"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
     TEMPORAL_DIMENSION = False  # False, None or str; temporal ""
-    ADDITIONAL_DIMENSIONS = []  # False, None, or str; additional dims ""
+    ADDITIONAL_DIMENSIONS = [
+        "scenarios",
+    ]  # False, None, or str; additional dims ""
     DIMENSIONS_TO_IGNORE = [
         "stations",
-        "nstations",
+        "nscenarios",
+        "geometry"
+        # "geometry"
     ]  # List of str; dims ignored by datacube
-
     # hard-coded frontend properties
     STATIONS = "locationId"
     TYPE = "circle"
@@ -63,7 +66,7 @@ if __name__ == "__main__":
     # these are added at collection level
     UNITS = "m"
     PLOT_SERIES = "scenario"
-    PLOT_TYPE = "line"
+    PLOT_TYPE = "bar"
     MIN = 0
     MAX = 3
     LINEAR_GRADIENT = [
@@ -114,7 +117,7 @@ if __name__ == "__main__":
     # import xarray as xr
 
     # fpath = pathlib.Path.home().joinpath(
-    #     "data", "tmp", "global_shoreline_morphodynamics.zarr"
+    #     "ddata", "tmp", "eu_coastal_adaptation.zarr"
     # )
     # ds = xr.open_zarr(fpath)
 
@@ -148,6 +151,16 @@ if __name__ == "__main__":
         additional_dimensions=ADDITIONAL_DIMENSIONS,
     )
 
+    # add datacube dimensions derived from xarray dataset to dataset stac_obj
+    collection = add_datacube(
+        stac_obj=collection,
+        ds=ds,
+        x_dimension=X_DIMENSION,
+        y_dimension=Y_DIMENSION,
+        temporal_dimension=TEMPORAL_DIMENSION,
+        additional_dimensions=ADDITIONAL_DIMENSIONS,
+    )
+
     # generate stac feature keys (strings which will be stac item ids) for mapbox layers
     dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
     dimcombs = get_dimension_dot_product(dimvals)
@@ -157,13 +170,11 @@ if __name__ == "__main__":
 
     # create stac collection per variable and add to dataset collection
     for var in VARIABLES:
-
         # add zarr store as asset to stac_obj
-        collection.add_asset("data", gen_zarr_asset(var, gcs_api_zarr_store))
+        collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
-
             mapbox_url = get_mapbox_url(MAPBOX_PROJ, DATASET_FILENAME, var)
 
             # generate stac item key and add link to asset to the stac item

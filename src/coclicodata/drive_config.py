@@ -1,7 +1,10 @@
+import os
 import pathlib
 import platform
-from importlib.resources import path
+import sys
 
+# read version from installed packag# Hacky solution for vscode debugger in modular mode.
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 # Deltares drive configurations.
 
 operating_system = platform.system()
@@ -12,7 +15,7 @@ elif operating_system == "Darwin":
     p_drive = pathlib.Path("/Volumes/p/")
 elif operating_system == "Linux":
     p_drive = pathlib.Path("/p/")
-else:  # linux or other
+else:
     raise ValueError(f"Cannot set p drive path for {operating_system}")
 
-rel_root = pathlib.Path(__file__).parent.parent
+proj_dir = pathlib.Path(__file__).parent.parent

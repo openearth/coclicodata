@@ -27,7 +27,6 @@ from etl import p_drive, rel_root
 
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-
     # hard-coded input params at project level
 
     catalog = pystac_client.Client.open(
@@ -45,7 +44,6 @@ if __name__ == "__main__":
         if "cube:variables" in dict_:
             for k, v in dict_["cube:variables"].items():
                 if "attrs" in v:
-
                     # if "long_name" in v["attrs"]:
                     #     d = {k: v["attrs"]["long_name"]}
                     #     result.append(d)
@@ -70,7 +68,6 @@ if __name__ == "__main__":
                     d = dict()
                     d["name"] = k
                     if "long_name" in v["attrs"]:
-
                         d["long_name"] = v["attrs"]["long_name"]
                         # d = {k: v["attrs"]["long_name"]}
                     if "standard_name" in v["attrs"]:

@@ -36,7 +36,7 @@ jobs:
           path: live
       - name: Release
         run: |
-          python convert.py
+          python ci/convert.py
           rm -rf ../live/current
           cp -rp live ../live/current
           cd ../live

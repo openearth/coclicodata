@@ -44,7 +44,9 @@ class IO(DefaultStacIO):
         return x
 
     def json_dumps(self, json_dict: Dict[str, Any], *args: Any, **kwargs: Any) -> str:
-        return json.dumps(IO.dict_replace_value(json_dict, "\\", "/"), *args, indent=4, **kwargs)
+        return json.dumps(
+            IO.dict_replace_value(json_dict, "\\", "/"), *args, indent=4, **kwargs
+        )
 
 
 class Layout(BestPracticesLayoutStrategy):
@@ -109,7 +111,6 @@ def gen_default_props(
     key="rp_5",
     **kwargs,
 ):
-
     return {
         **kwargs,
         "deltares:stations": "locationId",
@@ -257,7 +258,7 @@ if __name__ == "__main__":
         feature = gen_default_item(f"{variable}-mapbox-{key}")
         feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url, mapbox_source))
         feature.properties = gen_default_props(key=key)
-        for (k, v) in zip(dimvals.keys(), values):
+        for k, v in zip(dimvals.keys(), values):
             feature.properties[k] = v
         dataset.add_item(feature, strategy=layout)
 
