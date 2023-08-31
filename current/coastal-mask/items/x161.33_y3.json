@@ -1,139 +1,141 @@
 {
-  "type": "Feature",
-  "stac_version": "1.0.0",
-  "id": "x161.33_y3.08",
-  "properties": {
-    "created": "2023-08-25T17:11:48.155734Z",
-    "proj:bbox": [
-      161.3329166666667,
-      -10.573750000000004,
-      174.98625,
-      3.0795833333333325
-    ],
-    "proj:shape": [
-      16384,
-      16384
-    ],
-    "proj:epsg": 4326,
-    "proj:geometry": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            174.98625,
-            -10.573750000000004
-          ],
-          [
+    "type": "Feature",
+    "stac_version": "1.0.0",
+    "id": "x161.33_y3.08",
+    "properties": {
+        "created": "2023-08-31T20:24:05.909176Z",
+        "proj:bbox": [
+            161.3329166666667,
+            -10.573750000000004,
             174.98625,
             3.0795833333333325
-          ],
-          [
+        ],
+        "proj:shape": [
+            16384,
+            16384
+        ],
+        "proj:epsg": 4326,
+        "proj:geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        174.98625,
+                        -10.573750000000004
+                    ],
+                    [
+                        174.98625,
+                        3.0795833333333325
+                    ],
+                    [
+                        161.3329166666667,
+                        3.0795833333333325
+                    ],
+                    [
+                        161.3329166666667,
+                        -10.573750000000004
+                    ],
+                    [
+                        174.98625,
+                        -10.573750000000004
+                    ]
+                ]
+            ]
+        },
+        "proj:transform": [
+            0.0008333333333333334,
+            0.0,
             161.3329166666667,
+            0.0,
+            -0.0008333333333333334,
             3.0795833333333325
-          ],
-          [
-            161.3329166666667,
-            -10.573750000000004
-          ],
-          [
-            174.98625,
-            -10.573750000000004
-          ]
-        ]
-      ]
+        ],
+        "deltares:item_key": "x161.33_y3.08",
+        "datetime": "2022-02-22T00:00:00Z"
     },
-    "proj:transform": [
-      0.0008333333333333334,
-      0.0,
-      161.3329166666667,
-      0.0,
-      -0.0008333333333333334,
-      3.0795833333333325
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    174.98625,
+                    -10.573750000000004
+                ],
+                [
+                    174.98625,
+                    3.0795833333333325
+                ],
+                [
+                    161.3329166666667,
+                    3.0795833333333325
+                ],
+                [
+                    161.3329166666667,
+                    -10.573750000000004
+                ],
+                [
+                    174.98625,
+                    -10.573750000000004
+                ]
+            ]
+        ]
+    },
+    "links": [
+        {
+            "rel": "collection",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Coastal Mask"
+        },
+        {
+            "rel": "root",
+            "href": "../../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Coastal Mask"
+        }
     ],
-    "datetime": "2022-02-22T00:00:00Z"
-  },
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          174.98625,
-          -10.573750000000004
-        ],
-        [
-          174.98625,
-          3.0795833333333325
-        ],
-        [
-          161.3329166666667,
-          3.0795833333333325
-        ],
-        [
-          161.3329166666667,
-          -10.573750000000004
-        ],
-        [
-          174.98625,
-          -10.573750000000004
-        ]
-      ]
-    ]
-  },
-  "links": [
-    {
-      "rel": "collection",
-      "href": "../collection.json",
-      "type": "application/json",
-      "title": "Coastal Mask"
-    },
-    {
-      "rel": "root",
-      "href": "../../catalog.json",
-      "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
-    },
-    {
-      "rel": "parent",
-      "href": "../collection.json",
-      "type": "application/json",
-      "title": "Coastal Mask"
-    }
-  ],
-  "assets": {
-    "B01": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/coastal_mask/B01_x161.33_y3.08.tif",
-      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
-      "title": "B01",
-      "file:size": 430653,
-      "raster:bands": [
-        {
-          "nodata": 0,
-          "data_type": "uint8",
-          "spatial_resolution": 30
+    "assets": {
+        "B01": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/coastal_mask/B01_x161.33_y3.08.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "B01",
+            "file:size": 430653,
+            "raster:bands": [
+                {
+                    "nodata": 0,
+                    "data_type": "uint8",
+                    "spatial_resolution": 30
+                }
+            ],
+            "eo:bands": [
+                {
+                    "name": "B01",
+                    "description": "Coastal mask for this region."
+                }
+            ],
+            "roles": [
+                "data"
+            ]
         }
-      ],
-      "eo:bands": [
-        {
-          "name": "B01",
-          "description": "Coastal mask for this region."
-        }
-      ],
-      "roles": [
-        "data"
-      ]
-    }
-  },
-  "bbox": [
-    161.3329166666667,
-    -10.573750000000004,
-    174.98625,
-    3.0795833333333325
-  ],
-  "stac_extensions": [
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
-    "https://stac-extensions.github.io/file/v2.0.0/schema.json",
-    "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
-    "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
-  ],
-  "collection": "coastal-mask"
+    },
+    "bbox": [
+        161.3329166666667,
+        -10.573750000000004,
+        174.98625,
+        3.0795833333333325
+    ],
+    "stac_extensions": [
+        "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/refactor-to-python-package/json-schema/schema.json",
+        "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+    ],
+    "collection": "coastal-mask"
 }
