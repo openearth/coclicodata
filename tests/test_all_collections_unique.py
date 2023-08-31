@@ -1,6 +1,6 @@
 from pystac import Catalog
 
-href = "../current/catalog.json"
+href = "./current/catalog.json"
 root = Catalog.from_file(href)
 
 
