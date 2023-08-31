@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://raw.githubusercontent.com/openearth/coclicodata/refactor-to-python-package/json-schema/schema.json#",
+    "$id": "/Users/calkoen/dev/coclicodata/json-schema/deltares-schema.json",
     "title": "Deltares Extension",
     "description": "STAC Deltares Extension for STAC Items and STAC Collections.",
     "oneOf": [
@@ -23,10 +23,6 @@
                         },
                         "properties": {
                             "allOf": [
-                                {
-                                    "$comment": "Require fields here for Item Properties.",
-                                    "required": []
-                                },
                                 {
                                     "$ref": "#/definitions/fields"
                                 }
@@ -65,10 +61,6 @@
                 {
                     "$comment": "This is the schema for the top-level fields in a Collection.",
                     "allOf": [
-                        {
-                            "$comment": "Require fields here for Collections (top-level).",
-                            "required": []
-                        },
                         {
                             "$ref": "#/definitions/fields"
                         }
@@ -148,78 +140,13 @@
                 "stac_extensions": {
                     "type": "array",
                     "contains": {
-                        "const": "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+                        "const": "/Users/calkoen/dev/coclicodata/json-schema/deltares-schema.json"
                     }
                 }
             }
         },
-        "require_any_field": {
-            "$comment": "Please list all fields here so that we can force the existence of one of them in other parts of the schemas.",
-            "anyOf": [
-                {
-                    "required": [
-                        "deltares:item_id"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:paint"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:type"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:stations"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:onclick"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:units"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:plotSeries"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:plotType"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:plotxAxis"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:min"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:max"
-                    ]
-                },
-                {
-                    "required": [
-                        "deltares:linearGradient"
-                    ]
-                }
-            ]
-        },
         "fields": {
-            "$comment": "Add your new fields here. Don't require them here, do that above in the corresponding schema.",
+            "$comment": "Deltares fields definitions",
             "type": "object",
             "properties": {
                 "deltares:item_key": {
