@@ -14,7 +14,7 @@ from pystac.extensions.base import ExtensionManagementMixin, PropertiesExtension
 
 T = TypeVar("T", pystac.Collection, pystac.Item, pystac.Asset)
 
-SCHEMA_URI = "https://raw.githubusercontent.com/openearth/coclicodata/refactor-to-python-package/json-schema/schema.json"
+SCHEMA_URI = "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json"
 
 PREFIX: str = "deltares:"
 
