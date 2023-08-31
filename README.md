@@ -41,6 +41,23 @@ from coclicodata.coclico_stac import utils
 # Further code utilizing the utils module...
 ```
 
+## Use pre-commit locally
+
+Ensure consistent code formatting and avoid big repositories by removing output with pre-commit.
+
+In the root of the repository run:
+
+```bash
+pre-commit install
+```
+
+If the hooks catch issues when you commit your changes, they will fix them automatically.:
+
+```bash
+git commit -m "Your message"
+```
+Once hooks pass, push your changes.
+
 ## Test
 
 You can run `pytest` to check whether you current STAC collection is valid. The command
@@ -95,6 +112,7 @@ of the catalog will be published in the `live` branch that can be used externall
 
 - **tests**: Contains test scripts to ensure code quality and functionality.
 
+- `.pre-commit-config.yaml`: Hooks that will be run when making a commit.
 - `metadata_template.json`: Template file for a STAC collection from a dataset.
 
 ## Metadata
