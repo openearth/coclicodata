@@ -14,12 +14,8 @@ from pystac.extensions.base import ExtensionManagementMixin, PropertiesExtension
 
 T = TypeVar("T", pystac.Collection, pystac.Item, pystac.Asset)
 
-# TODO: make schema for frontend coclico properties
-# host schema at a server, for example:
-SCHEMA_URI = "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+SCHEMA_URI = "https://raw.githubusercontent.com/openearth/coclicodata/refactor-to-python-package/json-schema/schema.json"
 
-
-# TODO: property getters/setters per property. Props below are not used yet.
 PREFIX: str = "deltares:"
 
 # list of properties that are added at item level
