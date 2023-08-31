@@ -1,10 +1,10 @@
 from pystac import Catalog
 
+href = "../current/catalog.json"
+root = Catalog.from_file(href)
+
 
 def test_all_collections_unique():
-    href = "../current/catalog.json"
-    root = Catalog.from_file(href)
-
     collections = root.get_all_collections()
     collection_ids = [collection.id for collection in collections]
 

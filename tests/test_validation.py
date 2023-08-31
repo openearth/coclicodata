@@ -1,9 +1,10 @@
 from pystac import Catalog
 
+href = "../current/catalog.json"
+root = Catalog.from_file(href)
+
 
 def test_catalog_is_valid():
-    href = "../current/catalog.json"
-    root = Catalog.from_file(href)
     # this will raise a Pystac exception if the catalog is not valid
     n_validated = (
         root.validate_all()
