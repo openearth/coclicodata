@@ -1,6 +1,8 @@
+#%%
 import pathlib
 import sys
 from importlib.resources import path
+import os
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
@@ -35,31 +37,33 @@ if __name__ == "__main__":
     MAPBOX_PROJ = "global-data-viewer"
 
     # hard-coded input params at project level
-    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
-    dataset_dir = coclico_data_dir.joinpath("01_storm_surge_jrc")
-    IN_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"  # original filename as on P drive
+    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FULLTRACK_DATA")
+    dataset_dir = coclico_data_dir.joinpath("WP3")
+    Gcred_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
+    IN_FILENAME = "SLP_MvS.zarr"  # original filename as on P drive
     OUT_FILENAME = (  # file name in the cloud and on MapBox
-        "europe_storm_surge_level.zarr"
+        "sea_level_projections.zarr"
     )
-    VARIABLES = ["ssl"]
+    VARIABLES = ["slp"]
     ADDITIONAL_DIMENSIONS = [
-        "rp",
-        "scenarios",
+        "ssp",
+        "ensemble",
+        "time"
     ]  # dimensions to include
     # use these to reduce dimension, e.g., {ensemble: "mean", "time": [1995, 2020, 2100]}
     MAP_SELECTION_DIMS = {
-        "scenarios": ["Historical", "RCP45", "RCP85"],
-        "rp": [5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0],
+        "ssp": ["ssp126","ssp585","ssp245","high"],
+        "ensemble": ["low", "median", "high"],
+        "time":[2030, 2050, 2100, 2150]
     }
     DIMENSIONS_TO_IGNORE = [
-        "stations",
-        "nscenarios",
+        "nlocs",
     ]  # dimensions to ignore
 
     # TODO: safe cloud creds in password client
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
     load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+        google_token_fp=Gcred_dir.joinpath("google_credentials.json")
     )
 
     # TODO: come up with checks for data
@@ -67,13 +71,13 @@ if __name__ == "__main__":
     # upload data to gcs from local drive
     source_data_fp = dataset_dir.joinpath(IN_FILENAME)
 
-    # dataset_to_google_cloud(
-    #     ds=source_data_fp,
-    #     gcs_project=GCS_PROJECT,
-    #     bucket_name=BUCKET_NAME,
-    #     bucket_proj=BUCKET_PROJ,
-    #     zarr_filename=OUT_FILENAME,
-    # )
+    """ dataset_to_google_cloud(
+        ds=source_data_fp,
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        zarr_filename=OUT_FILENAME,
+    ) """
 
     # read data from gcs
     ds = dataset_from_google_cloud(
@@ -112,7 +116,7 @@ if __name__ == "__main__":
 
     for var in VARIABLES:
         collection = get_geojson(
-            ds, variable=var, dimension_combinations=dimcombs, stations_dim="stations"
+            ds, variable=var, dimension_combinations=dimcombs, stations_dim="locs"
         )
 
         # save feature collection as geojson in tempdir and upload to cloud
@@ -128,6 +132,10 @@ if __name__ == "__main__":
 
             fp = pathlib.Path(outdir, fn).with_suffix(".geojson")
 
+            # Create directory if necessary
+            if not os.path.exists(os.path.dirname(str(fp))):
+                os.mkdir(os.path.dirname(str(fp)))
+
             with open(fp, "w") as f:
                 # load
                 print(f"Writing data to {fp}")
@@ -137,3 +145,5 @@ if __name__ == "__main__":
             # Note, if mapbox cli raises en util collection error, this should be monkey
             # patched. Instructions are in documentation of the function.
             geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
+
+# %%
