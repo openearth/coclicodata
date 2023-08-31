@@ -172,13 +172,11 @@ if __name__ == "__main__":
 
     # create stac collection per variable and add to dataset collection
     for var in VARIABLES:
-
         # add zarr store as asset to stac_obj
         collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
 
         # stac items are generated per AdditionalDimension (non spatial)
         for dimcomb in dimcombs:
-
             mapbox_url = get_mapbox_url(MAPBOX_PROJ, DATASET_FILENAME, var)
 
             # generate stac item key and add link to asset to the stac item

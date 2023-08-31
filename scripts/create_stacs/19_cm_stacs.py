@@ -330,7 +330,6 @@ def collate(items: xr.DataArray) -> List[pystac.Item]:
 
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-
     # hard-coded input params at project level
     GCS_PROTOCOL = "https://storage.googleapis.com"
     GCS_PROJECT = "DGDS - I1000482-002"
