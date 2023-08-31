@@ -51,9 +51,29 @@ will automatically run the test scripts that are maintained in `tests/test_*.py`
 On successful validation of STAC catalog in the main branch, an **absolute** version 
 of the catalog will be published in the `live` branch that can be used externally.
 
-## CoCliCoData Package Structure
+## CoCliCoData repository structure
 
-- **coclicodata**
+- **ci**
+  - `convert.py`: CI script to convert current to live stacs.
+
+- **current**: STAC catalog that is used for web portal development.
+
+- **docs**: Various documentation images like flowcharts and diagrams representing data formats and workflows.
+
+- **json-schema**
+  - `schema.json`: JSON schema definition for the frontend Deltares STAC extension.
+
+- **live**: STAC catalog that is used by the web-portal to serve end users.
+
+- **notebooks**: Jupyter notebooks used to load, explore and transform the data;
+  typically one per dataset, to make it CF compliant.
+
+- **scripts**
+  - **bash**: Shell scripts, like `build-stacs.sh` and `upload-stacs-to-azure.sh`, for various automation tasks.
+  - **create_stacs**: Python scripts for creating STACs, each typically corresponding to a specific dataset or processing step.
+  - **utils**: Utility scripts, like `coclico_common_vocab_from_stac.py` and `upload_and_generate_geojson.py`, for various data operations.
+
+- **src/coclicodata**
   - `__init__.py`: Main package initialization.
   - `drive_config.py`: Configuration settings for the drive or storage medium.
   - **etl**
@@ -71,9 +91,11 @@ of the catalog will be published in the `live` branch that can be used externall
     - `templates.py`: Defines CoCliCo templates for generating STAC items, assets and collections.
     - `utils.py`: Utility functions for data migration and other STAC-related operations.
 
+- **stories**: Contains narrative data and associated images.
 
+- **tests**: Contains test scripts to ensure code quality and functionality.
 
-
+- `metadata_template.json`: Template file for a STAC collection from a dataset.
 
 ## Metadata
 
