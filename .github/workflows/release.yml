@@ -12,15 +12,15 @@ jobs:
         working-directory: ./main
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: [3.11]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: main
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -30,13 +30,13 @@ jobs:
         run: |
           pytest
       - name: Checkout release branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: live
           path: live
       - name: Release
         run: |
-          python convert.py
+          python ci/convert.py
           rm -rf ../live/current
           cp -rp live ../live/current
           cd ../live

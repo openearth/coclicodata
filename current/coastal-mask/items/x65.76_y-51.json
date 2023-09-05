@@ -1,0 +1,141 @@
+{
+    "type": "Feature",
+    "stac_version": "1.0.0",
+    "id": "x65.76_y-51.53",
+    "properties": {
+        "created": "2023-08-31T20:25:07.750827Z",
+        "proj:bbox": [
+            65.75958333333335,
+            -60.000416666666666,
+            79.41291666666669,
+            -51.53375
+        ],
+        "proj:shape": [
+            10160,
+            16384
+        ],
+        "proj:epsg": 4326,
+        "proj:geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        79.41291666666669,
+                        -60.000416666666666
+                    ],
+                    [
+                        79.41291666666669,
+                        -51.53375
+                    ],
+                    [
+                        65.75958333333335,
+                        -51.53375
+                    ],
+                    [
+                        65.75958333333335,
+                        -60.000416666666666
+                    ],
+                    [
+                        79.41291666666669,
+                        -60.000416666666666
+                    ]
+                ]
+            ]
+        },
+        "proj:transform": [
+            0.0008333333333333334,
+            0.0,
+            65.75958333333335,
+            0.0,
+            -0.0008333333333333334,
+            -51.53375
+        ],
+        "deltares:item_key": "x65.76_y-51.53",
+        "datetime": "2022-02-22T00:00:00Z"
+    },
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    79.41291666666669,
+                    -60.000416666666666
+                ],
+                [
+                    79.41291666666669,
+                    -51.53375
+                ],
+                [
+                    65.75958333333335,
+                    -51.53375
+                ],
+                [
+                    65.75958333333335,
+                    -60.000416666666666
+                ],
+                [
+                    79.41291666666669,
+                    -60.000416666666666
+                ]
+            ]
+        ]
+    },
+    "links": [
+        {
+            "rel": "collection",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Coastal Mask"
+        },
+        {
+            "rel": "root",
+            "href": "../../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Coastal Mask"
+        }
+    ],
+    "assets": {
+        "B01": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/coastal_mask/B01_x65.76_y-51.53.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "B01",
+            "file:size": 255605,
+            "raster:bands": [
+                {
+                    "nodata": 0,
+                    "data_type": "uint8",
+                    "spatial_resolution": 30
+                }
+            ],
+            "eo:bands": [
+                {
+                    "name": "B01",
+                    "description": "Coastal mask for this region."
+                }
+            ],
+            "roles": [
+                "data"
+            ]
+        }
+    },
+    "bbox": [
+        65.75958333333335,
+        -60.000416666666666,
+        79.41291666666669,
+        -51.53375
+    ],
+    "stac_extensions": [
+        "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
+        "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+    ],
+    "collection": "coastal-mask"
+}

@@ -223,45 +223,20 @@
         {
             "rel": "root",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         },
         {
             "rel": "parent",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         }
     ],
     "stac_extensions": [
-        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-    "title": "Extreme surge level",
-    "keywords": [
-        "CoCliCo"
-    ],
-    "providers": [
-        {
-            "name": "Deltares",
-            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-            "roles": [
-                "producer",
-                "processor"
-            ],
-            "url": "https://www.deltares.nl"
-        }
-    ],
-    "assets": {
-        "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_storm_surge_level.zarr",
-            "title": "European extreme storm surge level zarr root",
-            "description": "The root of the European extreme storm surge level zarr dataset on public Google Cloud Storage.",
-            "roles": [
-                "data",
-                "zarr-root",
-                "gcs"
-            ]
-        }
-    },
     "deltares:units": "m",
     "deltares:plotSeries": "scenarios",
     "deltares:plotxAxis": "rp",
@@ -587,6 +562,7 @@
             ]
         }
     },
+    "title": "Extreme surge level",
     "extent": {
         "spatial": {
             "bbox": [
@@ -608,6 +584,20 @@
         }
     },
     "license": "proprietary",
+    "keywords": [
+        "CoCliCo"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+            "roles": [
+                "producer",
+                "processor"
+            ],
+            "url": "https://www.deltares.nl"
+        }
+    ],
     "summaries": {
         "rp": [
             5.0,
@@ -624,5 +614,17 @@
             "RCP45",
             "RCP85"
         ]
+    },
+    "assets": {
+        "data": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_storm_surge_level.zarr",
+            "title": "European extreme storm surge level zarr root",
+            "description": "The root of the European extreme storm surge level zarr dataset on public Google Cloud Storage.",
+            "roles": [
+                "data",
+                "zarr-root",
+                "gcs"
+            ]
+        }
     }
 }

@@ -2,7 +2,7 @@
     "type": "Collection",
     "id": "cbca",
     "stac_version": "1.0.0",
-    "description": "Dataset describing the costs and benefits of raising coastal defenses along the European coastline aggregated per coastal NUTS2 region (provinces), in view of climate change. Variables are cost (€), benefit (€), cost-benefit ratio (cbr, -) and extra benefit of raising coastal protection (eb, m) for two different climate scenarios (RCP4.5 and RCP8.5) coupled to two types of socio-economic growth (SSP1 – sustainability and SSP5 – fossil fuel development). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41467-020-15665-3) for more dataset-specific information.",
+    "description": "Dataset describing the costs and benefits of raising coastal defenses along the European coastline aggregated per coastal NUTS2 region (provinces), in view of climate change. Variables are cost (\u20ac), benefit (\u20ac), cost-benefit ratio (cbr, -) and extra benefit of raising coastal protection (eb, m) for two different climate scenarios (RCP4.5 and RCP8.5) coupled to two types of socio-economic growth (SSP1 \u2013 sustainability and SSP5 \u2013 fossil fuel development). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1038/s41467-020-15665-3) for more dataset-specific information.",
     "links": [
         {
             "rel": "item",
@@ -15,44 +15,19 @@
         {
             "rel": "root",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         },
         {
             "rel": "parent",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         }
     ],
     "stac_extensions": [
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-    "title": "Cost & benefit adaptation",
-    "keywords": [
-        "CoCliCo"
-    ],
-    "providers": [
-        {
-            "name": "Deltares",
-            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-            "roles": [
-                "producer",
-                "processor"
-            ],
-            "url": "https://www.deltares.nl"
-        }
-    ],
-    "assets": {
-        "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/eu_coastal_adaptation.zarr",
-            "title": "cbca zarr root",
-            "description": "The root of the cbca zarr dataset on public Google Cloud Storage.",
-            "roles": [
-                "data",
-                "zarr-root",
-                "gcs"
-            ]
-        }
-    },
     "deltares:units": "m",
     "deltares:plotSeries": "scenario",
     "deltares:plotType": "bar",
@@ -420,6 +395,7 @@
         }
     },
     "plotSeries": "scenario",
+    "title": "Cost & benefit adaptation",
     "extent": {
         "spatial": {
             "bbox": [
@@ -441,10 +417,36 @@
         }
     },
     "license": "proprietary",
+    "keywords": [
+        "CoCliCo"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+            "roles": [
+                "producer",
+                "processor"
+            ],
+            "url": "https://www.deltares.nl"
+        }
+    ],
     "summaries": {
         "scenarios": [
             "RCP45-SSP1",
             "RCP85-SSP5"
         ]
+    },
+    "assets": {
+        "data": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/eu_coastal_adaptation.zarr",
+            "title": "cbca zarr root",
+            "description": "The root of the cbca zarr dataset on public Google Cloud Storage.",
+            "roles": [
+                "data",
+                "zarr-root",
+                "gcs"
+            ]
+        }
     }
 }

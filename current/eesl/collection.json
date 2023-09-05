@@ -359,45 +359,20 @@
         {
             "rel": "root",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         },
         {
             "rel": "parent",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         }
     ],
     "stac_extensions": [
-        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-    "title": "Extreme sea level",
-    "keywords": [
-        "CoCliCo"
-    ],
-    "providers": [
-        {
-            "name": "Deltares",
-            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-            "roles": [
-                "producer",
-                "processor"
-            ],
-            "url": "https://www.deltares.nl"
-        }
-    ],
-    "assets": {
-        "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_extreme_sea_level.zarr",
-            "title": "Extreme Sea Levels zarr root",
-            "description": "The root of the Extreme Sea Levels zarr dataset on public Google Cloud Storage.",
-            "roles": [
-                "data",
-                "zarr-root",
-                "gcs"
-            ]
-        }
-    },
     "deltares:units": "m",
     "deltares:plotSeries": "ensemble",
     "deltares:plotxAxis": "time",
@@ -794,6 +769,7 @@
             ]
         }
     },
+    "title": "Extreme sea level",
     "extent": {
         "spatial": {
             "bbox": [
@@ -815,6 +791,20 @@
         }
     },
     "license": "proprietary",
+    "keywords": [
+        "CoCliCo"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+            "roles": [
+                "producer",
+                "processor"
+            ],
+            "url": "https://www.deltares.nl"
+        }
+    ],
     "summaries": {
         "scenarios": [
             "RCP45",
@@ -830,5 +820,17 @@
             500.0,
             1000.0
         ]
+    },
+    "assets": {
+        "data": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_extreme_sea_level.zarr",
+            "title": "Extreme Sea Levels zarr root",
+            "description": "The root of the Extreme Sea Levels zarr dataset on public Google Cloud Storage.",
+            "roles": [
+                "data",
+                "zarr-root",
+                "gcs"
+            ]
+        }
     }
 }

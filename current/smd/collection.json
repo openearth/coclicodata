@@ -7,45 +7,20 @@
         {
             "rel": "root",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         },
         {
             "rel": "parent",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         }
     ],
     "stac_extensions": [
-        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-    "title": "Global shoreline morphodynamics",
-    "keywords": [
-        "CoCliCo"
-    ],
-    "providers": [
-        {
-            "name": "Deltares",
-            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-            "roles": [
-                "producer",
-                "processor"
-            ],
-            "url": "https://www.deltares.nl"
-        }
-    ],
-    "assets": {
-        "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/global_shoreline_morphodynamics.zarr",
-            "title": "smd zarr root",
-            "description": "The root of the smd zarr dataset on public Google Cloud Storage.",
-            "roles": [
-                "data",
-                "zarr-root",
-                "gcs"
-            ]
-        }
-    },
     "deltares:units": "m",
     "deltares:plotSeries": "scenario",
     "deltares:plotxAxis": "time",
@@ -724,6 +699,7 @@
             ]
         }
     },
+    "title": "Global shoreline morphodynamics",
     "extent": {
         "spatial": {
             "bbox": [
@@ -744,5 +720,31 @@
             ]
         }
     },
-    "license": "proprietary"
+    "license": "proprietary",
+    "keywords": [
+        "CoCliCo"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+            "roles": [
+                "producer",
+                "processor"
+            ],
+            "url": "https://www.deltares.nl"
+        }
+    ],
+    "assets": {
+        "data": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/global_shoreline_morphodynamics.zarr",
+            "title": "smd zarr root",
+            "description": "The root of the smd zarr dataset on public Google Cloud Storage.",
+            "roles": [
+                "data",
+                "zarr-root",
+                "gcs"
+            ]
+        }
+    }
 }

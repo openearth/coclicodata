@@ -10,52 +10,27 @@
             "type": "application/json",
             "title": "nuts0-regions",
             "properties": {
-              "scenarios": "RCP4.5-SSP1",
-              "time": 2000
+                "scenarios": "RCP4.5-SSP1",
+                "time": 2000
             }
         },
         {
             "rel": "root",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         },
         {
             "rel": "parent",
             "href": "../catalog.json",
-            "type": "application/json"
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
         }
     ],
     "stac_extensions": [
-        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
-    "title": "Coastal flood risk",
-    "keywords": [
-        "CoCliCo"
-    ],
-    "providers": [
-        {
-            "name": "Deltares",
-            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
-            "roles": [
-                "producer",
-                "processor"
-            ],
-            "url": "https://www.deltares.nl"
-        }
-    ],
-    "assets": {
-        "data": {
-            "href": "https://storage.googleapis.com/dgds-data-public/coclico/coastal_flood_risk.zarr",
-            "title": "Expected Annual Damage zarr root",
-            "description": "The root of the Expected Annual Damage zarr dataset on public Google Cloud Storage.",
-            "roles": [
-                "data",
-                "zarr-root",
-                "gcs"
-            ]
-        }
-    },
     "deltares:units": "m",
     "deltares:plotSeries": "scenarios",
     "deltares:plotxAxis": "time",
@@ -453,6 +428,8 @@
             ]
         }
     },
+    "plotSeries": "scenario",
+    "title": "Coastal flood risk",
     "extent": {
         "spatial": {
             "bbox": [
@@ -474,7 +451,20 @@
         }
     },
     "license": "proprietary",
-    "plotSeries": "scenario", 
+    "keywords": [
+        "CoCliCo"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+            "roles": [
+                "producer",
+                "processor"
+            ],
+            "url": "https://www.deltares.nl"
+        }
+    ],
     "summaries": {
         "scenarios": [
             "RCP4.5-SSP1",
@@ -486,5 +476,17 @@
             2050,
             2100
         ]
+    },
+    "assets": {
+        "data": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/coastal_flood_risk.zarr",
+            "title": "Expected Annual Damage zarr root",
+            "description": "The root of the Expected Annual Damage zarr dataset on public Google Cloud Storage.",
+            "roles": [
+                "data",
+                "zarr-root",
+                "gcs"
+            ]
+        }
     }
 }
