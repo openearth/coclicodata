@@ -80,8 +80,6 @@ of the catalog will be published in the `live` branch that can be used externall
 - **json-schema**
   - `schema.json`: JSON schema definition for the frontend Deltares STAC extension.
 
-- **live**: STAC catalog that is used by the web-portal to serve end users.
-
 - **notebooks**: Jupyter notebooks used to load, explore and transform the data;
   typically one per dataset, to make it CF compliant.
 
@@ -113,7 +111,7 @@ of the catalog will be published in the `live` branch that can be used externall
 - **tests**: Contains test scripts to ensure code quality and functionality.
 
 - `.pre-commit-config.yaml`: Hooks that will be run when making a commit.
-- `metadata_template.json`: Template file for a STAC collection from a dataset.
+- `metadata_template.json`: Template file for a STAC collection from a dataset. For a full and formal explanation on metadata attributes see below.
 
 ## Metadata
 
