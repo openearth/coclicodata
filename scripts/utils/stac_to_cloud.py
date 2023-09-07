@@ -7,9 +7,8 @@ import os
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
-from etl.cloud_services import dir_to_google_cloud
-from etl.keys import load_google_credentials
-from etl import p_drive, rel_root
+from coclicodata.etl.cloud_utils import dir_to_google_cloud, load_google_credentials
+from coclicodata.drive_config import p_drive
 
 if __name__ == "__main__":
     # hard-coded input params
@@ -23,7 +22,9 @@ if __name__ == "__main__":
     coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
 
     # upload dir to gcs from local drive
-    source_dir_fp = str(pathlib.Path(__file__).parent.parent.joinpath(IN_DIRNAME))
+    source_dir_fp = str(
+        pathlib.Path(__file__).parent.parent.parent.joinpath(IN_DIRNAME)
+    )
 
     # load google credentials
     load_google_credentials(
