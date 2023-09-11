@@ -5,22 +5,14 @@ import sys
 import json
 from posixpath import join as urljoin
 
-# make modules importable when running this file as script
-# sys.path.append(str(pathlib.Path(__file__).parent.parent))
-
-# import coclicodata functionalities (TODO: import as package when ETL is decoupled from CoCliCo STAC; Etiënne & Floris now whereabouts)
-sys.path.append(
-    str(pathlib.Path().home().joinpath("Documents", "GitHub", "coclicodata"))
-)  # import functionality from local clone of coclicodata (make sure you pull the latest version)
-
 import pystac
-from etl import rel_root, p_drive
-from etl.cloud_services import dataset_from_google_cloud
-from etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
+from coclicodata.drive_config import p_drive
+from coclicodata.etl.cloud_utils import dataset_from_google_cloud
+from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
-from stac.blueprint import (
-    IO,
-    LayoutZarr,
+from coclicodata.coclico_stac.io import CoCliCoStacIO
+from coclicodata.coclico_stac.layouts import CoCliCoZarrLayout
+from coclicodata.coclico_stac.templates import (
     extend_links,
     gen_default_collection_props,
     gen_default_item,
@@ -30,9 +22,9 @@ from stac.blueprint import (
     gen_zarr_asset,
     get_template_collection,
 )
-from stac.coclico_extension import CoclicoExtension
-from stac.datacube import add_datacube
-from stac.utils import (
+from coclicodata.coclico_stac.extension import CoclicoExtension
+from coclicodata.coclico_stac.datacube import add_datacube
+from coclicodata.coclico_stac.utils import (
     get_dimension_dot_product,
     get_dimension_values,
     get_mapbox_item_id,
@@ -46,17 +38,16 @@ if __name__ == "__main__":
     MAPBOX_PROJ = "global-data-viewer"
 
     # hard-coded input params at project level
-    gca_data_dir = pathlib.Path(
-        # p_drive, "1000545-054-globalbeaches", "15_GlobalCoastalAtlas", "datasets"
+    coclico_data_dir = pathlib.Path(
         p_drive,
         "11205479-coclico",
         "FULLTRACK_DATA",
-        "WP3"
+        "WP3",
     )
-    dataset_dir = gca_data_dir
+    dataset_dir = coclico_data_dir.joinpath("pilot")
 
     # opening metadata
-    metadata_fp = gca_data_dir.joinpath("metadata","metadata_SLP.json")
+    metadata_fp = coclico_data_dir.joinpath("metadata", "metadata_SLP.json")
     with open(metadata_fp, "r") as f:
         metadata = json.load(f)
 
@@ -68,32 +59,38 @@ if __name__ == "__main__":
     DATASET_DESCRIPTION = metadata["DESCRIPTION"]
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "sea_level_projections.zarr"
-    VARIABLES = ["slp"]  # xarray variables in dataset
+    DATASET_FILENAME = "ar6_slr_pilots.zarr"
+    VARIABLES = ["slr"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
     TEMPORAL_DIMENSION = "time"  # False, None or str; temporal ""
     ADDITIONAL_DIMENSIONS = [
-        "ssp",
-        "ensemble",
-        "time"
+        "scenarios",
+        "time",
     ]  # Empty list or list of str; additional dims ""
     DIMENSIONS_TO_IGNORE = [
-        "nlocs",
+        "stations",
+        "nensemble",
+        "nscenarios",
     ]  # List of str; dims ignored by datacube
     MAP_SELECTION_DIMS = {
-        "ssp": ["ssp126","ssp585","ssp245","high"],
-        "ensemble": ["low", "median", "high"],
-        "time":[2030, 2050, 2100, 2150]
+        "scenarios": [
+            "high",
+            "ssp126",
+            "ssp245",
+            "ssp585",
+        ],
+        "time": [2030, 2050, 2100, 2150],
+        "nensemble": 1,
     }
     # hard-coded frontend properties
-    STATIONS = "locs"
+    STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
 
     # these are added at collection level (for graph plot in the dashboard)
     UNITS = "m"
-    PLOT_SERIES = "slp"
+    PLOT_SERIES = "slr"
     PLOT_X_AXIS = "time"
     PLOT_TYPE = "line"
     MIN = 0
@@ -160,11 +157,13 @@ if __name__ == "__main__":
 
     # load coclico data catalog
     catalog = Catalog.from_file(
-        os.path.join(pathlib.Path(__file__).parent.parent, STAC_DIR, "catalog.json")
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
     )
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent,
+        pathlib.Path(__file__).parent.parent.parent,
         STAC_DIR,
         TEMPLATE_COLLECTION,
         "collection.json",
@@ -176,7 +175,7 @@ if __name__ == "__main__":
         collection_id=COLLECTION_ID,
         title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
-        keywords=[]
+        keywords=[],
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
@@ -212,7 +211,7 @@ if __name__ == "__main__":
         dimcombs = []
 
     # TODO: check what can be customized in the layout
-    layout = LayoutZarr()
+    layout = CoCliCoZarrLayout()
 
     # create stac collection per variable and add to dataset collection
     for var in VARIABLES:
@@ -277,14 +276,16 @@ if __name__ == "__main__":
     catalog.add_child(collection)
 
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent, STAC_DIR, COLLECTION_ID),
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
+        ),
         strategy=layout,
     )
 
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
-        dest_href=os.path.join(pathlib.Path(__file__).parent.parent, STAC_DIR),
-        stac_io=IO(),
+        dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
+        stac_io=CoCliCoStacIO(),
     )
 
 # %%
