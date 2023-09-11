@@ -1,28 +1,29 @@
-#%%
+# %%
 import pathlib
 import sys
 from importlib.resources import path
 import os
 
 # make modules importable when running this file as script
-sys.path.append(str(pathlib.Path(__file__).parent.parent))
+# sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
 import geojson
 import xarray as xr
-from etl import p_drive
-from etl.cloud_services import (
+from coclicodata.etl.cloud_utils import (
+    p_drive,
     dataset_to_google_cloud,
     dataset_from_google_cloud,
     geojson_to_mapbox,
+    load_env_variables,
+    load_google_credentials,
 )
-from etl.extract import (
+from coclicodata.etl.extract import (
     clear_zarr_information,
     get_geojson,
     get_mapbox_url,
     zero_terminated_bytes_as_str,
 )
-from etl.keys import load_env_variables, load_google_credentials
-from stac.utils import (
+from coclicodata.coclico_stac.utils import (
     get_dimension_dot_product,
     get_dimension_values,
     get_mapbox_item_id,
@@ -38,32 +39,35 @@ if __name__ == "__main__":
 
     # hard-coded input params at project level
     coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FULLTRACK_DATA")
-    dataset_dir = coclico_data_dir.joinpath("WP3")
-    Gcred_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
+    dataset_dir = coclico_data_dir.joinpath("WP3", "pilot")
+    cred_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
     IN_FILENAME = "SLP_MvS.zarr"  # original filename as on P drive
-    OUT_FILENAME = (  # file name in the cloud and on MapBox
-        "sea_level_projections.zarr"
-    )
-    VARIABLES = ["slp"]
-    ADDITIONAL_DIMENSIONS = [
-        "ssp",
-        "ensemble",
-        "time"
-    ]  # dimensions to include
-    # use these to reduce dimension, e.g., {ensemble: "mean", "time": [1995, 2020, 2100]}
+    OUT_FILENAME = "ar6_slr_pilots.zarr"  # file name in the cloud and on MapBox
+    VARIABLES = ["slr"]  # what variable(s) do you want to show as marker color?
+    # dimensions to include, i.e. what are the dimensions that you want to use as to affect the marker color (never include stations). These will be the drop down menu's. Note down without n.. in front.
+    ADDITIONAL_DIMENSIONS = ["scenarios", "time"]
+    # use these to reduce dimension like {ensemble: "mean", "time": [1995, 2020, 2100]}, i.e. which of the dimensions do you want to use. Also specify the subsets (if there are a lot maybe make a selection). These will be the values in the drop down menu's. If only one (like mean), specify a value without a list to squeeze the dataset. Needs to span the entire dim space (except for (n)stations).
     MAP_SELECTION_DIMS = {
-        "ssp": ["ssp126","ssp585","ssp245","high"],
-        "ensemble": ["low", "median", "high"],
-        "time":[2030, 2050, 2100, 2150]
+        "scenarios": [
+            "high",
+            "ssp126",
+            "ssp245",
+            "ssp585",
+        ],  # TODO: fix bug. If I put ["ssp126", "ssp245", "ssp585"] if doesn't work properly as nscenarios and scenarios are disconnected in the variable. If I put nscenarios = [0,1,2] (like for ensembles) I get an error because of the disconnection
+        "time": [2030, 2050, 2100, 2150],
+        "nensemble": 1,  # TODO: fix bug. As I am not specifying ensemble in additional dimension, I cannot filter on ensemble: "mean"
     }
+    # which dimensions to ignore (if n... in front of dim, it goes searching in additional_dimension for dim without n in front (ntime -> time). Except for nstations, just specify station in this case). This spans up the remainder of the dimension space.
     DIMENSIONS_TO_IGNORE = [
-        "nlocs",
+        "stations",
+        "nensemble",
+        "nscenarios",
     ]  # dimensions to ignore
 
     # TODO: safe cloud creds in password client
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
     load_google_credentials(
-        google_token_fp=Gcred_dir.joinpath("google_credentials.json")
+        google_token_fp=cred_dir.joinpath("google_credentials.json")
     )
 
     # TODO: come up with checks for data
@@ -71,13 +75,13 @@ if __name__ == "__main__":
     # upload data to gcs from local drive
     source_data_fp = dataset_dir.joinpath(IN_FILENAME)
 
-    """ dataset_to_google_cloud(
+    dataset_to_google_cloud(
         ds=source_data_fp,
         gcs_project=GCS_PROJECT,
         bucket_name=BUCKET_NAME,
         bucket_proj=BUCKET_PROJ,
         zarr_filename=OUT_FILENAME,
-    ) """
+    )
 
     # read data from gcs
     ds = dataset_from_google_cloud(
@@ -116,7 +120,7 @@ if __name__ == "__main__":
 
     for var in VARIABLES:
         collection = get_geojson(
-            ds, variable=var, dimension_combinations=dimcombs, stations_dim="locs"
+            ds, variable=var, dimension_combinations=dimcombs, stations_dim="stations"
         )
 
         # save feature collection as geojson in tempdir and upload to cloud
@@ -142,7 +146,7 @@ if __name__ == "__main__":
                 geojson.dump(collection, f)
             print("Done!")
 
-            # Note, if mapbox cli raises en util collection error, this should be monkey
+            # Note, if mapbox cli raises an util collection error, this should be monkey
             # patched. Instructions are in documentation of the function.
             geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
 
