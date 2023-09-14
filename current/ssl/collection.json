@@ -234,8 +234,9 @@
         }
     ],
     "stac_extensions": [
-        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
-        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json"
     ],
     "deltares:units": "m",
     "deltares:plotSeries": "scenarios",
@@ -269,7 +270,7 @@
             ],
             "description": "longitude",
             "reference_system": {
-                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+                "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
                 "type": "GeographicCRS",
                 "name": "WGS 84",
                 "datum_ensemble": {
@@ -376,7 +377,7 @@
             ],
             "description": "latitude",
             "reference_system": {
-                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+                "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
                 "type": "GeographicCRS",
                 "name": "WGS 84",
                 "datum_ensemble": {
@@ -584,9 +585,6 @@
         }
     },
     "license": "proprietary",
-    "keywords": [
-        "CoCliCo"
-    ],
     "providers": [
         {
             "name": "Deltares",
@@ -625,6 +623,11 @@
                 "zarr-root",
                 "gcs"
             ]
+        },
+        "thumbnail": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/ssl.png",
+            "type": "image/png",
+            "title": "Thumbnail"
         }
     }
 }
