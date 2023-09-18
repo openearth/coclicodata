@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from google.cloud import storage
 
 from coclicodata.drive_config import p_drive, proj_dir
+from coclicodata.etl.extract import clear_zarr_information
 
 
 def _validate_fpath(*args: pathlib.Path) -> None:
@@ -129,8 +130,10 @@ class CredentialLeakageWarning(Warning):
 
 def load_env_variables(env_var_keys: list = list()) -> None:
     warnings.warn(
-        "This function will be deprecated in the future, please the pacakge"
-        " python_dotenv to load environment variables.",
+        (
+            "This function will be deprecated in the future, please the pacakge"
+            " python_dotenv to load environment variables."
+        ),
         FutureWarning,
     )
     env_fpath = proj_dir.joinpath(".env")
@@ -149,9 +152,11 @@ def load_env_variables(env_var_keys: list = list()) -> None:
 
 def load_google_credentials(google_token_fp: Union[pathlib.Path, None] = None) -> None:
     warnings.warn(
-        "This function will be deprecated in the future, please use environment"
-        " variables instead. When Google cloud is installed on your computer"
-        " credentials can set using 'GOOGLE_DEFAULT' in the storage_kwargs argument",
+        (
+            "This function will be deprecated in the future, please use environment"
+            " variables instead. When Google cloud is installed on your computer"
+            " credentials can set using 'GOOGLE_DEFAULT' in the storage_kwargs argument"
+        ),
         FutureWarning,
     )
 

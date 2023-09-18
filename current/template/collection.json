@@ -1,0 +1,90 @@
+{
+    "type": "Collection",
+    "id": "template",
+    "stac_version": "1.0.0",
+    "description": "template",
+    "links": [
+        {
+            "rel": "item",
+            "href": "./template-mapbox/item.json",
+            "type": "application/json",
+            "properties": {}
+        },
+        {
+            "rel": "root",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        }
+    ],
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+    ],
+    "title": "template",
+    "keywords": [
+        "CoCliCo"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "description": "Deltares is an independent institute for applied research in the field of water and subsurface.",
+            "roles": [
+                "producer",
+                "processor"
+            ],
+            "url": "https://www.deltares.nl"
+        }
+    ],
+    "assets": {},
+    "deltares:units": "-",
+    "deltares:plotSeries": "scenario",
+    "deltares:plotxAxis": "time",
+    "deltares:plotType": "line",
+    "deltares:min": 0,
+    "deltares:max": 3,
+    "deltares:linearGradient": [
+        {
+            "color": "hsl(0,90%,80%)",
+            "offset": "0.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsla(55,88%,53%,0.5)",
+            "offset": "50.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsl(110,90%,70%)",
+            "offset": "100.000%",
+            "opacity": 100
+        }
+    ],
+    "summaries": {},
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    -180.0,
+                    -90.0,
+                    180.0,
+                    90.0
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    null,
+                    null
+                ]
+            ]
+        }
+    },
+    "license": "proprietary"
+}

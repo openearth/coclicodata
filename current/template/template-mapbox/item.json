@@ -1,0 +1,104 @@
+{
+    "stac_version": "1.0.0",
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+    ],
+    "id": "coclico-123",
+    "type": "Feature",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    -122.308150179,
+                    37.488035566
+                ],
+                [
+                    -122.597502109,
+                    37.538869539
+                ],
+                [
+                    -122.576687533,
+                    37.613537207
+                ],
+                [
+                    -122.2880486,
+                    37.562818007
+                ],
+                [
+                    -122.308150179,
+                    37.488035566
+                ]
+            ]
+        ]
+    },
+    "bbox": [
+        -122.59750209,
+        37.48803556,
+        -122.2880486,
+        37.613537207
+    ],
+    "properties": {
+        "title": "Frontend properties of coclico 123 in a STAC item.",
+        "datetime": "2021-09-01T00:00:00.000000Z",
+        "deltares:item_key": "coclico-123",
+        "deltares:paint": {
+            "circle-color": [
+                "interpolate",
+                [
+                    "linear"
+                ],
+                [
+                    "get",
+                    "template_item_key"
+                ],
+                0,
+                "hsl(110,90%,80%)",
+                1.5,
+                "hsla(55, 88%, 53%, 0.5)",
+                3.0,
+                "hsl(0, 90%, 70%)"
+            ],
+            "circle-radius": [
+                "interpolate",
+                [
+                    "linear"
+                ],
+                [
+                    "zoom"
+                ],
+                0,
+                0.5,
+                1,
+                1,
+                5,
+                5
+            ]
+        },
+        "deltares:type": "circle",
+        "deltares:stations": "locationId",
+        "deltares:onclick": {}
+    },
+    "links": [
+        {
+            "rel": "collection",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Template collection"
+        },
+        {
+            "rel": "root",
+            "href": "../../collection.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Template collection"
+        }
+    ],
+    "assets": {},
+    "collection": "template"
+}

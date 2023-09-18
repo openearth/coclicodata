@@ -126,6 +126,7 @@ def get_geojson(ds, variable, dimension_combinations, stations_dim):
                         )
 
             vals = da_.sel(dimdict).values.tolist()
+            vals = [vals] if not isinstance(vals, list) else vals # Exception for single value
             for feature, value in zip(features, vals):
                 feature["properties"][mapbox_layer_id] = value
 
