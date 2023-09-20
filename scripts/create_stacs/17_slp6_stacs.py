@@ -1,31 +1,19 @@
-import datetime
+# %%
 import os
 import pathlib
 import sys
-from re import S, template
 import json
-
-# make modules importable when running this file as script
-sys.path.append(str(pathlib.Path(__file__).parent.parent))
-
-from typing import List, Mapping, Optional
-
-import cftime
-import numpy as np
-import pandas as pd
-import pystac
-import rasterio
-import rioxarray as rio
-import shapely
 import xarray as xr
-from datacube.utils.cog import write_cog
-from etl import p_drive, rel_root
+from posixpath import join as urljoin
+
+import pystac
+from coclicodata.drive_config import p_drive
+from coclicodata.etl.cloud_utils import dataset_from_google_cloud
+from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
-from etl.keys import load_google_credentials
-from etl.cloud_services import dir_to_google_cloud
-from stac.blueprint import (
-    IO,
-    LayoutCoG,
+from coclicodata.coclico_stac.io import CoCliCoStacIO
+from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
+from coclicodata.coclico_stac.templates import (
     extend_links,
     gen_default_collection_props,
     gen_default_item,
@@ -35,8 +23,14 @@ from stac.blueprint import (
     gen_zarr_asset,
     get_template_collection,
 )
-from stac.coclico_extension import CoclicoExtension  # self built stac extension
-
+from coclicodata.coclico_stac.extension import CoclicoExtension
+from coclicodata.coclico_stac.datacube import add_datacube
+from coclicodata.coclico_stac.utils import (
+    get_dimension_dot_product,
+    get_dimension_values,
+    get_mapbox_item_id,
+    rm_special_characters,
+)
 
 # TODO: move itemize to ETL or stac.blueprint when generalized
 def itemize(
@@ -147,10 +141,10 @@ if __name__ == "__main__":
     with open(metadata_fp, "r") as f:
         metadata = json.load(f)
 
-    catalog = Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
 
     template_fp = os.path.join(
-        rel_root, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
     )
 
     # generate collection for dataset
@@ -166,7 +160,7 @@ if __name__ == "__main__":
         # providers=metadata["PROVIDERS"],
     )
 
-    layout = LayoutCoG()
+    layout = CoCliCoCOGLayout()
 
     # open the dataset
     ds_fp = ds_dir.joinpath(CF_FILE)
@@ -253,18 +247,28 @@ if __name__ == "__main__":
     coclico_ext.max_ = MAX
     coclico_ext.linear_gradient = LINEAR_GRADIENT
 
+    # Add thumbnail
+    collection.add_asset(
+        "thumbnail",
+        pystac.Asset(
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
+            title="Thumbnail",
+            media_type=pystac.MediaType.PNG,
+        ),
+    )
+
     # add collection to catalog
     catalog.add_child(collection)
 
     # normalize the paths
     collection.normalize_hrefs(
-        os.path.join(rel_root, STAC_DIR, COLLECTION_ID), strategy=layout
+        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout
     )
 
     # save updated catalog to local drive
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
-        dest_href=os.path.join(rel_root, STAC_DIR),
+        dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
         # dest_href=str(tmp_dir),
         stac_io=IO(),
     )
@@ -282,3 +286,5 @@ if __name__ == "__main__":
         bucket_proj=BUCKET_PROJ,
         dir_name=metadata["TITLE_ABBREVIATION"],
     )
+
+# %%

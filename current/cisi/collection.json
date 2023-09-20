@@ -6,42 +6,42 @@
     "links": [
         {
             "rel": "item",
-            "href": "./cisi-minx=/cisi-minx=-128.75-miny=80.71.json",
+            "href": "./items/cisi-minx=-128.75-miny=80.json",
             "type": "application/json"
         },
         {
             "rel": "item",
-            "href": "./cisi-minx=/cisi-minx=-179.95-miny=80.71.json",
+            "href": "./items/cisi-minx=-179.95-miny=80.json",
             "type": "application/json"
         },
         {
             "rel": "item",
-            "href": "./cisi-minx=/cisi-minx=-26.35-miny=80.71.json",
+            "href": "./items/cisi-minx=-26.35-miny=80.json",
             "type": "application/json"
         },
         {
             "rel": "item",
-            "href": "./cisi-minx=/cisi-minx=-77.55-miny=80.71.json",
+            "href": "./items/cisi-minx=-77.55-miny=80.json",
             "type": "application/json"
         },
         {
             "rel": "item",
-            "href": "./cisi-minx=127.25/cisi-minx=127.25-miny=80.71.json",
+            "href": "./items/cisi-minx=127.25-miny=80.json",
             "type": "application/json"
         },
         {
             "rel": "item",
-            "href": "./cisi-minx=178.45/cisi-minx=178.45-miny=80.71.json",
+            "href": "./items/cisi-minx=178.45-miny=80.json",
             "type": "application/json"
         },
         {
             "rel": "item",
-            "href": "./cisi-minx=24.85/cisi-minx=24.85-miny=80.71.json",
+            "href": "./items/cisi-minx=24.85-miny=80.json",
             "type": "application/json"
         },
         {
             "rel": "item",
-            "href": "./cisi-minx=76.05/cisi-minx=76.05-miny=80.71.json",
+            "href": "./items/cisi-minx=76.05-miny=80.json",
             "type": "application/json"
         },
         {
@@ -58,7 +58,7 @@
         }
     ],
     "stac_extensions": [
-        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
         "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
     ],
     "deltares:units": "-",
@@ -92,7 +92,7 @@
                 179.95000000000007
             ],
             "reference_system": {
-                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+                "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
                 "type": "GeographicCRS",
                 "name": "WGS 84",
                 "datum": {
@@ -135,7 +135,7 @@
                 80.70833282000017
             ],
             "reference_system": {
-                "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+                "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
                 "type": "GeographicCRS",
                 "name": "WGS 84",
                 "datum": {
@@ -177,7 +177,7 @@
             "type": "auxiliary",
             "dimensions": [],
             "attrs": {
-                "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+                "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
                 "semi_major_axis": 6378137.0,
                 "semi_minor_axis": 6356752.314245179,
                 "inverse_flattening": 298.257223563,
@@ -185,8 +185,9 @@
                 "longitude_of_prime_meridian": 0.0,
                 "prime_meridian_name": "Greenwich",
                 "geographic_crs_name": "WGS 84",
+                "horizontal_datum_name": "World Geodetic System 1984",
                 "grid_mapping_name": "latitude_longitude",
-                "spatial_ref": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+                "spatial_ref": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
                 "GeoTransform": "-179.99999999999997 0.1 0.0 80.75833282000016 0.0 -0.1"
             },
             "shape": []
@@ -198,7 +199,9 @@
                 "y",
                 "x"
             ],
-            "attrs": {},
+            "attrs": {
+                "AREA_OR_POINT": "Area"
+            },
             "shape": [
                 1,
                 482,
@@ -233,9 +236,6 @@
         }
     },
     "license": "proprietary",
-    "keywords": [
-        "CoCliCo"
-    ],
     "providers": [
         {
             "name": "Deltares",
@@ -246,5 +246,12 @@
             ],
             "url": "https://www.deltares.nl"
         }
-    ]
+    ],
+    "assets": {
+        "thumbnail": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/cisi.png",
+            "type": "image/png",
+            "title": "Thumbnail"
+        }
+    }
 }
