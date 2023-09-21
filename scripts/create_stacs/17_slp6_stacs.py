@@ -4,11 +4,16 @@ import pathlib
 import sys
 import json
 import xarray as xr
+import numpy as np
+import datetime
+import rasterio
+import shapely
+import pandas as pd
 from posixpath import join as urljoin
 
 import pystac
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud
+from coclicodata.etl.cloud_utils import dataset_from_google_cloud,load_google_credentials, dir_to_google_cloud
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.coclico_stac.io import CoCliCoStacIO
@@ -270,7 +275,7 @@ if __name__ == "__main__":
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
         # dest_href=str(tmp_dir),
-        stac_io=IO(),
+        stac_io=CoCliCoStacIO(),
     )
     print("Done!")
 

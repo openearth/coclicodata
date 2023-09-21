@@ -227,7 +227,15 @@ if __name__ == "__main__":
     # set extra link properties
     extend_links(collection, dimvals.keys())
 
-    
+    # Add thumbnail
+    collection.add_asset(
+        "thumbnail",
+        pystac.Asset(
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501
+            title="Thumbnail",
+            media_type=pystac.MediaType.PNG,
+        ),
+    )
 
     # save and limit number of folders
     catalog.add_child(collection)
@@ -239,7 +247,7 @@ if __name__ == "__main__":
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
-        stac_io=IO(),
+        stac_io=CoCliCoStacIO(),
     )
 
 # %%

@@ -1,3 +1,4 @@
+#%%
 import pathlib
 import sys
 import pystac
@@ -50,3 +51,5 @@ if __name__ == "__main__":
         bucket_proj=BUCKET_PROJ,
         dir_name=STAC_NAME,
     )
+
+# %%
