@@ -92,6 +92,27 @@ def dir_to_google_cloud(
         print(f"Failed uploading: \n {e}")
 
 
+def google_cloud_to_dir(
+    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str
+) -> None:
+    """Download directory from Google Cloud Services to local drive"""
+
+    # file system interface for google cloud storage
+    fs = gcsfs.GCSFileSystem(
+        gcs_project, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+    )
+
+    source_path = urljoin(bucket_name, bucket_proj, dir_name)
+
+    # saved directory to google cloud
+    print(f"Downloading directory from {source_path}...")
+    try:
+        fs.get(source_path, dir_path, recursive=True)
+        print("Done!")
+    except OSError as e:
+        print(f"Failed downloading: \n {e}")
+
+
 def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
     """Upload GeoJSON to Mapbox by CLI.
 
