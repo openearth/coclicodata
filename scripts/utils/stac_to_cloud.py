@@ -39,7 +39,7 @@ if __name__ == "__main__":
     GCS_PROJECT = "DGDS - I1000482-002"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
-    STAC_NAME = "coclico-stac"
+    STAC_NAME = "coclico-stac-new"
     IN_DIRNAME = "current"
 
     # hard-coded input params at project level
