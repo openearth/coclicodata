@@ -1,45 +1,21 @@
-<<<<<<< Updated upstream
-#%%
-=======
-# Import standard packages
-import os
->>>>>>> Stashed changes
 import pathlib
 import sys
-import numpy as np
-import geopandas as gpd
-import pandas as pd
-import matplotlib.pyplot as plt
-import xarray as xr
-import math
-import itertools
-import glob
+import pystac
+import pystac_client
+import os
 
-# Import custom functionality
-from coclicodata.drive_config import p_drive
-from coclicodata.etl.cf_compliancy_checker import check_compliancy, save_compliancy
+# make modules importable when running this file as script
+sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
-<<<<<<< Updated upstream
 from coclicodata.etl.cloud_utils import dir_to_google_cloud, load_google_credentials
 from coclicodata.drive_config import p_drive
-=======
-# Define (local and) remote drives
-gca_data_dir = p_drive.joinpath("11205479-coclico","FULLTRACK_DATA","WP3")
-
-# Workaround to the Windows OS (10) udunits error after installation of cfchecker: https://github.com/SciTools/iris/issues/404
-os.environ["UDUNITS2_XML_PATH"] = str(
-    pathlib.Path().home().joinpath(  # change to the udunits2.xml file dir in your Python installation
-        r"Anaconda3\pkgs\udunits2-2.2.28-h892ecd3_0\Library\share\udunits\udunits2.xml"
-        )
-    )
->>>>>>> Stashed changes
 
 if __name__ == "__main__":
     # hard-coded input params
     GCS_PROJECT = "DGDS - I1000482-002"
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
-    STAC_NAME = "coclico-stac-new"
+    STAC_NAME = "coclico-stac"
     IN_DIRNAME = "current"
 
     # hard-coded input params at project level
@@ -74,5 +50,3 @@ if __name__ == "__main__":
         bucket_proj=BUCKET_PROJ,
         dir_name=STAC_NAME,
     )
-
-# %%
