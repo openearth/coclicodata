@@ -67,7 +67,7 @@ def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
 
 
 def dir_to_google_cloud(
-    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str
+    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str, active_overwrite = True
 ) -> None:
     """Upload directory to Google Cloud Services
 
@@ -85,6 +85,12 @@ def dir_to_google_cloud(
 
     # saved directory to google cloud
     print(f"Writing to directory at {target_path}...")
+    
+    # Delete the bucket directory before writing the new data
+    if active_overwrite:
+        if fs.exists(target_path):
+            fs.rm(target_path,recursive=True)
+
     try:
         fs.put(dir_path, target_path, recursive=True)
         print("Done!")
