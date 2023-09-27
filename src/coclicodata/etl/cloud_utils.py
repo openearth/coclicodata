@@ -89,6 +89,7 @@ def dir_to_google_cloud(
     # Delete the bucket directory before writing the new data
     if active_overwrite:
         if fs.exists(target_path):
+            print("Remote directory already exist and will be overwritten...")
             fs.rm(target_path,recursive=True)
 
     try:
