@@ -6,10 +6,66 @@
   "links": [
     {
       "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/cbca-mapbox-regions/cbca-mapbox-regions.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/benefit-mapbox-scenarios-RCP45-SSP1/benefit-mapbox-scenarios-RCP45-SSP1.json",
       "type": "application/json",
       "properties": {
         "scenarios": "RCP45-SSP1"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/benefit-mapbox-scenarios-RCP85-SSP5/benefit-mapbox-scenarios-RCP85-SSP5.json",
+      "type": "application/json",
+      "properties": {
+        "scenarios": "RCP85-SSP5"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/cost-mapbox-scenarios-RCP45-SSP1/cost-mapbox-scenarios-RCP45-SSP1.json",
+      "type": "application/json",
+      "properties": {
+        "scenarios": "RCP45-SSP1"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/cost-mapbox-scenarios-RCP85-SSP5/cost-mapbox-scenarios-RCP85-SSP5.json",
+      "type": "application/json",
+      "properties": {
+        "scenarios": "RCP85-SSP5"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/cbr-mapbox-scenarios-RCP45-SSP1/cbr-mapbox-scenarios-RCP45-SSP1.json",
+      "type": "application/json",
+      "properties": {
+        "scenarios": "RCP45-SSP1"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/cbr-mapbox-scenarios-RCP85-SSP5/cbr-mapbox-scenarios-RCP85-SSP5.json",
+      "type": "application/json",
+      "properties": {
+        "scenarios": "RCP85-SSP5"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/eb-mapbox-scenarios-RCP45-SSP1/eb-mapbox-scenarios-RCP45-SSP1.json",
+      "type": "application/json",
+      "properties": {
+        "scenarios": "RCP45-SSP1"
+      }
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cbca/eb-mapbox-scenarios-RCP85-SSP5/eb-mapbox-scenarios-RCP85-SSP5.json",
+      "type": "application/json",
+      "properties": {
+        "scenarios": "RCP85-SSP5"
       }
     },
     {
@@ -31,10 +87,13 @@
     }
   ],
   "stac_extensions": [
-    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json"
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+    "https://stac-extensions.github.io/datacube/v2.0.0/schema.json",
+    "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json"
   ],
   "deltares:units": "m",
   "deltares:plotSeries": "scenario",
+  "deltares:plotxAxis": "time",
   "deltares:plotType": "bar",
   "deltares:min": 0,
   "deltares:max": 3,
@@ -55,7 +114,6 @@
       "opacity": 100
     }
   ],
-  "units": "m",
   "cube:dimensions": {
     "lon": {
       "axis": "x",
@@ -65,7 +123,7 @@
       ],
       "description": "Longitude of the centroid of the NUTS2 region (2010 version).",
       "reference_system": {
-        "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+        "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
         "type": "GeographicCRS",
         "name": "WGS 84",
         "datum_ensemble": {
@@ -172,7 +230,7 @@
       ],
       "description": "Latitude of the centroid of the NUTS2 region (2010 version).",
       "reference_system": {
-        "$schema": "https://proj.org/schemas/v0.4/projjson.schema.json",
+        "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
         "type": "GeographicCRS",
         "name": "WGS 84",
         "datum_ensemble": {
@@ -360,6 +418,16 @@
         124
       ]
     },
+    "geometry": {
+      "type": "auxiliary",
+      "dimensions": [
+        "stations"
+      ],
+      "attrs": {},
+      "shape": [
+        124
+      ]
+    },
     "lat": {
       "type": "auxiliary",
       "description": "Latitude of the centroid of the NUTS2 region (2010 version).",
@@ -397,10 +465,19 @@
       "chunks": [
         124
       ]
+    },
+    "scenarios": {
+      "type": "auxiliary",
+      "dimensions": [
+        "nscenarios"
+      ],
+      "attrs": {},
+      "shape": [
+        2
+      ]
     }
   },
-  "plotSeries": "scenario",
-  "title": "Cost & benefit adaptation",
+  "title": "Cost benefit coastal adaptation",
   "extent": {
     "spatial": {
       "bbox": [
@@ -415,16 +492,13 @@
     "temporal": {
       "interval": [
         [
-          "2015-10-22T00:00:00Z",
+          null,
           null
         ]
       ]
     }
   },
   "license": "proprietary",
-  "keywords": [
-    "CoCliCo"
-  ],
   "providers": [
     {
       "name": "Deltares",
@@ -452,6 +526,11 @@
         "zarr-root",
         "gcs"
       ]
+    },
+    "thumbnail": {
+      "href": "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/cbca.png",
+      "type": "image/png",
+      "title": "Thumbnail"
     }
   }
 }
