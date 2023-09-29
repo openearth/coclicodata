@@ -4,7 +4,7 @@ from pystac import Catalog
 
 branch = environ.get("GITHUB_REF_NAME", "live")
 
-href = "https://raw.githubusercontent.com/openearth/coclicodata/live/current/"
+href = "https://raw.githubusercontent.com/openearth/coclicodata/front-end_deployment/current"
 
 collection = Catalog.from_file("./current/catalog.json")
 collection.describe()
