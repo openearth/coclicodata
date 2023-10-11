@@ -18,7 +18,7 @@ Follow these steps for installation:
 2. **Install the environment**:
 
    ``` bash
-   mamba install -f /path/to/coclicodata/environment.yaml
+   mamba env create -f /path/to/coclicodata/environment.yml
    ```
 
 3. **Activate the environment**:
