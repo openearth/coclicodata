@@ -1,0 +1,202 @@
+{
+    "type": "Collection",
+    "id": "gcts-2000-z9",
+    "stac_version": "1.0.0",
+    "description": "The Global Coastal Transect System Zoom 9 consists 2000 m long cross-shore transects that are placed at equally-spaced 100 m alongshore resolution. The transects are derived from a generalized open street map coastline (2023-02-22) at zoom level 9. ",
+    "links": [
+        {
+            "rel": "license",
+            "href": "https://creativecommons.org/publicdomain/zero/1.0/",
+            "type": "text/html",
+            "title": "CC License"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk00_part.0.parquet/quadkey=qk00_part.0.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk01_part.1.parquet/quadkey=qk01_part.1.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk02_part.2.parquet/quadkey=qk02_part.2.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk030_part.3.parquet/quadkey=qk030_part.3.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk031_part.4.parquet/quadkey=qk031_part.4.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk032_part.5.parquet/quadkey=qk032_part.5.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk033_part.6.parquet/quadkey=qk033_part.6.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk10_part.7.parquet/quadkey=qk10_part.7.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk11_part.8.parquet/quadkey=qk11_part.8.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk12_part.9.parquet/quadkey=qk12_part.9.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk13_part.10.parquet/quadkey=qk13_part.10.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk20_part.11.parquet/quadkey=qk20_part.11.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk21_part.12.parquet/quadkey=qk21_part.12.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk22_part.13.parquet/quadkey=qk22_part.13.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk23_part.14.parquet/quadkey=qk23_part.14.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk30_part.15.parquet/quadkey=qk30_part.15.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk31_part.16.parquet/quadkey=qk31_part.16.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk32_part.17.parquet/quadkey=qk32_part.17.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "item",
+            "href": "./quadkey=qk33_part.18.parquet/quadkey=qk33_part.18.parquet.json",
+            "type": "application/json"
+        },
+        {
+            "rel": "root",
+            "href": "../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        }
+    ],
+    "stac_extensions": [
+        "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/version/v1.0.0/schema.json"
+    ],
+    "item_assets": {
+        "data": {
+            "title": "Coastal Transects",
+            "description": "Coastal transects of 2000 m derived at OSM zoom level 9 for this region. ",
+            "roles": [
+                "data"
+            ],
+            "type": "application/x-parquet",
+            "table:storage_options": {
+                "account_name": "coclico"
+            },
+            "table:columns": [
+                {
+                    "name": "geometry",
+                    "type": "byte_array",
+                    "description": "Building footprint linestrings"
+                }
+            ]
+        }
+    },
+    "sci:citation": "Calkoen et al., 2023, in progress. ",
+    "version": "1",
+    "title": "Global Coastal Transect System Zoom 9",
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    -179.99979946036342,
+                    -78.74747176732404,
+                    179.99987183421385,
+                    83.66967471602302
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    "2023-10-27T00:00:00Z",
+                    "2023-10-27T00:00:00Z"
+                ]
+            ]
+        }
+    },
+    "license": "ODbL-1.0",
+    "keywords": [
+        "Coast",
+        "Coastal",
+        "Transects",
+        "Coastal transects",
+        "Coastal Change",
+        "Satellite-derived shorelines",
+        "SDS",
+        "CoCliCo",
+        "Deltares",
+        "GeoParquet"
+    ],
+    "providers": [
+        {
+            "name": "Deltares",
+            "roles": [
+                "producer",
+                "processor",
+                "host",
+                "licensor"
+            ],
+            "url": "https://deltares.nl"
+        }
+    ],
+    "assets": {
+        "thumbnail": {
+            "href": "https://coclico.blob.core.windows.net/assets/thumbnails/gcts-thumbnail.jpeg",
+            "type": "image/jpeg",
+            "title": "Thumbnail"
+        }
+    }
+}
