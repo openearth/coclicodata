@@ -18,4 +18,4 @@ elif operating_system == "Linux":
 else:
     raise ValueError(f"Cannot set p drive path for {operating_system}")
 
-proj_dir = pathlib.Path(__file__).parent.parent
+proj_dir = pathlib.Path(__file__).parent.parent.parent
