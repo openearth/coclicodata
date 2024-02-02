@@ -3,17 +3,14 @@ import pathlib
 import sys
 from posixpath import join as urljoin
 
-# make modules importable when running this file as script
-sys.path.append(str(pathlib.Path(__file__).parent.parent))
-
 import pystac
-from etl import rel_root
-from etl.cloud_services import dataset_from_google_cloud
-from etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
+from coclicodata.drive_config import p_drive
+from coclicodata.etl.cloud_utils import dataset_from_google_cloud
+from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
-from stac.blueprint import (
-    IO,
-    Layout,
+from coclicodata.coclico_stac.io import CoCliCoStacIO
+from coclicodata.coclico_stac.layouts import CoCliCoZarrLayout
+from coclicodata.coclico_stac.templates import (
     extend_links,
     gen_default_collection_props,
     gen_default_item,
@@ -23,9 +20,9 @@ from stac.blueprint import (
     gen_zarr_asset,
     get_template_collection,
 )
-from stac.coclico_extension import CoclicoExtension  # self built stac extension
-from stac.datacube import add_datacube
-from stac.utils import (
+from coclicodata.coclico_stac.extension import CoclicoExtension
+from coclicodata.coclico_stac.datacube import add_datacube
+from coclicodata.coclico_stac.utils import (
     get_dimension_dot_product,
     get_dimension_values,
     get_mapbox_item_id,
@@ -141,10 +138,17 @@ if __name__ == "__main__":
     title = ds.attrs.get("title", COLLECTION_ID)
 
     # load coclico data catalog
-    catalog = Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-        rel_root, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     # generate collection for dataset
@@ -153,6 +157,7 @@ if __name__ == "__main__":
         collection_id=COLLECTION_ID,
         title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
+        keywords=[],
     )
 
     # add datacube dimensions derived from xarray dataset to dataset collection
@@ -170,7 +175,7 @@ if __name__ == "__main__":
     dimcombs = get_dimension_dot_product(dimvals)
 
     # TODO: check what can be customized in the layout
-    layout = Layout()
+    layout = CoCliCoZarrLayout()
 
     # create stac collection per variable and add to dataset collection
     for var in VARIABLES:
@@ -235,11 +240,14 @@ if __name__ == "__main__":
     catalog.add_child(collection)
 
     collection.normalize_hrefs(
-        os.path.join(rel_root, STAC_DIR, COLLECTION_ID), strategy=layout
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
+        ),
+        strategy=layout,
     )
 
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
-        dest_href=os.path.join(rel_root, STAC_DIR),
-        stac_io=IO(),
+        dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
+        stac_io=CoCliCoStacIO(),
     )
