@@ -1,5 +1,4 @@
-#%%
-<<<<<<< Updated upstream
+# %%
 import os
 import pathlib
 import sys
@@ -31,35 +30,6 @@ from coclicodata.coclico_stac.utils import (
     get_mapbox_item_id,
     rm_special_characters,
 )
-=======
-
-# Import standard packages
-import os
-import pathlib
-import sys
-import numpy as np
-import geopandas as gpd
-import pandas as pd
-import matplotlib.pyplot as plt
-import xarray as xr
-import math
-import itertools
-import glob
-
-# Import custom functionality
-from coclicodata.drive_config import p_drive
-from coclicodata.etl.cf_compliancy_checker import check_compliancy, save_compliancy
-
-# Define (local and) remote drives
-gca_data_dir = p_drive.joinpath("11205479-coclico","FULLTRACK_DATA","WP3")
-
-# Workaround to the Windows OS (10) udunits error after installation of cfchecker: https://github.com/SciTools/iris/issues/404
-os.environ["UDUNITS2_XML_PATH"] = str(
-    pathlib.Path().home().joinpath(  # change to the udunits2.xml file dir in your Python installation
-        r"Anaconda3\pkgs\udunits2-2.2.28-h892ecd3_0\Library\share\udunits\udunits2.xml"
-        )
-    )
->>>>>>> Stashed changes
 
 if __name__ == "__main__":
     # hard-coded input params at project level
@@ -157,10 +127,17 @@ if __name__ == "__main__":
     title = ds.attrs.get("title", COLLECTION_ID)
 
     # load coclico data catalog
-    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-       pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     # generate collection for dataset
@@ -198,16 +175,6 @@ if __name__ == "__main__":
 
     # TODO: check what can be customized in the layout
     layout = CoCliCoZarrLayout()
-
-    # Add thumbnail to the collection
-    collection.add_asset(
-    "thumbnail",
-    pystac.Asset(
-        "https://coclico.blob.core.windows.net/assets/thumbnails/coastal-mask-thumbnail.png",  # noqa: E501
-        title="Thumbnail",
-        media_type=pystac.MediaType.PNG,
-        ),
-    )
 
     # create stac collection per variable and add to dataset collection
     for var in VARIABLES:
@@ -271,7 +238,9 @@ if __name__ == "__main__":
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
@@ -281,7 +250,10 @@ if __name__ == "__main__":
     catalog.add_child(collection)
 
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
+        ),
+        strategy=layout,
     )
 
     catalog.save(
