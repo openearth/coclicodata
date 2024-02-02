@@ -1,104 +1,104 @@
 # %%
 # ## Load software
 import datetime
-
-# import os
+import itertools
+import math
+import operator
+import os
 import pathlib
-
-# import sys
-# from re import S, template
-import json
-import fsspec
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-# import cftime
-# import numpy as np
+import dask
+import fsspec
+import numpy as np
 import pandas as pd
 import pystac
 import rasterio
-
-# import rioxarray as rio
+import rioxarray
 import shapely
 import xarray as xr
-import math
-import dask
-from posixpath import join as urljoin
+from azure.storage.blob import BlobServiceClient
+from dask.distributed import Client
+from dotenv import load_dotenv
+from gcsfs import GCSFileSystem
+from pystac import StacIO
 from pystac.extensions import eo, raster
+from pystac.layout import BestPracticesLayoutStrategy
+from pystac.utils import JoinType, join_path_or_url, safe_urlparse
 from stactools.core.utils import antimeridian
+from tqdm import tqdm
+from posixpath import join as urljoin
 
-# from datacube.utils.cog import write_cog
-from coclicodata.drive_config import p_drive
 
-# from pystac import Catalog, CatalogType, Collection, Summaries
-from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud
+# %%
+# ## Install CoCliCodata package
+# uncomment these lines if you do not have coclicodata in development mode installed
+# dev_dir = pathlib.Path.home() / "dev"  # set the path to the location where you would like to clone the package
+# dev_dir.mkdir(parents=True, exist_ok=True)
+
+# # Clone the repository
+# os.system(f"git clone https://github.com/openearth/coclicodata.git {dev_dir / 'coclicodata'}")
+
+# # Install the package in development mode
+# os.system(f"pip install -e {dev_dir / 'coclicodata'}")
+
+from coclicodata.etl.cloud_utils import load_google_credentials, google_cloud_to_dir
 from coclicodata.coclico_stac.io import CoCliCoStacIO
 from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
-from coclicodata.coclico_stac.extension import (
-    CoclicoExtension,
-)  # self built stac extension
+from coclicodata.drive_config import p_drive
+from coclicodata.coclico_stac.extension import CoclicoExtension
 
-# from coastmonitor.io.cloud import (
-#     to_https_url,
-#     to_storage_location,
-#     to_uri_protocol,
-#     write_block,
+
+# %%
+# ## Install CoastMonitor package
+load_dotenv()
+
+# uncomment these lines if you do not have the latest version of coastmonitor installed
+# gh_coastmonitor_token = os.getenv("GH_COASTMONITOR_TOKEN")  # ask Floris Calkoen for keys if you do not have them
+# os.system("pip uninstall coastmonitor -y")
+# os.system(
+#     f"pip install git+https://{gh_coastmonitor_token}@github.com/floriscalkoen/coastmonitor.git "
 # )
-from coastmonitor.io.utils import name_block
-from rasterio import logging
 
-log = logging.getLogger()
-log.setLevel(logging.ERROR)
+from coastmonitor.io.cloud import (
+    to_https_url,
+    to_storage_location,
+    to_uri_protocol,
+    write_block,
+)
+from coastmonitor.io.utils import name_block
+
 
 # %%
 # ## Define variables
-# hard-coded input params at project level
+# DATA_DIR = pathlib.Path.home() / "data"
+TMP_DIR = pathlib.Path.home() / "tmp"
+# SRC_DIR = DATA_DIR / "src"
+# PRC_DIR = DATA_DIR / "prc"
+# LIVE_DIR = DATA_DIR / "live"
+
+STAC_DIR = pathlib.Path.cwd() / "current"
+
+# COASTAL_MASK_DIR = SRC_DIR / "19_coastal_mask"
+COASTAL_MASK_DIR = (
+    p_drive / "11207608-coclico" / "FASTTRACK_DATA" / "19_coastal_mask"
+)  # read data from p drive
+
+CM_FP = COASTAL_MASK_DIR / "Global_merit_coastal_mask_landwards.tif"
+# CM_FP = COASTAL_MASK_DIR / "Europe_merit_coastplain_elecz_H100+2m_partioned.tif"  # not sure which one to use
+
+OUTDIR = COASTAL_MASK_DIR / "cogs_test"
+
 GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "DGDS - I1000482-002"
 BUCKET_NAME = "dgds-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "coastal_mask"
-
-# hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd() / "current"
-
-# hard-coded input params which differ per dataset
-METADATA = "metadata_coastal_mask.json"
-DATASET_DIR = "19_coastal_mask"
-CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "coastal-mask"  # name of stac collection
-
-# define local directories
-home = pathlib.Path().home()
-tmp_dir = home.joinpath("data", "tmp")
-coclico_data_dir = p_drive.joinpath(
-    "11207608-coclico", "FASTTRACK_DATA"
-)  # remote p drive
-
-# use local or remote data dir
-use_local_data = False
-
-if use_local_data:
-    ds_dir = tmp_dir.joinpath(DATASET_DIR)
-else:
-    ds_dir = coclico_data_dir.joinpath(DATASET_DIR)
-
-if not ds_dir.exists():
-    raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
-
-# directory to export result
-cog_dirs = ds_dir.joinpath("cogs")
-ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
-
-# load metadata template
-metadata_fp = ds_dir.joinpath(METADATA)
-with open(metadata_fp, "r") as f:
-    metadata = json.load(f)
-
-# data output configurations
+PROJ_NAME = "coastal_mask_test"
 HREF_PREFIX = urljoin(
     GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, PROJ_NAME
 )  # cloud export directory
-TMP_DIR = pathlib.Path.home() / "tmp"
+LOCAL = 1  # toggle 1 for local export, 0 to disable local export
 
 
 # %%
@@ -157,7 +157,7 @@ def create_collection(
         )
 
     collection = pystac.Collection(
-        id=COLLECTION_ID,
+        id="coastal-mask",
         title="Coastal Mask",
         description=description,  # noqa: E502
         license="ODbL-1.0",
@@ -363,19 +363,11 @@ def process_block(
             y_dim=y_dim,
         )
 
-        # uri = to_uri_protocol(href, protocol="gs")
+        uri = to_uri_protocol(href, protocol="gs")
 
         # TODO: include this file checking
         # if not file_exists(file, str(storage_destination), existing_blobs):
-        # nbytes = write_block(da, uri, storage_options, profile_options, overwrite=True)
-
-        memfs = fsspec.filesystem("memory")
-
-        with memfs.open("data", "wb") as buffer:
-            da.squeeze().rio.to_raster(buffer, **profile_options)
-            buffer.seek(0)
-
-        nbytes = len(buffer.getvalue())
+        nbytes = write_block(da, uri, storage_options, profile_options, overwrite=True)
 
         item = create_asset(
             item,
@@ -399,6 +391,7 @@ def generate_slices(num_chunks: int, chunk_size: int) -> Tuple[slice, slice]:
 
 # %%
 # ## Do the work
+
 if __name__ == "__main__":
     from dask.distributed import Client
 
@@ -410,30 +403,29 @@ if __name__ == "__main__":
     print(client.dashboard_link)
 
     cm = xr.open_dataset(
-        ds_fp, engine="rasterio", mask_and_scale=False
+        CM_FP, engine="rasterio", mask_and_scale=False
     )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
     cm = cm.assign_coords(band=("band", [f"B{k+1:02}" for k in range(cm.dims["band"])]))
     cm = cm["band_data"].to_dataset("band")
 
+    # Usage:
     profile_options = {
         "driver": "COG",
         "dtype": "uint8",
         "compress": "DEFLATE",
-        # "interleave": "band",
-        # "ZLEVEL": 9,
-        # "predictor": 1,
+        "interleave": "band",
+        "ZLEVEL": 9,
+        "predictor": 1,
     }
     storage_options = {"token": "google_default"}
 
-    # chunk size
-    chunk_size = 2**12  # 16384, which is large, but OK for int8 datatype.
+    chunk_size = 2**12  # 14  # 16384, which is large, but OK for int8 datatype.
 
     cm_chunked = cm.chunk({"x": chunk_size, "y": chunk_size})
 
     num_x_chunks = math.ceil(cm_chunked.dims["x"] / chunk_size)
     num_y_chunks = math.ceil(cm_chunked.dims["y"] / chunk_size)
 
-    # items = []
     delayed_items = []
 
     for x_slice in generate_slices(num_x_chunks, chunk_size):
@@ -442,7 +434,6 @@ if __name__ == "__main__":
 
             # Process the chunk using a delayed function
             delayed_item = dask.delayed(process_block)(
-                # item = process_block(
                 chunk,
                 resolution=30,
                 data_type=raster.DataType.UINT8,
@@ -457,27 +448,24 @@ if __name__ == "__main__":
             )
 
             delayed_items.append(delayed_item)
-            # items.append(item)
 
     items = dask.compute(*delayed_items)
 
-    print(len(items))
-
     # %%
-    # ## store to cloud folder
+    # download cloud files to local dir, if needed
+    if LOCAL:
+        # load google credentials
+        load_google_credentials(
+            google_token_fp=COASTAL_MASK_DIR.parent.joinpath("google_credentials.json")
+        )
 
-    # upload directory with cogs to google cloud
-    load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
-    )
-
-    dir_to_google_cloud(
-        dir_path=str(cog_dirs),
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        dir_name=PROJ_NAME,
-    )
+        google_cloud_to_dir(
+            dir_path=str(OUTDIR),
+            gcs_project=GCS_PROJECT,
+            bucket_name=BUCKET_NAME,
+            bucket_proj=BUCKET_PROJ,
+            dir_name=PROJ_NAME,
+        )
 
     # %%
     stac_io = CoCliCoStacIO()
@@ -507,7 +495,6 @@ if __name__ == "__main__":
     )
 
     # %%
-    # TODO: # check coastal_mask_stacs.py validate funcs with coclico_new..
     collection.validate_all()
 
     # # %%
