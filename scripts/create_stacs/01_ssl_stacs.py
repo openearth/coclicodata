@@ -1,6 +1,8 @@
+# %%
 import os
 import pathlib
 import sys
+import json
 from posixpath import join as urljoin
 
 import pystac
@@ -246,8 +248,22 @@ if __name__ == "__main__":
         strategy=layout,
     )
 
+    # Add thumbnail
+    collection.add_asset(
+        "thumbnail",
+        pystac.Asset(
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501
+            title="Thumbnail",
+            media_type=pystac.MediaType.PNG,
+        ),
+    )
+
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
         stac_io=CoCliCoStacIO(),
     )
+
+# %%

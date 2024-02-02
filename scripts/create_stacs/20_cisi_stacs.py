@@ -1,32 +1,46 @@
-import datetime
-import json
+# %%
 import os
 import pathlib
 import sys
-
-# make modules importable when running this file as script
-sys.path.append(str(pathlib.Path(__file__).parent.parent))
-
-import datetime
-import itertools
+import json
+import cftime
+import fsspec
 import operator
-import os
+import itertools
+import xarray as xr
+import numpy as np
+import datetime
+import rasterio
+import shapely
+import pandas as pd
+from posixpath import join as urljoin
 from typing import List, Mapping, Optional
 
-import fsspec
-import geopandas as gpd
-import numpy as np
-import pandas as pd
 import pystac
-import rasterio.warp
-import shapely.geometry
-import xarray as xr
+from coclicodata.drive_config import p_drive
+from coclicodata.etl.cloud_utils import dataset_from_google_cloud,load_google_credentials, dir_to_google_cloud
+from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
-
-from etl import p_drive, rel_root
-from etl.keys import load_google_credentials
-from stac.blueprint import IO, Layout, get_template_collection
-from stac.datacube import add_datacube
+from coclicodata.coclico_stac.io import CoCliCoStacIO
+from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
+from coclicodata.coclico_stac.templates import (
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_template_collection,
+)
+from coclicodata.coclico_stac.extension import CoclicoExtension
+from coclicodata.coclico_stac.datacube import add_datacube
+from coclicodata.coclico_stac.utils import (
+    get_dimension_dot_product,
+    get_dimension_values,
+    get_mapbox_item_id,
+    rm_special_characters,
+)
 
 __version__ = "0.0.1"
 
@@ -331,7 +345,7 @@ def collate(items: xr.DataArray) -> List[pystac.Item]:
 
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-    metadata_fp = rel_root.joinpath("metadata_template.json")
+    metadata_fp = pathlib.Path(__file__).parent.parent.parent.joinpath("metadata_template.json")
     with open(metadata_fp, "r") as f:
         metadata = json.load(f)
 
@@ -344,20 +358,21 @@ if __name__ == "__main__":
     # hard-coded input params which differ per dataset
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
+    COLLECTION_ID = "cisi"  # name of stac collection
 
     # data configurations
     # DATASET_FILENAME = "Global_merit_coastal_mask_landwards.tif"  # source data
     DATASET_FILENAME = "europe.tif"  # sample from source data
     HOME = pathlib.Path().home()
     DATA_DIR = HOME.joinpath("data", "src")
-    COCLICO_DATA_DIR = p_drive.joinpath("11205479-coclico", "data")
-    DATASET_DIR = "19_coastal_mask"
+    COCLICO_DATA_DIR = coclico_data_dir = p_drive.joinpath("11205479-coclico", "FASTTRACK_DATA")  # remote p drive
+    DATASET_DIR = "20_cisi"
     OUTDIR = pathlib.Path.home() / "data" / "tmp" / "cisi_test"
     HREF_PREFIX = f"https://storage.googleapis.com/dgds-data-public/coclico/{metadata['TITLE_ABBREVIATION']}"
-    USE_LOCAL_DATA = True  # can be used when data is also stored locally
+    USE_LOCAL_DATA = False  # can be used when data is also stored locally
 
     # TODO: check what can be customized with layout.
-    layout = Layout()
+    layout = CoCliCoCOGLayout()
 
     if USE_LOCAL_DATA:
         DATASET_DIR = (  # overwrite dataset directory if dirname is diferent on local
@@ -381,10 +396,10 @@ if __name__ == "__main__":
     if not ds.rio.crs:
         ds = ds.rio.write_crs(metadata["CRS"])
 
-    catalog = Catalog.from_file(os.path.join(rel_root, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
 
     template_fp = os.path.join(
-        rel_root, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
     )
 
     # generate collection for dataset
@@ -393,6 +408,7 @@ if __name__ == "__main__":
         collection_id=metadata["TITLE_ABBREVIATION"],
         title=metadata["TITLE"],
         description=metadata["DESCRIPTION"],
+        keywords=[],
     )
 
     # add datacube defaults at collection level
@@ -430,19 +446,31 @@ if __name__ == "__main__":
     # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     collection.summaries = Summaries({})
 
+    # Add thumbnail
+    collection.add_asset(
+        "thumbnail",
+        pystac.Asset(
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
+            title="Thumbnail",
+            media_type=pystac.MediaType.PNG,
+        ),
+    )
+
     # add collection to catalog
     catalog.add_child(collection)
 
     # normalize the paths
     collection.normalize_hrefs(
-        os.path.join(rel_root, STAC_DIR, metadata["TITLE_ABBREVIATION"]),
+        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, metadata["TITLE_ABBREVIATION"]),
         strategy=layout,
     )
 
     # save updated catalog
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
-        dest_href=os.path.join(rel_root, STAC_DIR),
-        stac_io=IO(),
+        dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
+        stac_io=CoCliCoStacIO(),
     )
     print("done")
+
+# %%
