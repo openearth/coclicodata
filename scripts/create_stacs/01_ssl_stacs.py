@@ -1,4 +1,4 @@
-#%%
+# %%
 import os
 import pathlib
 import sys
@@ -140,10 +140,17 @@ if __name__ == "__main__":
     title = ds.attrs.get("title", COLLECTION_ID)
 
     # load coclico data catalog
-    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     # generate collection for dataset
@@ -232,22 +239,26 @@ if __name__ == "__main__":
     extend_links(collection, dimvals.keys())
 
     # save and limit number of folders, TODO: check if duplicate, then skip..
-    catalog.add_child(collection)m
+    catalog.add_child(collection)
 
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
+        ),
+        strategy=layout,
     )
 
     # Add thumbnail
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
     )
-
 
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
