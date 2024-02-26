@@ -1,0 +1,204 @@
+{
+  "type": "Collection",
+  "id": "shorelinemonitor-shorelines",
+  "stac_version": "1.0.0",
+  "description": "\n        The ShorelineMonitor data consists of Satellite-Derived Shorelines that are extracted\n        from Landsat annual composite images.  \n        ",
+  "links": [
+    {
+      "rel": "license",
+      "href": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "type": "text/html",
+      "title": "CC License"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=028_minx=-73.27-miny=-53.09-part.0.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=028_minx=-73.27-miny=-53.09-part.1.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=028_minx=-73.27-miny=-53.09-part.2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=028_minx=-73.27-miny=-53.09-part.3.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=028_minx=-73.27-miny=-53.09-part.4.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=126_minx=97.97-miny=2.53-part.0.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=126_minx=97.97-miny=2.53-part.1.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=126_minx=97.97-miny=2.53-part.2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=126_minx=97.97-miny=2.53-part.3.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=208_minx=-17.97-miny=58.16-part.0.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=208_minx=-17.97-miny=58.16-part.1.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=208_minx=-17.97-miny=58.16-part.2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/box=208_minx=-17.97-miny=58.16-part.3.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/version/v1.2.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "title": "Satellite-derived Shorelines",
+      "description": "Satellite-derived shorelines for this region",
+      "roles": [
+        "data"
+      ],
+      "type": "application/vnd.apache.parquet",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "box_id",
+          "type": "string",
+          "description": "Unique identifier for the shoreline box within the ShorelineMonitor global box system."
+        },
+        {
+          "name": "time",
+          "type": "timestamp[ns]",
+          "description": "Observation year of the shoreline, represented as a timestamp."
+        },
+        {
+          "name": "geometry",
+          "type": "binary",
+          "description": "Satellite-derived shoreline geometry as linestrings, encoded in Well-Known Binary (WKB) format."
+        },
+        {
+          "name": "source_file",
+          "type": "string",
+          "description": "Original geojson file name from which the shoreline data was extracted."
+        },
+        {
+          "name": "group",
+          "type": "int64",
+          "description": "Identifier for multi-linestring segments within the source ShorelineMonitor data."
+        },
+        {
+          "name": "bounding_quadkey",
+          "type": "string",
+          "description": "QuadKey for spatial indexing, corresponding to the shoreline segment's bounding quadtile."
+        },
+        {
+          "name": "quadkey",
+          "type": "string",
+          "description": "QuadKey for spatial indexing, corresponding to interpolated point midway along the shoreline segment."
+        },
+        {
+          "name": "bbox",
+          "type": "struct<minx: double, miny: double, maxx: double, maxy: double>",
+          "description": "Geographic bounding box of the shoreline, specified by min/max longitude (x) and latitude (y) coordinates."
+        }
+      ]
+    }
+  },
+  "sci:citation": "Luijendijk/Kras/Calkoen in progress. ",
+  "version": "2.0.1",
+  "title": "ShorelineMonitor: Annual Satellite-Derived Shorelines",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -73.268473,
+          -53.091657,
+          101.899308,
+          66.445908
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "1984-01-01T00:00:00Z",
+          "2024-02-26T00:07:35.763500Z"
+        ]
+      ]
+    }
+  },
+  "license": "ODbL-1.0",
+  "keywords": [
+    "Satellite-Derived Shorelines",
+    "SDS",
+    "Coastal Change",
+    "Coast",
+    "CoCliCo",
+    "Deltares",
+    "GeoParquet"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "roles": [
+        "producer",
+        "processor",
+        "host",
+        "licensor"
+      ],
+      "url": "https://deltares.nl"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://coclico.blob.core.windows.net/assets/thumbnails/sds-thumbnail.jpeg",
+      "type": "image/jpeg",
+      "title": "Thumbnail"
+    }
+  }
+}
