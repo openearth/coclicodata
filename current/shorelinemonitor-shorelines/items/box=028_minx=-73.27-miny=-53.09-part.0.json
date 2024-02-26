@@ -3,23 +3,23 @@
   "stac_version": "1.0.0",
   "id": "box=028_minx=-73.27-miny=-53.09-part.0",
   "properties": {
-    "title": "ShorelineMonitor Satellite-Derived Shorelines",
-    "description": "Parquet datas with ShorelineMonitor Satellite-Derived Shorelines",
+    "title": "ShorelineMonitor: Satellite-Derived Shorelines",
+    "description": "ShorelineMonitor: Satellite-Derived Shorelines in Parquet format",
     "table:columns": [
       {
-        "name": "box_id",
-        "type": "string",
-        "description": "Unique identifier for the shoreline box within the ShorelineMonitor global box system."
-      },
-      {
         "name": "time",
-        "type": "timestamp[ns]",
+        "type": "timestamp[us]",
         "description": "Observation year of the shoreline, represented as a timestamp."
       },
       {
         "name": "geometry",
         "type": "binary",
         "description": "Satellite-derived shoreline geometry as linestrings, encoded in Well-Known Binary (WKB) format."
+      },
+      {
+        "name": "box_id",
+        "type": "string",
+        "description": "Unique identifier for the shoreline box within the ShorelineMonitor global box system."
       },
       {
         "name": "source_file",
@@ -30,11 +30,6 @@
         "name": "group",
         "type": "int64",
         "description": "Identifier for multi-linestring segments within the source ShorelineMonitor data."
-      },
-      {
-        "name": "bounding_quadkey",
-        "type": "string",
-        "description": "QuadKey for spatial indexing, corresponding to the shoreline segment's bounding quadtile."
       },
       {
         "name": "bbox.maxx",
@@ -56,6 +51,11 @@
         "name": "quadkey",
         "type": "string",
         "description": "QuadKey for spatial indexing, corresponding to interpolated point midway along the shoreline segment."
+      },
+      {
+        "name": "bounding_quadkey",
+        "type": "string",
+        "description": "QuadKey for spatial indexing, corresponding to the shoreline segment's bounding quadtile."
       }
     ],
     "proj:bbox": [
@@ -68,7 +68,7 @@
     "start_datetime": "1984-01-01T00:00:00Z",
     "end_datetime": "2021-01-01T00:00:00Z",
     "table:row_count": 2840,
-    "datetime": "2024-02-26T00:04:33.719353Z"
+    "datetime": "2024-02-26T11:42:21.088892Z"
   },
   "geometry": {
     "type": "Polygon",
@@ -102,7 +102,7 @@
       "rel": "collection",
       "href": "../collection.json",
       "type": "application/json",
-      "title": "ShorelineMonitor: Annual Satellite-Derived Shorelines"
+      "title": "ShorelineMonitor: Satellite-Derived Shorelines"
     },
     {
       "rel": "root",
@@ -114,7 +114,7 @@
       "rel": "parent",
       "href": "../collection.json",
       "type": "application/json",
-      "title": "ShorelineMonitor: Annual Satellite-Derived Shorelines"
+      "title": "ShorelineMonitor: Satellite-Derived Shorelines"
     }
   ],
   "assets": {
