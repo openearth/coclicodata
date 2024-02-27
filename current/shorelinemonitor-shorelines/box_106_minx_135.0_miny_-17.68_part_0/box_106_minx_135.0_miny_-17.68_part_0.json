@@ -1,0 +1,147 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "box_106_minx_135.0_miny_-17.68_part_0",
+  "properties": {
+    "title": "ShorelineMonitor: Satellite-Derived Shorelines",
+    "description": "ShorelineMonitor: Satellite-Derived Shorelines in Parquet format",
+    "table:columns": [
+      {
+        "name": "time",
+        "type": "timestamp[ns]",
+        "description": "Observation year of the shoreline, represented as a timestamp."
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": "Satellite-derived shoreline geometry as linestrings, encoded in Well-Known Binary (WKB) format."
+      },
+      {
+        "name": "box_id",
+        "type": "string",
+        "description": "Unique identifier for the shoreline box within the ShorelineMonitor global box system."
+      },
+      {
+        "name": "source_file",
+        "type": "string",
+        "description": "Original geojson file name from which the shoreline data was extracted."
+      },
+      {
+        "name": "group",
+        "type": "int64",
+        "description": "Identifier for multi-linestring segments within the source ShorelineMonitor data."
+      },
+      {
+        "name": "bbox.maxx",
+        "type": "double"
+      },
+      {
+        "name": "bbox.maxy",
+        "type": "double"
+      },
+      {
+        "name": "bbox.minx",
+        "type": "double"
+      },
+      {
+        "name": "bbox.miny",
+        "type": "double"
+      },
+      {
+        "name": "quadkey",
+        "type": "string",
+        "description": "QuadKey for spatial indexing, corresponding to interpolated point midway along the shoreline segment."
+      },
+      {
+        "name": "bounding_quadkey",
+        "type": "string",
+        "description": "QuadKey for spatial indexing, corresponding to the shoreline segment's bounding quadtile."
+      }
+    ],
+    "proj:bbox": [
+      135.004138,
+      -17.67863,
+      143.730142,
+      -5.885142
+    ],
+    "proj:epsg": 4326,
+    "start_datetime": "1986-01-01T00:00:00Z",
+    "end_datetime": "2021-01-01T00:00:00Z",
+    "table:row_count": 82261,
+    "datetime": "2024-02-27T01:29:38.048000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          143.730142,
+          -17.67863
+        ],
+        [
+          143.730142,
+          -5.885142
+        ],
+        [
+          135.004138,
+          -5.885142
+        ],
+        [
+          135.004138,
+          -17.67863
+        ],
+        [
+          143.730142,
+          -17.67863
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/collection.json",
+      "type": "application/json",
+      "title": "ShorelineMonitor: Satellite-Derived Shorelines"
+    },
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/collection.json",
+      "type": "application/json",
+      "title": "ShorelineMonitor: Satellite-Derived Shorelines"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_106_minx_135.0_miny_-17.68_part_0/box_106_minx_135.0_miny_-17.68_part_0.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "az://shorelinemonitor/release/2024-02-26/box=106/minx_135.0_miny_-17.68_part_0.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "ShorelineMonitor Satellite-Derived Shorelines",
+      "description": "ShorelineMonitor Parquet dataset with Satellite-Derived Shorelines for this region.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    135.004138,
+    -17.67863,
+    143.730142,
+    -5.885142
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "shorelinemonitor-shorelines"
+}
