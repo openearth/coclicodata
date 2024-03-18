@@ -3,13 +3,13 @@
   "stac_version": "1.0.0",
   "id": "minx_0.0_miny_-70.35_part_0",
   "properties": {
-    "title": "Coastal Transects",
-    "description": "Parquet dataset with the coastal transects",
+    "title": "GCTS",
+    "description": "Parquet dataset with coastal transects (2000 m) for this region.",
     "table:columns": [
       {
         "name": "tr_name",
         "type": "string",
-        "description": "Name of the transect, unique identifier that is composed by the source coastline and the interpolated distance to the transect origin."
+        "description": "A unique identifier for each transect, constructed from three key components: the 'coastline_id', 'segment_id', and 'interpolated_distance'. The 'coastline_id' corresponds to the FID in OpenStreetMap (OSM) and is prefixed with 'cl'. The 'segment_id' indicates the segment of the OSM coastline split by a UTM grid, prefixed with 's'. The 'interpolated_distance' represents the distance from the starting point of the coastline to the transect, interpolated along the segment, and is prefixed with 'tr'. The complete structure is 'cl[coastline_id]s[segment_id]tr[interpolated_distance]', exemplified by 'cl32946s04tr08168547'. This composition ensures each transect name is a distinct and informative representation of its geographical and spatial attributes."
       },
       {
         "name": "lon",
@@ -27,19 +27,24 @@
         "description": "North bearing of the transect from the landward side in degrees, with north as the reference."
       },
       {
-        "name": "utm_crs",
-        "type": "int32",
-        "description": "EPSG code representing the UTM Coordinate Reference System for the transect."
-      },
-      {
-        "name": "coastline_name",
-        "type": "int32",
-        "description": "Identifier of the coastline from which the transect was derived."
-      },
-      {
         "name": "geometry",
         "type": "binary",
         "description": "Well-Known Binary (WKB) representation of the transect as a linestring geometry."
+      },
+      {
+        "name": "coastline_is_closed",
+        "type": "bool",
+        "description": "Indicates whether the source OpenStreetMap (OSM) coastline, from which the transects were derived, forms a closed loop. A value of 'true' suggests that the coastline represents an enclosed area, such as an island."
+      },
+      {
+        "name": "coastline_length",
+        "type": "int32",
+        "description": "Represents the total length of the source OpenStreetMap (OSM) coastline, that is summed across various UTM regions. It reflects the aggregate length of the original coastline from which the transects are derived."
+      },
+      {
+        "name": "utm_crs",
+        "type": "float",
+        "description": "EPSG code representing the UTM Coordinate Reference System for the transect."
       },
       {
         "name": "bbox.maxx",
@@ -63,6 +68,11 @@
         "description": "QuadKey corresponding to the transect origin location at zoom 12, following the Bing Maps Tile System for spatial indexing."
       },
       {
+        "name": "bounding_quadkey",
+        "type": "string",
+        "description": "QuadKey of the bounding quadtile that encapsulates the entire transect geometry, used for spatial indexing at a broader scale."
+      },
+      {
         "name": "isoCountryCodeAlpha2",
         "type": "string",
         "description": "ISO 3166-1 alpha-2 country code for the country in which the transect is located."
@@ -74,18 +84,13 @@
       },
       {
         "name": "isoSubCountryCode",
-        "type": "null",
+        "type": "string",
         "description": "ISO code for the sub-country or second-level administrative division in which the transect is located."
       },
       {
         "name": "admin_level_2_name",
-        "type": "null",
-        "description": "Name of the second-level administrative division (e.g., state or province) in which the transect is located."
-      },
-      {
-        "name": "bounding_quadkey",
         "type": "string",
-        "description": "QuadKey of the bounding quadtile that encapsulates the entire transect geometry, used for spatial indexing at a broader scale."
+        "description": "Name of the second-level administrative division (e.g., state or province) in which the transect is located."
       }
     ],
     "proj:bbox": [
@@ -96,7 +101,8 @@
     ],
     "proj:epsg": 4326,
     "table:row_count": 80407,
-    "datetime": "2024-02-28T18:41:11.134665Z"
+    "created": "2024-03-18T12:38:52.256664Z",
+    "datetime": "2024-03-18T00:00:00Z"
   },
   "geometry": {
     "type": "Polygon",
@@ -154,8 +160,8 @@
     "data": {
       "href": "az://transects/gcts-2000m.parquet/minx_0.0_miny_-70.35_part_0.parquet",
       "type": "application/vnd.apache.parquet",
-      "title": "Coastal Transects",
-      "description": "Parquet dataset with coastal transects for this region.",
+      "title": "GCTS",
+      "description": "Parquet dataset with coastal transects (2000 m) for this region.",
       "roles": [
         "data"
       ]
