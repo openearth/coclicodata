@@ -1,0 +1,131 @@
+{
+    "type": "Feature",
+    "stac_version": "1.0.0",
+    "id": "DeltaDTM_v1_0_N66W083",
+    "properties": {
+        "created": "2024-03-19T10:28:41.460463Z",
+        "proj:bbox": [
+            -83.00027777777778,
+            66.0001388888889,
+            -82.00027777777777,
+            67.00013888888888
+        ],
+        "proj:shape": [
+            3600,
+            1800
+        ],
+        "proj:epsg": 9518,
+        "proj:geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        -82.00027777777777,
+                        66.0001388888889
+                    ],
+                    [
+                        -82.00027777777777,
+                        67.00013888888888
+                    ],
+                    [
+                        -83.00027777777778,
+                        67.00013888888888
+                    ],
+                    [
+                        -83.00027777777778,
+                        66.0001388888889
+                    ],
+                    [
+                        -82.00027777777777,
+                        66.0001388888889
+                    ]
+                ]
+            ]
+        },
+        "proj:transform": [
+            0.0005555555555555556,
+            0.0,
+            -83.00027777777778,
+            0.0,
+            -0.0002777777777777778,
+            67.00013888888888
+        ],
+        "datetime": "2023-10-30T00:00:00Z"
+    },
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    -82.00027777777777,
+                    66.0001388888889
+                ],
+                [
+                    -82.00027777777777,
+                    67.00013888888888
+                ],
+                [
+                    -83.00027777777778,
+                    67.00013888888888
+                ],
+                [
+                    -83.00027777777778,
+                    66.0001388888889
+                ],
+                [
+                    -82.00027777777777,
+                    66.0001388888889
+                ]
+            ]
+        ]
+    },
+    "links": [
+        {
+            "rel": "collection",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Deltares DeltaDTM"
+        },
+        {
+            "rel": "root",
+            "href": "../../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Deltares DeltaDTM"
+        }
+    ],
+    "assets": {
+        "DeltaDTM": {
+            "href": "az://deltares-delta-dtm/v1.0.1/north_america/DeltaDTM_v1_0_N66W083.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "DeltaDTM",
+            "raster:bands": [
+                {
+                    "nodata": -9999,
+                    "data_type": "float32",
+                    "spatial_resolution": 30
+                }
+            ],
+            "roles": [
+                "data"
+            ]
+        }
+    },
+    "bbox": [
+        -83.00027777777778,
+        66.0001388888889,
+        -82.00027777777777,
+        67.00013888888888
+    ],
+    "stac_extensions": [
+        "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+    ],
+    "collection": "deltares-delta-dtm"
+}
