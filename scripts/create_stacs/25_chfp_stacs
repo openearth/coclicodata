@@ -56,23 +56,24 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "DGDS - I1000482-002"
 BUCKET_NAME = "dgds-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "coastal_mask"
+PROJ_NAME = "coclico-stac"
 
 # hard-coded STAC templates
 STAC_DIR = pathlib.Path.cwd() / "current"
 
 # hard-coded input params which differ per dataset
-METADATA = "metadata_coastal_mask.json"
-DATASET_DIR = "19_coastal_mask"
-CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "coastal-mask"  # name of stac collection
+METADATA = "Mean_spring_tide_HD.json"
+DATASET_DIR = "data"
+CF_FILE = "Mean_spring_tide_HD.tif" # NOTE: multiple files
+COLLECTION_ID = "cfhp"  # name of stac collection
 
 # define local directories
 home = pathlib.Path().home()
 tmp_dir = home.joinpath("data", "tmp")
 coclico_data_dir = p_drive.joinpath(
-    "11207608-coclico", "FASTTRACK_DATA"
+    "11207608-coclico", "FULLTRACK_DATA", "WP4"
 )  # remote p drive
+google_cred_dir = p_drive.joinpath('11207608-coclico','FASTTRACK_DATA','google_credentials.json')
 
 # use local or remote data dir
 use_local_data = False
@@ -86,11 +87,11 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # directory to export result
-cog_dirs = ds_dir.joinpath("cogs")
-ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
+cog_dirs = ds_dir.joinpath("cogs_test")
+ds_fp = ds_dir.joinpath("data", CF_FILE)  # file directory
 
 # load metadata template
-metadata_fp = ds_dir.joinpath(METADATA)
+metadata_fp = ds_dir.joinpath('HIGH_DEFENDED_MAPS', 'Metadata', METADATA)
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
@@ -115,18 +116,18 @@ def create_collection(
             url="https://deltares.nl",
         ),
         pystac.Provider(
-            "Global Climate Forum",
+            "Universidad de Cantabria, Instituto de Hidráulica Ambiental de la Universidad de Cantabria 'IHCantabria'",
             roles=[
                 pystac.provider.ProviderRole.PRODUCER,
             ],
-            url="https://globalclimateforum.org",
+            url="www.ihcantabria.com",
         ),
     ]
 
-    start_datetime = datetime.datetime(2022, 2, 22, tzinfo=datetime.timezone.utc)
+    start_datetime = datetime.datetime(2024, 1, 18, tzinfo=datetime.timezone.utc)
 
     extent = pystac.Extent(
-        pystac.SpatialExtent([[-180.0, 90.0, 180.0, -90.0]]),
+        pystac.SpatialExtent([[5415925, 941625, 1547750, 6525950]]),
         pystac.TemporalExtent([[start_datetime, None]]),
     )
 
@@ -135,16 +136,20 @@ def create_collection(
             rel=pystac.RelType.LICENSE,
             target="https://coclicoservices.eu/legal/",
             media_type="text/html",
-            title="ODbL-1.0 License",
+            title="ODbL-1.0 License", # NOTE: not sure if this applies
         )
     ]
 
     keywords = [
         "Coast",
-        "Coastal Mask",
-        "Coastal Change",
+        "Flood Maps",
+        "Coastal Hazard",
         "Coastal Hazards",
         "Flood Risk",
+        "Flood Projections",
+        "Coastal Hazard Flood Projections",
+        "Europe",
+        "European"
         "CoCliCo",
         "Deltares",
         "Cloud Optimized GeoTIFF",
@@ -152,15 +157,14 @@ def create_collection(
 
     if description is None:
         description = (
-            "Coastal mask that is derived from Copernicus elevation data combined with"
-            " a maximum distanceto coastal water bodies."
+            "This is a collection of maps representing the flood simulation across Europe for different scenarios"
         )
 
     collection = pystac.Collection(
         id=COLLECTION_ID,
-        title="Coastal Mask",
+        title="Coastal Hazard Floop Projections",
         description=description,  # noqa: E502
-        license="ODbL-1.0",
+        license="ODbL-1.0", # NOTE: not sure if this applies
         providers=providers,
         extent=extent,
         catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED,
@@ -169,7 +173,7 @@ def create_collection(
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://coclico.blob.core.windows.net/assets/thumbnails/coastal-mask-thumbnail.png",  # noqa: E501
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
@@ -186,9 +190,9 @@ def create_collection(
     collection.extra_fields["item_assets"] = {
         "data": {
             "type": pystac.MediaType.COG,
-            "title": "Coastal Mask",
+            "title": "Coastal Hazard Flood Projections",
             "roles": ["data"],
-            "description": "Coastal areas masked for this region.",
+            "description": "Coastal Flooding projections for Europe",
             **ASSET_EXTRA_FIELDS,
         }
     }
@@ -196,15 +200,12 @@ def create_collection(
     if extra_fields:
         collection.extra_fields.update(extra_fields)
 
-    pystac.extensions.scientific.ScientificExtension.add_to(collection)
-    collection.extra_fields["sci:citation"] = "Lincke et al., 2023, in progress"
-
     # add coclico frontend properties to collection
     coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
-    coclico_ext.units = "bool"
+    coclico_ext.units = "float32"
     coclico_ext.plot_type = "raster"
     coclico_ext.min = 0
-    coclico_ext.max = 1
+    coclico_ext.max = 10 # NOTE: not checked
 
     return collection
 
@@ -400,75 +401,74 @@ def generate_slices(num_chunks: int, chunk_size: int) -> Tuple[slice, slice]:
 # %%
 # ## Do the work
 if __name__ == "__main__":
-    from dask.distributed import Client
+    # from dask.distributed import Client
 
-    print("Launching local client...")
-    client = Client(
-        threads_per_worker=1, processes=True, local_directory=TMP_DIR, n_workers=6
-    )
-    client
-    print(client.dashboard_link)
+    # print("Launching local client...")
+    # client = Client(
+    #     threads_per_worker=1, processes=True, local_directory=TMP_DIR, n_workers=6
+    # )
+    # client
+    # print(client.dashboard_link)
 
-    cm = xr.open_dataset(
-        ds_fp, engine="rasterio", mask_and_scale=False
-    )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
-    cm = cm.assign_coords(band=("band", [f"B{k+1:02}" for k in range(cm.dims["band"])]))
-    cm = cm["band_data"].to_dataset("band")
+    # cm = xr.open_dataset(
+    #     ds_fp, engine="rasterio", mask_and_scale=False
+    # )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
+    # cm = cm.assign_coords(band=("band", [f"B{k+1:02}" for k in range(cm.dims["band"])]))
+    # cm = cm["band_data"].to_dataset("band")
 
-    profile_options = {
-        "driver": "COG",
-        "dtype": "uint8",
-        "compress": "DEFLATE",
-        # "interleave": "band",
-        # "ZLEVEL": 9,
-        # "predictor": 1,
-    }
-    storage_options = {"token": "google_default"}
+    # profile_options = {
+    #     "driver": "COG",
+    #     "dtype": "uint8",
+    #     "compress": "DEFLATE",
+    #     # "interleave": "band",
+    #     # "ZLEVEL": 9,
+    #     # "predictor": 1,
+    # }
+    # storage_options = {"token": "google_default"}
 
-    # chunk size
-    chunk_size = 2**12  # 16384, which is large, but OK for int8 datatype.
+    # # chunk size
+    # chunk_size = 2**12  # 16384, which is large, but OK for int8 datatype.
 
-    cm_chunked = cm.chunk({"x": chunk_size, "y": chunk_size})
+    # cm_chunked = cm.chunk({"x": chunk_size, "y": chunk_size})
 
-    num_x_chunks = math.ceil(cm_chunked.dims["x"] / chunk_size)
-    num_y_chunks = math.ceil(cm_chunked.dims["y"] / chunk_size)
+    # num_x_chunks = math.ceil(cm_chunked.dims["x"] / chunk_size)
+    # num_y_chunks = math.ceil(cm_chunked.dims["y"] / chunk_size)
 
-    # items = []
-    delayed_items = []
+    # # items = []
+    # delayed_items = []
 
-    for x_slice in generate_slices(num_x_chunks, chunk_size):
-        for y_slice in generate_slices(num_y_chunks, chunk_size):
-            chunk = cm_chunked.isel(x=x_slice, y=y_slice)
+    # for x_slice in generate_slices(num_x_chunks, chunk_size):
+    #     for y_slice in generate_slices(num_y_chunks, chunk_size):
+    #         chunk = cm_chunked.isel(x=x_slice, y=y_slice)
 
-            # Process the chunk using a delayed function
-            delayed_item = dask.delayed(process_block)(
-                # item = process_block(
-                chunk,
-                resolution=30,
-                data_type=raster.DataType.UINT8,
-                storage_prefix=HREF_PREFIX,
-                name_prefix="",
-                include_band="",
-                time_dim=False,
-                x_dim="x",
-                y_dim="y",
-                profile_options=profile_options,
-                storage_options=storage_options,
-            )
+    #         # Process the chunk using a delayed function
+    #         delayed_item = dask.delayed(process_block)(
+    #             # item = process_block(
+    #             chunk,
+    #             resolution=30,
+    #             data_type=raster.DataType.UINT8,
+    #             storage_prefix=HREF_PREFIX,
+    #             name_prefix="",
+    #             include_band="",
+    #             time_dim=False,
+    #             x_dim="x",
+    #             y_dim="y",
+    #             profile_options=profile_options,
+    #             storage_options=storage_options,
+    #         )
 
-            delayed_items.append(delayed_item)
-            # items.append(item)
+    #         delayed_items.append(delayed_item)
+    #         # items.append(item)
 
-    items = dask.compute(*delayed_items)
+    # items = dask.compute(*delayed_items)
 
-    print(len(items))
-
-    # %%
+    # print(len(items))
+    
     # ## store to cloud folder
 
     # upload directory with cogs to google cloud
     load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+        google_token_fp=google_cred_dir
     )
 
     dir_to_google_cloud(
