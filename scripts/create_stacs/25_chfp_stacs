@@ -53,10 +53,10 @@ log.setLevel(logging.ERROR)
 # ## Define variables
 # hard-coded input params at project level
 GCS_PROTOCOL = "https://storage.googleapis.com"
-GCS_PROJECT = "DGDS - I1000482-002"
-BUCKET_NAME = "dgds-data-public"
+GCS_PROJECT = "coclico-11207608-002"
+BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "coclico-stac"
+PROJ_NAME = "coclico-stac"\
 
 # hard-coded STAC templates
 STAC_DIR = pathlib.Path.cwd() / "current"
@@ -71,9 +71,9 @@ COLLECTION_ID = "cfhp"  # name of stac collection
 home = pathlib.Path().home()
 tmp_dir = home.joinpath("data", "tmp")
 coclico_data_dir = p_drive.joinpath(
-    "11207608-coclico", "FULLTRACK_DATA", "WP4"
+    "11207608-coclico", "FULLTRACK_DATA"
 )  # remote p drive
-google_cred_dir = p_drive.joinpath('11207608-coclico','FASTTRACK_DATA','google_credentials.json')
+google_cred_dir = p_drive.joinpath('11207608-coclico','FASTTRACK_DATA','google_credentials_new.json')
 
 # use local or remote data dir
 use_local_data = False
@@ -87,8 +87,8 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # directory to export result
-cog_dirs = ds_dir.joinpath("cogs_test")
-ds_fp = ds_dir.joinpath("data", CF_FILE)  # file directory
+cog_dirs = ds_dir.joinpath("WP4")
+ds_fp = ds_dir.joinpath(CF_FILE, "cogs")  # file directory
 
 # load metadata template
 metadata_fp = ds_dir.joinpath('HIGH_DEFENDED_MAPS', 'Metadata', METADATA)
@@ -512,3 +512,5 @@ if __name__ == "__main__":
 
     # # %%
     catalog.validate_all()
+
+# %%
