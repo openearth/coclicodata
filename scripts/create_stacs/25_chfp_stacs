@@ -4,6 +4,7 @@ import datetime
 
 # import os
 import pathlib
+import glob
 
 # import sys
 # from re import S, template
@@ -56,14 +57,15 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "coclico-stac"\
+PROJ_NAME = "cfhp"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd() / "current"
+CUR_CWD = pathlib.Path.cwd()
+STAC_DIR = CUR_CWD.parents[1] / "current"
 
 # hard-coded input params which differ per dataset
 METADATA = "Mean_spring_tide_HD.json"
-DATASET_DIR = "data"
+DATASET_DIR = "WP4"
 CF_FILE = "Mean_spring_tide_HD.tif" # NOTE: multiple files
 COLLECTION_ID = "cfhp"  # name of stac collection
 
@@ -87,11 +89,11 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # directory to export result
-cog_dirs = ds_dir.joinpath("WP4")
-ds_fp = ds_dir.joinpath(CF_FILE, "cogs")  # file directory
+cog_dirs = ds_dir.joinpath("cogs")
+ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
 
 # load metadata template
-metadata_fp = ds_dir.joinpath('HIGH_DEFENDED_MAPS', 'Metadata', METADATA)
+metadata_fp = ds_dir.joinpath('data','HIGH_DEFENDED_MAPS', 'Metadata', METADATA)
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
@@ -304,7 +306,7 @@ def create_asset(
 # %%
 # ## Function to process one data partition
 def process_block(
-    block: xr.DataArray,
+    file_path: pathlib.Path,
     data_type: raster.DataType,  # Make sure to have raster.DataType properly imported
     resolution: int,
     storage_prefix: str = "",
@@ -328,6 +330,8 @@ def process_block(
 
     - pystac.Item: Placeholder STAC item.
     """
+    # Open dataset (.tif in this case)
+    block = xr.open_dataset(file_path, engine="rasterio", mask_and_scale=False)
 
     # Date when Lincke et al. sent Deltares this data
     block = block.assign_coords(time=pd.Timestamp(2022, 2, 22).isoformat())
@@ -346,13 +350,6 @@ def process_block(
 
     for var in block:
         da = block[var]
-        # it's more efficient to save the data as unsigned integer, so replace the -9999 nodata values by 0
-        da = (
-            da.where(da != -9999, 0)
-            .astype("uint8")
-            .rio.write_nodata(0)
-            .rio.set_spatial_dims(x_dim="x", y_dim="y")
-        )
 
         href = name_block(
             da,
@@ -364,19 +361,15 @@ def process_block(
             y_dim=y_dim,
         )
 
+        print('now working on: ' + str(href))
+
         # uri = to_uri_protocol(href, protocol="gs")
 
         # TODO: include this file checking
         # if not file_exists(file, str(storage_destination), existing_blobs):
         # nbytes = write_block(da, uri, storage_options, profile_options, overwrite=True)
 
-        memfs = fsspec.filesystem("memory")
-
-        with memfs.open("data", "wb") as buffer:
-            da.squeeze().rio.to_raster(buffer, **profile_options)
-            buffer.seek(0)
-
-        nbytes = len(buffer.getvalue())
+        nbytes = os.path.getsize(file_path)
 
         item = create_asset(
             item,
@@ -384,8 +377,8 @@ def process_block(
             asset_href=href,
             nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
             resolution=resolution,
-            data_type=raster.DataType.UINT8,  # should be same as how data is written
-            nbytes=nbytes,
+            data_type=raster.DataType.FLOAT32,  # should be same as how data is written
+            nbytes=nbytes
         )
 
     return item
@@ -397,74 +390,101 @@ def generate_slices(num_chunks: int, chunk_size: int) -> Tuple[slice, slice]:
     for i in range(num_chunks):
         yield slice(i * chunk_size, (i + 1) * chunk_size)
 
+#%%
+def get_paths(folder_structure, base_dir=''):
+    """Generate paths for a folder structure defined by a dict"""
+    paths = []
+    for key, value in folder_structure.items():
+        if isinstance(value, dict):
+            paths.extend(get_paths(value, os.path.join(base_dir, key)))
+        elif isinstance(value, list):
+            if value:
+                for item in value:
+                    if item != "":
+                        paths.append(os.path.join(base_dir, key, item))
+            else:
+                paths.append(os.path.join(base_dir, key))
+        else:
+            continue
+    return paths
+
 
 # %%
 # ## Do the work
 if __name__ == "__main__":
-    # from dask.distributed import Client
 
-    # print("Launching local client...")
-    # client = Client(
-    #     threads_per_worker=1, processes=True, local_directory=TMP_DIR, n_workers=6
-    # )
-    # client
-    # print(client.dashboard_link)
+    ## Setup folder structure
+    # List different types on map folders
+    map_types = [   'HIGH_DEFENDED_MAPS',
+                    'LOW_DEFENDED_MAPS',
+                    'UNDEFENDED_MAPS']
 
-    # cm = xr.open_dataset(
-    #     ds_fp, engine="rasterio", mask_and_scale=False
-    # )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
-    # cm = cm.assign_coords(band=("band", [f"B{k+1:02}" for k in range(cm.dims["band"])]))
-    # cm = cm["band_data"].to_dataset("band")
+    # List all tif files present in first folder (note: it is assumed that the same files are present in all folders)
+    tif_list = glob.glob(str(ds_dir.joinpath("data", map_types[0],"*.tif")))
 
-    # profile_options = {
-    #     "driver": "COG",
-    #     "dtype": "uint8",
-    #     "compress": "DEFLATE",
-    #     # "interleave": "band",
-    #     # "ZLEVEL": 9,
-    #     # "predictor": 1,
-    # }
-    # storage_options = {"token": "google_default"}
+    # List the desired folder structure as a dict
+    # NOTE: make sure the resulting path_list (based on folder structure) matches the tif_list
+    folder_structure = {
+        "Mean_spring_tide": [],
+        "RP": ["1000", "100", "1"],
+        "SLR": {
+            "High_end": ["2100", "2150"],
+            "SSP126": ["2100"],
+            "SSP245": ["2050", "2100"],
+            "SSP585": ["2030", "2050", "2100"]
+        }
+    }
 
-    # # chunk size
-    # chunk_size = 2**12  # 16384, which is large, but OK for int8 datatype.
+    # Get list of paths for the folder structure
+    path_list = get_paths(folder_structure)
 
-    # cm_chunked = cm.chunk({"x": chunk_size, "y": chunk_size})
+    items = []
 
-    # num_x_chunks = math.ceil(cm_chunked.dims["x"] / chunk_size)
-    # num_y_chunks = math.ceil(cm_chunked.dims["y"] / chunk_size)
+    for map_type in map_types:
+        for cur_path in path_list:
 
-    # # items = []
-    # delayed_items = []
+            tif_list = pathlib.Path.joinpath(cog_dirs,map_type,cur_path).glob('*.tif')
 
-    # for x_slice in generate_slices(num_x_chunks, chunk_size):
-    #     for y_slice in generate_slices(num_y_chunks, chunk_size):
-    #         chunk = cm_chunked.isel(x=x_slice, y=y_slice)
+            for cur_tif in tif_list:
 
-    #         # Process the chunk using a delayed function
-    #         delayed_item = dask.delayed(process_block)(
-    #             # item = process_block(
-    #             chunk,
-    #             resolution=30,
-    #             data_type=raster.DataType.UINT8,
-    #             storage_prefix=HREF_PREFIX,
-    #             name_prefix="",
-    #             include_band="",
-    #             time_dim=False,
-    #             x_dim="x",
-    #             y_dim="y",
-    #             profile_options=profile_options,
-    #             storage_options=storage_options,
-    #         )
+                cfhp = xr.open_dataset(
+                    cur_tif, engine="rasterio", mask_and_scale=False
+                )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
+                cfhp = cfhp.assign_coords(band=("band", [f"B{k+1:02}" for k in range(cfhp.dims["band"])]))
+                cfhp = cfhp["band_data"].to_dataset("band")
 
-    #         delayed_items.append(delayed_item)
-    #         # items.append(item)
+                profile_options = {
+                    "driver": "COG",
+                    "dtype": "float32",
+                    "compress": "DEFLATE",
+                    # "interleave": "band",
+                    # "ZLEVEL": 9,
+                    # "predictor": 1,
+                }
+                storage_options = {"token": "google_default"}
 
-    # items = dask.compute(*delayed_items)
+                CUR_HREF_PREFIX = urljoin(HREF_PREFIX,map_type,cur_path)
 
-    # print(len(items))
+                # Process the chunk using a delayed function
+                item = process_block(
+                    cur_tif,
+                    resolution=30,
+                    data_type=raster.DataType.FLOAT32,
+                    storage_prefix=CUR_HREF_PREFIX,
+                    name_prefix="",
+                    include_band="",
+                    time_dim=False,
+                    x_dim="x",
+                    y_dim="y",
+                    profile_options=profile_options,
+                    storage_options=storage_options,
+                )
+
+                items.append(item)
+
+        print(len(items))
     
-    # ## store to cloud folder
+    # %% store to cloud folder
 
     # upload directory with cogs to google cloud
     load_google_credentials(
@@ -485,8 +505,11 @@ if __name__ == "__main__":
 
     collection = create_collection()
 
-    for i in items:
-        collection.add_item(i)
+
+    for map_type in map_types:
+            for cur_path in path_list:
+                for i in items:
+                    collection.add_item(i)
 
     collection.update_extent_from_items()
 
@@ -513,4 +536,48 @@ if __name__ == "__main__":
     # # %%
     catalog.validate_all()
 
+# %% Test to load a single item from a .tif file
+import time
+
+start = time.time()
+
+tif_test = pathlib.Path(r'p:\11207608-coclico\FULLTRACK_DATA\WP4\cogs\HIGH_DEFENDED_MAPS\RP\1000\B01_x4210162.5_y3367662.5.tif')
+
+cfhp_test = xr.open_dataset(tif_test, engine="rasterio", mask_and_scale=False)
+
+cfhp_CUR_REF = urljoin(HREF_PREFIX,'HIGH_DEFENDED_MAPS','RP','1000','B01_x4005362.5_y2958062.5.tif')
+
+item = process_block(
+    tif_test,
+    resolution=30,
+    data_type=raster.DataType.FLOAT32,
+    storage_prefix=CUR_HREF_PREFIX,
+    name_prefix="",
+    include_band="",
+    time_dim=False,
+    x_dim="x",
+    y_dim="y",
+    profile_options=profile_options,
+    storage_options=storage_options,
+)
+
+end = time.time()
+
+print('it took ' + str(end - start) + ' seconds')
+# %% Test size definition
+
+memfs = fsspec.filesystem("memory")
+
+with memfs.open("data", "wb") as buffer:
+    cfhp_test.squeeze().rio.to_raster(buffer, **profile_options)
+    buffer.seek(0)
+
+nbytes = len(buffer.getvalue())
+
+print(nbytes)
+# %%
+import os
+
+print(os.path.getsize(tif_test))
+print(cfhp_test.nbytes)
 # %%

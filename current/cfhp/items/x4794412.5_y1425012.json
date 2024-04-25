@@ -1,0 +1,141 @@
+{
+    "type": "Feature",
+    "stac_version": "1.0.0",
+    "id": "x4794412.5_y1425012.5",
+    "properties": {
+        "created": "2024-04-25T10:03:26.916697Z",
+        "proj:bbox": [
+            4794400.0,
+            1425000.0,
+            5613600.0,
+            2138875.0
+        ],
+        "proj:shape": [
+            32768,
+            28555
+        ],
+        "proj:epsg": 3035,
+        "proj:geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        5613600.0,
+                        1425000.0
+                    ],
+                    [
+                        5613600.0,
+                        2138875.0
+                    ],
+                    [
+                        4794400.0,
+                        2138875.0
+                    ],
+                    [
+                        4794400.0,
+                        1425000.0
+                    ],
+                    [
+                        5613600.0,
+                        1425000.0
+                    ]
+                ]
+            ]
+        },
+        "proj:transform": [
+            25.0,
+            0.0,
+            4794400.0,
+            0.0,
+            -25.0,
+            2138875.0
+        ],
+        "deltares:item_key": "x4794412.5_y1425012.5",
+        "datetime": "2022-02-22T00:00:00Z"
+    },
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    25.455330936722277,
+                    34.811393684642546
+                ],
+                [
+                    25.455330936722277,
+                    42.192647532297215
+                ],
+                [
+                    15.186714509479472,
+                    42.192647532297215
+                ],
+                [
+                    15.186714509479472,
+                    34.811393684642546
+                ],
+                [
+                    25.455330936722277,
+                    34.811393684642546
+                ]
+            ]
+        ]
+    },
+    "links": [
+        {
+            "rel": "collection",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Coastal Hazard Floop Projections"
+        },
+        {
+            "rel": "root",
+            "href": "../../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../collection.json",
+            "type": "application/json",
+            "title": "Coastal Hazard Floop Projections"
+        }
+    ],
+    "assets": {
+        "band_data": {
+            "href": "https://storage.googleapis.com/coclico-data-public/coclico/cfhp/UNDEFENDED_MAPS/RP/100/band_data_x4794412.5_y1425012.5.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "band_data",
+            "file:size": 10826912,
+            "raster:bands": [
+                {
+                    "nodata": -9999.0,
+                    "data_type": "float32",
+                    "spatial_resolution": 30
+                }
+            ],
+            "eo:bands": [
+                {
+                    "name": "band_data",
+                    "description": "Coastal mask for this region."
+                }
+            ],
+            "roles": [
+                "data"
+            ]
+        }
+    },
+    "bbox": [
+        15.186714509479472,
+        34.811393684642546,
+        25.455330936722277,
+        42.192647532297215
+    ],
+    "stac_extensions": [
+        "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
+        "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+    ],
+    "collection": "cfhp"
+}
