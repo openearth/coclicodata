@@ -1,3 +1,4 @@
+#%%
 import pathlib
 import sys
 import pystac
@@ -12,14 +13,14 @@ from coclicodata.drive_config import p_drive
 
 if __name__ == "__main__":
     # hard-coded input params
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "CoCliCo - 11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
     STAC_NAME = "coclico-stac"
     IN_DIRNAME = "current"
 
     # hard-coded input params at project level
-    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
+    coclico_data_dir = pathlib.Path(p_drive, "11207608-coclico", "FASTTRACK_DATA")
 
     # upload dir to gcs from local drive
     source_dir_fp = str(
@@ -28,7 +29,7 @@ if __name__ == "__main__":
 
     # load google credentials
     load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+        google_token_fp=coclico_data_dir.joinpath("google_credentials_new.json")
     )
 
     # validate STAC catalog and upload to cloud
@@ -50,3 +51,4 @@ if __name__ == "__main__":
         bucket_proj=BUCKET_PROJ,
         dir_name=STAC_NAME,
     )
+# %%

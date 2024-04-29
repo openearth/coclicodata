@@ -355,13 +355,10 @@ def process_block(
             da,
             storage_prefix=storage_prefix,
             name_prefix=name_prefix,
-            include_band=da.name,
             time_dim=time_dim,
             x_dim=x_dim,
             y_dim=y_dim,
         )
-
-        print('now working on: ' + str(href))
 
         # uri = to_uri_protocol(href, protocol="gs")
 
@@ -440,8 +437,12 @@ if __name__ == "__main__":
 
     items = []
 
+    collection = create_collection()
+
     for map_type in map_types:
         for cur_path in path_list:
+
+            print('now working on: ' + map_type + ' ' + cur_path)
 
             tif_list = pathlib.Path.joinpath(cog_dirs,map_type,cur_path).glob('*.tif')
 
@@ -471,7 +472,7 @@ if __name__ == "__main__":
                     resolution=30,
                     data_type=raster.DataType.FLOAT32,
                     storage_prefix=CUR_HREF_PREFIX,
-                    name_prefix="",
+                    name_prefix="B01",
                     include_band="",
                     time_dim=False,
                     x_dim="x",
@@ -480,13 +481,17 @@ if __name__ == "__main__":
                     storage_options=storage_options,
                 )
 
-                items.append(item)
+                item_href = pathlib.Path(STAC_DIR,COLLECTION_ID,"items",map_type,cur_path,str(item.id+'.json'))
+                item.set_self_href(item_href)
 
-        print(len(items))
+                items.append(item)
+                collection.add_item(item)
+
+    print(len(items))
     
     # %% store to cloud folder
 
-    # upload directory with cogs to google cloud
+    # # upload directory with cogs to google cloud
     load_google_credentials(
         google_token_fp=google_cred_dir
     )
@@ -499,17 +504,15 @@ if __name__ == "__main__":
         dir_name=PROJ_NAME,
     )
 
+
     # %%
     stac_io = CoCliCoStacIO()
     layout = CoCliCoCOGLayout()
 
-    collection = create_collection()
-
-
+    # Set up folder structure
     for map_type in map_types:
-            for cur_path in path_list:
-                for i in items:
-                    collection.add_item(i)
+        for cur_path in path_list:
+            STAC_DIR.joinpath(COLLECTION_ID,'items',map_type,cur_path).mkdir(parents = True, exist_ok= True)
 
     collection.update_extent_from_items()
 
@@ -518,10 +521,11 @@ if __name__ == "__main__":
     if catalog.get_child(collection.id):
         catalog.remove_child(collection.id)
         print(f"Removed child: {collection.id}.")
-
+        
     catalog.add_child(collection)
 
-    collection.normalize_hrefs(str(STAC_DIR / collection.id), strategy=layout)
+    # NOTE: This function creates problems for maintaining the folder structure. Look into this. 
+    #collection.normalize_hrefs(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout)
 
     catalog.save(
         catalog_type=pystac.CatalogType.SELF_CONTAINED,
@@ -535,49 +539,3 @@ if __name__ == "__main__":
 
     # # %%
     catalog.validate_all()
-
-# %% Test to load a single item from a .tif file
-import time
-
-start = time.time()
-
-tif_test = pathlib.Path(r'p:\11207608-coclico\FULLTRACK_DATA\WP4\cogs\HIGH_DEFENDED_MAPS\RP\1000\B01_x4210162.5_y3367662.5.tif')
-
-cfhp_test = xr.open_dataset(tif_test, engine="rasterio", mask_and_scale=False)
-
-cfhp_CUR_REF = urljoin(HREF_PREFIX,'HIGH_DEFENDED_MAPS','RP','1000','B01_x4005362.5_y2958062.5.tif')
-
-item = process_block(
-    tif_test,
-    resolution=30,
-    data_type=raster.DataType.FLOAT32,
-    storage_prefix=CUR_HREF_PREFIX,
-    name_prefix="",
-    include_band="",
-    time_dim=False,
-    x_dim="x",
-    y_dim="y",
-    profile_options=profile_options,
-    storage_options=storage_options,
-)
-
-end = time.time()
-
-print('it took ' + str(end - start) + ' seconds')
-# %% Test size definition
-
-memfs = fsspec.filesystem("memory")
-
-with memfs.open("data", "wb") as buffer:
-    cfhp_test.squeeze().rio.to_raster(buffer, **profile_options)
-    buffer.seek(0)
-
-nbytes = len(buffer.getvalue())
-
-print(nbytes)
-# %%
-import os
-
-print(os.path.getsize(tif_test))
-print(cfhp_test.nbytes)
-# %%
