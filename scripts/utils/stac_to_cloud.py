@@ -12,14 +12,14 @@ from coclicodata.drive_config import p_drive
 
 if __name__ == "__main__":
     # hard-coded input params
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "coclico-11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
-    STAC_NAME = "coclico-stac"
+    STAC_NAME = "coclico-stac-testceed"
     IN_DIRNAME = "current"
 
     # hard-coded input params at project level
-    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
+    cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
 
     # upload dir to gcs from local drive
     source_dir_fp = str(
@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     # load google credentials
     load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+        google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
     )
 
     # validate STAC catalog and upload to cloud
@@ -36,17 +36,18 @@ if __name__ == "__main__":
         os.path.join(source_dir_fp, "catalog.json")  # local cloned STAC
     )
 
-    # TODO: fix STAC validation to work properly with pystac >1.8
-    # if catalog.validate_all() == None:  # no valid STAC
-    #     print(
-    #         "STAC is not valid and hence not uploaded to cloud, please adjust"
-    #         " accordingly"
-    #     )
-    # else:
-    dir_to_google_cloud(
-        dir_path=source_dir_fp,
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        dir_name=STAC_NAME,
-    )
+    if (
+        catalog.validate_all() == None
+    ):  # no valid STAC (note, pystac >1.10 and jsonschema >4.20)
+        print(
+            "STAC is not valid and hence not uploaded to cloud, please adjust"
+            " accordingly by debugging the STAC catalog."
+        )
+    else:
+        dir_to_google_cloud(
+            dir_path=source_dir_fp,
+            gcs_project=GCS_PROJECT,
+            bucket_name=BUCKET_NAME,
+            bucket_proj=BUCKET_PROJ,
+            dir_name=STAC_NAME,
+        )
