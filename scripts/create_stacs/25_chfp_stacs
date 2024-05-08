@@ -5,6 +5,7 @@ import datetime
 # import os
 import pathlib
 import glob
+import os
 
 # import sys
 # from re import S, template
@@ -307,6 +308,7 @@ def create_asset(
 # ## Function to process one data partition
 def process_block(
     file_path: pathlib.Path,
+    base_path: pathlib.Path, #NOTE: only needed because the cog's are stored in a dimension folder structure
     data_type: raster.DataType,  # Make sure to have raster.DataType properly imported
     resolution: int,
     storage_prefix: str = "",
@@ -345,7 +347,8 @@ def process_block(
         y_dim=y_dim,
     )
 
-    item_id = pathlib.Path(item_name).stem
+    item_id = file_path.relative_to(base_path)
+    item_id = urljoin(os.path.split(item_id))
     item = create_item(block, item_id=item_id)
 
     for var in block:
@@ -469,6 +472,7 @@ if __name__ == "__main__":
                 # Process the chunk using a delayed function
                 item = process_block(
                     cur_tif,
+                    cog_dirs,
                     resolution=30,
                     data_type=raster.DataType.FLOAT32,
                     storage_prefix=CUR_HREF_PREFIX,
@@ -481,7 +485,8 @@ if __name__ == "__main__":
                     storage_options=storage_options,
                 )
 
-                item_href = pathlib.Path(STAC_DIR,COLLECTION_ID,"items",map_type,cur_path,str(item.id+'.json'))
+                item_href = pathlib.Path(STAC_DIR,COLLECTION_ID,"items",map_type,cur_path,item.id)
+                item_href.with_suffix('.json')
                 item.set_self_href(item_href)
 
                 items.append(item)
@@ -525,7 +530,7 @@ if __name__ == "__main__":
     catalog.add_child(collection)
 
     # NOTE: This function creates problems for maintaining the folder structure. Look into this. 
-    #collection.normalize_hrefs(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout)
+    collection.normalize_hrefs(str(STAC_DIR / collection.id), strategy=layout)
 
     catalog.save(
         catalog_type=pystac.CatalogType.SELF_CONTAINED,
