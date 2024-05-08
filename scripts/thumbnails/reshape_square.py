@@ -46,5 +46,8 @@ if __name__ == "__main__":
     for png in list_png:
 
         cropped_im = reshape_aspectratio_image(png, aspect_ratio=16 / 9)
-        cv2.imwrite(os.path.join(in_path, "square", png.split("\\")[-1]), cropped_im)
+        cv2.imwrite(
+            os.path.join(in_path, "square", png.split("\\")[-1].replace("png", "jpeg")),
+            cropped_im,
+        )
 # %%
