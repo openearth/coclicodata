@@ -240,7 +240,7 @@ def create_collection(
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            f"https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/{COLLECTION_ID}.jpeg",
+            f"https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/{COLLECTION_ID}.jpeg",
             title="Thumbnail",
             media_type=pystac.MediaType.JPEG,
         ),
