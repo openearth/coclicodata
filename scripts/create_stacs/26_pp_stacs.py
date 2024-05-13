@@ -344,7 +344,7 @@ def process_block(
     for var in block:
         da = block[var]
 
-        href = urljoin(pathlib.Path(storage_prefix).as_posix(),pathlib.Path(file_path.name).as_posix())
+        href = urljoin(storage_prefix,pathlib.Path(file_path.name).as_posix())
         # href = name_block(
         #     da,
         #     storage_prefix=storage_prefix,
@@ -446,7 +446,7 @@ if __name__ == "__main__":
             }
             storage_options = {"token": "google_default"}
 
-            CUR_HREF_PREFIX = urljoin(HREF_PREFIX,cur_path)
+            CUR_HREF_PREFIX = urljoin(HREF_PREFIX,pathlib.Path(cur_path).as_posix())
 
             # Process the chunk using a delayed function
             item = process_block(
