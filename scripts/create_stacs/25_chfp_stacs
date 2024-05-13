@@ -347,8 +347,7 @@ def process_block(
         y_dim=y_dim,
     )
 
-    item_id = file_path.relative_to(base_path)
-    item_id = urljoin(os.path.split(item_id))
+    item_id = file_path.relative_to(base_path).as_posix()
     item = create_item(block, item_id=item_id)
 
     for var in block:
@@ -523,9 +522,9 @@ if __name__ == "__main__":
 
     catalog = pystac.Catalog.from_file(str(STAC_DIR / "catalog.json"))
 
-    if catalog.get_child(collection.id):
-        catalog.remove_child(collection.id)
-        print(f"Removed child: {collection.id}.")
+    # if catalog.get_child(collection.id):
+    #     catalog.remove_child(collection.id)
+    #     print(f"Removed child: {collection.id}.")
         
     catalog.add_child(collection)
 
@@ -544,3 +543,4 @@ if __name__ == "__main__":
 
     # # %%
     catalog.validate_all()
+# %%
