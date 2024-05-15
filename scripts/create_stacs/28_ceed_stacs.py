@@ -45,6 +45,7 @@ GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
 PROJ_NAME = "ceed"
+test = "test"
 
 # hard-coded STAC templates
 STAC_DIR = pathlib.Path.cwd() / "current"
