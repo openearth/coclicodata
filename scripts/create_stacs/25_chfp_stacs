@@ -165,7 +165,7 @@ def create_collection(
 
     collection = pystac.Collection(
         id=COLLECTION_ID,
-        title="Coastal Hazard Floop Projections",
+        title="Coastal Hazard Flood Projections",
         description=description,  # noqa: E502
         license="ODbL-1.0", # NOTE: not sure if this applies
         providers=providers,
@@ -297,7 +297,7 @@ def create_asset(
         eo.Band.create(
             name=asset_title,
             # common_name=asset_title, # Iff in <eo#common-band-names>`
-            description="Coastal mask for this region.",
+            description="Coastal Flood Projections",
         )
     ]
     ...
@@ -522,13 +522,12 @@ if __name__ == "__main__":
 
     catalog = pystac.Catalog.from_file(str(STAC_DIR / "catalog.json"))
 
-    # if catalog.get_child(collection.id):
-    #     catalog.remove_child(collection.id)
-    #     print(f"Removed child: {collection.id}.")
+    if catalog.get_child(collection.id):
+        catalog.remove_child(collection.id)
+        print(f"Removed child: {collection.id}.")
         
     catalog.add_child(collection)
 
-    # NOTE: This function creates problems for maintaining the folder structure. Look into this. 
     collection.normalize_hrefs(str(STAC_DIR / collection.id), strategy=layout)
 
     catalog.save(

@@ -164,7 +164,7 @@ def create_collection(
 
     collection = pystac.Collection(
         id=COLLECTION_ID,
-        title="Gridded population projections for the coastal zone under the Shared Socioeconomic Pathways",
+        title="Population Projections", 
         description=description,  # noqa: E502
         license="Creative Commons Attribution 4.0 International",
         providers=providers,

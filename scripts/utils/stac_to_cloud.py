@@ -16,7 +16,7 @@ if __name__ == "__main__":
     GCS_PROJECT = "CoCliCo - 11207608-002"
     BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
-    STAC_NAME = "coclico-stac"
+    STAC_NAME = "coclico-stac2"
     IN_DIRNAME = "current"
 
     # hard-coded input params at project level
