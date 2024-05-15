@@ -162,11 +162,14 @@ def create_collection(
             "Merkens et al. 2016 regionalised the population projection of the SSP-Database. The produced grids have a spatial resolution of 30*30 arcsecond (approx. 1 km at the equator) and represent the population count per cell. A detailed description of the methods is given in the reference below."
         )
 
+    if "Creative Commons" in metadata["LICENSE"] and "4.0" in metadata["LICENSE"]:
+        metadata["LICENSE"] = "CC-BY-4.0"
+
     collection = pystac.Collection(
         id=COLLECTION_ID,
         title="Population Projections", 
         description=description,  # noqa: E502
-        license="Creative Commons Attribution 4.0 International",
+        license=metadata["LICENSE"],
         providers=providers,
         extent=extent,
         catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED,
@@ -471,7 +474,7 @@ if __name__ == "__main__":
             items.append(item)
             collection.add_item(item)
 
-print(len(items))
+            print(len(items))
     
     # %% store to cloud folder
 
