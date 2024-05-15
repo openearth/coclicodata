@@ -1,0 +1,141 @@
+{
+    "type": "Feature",
+    "stac_version": "1.0.0",
+    "id": "SSP1/2010/SSP1_2010_EU_UK.tif",
+    "properties": {
+        "created": "2024-05-15T08:57:46.320832Z",
+        "proj:bbox": [
+            -31.275000000000006,
+            27.633333333405243,
+            34.09166666666666,
+            70.09166666673858
+        ],
+        "proj:shape": [
+            7844,
+            5095
+        ],
+        "proj:epsg": 4326,
+        "proj:geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        34.09166666666666,
+                        27.633333333405243
+                    ],
+                    [
+                        34.09166666666666,
+                        70.09166666673858
+                    ],
+                    [
+                        -31.275000000000006,
+                        70.09166666673858
+                    ],
+                    [
+                        -31.275000000000006,
+                        27.633333333405243
+                    ],
+                    [
+                        34.09166666666666,
+                        27.633333333405243
+                    ]
+                ]
+            ]
+        },
+        "proj:transform": [
+            0.008333333333333333,
+            0.0,
+            -31.275000000000006,
+            0.0,
+            -0.008333333333333333,
+            70.09166666673858
+        ],
+        "deltares:item_key": "SSP1/2010/SSP1_2010_EU_UK.tif",
+        "datetime": "2022-02-22T00:00:00Z"
+    },
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    34.09166666666666,
+                    27.633333333405243
+                ],
+                [
+                    34.09166666666666,
+                    70.09166666673858
+                ],
+                [
+                    -31.275000000000006,
+                    70.09166666673858
+                ],
+                [
+                    -31.275000000000006,
+                    27.633333333405243
+                ],
+                [
+                    34.09166666666666,
+                    27.633333333405243
+                ]
+            ]
+        ]
+    },
+    "links": [
+        {
+            "rel": "collection",
+            "href": "../../../collection.json",
+            "type": "application/json",
+            "title": "Population Projections"
+        },
+        {
+            "rel": "root",
+            "href": "../../../../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../../../collection.json",
+            "type": "application/json",
+            "title": "Population Projections"
+        }
+    ],
+    "assets": {
+        "band_data": {
+            "href": "https://storage.googleapis.com/coclico-data-public/coclico/pp/SSP1/2010/SSP1_2010_EU_UK.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "band_data",
+            "file:size": 8937382,
+            "raster:bands": [
+                {
+                    "nodata": -9999,
+                    "data_type": "float32",
+                    "spatial_resolution": 30
+                }
+            ],
+            "eo:bands": [
+                {
+                    "name": "band_data",
+                    "description": "POP_SSPs"
+                }
+            ],
+            "roles": [
+                "data"
+            ]
+        }
+    },
+    "bbox": [
+        -31.275000000000006,
+        27.633333333405243,
+        34.09166666666666,
+        70.09166666673858
+    ],
+    "stac_extensions": [
+        "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
+        "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+    ],
+    "collection": "pp"
+}
