@@ -40,7 +40,6 @@ class CoclicoExtension(
     PropertiesExtension,
     ExtensionManagementMixin[Union[pystac.Collection, pystac.Item]],
 ):
-
     """A class extending the properties of STAC Collection, Item, or Asset with Coclico properties."""
 
     def apply(
@@ -188,11 +187,17 @@ class CoclicoExtension(
             pystac.ExtensionTypeError : If an invalid object type is passed.
         """
         if isinstance(obj, pystac.Collection):
-            cls.validate_has_extension(obj, add_if_missing)
+            cls.ensure_has_extension(obj, add_if_missing)
             return cast(CoclicoExtension[T], CollectionCoclicoExtension(obj))
+        # if isinstance(obj, pystac.Collection):
+        #     cls.validate_has_extension(obj, add_if_missing)
+        #     return cast(CoclicoExtension[T], CollectionCoclicoExtension(obj))
         if isinstance(obj, pystac.Item):
-            cls.validate_has_extension(obj, add_if_missing)
+            cls.ensure_has_extension(obj, add_if_missing)
             return cast(CoclicoExtension[T], ItemCoCliCoExtension(obj))
+        # if isinstance(obj, pystac.Item):
+        #     cls.validate_has_extension(obj, add_if_missing)
+        #     return cast(CoclicoExtension[T], ItemCoCliCoExtension(obj))
         else:
             raise pystac.ExtensionTypeError(
                 f"Coclico extension does not apply to type '{type(obj).__name__}'"
