@@ -27,6 +27,7 @@ import dask
 from posixpath import join as urljoin
 from pystac.extensions import eo, raster
 from stactools.core.utils import antimeridian
+from pystac.stac_io import DefaultStacIO
 
 # from datacube.utils.cog import write_cog
 from coclicodata.drive_config import p_drive
@@ -62,13 +63,25 @@ PROJ_NAME = "cfhp"
 
 # hard-coded STAC templates
 CUR_CWD = pathlib.Path.cwd()
-STAC_DIR = CUR_CWD.parents[1] / "current"
+STAC_DIR = CUR_CWD / "current"
 
 # hard-coded input params which differ per dataset
 METADATA = "Mean_spring_tide_HD.json"
 DATASET_DIR = "WP4"
-CF_FILE = "Mean_spring_tide_HD.tif" # NOTE: multiple files
+CF_FILE = "Mean_spring_tide_HD.tif"  # NOTE: multiple files
 COLLECTION_ID = "cfhp"  # name of stac collection
+
+# these are added at collection level, determine dashboard graph layout using all items
+PLOT_SERIES = "scenarios"
+PLOT_X_AXIS = "time"
+PLOT_TYPE = "line"
+MIN = 0
+MAX = 3
+LINEAR_GRADIENT = [
+    {"color": "hsl(110,90%,80%)", "offset": "0.000%", "opacity": 100},
+    {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
+    {"color": "hsl(0,90%,70%)", "offset": "100.000%", "opacity": 100},
+]
 
 # define local directories
 home = pathlib.Path().home()
@@ -76,7 +89,9 @@ tmp_dir = home.joinpath("data", "tmp")
 coclico_data_dir = p_drive.joinpath(
     "11207608-coclico", "FULLTRACK_DATA"
 )  # remote p drive
-google_cred_dir = p_drive.joinpath('11207608-coclico','FASTTRACK_DATA','google_credentials_new.json')
+google_cred_dir = p_drive.joinpath(
+    "11207608-coclico", "FASTTRACK_DATA", "google_credentials_new.json"
+)
 
 # use local or remote data dir
 use_local_data = False
@@ -94,7 +109,7 @@ cog_dirs = ds_dir.joinpath("cogs")
 ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
 
 # load metadata template
-metadata_fp = ds_dir.joinpath('data','HIGH_DEFENDED_MAPS', 'Metadata', METADATA)
+metadata_fp = ds_dir.joinpath("data", "HIGH_DEFENDED_MAPS", "Metadata", METADATA)
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
@@ -139,7 +154,7 @@ def create_collection(
             rel=pystac.RelType.LICENSE,
             target="https://coclicoservices.eu/legal/",
             media_type="text/html",
-            title="ODbL-1.0 License", # NOTE: not sure if this applies
+            title="ODbL-1.0 License",  # NOTE: not sure if this applies
         )
     ]
 
@@ -152,22 +167,22 @@ def create_collection(
         "Flood Projections",
         "Coastal Hazard Flood Projections",
         "Europe",
-        "European"
-        "CoCliCo",
+        "European" "CoCliCo",
         "Deltares",
         "Cloud Optimized GeoTIFF",
     ]
 
     if description is None:
-        description = (
-            "This is a collection of maps representing the flood simulation across Europe for different scenarios"
-        )
+        description = "This is a collection of maps representing the flood simulation across Europe for different scenarios"
+
+    if "Creative Commons" in metadata["LICENSE"] and "4.0" in metadata["LICENSE"]:
+        metadata["LICENSE"] = "CC-BY-4.0"
 
     collection = pystac.Collection(
         id=COLLECTION_ID,
         title="Coastal Hazard Flood Projections",
         description=description,  # noqa: E502
-        license="ODbL-1.0", # NOTE: not sure if this applies
+        license=metadata["LICENSE"],  # NOTE: not sure if this applies
         providers=providers,
         extent=extent,
         catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED,
@@ -176,7 +191,9 @@ def create_collection(
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
@@ -203,12 +220,17 @@ def create_collection(
     if extra_fields:
         collection.extra_fields.update(extra_fields)
 
-    # add coclico frontend properties to collection
-    coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
-    coclico_ext.units = "float32"
-    coclico_ext.plot_type = "raster"
-    coclico_ext.min = 0
-    coclico_ext.max = 10 # NOTE: not checked
+    # add coclico frontend properties to collection, NOTE: custom extension does not work like this anymore, need renewed generic method to manage this centrally
+    # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
+    # coclico_ext.units = "float32"
+    # coclico_ext.plot_type = "raster"
+    # coclico_ext.min = 0
+    # coclico_ext.max = 10  # NOTE: not checked
+
+    collection.extra_fields["deltares:units"] = metadata["UNITS"]
+    collection.extra_fields["deltares:plot_type"] = PLOT_TYPE
+    collection.extra_fields["deltares:min"] = MIN
+    collection.extra_fields["deltares:max"] = MAX
 
     return collection
 
@@ -257,9 +279,12 @@ def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLI
 
     # add CoCliCo frontend properties to visualize it in the web portal
     # TODO: This is just example. We first need to decide which properties frontend needs for COG visualization
-    coclico_ext = CoclicoExtension.ext(item, add_if_missing=True)
-    coclico_ext.item_key = item_id
-    coclico_ext.add_to(item)
+    # NOTE: custom extension does not work like this anymore, need renewed generic method to manage this centrally
+    # coclico_ext = CoclicoExtension.ext(item, add_if_missing=True)
+    # coclico_ext.item_key = item_id
+    # coclico_ext.add_to(item)
+
+    item.properties["deltares:item_key"] = item_id
 
     # add more functions to describe the data at item level, for example the frontend properties to visualize it
     ...
@@ -308,7 +333,7 @@ def create_asset(
 # ## Function to process one data partition
 def process_block(
     file_path: pathlib.Path,
-    base_path: pathlib.Path, #NOTE: only needed because the cog's are stored in a dimension folder structure
+    base_path: pathlib.Path,  # NOTE: only needed because the cog's are stored in a dimension folder structure
     data_type: raster.DataType,  # Make sure to have raster.DataType properly imported
     resolution: int,
     storage_prefix: str = "",
@@ -347,7 +372,9 @@ def process_block(
         y_dim=y_dim,
     )
 
+    # item_name_dum = str(file_path).split("\\")[-1]
     item_id = file_path.relative_to(base_path).as_posix()
+    # item_id = item_id_dum.replace(item_name_dum, item_name)  # to match with item_name
     item = create_item(block, item_id=item_id)
 
     for var in block:
@@ -377,7 +404,7 @@ def process_block(
             nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
             resolution=resolution,
             data_type=raster.DataType.FLOAT32,  # should be same as how data is written
-            nbytes=nbytes
+            nbytes=nbytes,
         )
 
     return item
@@ -389,8 +416,9 @@ def generate_slices(num_chunks: int, chunk_size: int) -> Tuple[slice, slice]:
     for i in range(num_chunks):
         yield slice(i * chunk_size, (i + 1) * chunk_size)
 
-#%%
-def get_paths(folder_structure, base_dir=''):
+
+# %%
+def get_paths(folder_structure, base_dir=""):
     """Generate paths for a folder structure defined by a dict"""
     paths = []
     for key, value in folder_structure.items():
@@ -414,12 +442,10 @@ if __name__ == "__main__":
 
     ## Setup folder structure
     # List different types on map folders
-    map_types = [   'HIGH_DEFENDED_MAPS',
-                    'LOW_DEFENDED_MAPS',
-                    'UNDEFENDED_MAPS']
+    map_types = ["HIGH_DEFENDED_MAPS", "LOW_DEFENDED_MAPS", "UNDEFENDED_MAPS"]
 
     # List all tif files present in first folder (note: it is assumed that the same files are present in all folders)
-    tif_list = glob.glob(str(ds_dir.joinpath("data", map_types[0],"*.tif")))
+    tif_list = glob.glob(str(ds_dir.joinpath("data", map_types[0], "*.tif")))
 
     # List the desired folder structure as a dict
     # NOTE: make sure the resulting path_list (based on folder structure) matches the tif_list
@@ -430,8 +456,8 @@ if __name__ == "__main__":
             "High_end": ["2100", "2150"],
             "SSP126": ["2100"],
             "SSP245": ["2050", "2100"],
-            "SSP585": ["2030", "2050", "2100"]
-        }
+            "SSP585": ["2030", "2050", "2100"],
+        },
     }
 
     # Get list of paths for the folder structure
@@ -444,16 +470,18 @@ if __name__ == "__main__":
     for map_type in map_types:
         for cur_path in path_list:
 
-            print('now working on: ' + map_type + ' ' + cur_path)
+            print("now working on: " + map_type + " " + cur_path)
 
-            tif_list = pathlib.Path.joinpath(cog_dirs,map_type,cur_path).glob('*.tif')
+            tif_list = pathlib.Path.joinpath(cog_dirs, map_type, cur_path).glob("*.tif")
 
             for cur_tif in tif_list:
 
                 cfhp = xr.open_dataset(
                     cur_tif, engine="rasterio", mask_and_scale=False
                 )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
-                cfhp = cfhp.assign_coords(band=("band", [f"B{k+1:02}" for k in range(cfhp.dims["band"])]))
+                cfhp = cfhp.assign_coords(
+                    band=("band", [f"B{k+1:02}" for k in range(cfhp.dims["band"])])
+                )
                 cfhp = cfhp["band_data"].to_dataset("band")
 
                 profile_options = {
@@ -466,7 +494,7 @@ if __name__ == "__main__":
                 }
                 storage_options = {"token": "google_default"}
 
-                CUR_HREF_PREFIX = urljoin(HREF_PREFIX,map_type,cur_path)
+                CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, cur_path)
 
                 # Process the chunk using a delayed function
                 item = process_block(
@@ -484,39 +512,41 @@ if __name__ == "__main__":
                     storage_options=storage_options,
                 )
 
-                item_href = pathlib.Path(STAC_DIR,COLLECTION_ID,"items",map_type,cur_path,item.id)
-                item_href.with_suffix('.json')
+                item_href = pathlib.Path(
+                    STAC_DIR, COLLECTION_ID, "items", map_type, cur_path, item.id
+                )
+                item_href.with_suffix(".json")
                 item.set_self_href(item_href)
 
                 items.append(item)
                 collection.add_item(item)
 
     print(len(items))
-    
+
     # %% store to cloud folder
 
     # # upload directory with cogs to google cloud
-    load_google_credentials(
-        google_token_fp=google_cred_dir
-    )
+    load_google_credentials(google_token_fp=google_cred_dir)
 
-    dir_to_google_cloud(
-        dir_path=str(cog_dirs),
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        dir_name=PROJ_NAME,
-    )
-
+    # dir_to_google_cloud(
+    #     dir_path=str(cog_dirs),
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     dir_name=PROJ_NAME,
+    # )
 
     # %%
-    stac_io = CoCliCoStacIO()
+    stac_io = DefaultStacIO()
+    # stac_io = CoCliCoStacIO()
     layout = CoCliCoCOGLayout()
 
     # Set up folder structure
     for map_type in map_types:
         for cur_path in path_list:
-            STAC_DIR.joinpath(COLLECTION_ID,'items',map_type,cur_path).mkdir(parents = True, exist_ok= True)
+            STAC_DIR.joinpath(COLLECTION_ID, "items", map_type, cur_path).mkdir(
+                parents=True, exist_ok=True
+            )
 
     collection.update_extent_from_items()
 
@@ -525,7 +555,7 @@ if __name__ == "__main__":
     if catalog.get_child(collection.id):
         catalog.remove_child(collection.id)
         print(f"Removed child: {collection.id}.")
-        
+
     catalog.add_child(collection)
 
     collection.normalize_hrefs(str(STAC_DIR / collection.id), strategy=layout)
