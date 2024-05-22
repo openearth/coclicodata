@@ -9,7 +9,9 @@ from coclicodata.drive_config import p_drive
 from coclicodata.etl.cloud_utils import dataset_from_google_cloud
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
-from coclicodata.coclico_stac.io import CoCliCoStacIO
+
+# from coclicodata.coclico_stac.io import CoCliCoStacIO
+from pystac.stac_io import DefaultStacIO
 from coclicodata.coclico_stac.layouts import CoCliCoZarrLayout
 from coclicodata.coclico_stac.templates import (
     extend_links,
@@ -21,7 +23,8 @@ from coclicodata.coclico_stac.templates import (
     gen_zarr_asset,
     get_template_collection,
 )
-from coclicodata.coclico_stac.extension import CoclicoExtension
+
+# from coclicodata.coclico_stac.extension import CoclicoExtension
 from coclicodata.coclico_stac.datacube import add_datacube
 from coclicodata.coclico_stac.utils import (
     get_dimension_dot_product,
@@ -29,6 +32,7 @@ from coclicodata.coclico_stac.utils import (
     get_mapbox_item_id,
     rm_special_characters,
 )
+
 if __name__ == "__main__":
     # hard-coded input params at project level
     BUCKET_NAME = "dgds-data-public"
@@ -64,7 +68,7 @@ if __name__ == "__main__":
 
     # these are added at collection level
     UNITS = "m"
-    PLOT_SERIES = "scenario"
+    PLOT_SERIES = "ensemble"
     PLOT_X_AXIS = "time"
     PLOT_TYPE = "area"
     MIN = 0
@@ -109,15 +113,15 @@ if __name__ == "__main__":
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
 
-    # # read data from gcs zarr store
-    # ds = dataset_from_google_cloud(
-    #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    # )
+    # read data from gcs zarr store
+    ds = dataset_from_google_cloud(
+        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
+    )
 
-    import xarray as xr
+    # import xarray as xr
 
-    fpath = pathlib.Path.home().joinpath("data", "tmp", DATASET_FILENAME)
-    ds = xr.open_zarr(fpath)
+    # fpath = pathlib.Path.home().joinpath("data", "tmp", DATASET_FILENAME)
+    # ds = xr.open_zarr(fpath)
 
     # cast zero terminated bytes to str because json library cannot write handle bytes
     ds = zero_terminated_bytes_as_str(ds)
@@ -125,10 +129,17 @@ if __name__ == "__main__":
     title = ds.attrs.get("title", COLLECTION_ID)
 
     # load coclico data catalog
-    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     # generate collection for dataset
@@ -137,7 +148,7 @@ if __name__ == "__main__":
         collection_id=COLLECTION_ID,
         title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
-        keywords=[],
+        keywords=["Sea Levels", "Fast-Track"],
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
@@ -184,13 +195,19 @@ if __name__ == "__main__":
             feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url))
 
             # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
-            coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
+            # coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
 
-            coclico_ext.item_key = item_id
-            coclico_ext.paint = get_paint_props(item_id)
-            coclico_ext.type_ = TYPE
-            coclico_ext.stations = STATIONS
-            coclico_ext.on_click = ON_CLICK
+            # coclico_ext.item_key = item_id
+            # coclico_ext.paint = get_paint_props(item_id)
+            # coclico_ext.type_ = TYPE
+            # coclico_ext.stations = STATIONS
+            # coclico_ext.on_click = ON_CLICK
+
+            feature.properties["deltares:item_key"] = item_id
+            feature.properties["deltares:paint"] = get_paint_props(item_id)
+            feature.properties["deltares:type"] = TYPE
+            feature.properties["deltares:stations"] = STATIONS
+            feature.properties["deltares:onclick"] = ON_CLICK
 
             # some datasets are reduced for frontend along certain dimension. Add that
             # dimension to the properties
@@ -218,18 +235,26 @@ if __name__ == "__main__":
         collection.summaries.add(k, v)
 
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
-    coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
+    # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
 
     # Add frontend properties defined above to collection extension properties. The
     # properties attribute of this extension is linked to the extra_fields attribute of
     # the stac collection.
-    coclico_ext.units = UNITS
-    coclico_ext.plot_series = PLOT_SERIES
-    coclico_ext.plot_x_axis = PLOT_X_AXIS
-    coclico_ext.plot_type = PLOT_TYPE
-    coclico_ext.min_ = MIN
-    coclico_ext.max_ = MAX
-    coclico_ext.linear_gradient = LINEAR_GRADIENT
+    # coclico_ext.units = UNITS
+    # coclico_ext.plot_series = PLOT_SERIES
+    # coclico_ext.plot_x_axis = PLOT_X_AXIS
+    # coclico_ext.plot_type = PLOT_TYPE
+    # coclico_ext.min_ = MIN
+    # coclico_ext.max_ = MAX
+    # coclico_ext.linear_gradient = LINEAR_GRADIENT
+
+    collection.extra_fields["deltares:units"] = UNITS
+    collection.extra_fields["deltares:plotSeries"] = PLOT_SERIES
+    collection.extra_fields["deltares:plotxAxis"] = PLOT_X_AXIS
+    collection.extra_fields["deltares:plotType"] = PLOT_TYPE
+    collection.extra_fields["deltares:min"] = MIN
+    collection.extra_fields["deltares:max"] = MAX
+    collection.extra_fields["deltares:linearGradient"] = LINEAR_GRADIENT
 
     # set extra link properties
     extend_links(collection, dimvals.keys())
@@ -244,22 +269,31 @@ if __name__ == "__main__":
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
     )
 
+    if catalog.get_child(collection.id):
+        catalog.remove_child(collection.id)
+        print(f"Removed child: {collection.id}.")
+
     catalog.add_child(collection)
 
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
+        ),
+        strategy=layout,
     )
 
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
-        stac_io=CoCliCoStacIO(),
+        stac_io=DefaultStacIO(),
     )
 
 # %%
