@@ -6,6 +6,7 @@ import datetime
 import pathlib
 import glob
 import os
+
 # import sys
 # from re import S, template
 import json
@@ -26,6 +27,7 @@ import dask
 from posixpath import join as urljoin
 from pystac.extensions import eo, raster
 from stactools.core.utils import antimeridian
+from pystac.stac_io import DefaultStacIO
 
 # from datacube.utils.cog import write_cog
 from coclicodata.drive_config import p_drive
@@ -61,13 +63,25 @@ PROJ_NAME = "pp"
 
 # hard-coded STAC templates
 CUR_CWD = pathlib.Path.cwd()
-STAC_DIR = CUR_CWD.parents[1] / "current"
+STAC_DIR = CUR_CWD / "current"
 
 # hard-coded input params which differ per dataset
 METADATA = "metadata_population.json"
 DATASET_DIR = "WP5"
-CF_FILE = "SSP1_2010_Europe.tif" # NOTE: multiple files
+CF_FILE = "SSP1_2010_Europe.tif"  # NOTE: multiple files
 COLLECTION_ID = "pp"  # name of stac collection
+
+# these are added at collection level, determine dashboard graph layout using all items
+PLOT_SERIES = "scenarios"
+PLOT_X_AXIS = "time"
+PLOT_TYPE = "line"
+MIN = 0
+MAX = 3
+LINEAR_GRADIENT = [
+    {"color": "hsl(110,90%,80%)", "offset": "0.000%", "opacity": 100},
+    {"color": "hsla(55,88%,53%,0.5)", "offset": "50.000%", "opacity": 100},
+    {"color": "hsl(0,90%,70%)", "offset": "100.000%", "opacity": 100},
+]
 
 # define local directories
 home = pathlib.Path().home()
@@ -75,7 +89,9 @@ tmp_dir = home.joinpath("data", "tmp")
 coclico_data_dir = p_drive.joinpath(
     "11207608-coclico", "FULLTRACK_DATA"
 )  # remote p drive
-google_cred_dir = p_drive.joinpath('11207608-coclico','FASTTRACK_DATA','google_credentials_new.json')
+google_cred_dir = p_drive.joinpath(
+    "11207608-coclico", "FASTTRACK_DATA", "google_credentials_new.json"
+)
 
 # use local or remote data dir
 use_local_data = False
@@ -93,7 +109,7 @@ cog_dirs = ds_dir.joinpath("cogs")
 ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
 
 # load metadata template
-metadata_fp = ds_dir.joinpath('metadata', METADATA)
+metadata_fp = ds_dir.joinpath("metadata", METADATA)
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
@@ -129,10 +145,7 @@ def create_collection(
     start_datetime = datetime.datetime(2024, 1, 18, tzinfo=datetime.timezone.utc)
 
     extent = pystac.Extent(
-        pystac.SpatialExtent([[ -180,
-                                -89.9999999999,
-                                180,
-                                90.0000000001]]),
+        pystac.SpatialExtent([[-180, -89.9999999999, 180, 90.0000000001]]),
         pystac.TemporalExtent([[start_datetime, None]]),
     )
 
@@ -141,7 +154,7 @@ def create_collection(
             rel=pystac.RelType.LICENSE,
             target="https://coclicoservices.eu/legal/",
             media_type="text/html",
-            title="ODbL-1.0 License", # NOTE: not sure if this applies
+            title="ODbL-1.0 License",  # NOTE: not sure if this applies
         )
     ]
 
@@ -151,22 +164,22 @@ def create_collection(
         "Projection",
         "Shared Socioeconomic Pathways",
         "Europe",
-        "European"
-        "CoCliCo",
+        "European" "CoCliCo",
         "Deltares",
         "Cloud Optimized GeoTIFF",
     ]
 
     if description is None:
-        description = (
-            "Merkens et al. 2016 regionalised the population projection of the SSP-Database. The produced grids have a spatial resolution of 30*30 arcsecond (approx. 1 km at the equator) and represent the population count per cell. A detailed description of the methods is given in the reference below."
-        )
+        description = "Merkens et al. 2016 regionalised the population projection of the SSP-Database. The produced grids have a spatial resolution of 30*30 arcsecond (approx. 1 km at the equator) and represent the population count per cell. A detailed description of the methods is given in the reference below."
+
+    if "Creative Commons" in metadata["LICENSE"] and "4.0" in metadata["LICENSE"]:
+        metadata["LICENSE"] = "CC-BY-4.0"
 
     collection = pystac.Collection(
         id=COLLECTION_ID,
-        title="Population Projections", 
+        title="Population Projections",
         description=description,  # noqa: E502
-        license="Creative Commons Attribution 4.0 International",
+        license=metadata["LICENSE"],
         providers=providers,
         extent=extent,
         catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED,
@@ -175,7 +188,9 @@ def create_collection(
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
@@ -202,12 +217,18 @@ def create_collection(
     if extra_fields:
         collection.extra_fields.update(extra_fields)
 
-    # add coclico frontend properties to collection
-    coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
-    coclico_ext.units = "float32"
-    coclico_ext.plot_type = "raster"
-    coclico_ext.min = 1
-    coclico_ext.max = 100000 # NOTE: not checked
+    # add coclico frontend properties to collection, NOTE: custom extension does not work like this anymore, need renewed generic method to manage this centrally
+    # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
+    # coclico_ext.units = "float32"
+    # coclico_ext.plot_type = "raster"
+    # coclico_ext.min = 1
+    # coclico_ext.max = 100000  # NOTE: not checked
+
+    # CoclicoExtension.add_to(collection)
+    collection.extra_fields["deltares:units"] = metadata["UNITS"]
+    collection.extra_fields["deltares:plot_type"] = PLOT_TYPE
+    collection.extra_fields["deltares:min"] = MIN
+    collection.extra_fields["deltares:max"] = MAX
 
     return collection
 
@@ -256,9 +277,13 @@ def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLI
 
     # add CoCliCo frontend properties to visualize it in the web portal
     # TODO: This is just example. We first need to decide which properties frontend needs for COG visualization
-    coclico_ext = CoclicoExtension.ext(item, add_if_missing=True)
-    coclico_ext.item_key = item_id
-    coclico_ext.add_to(item)
+    # NOTE: custom extension does not work like this anymore, need renewed generic method to manage this centrally
+    # coclico_ext = CoclicoExtension.ext(item, add_if_missing=True)
+    # coclico_ext.item_key = item_id
+    # coclico_ext.add_to(item)
+
+    # CoclicoExtension.add_to(item)
+    item.properties["deltares:item_key"] = item_id
 
     # add more functions to describe the data at item level, for example the frontend properties to visualize it
     ...
@@ -307,7 +332,7 @@ def create_asset(
 # ## Function to process one data partition
 def process_block(
     file_path: pathlib.Path,
-    base_path: pathlib.Path, #NOTE: only needed because the cog's are stored in a dimension folder structure
+    base_path: pathlib.Path,  # NOTE: only needed because the cog's are stored in a dimension folder structure
     data_type: raster.DataType,  # Make sure to have raster.DataType properly imported
     resolution: int,
     storage_prefix: str = "",
@@ -337,14 +362,13 @@ def process_block(
     # Date when Lincke et al. sent Deltares this data
     block = block.assign_coords(time=pd.Timestamp(2022, 2, 22).isoformat())
 
-
     item_id = file_path.relative_to(base_path).as_posix()
     item = create_item(block, item_id=item_id)
 
     for var in block:
         da = block[var]
 
-        href = urljoin(storage_prefix,pathlib.Path(file_path.name).as_posix())
+        href = urljoin(storage_prefix, pathlib.Path(file_path.name).as_posix())
         # href = name_block(
         #     da,
         #     storage_prefix=storage_prefix,
@@ -369,7 +393,7 @@ def process_block(
             nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
             resolution=resolution,
             data_type=raster.DataType.FLOAT32,  # should be same as how data is written
-            nbytes=nbytes
+            nbytes=nbytes,
         )
 
     return item
@@ -381,8 +405,9 @@ def generate_slices(num_chunks: int, chunk_size: int) -> Tuple[slice, slice]:
     for i in range(num_chunks):
         yield slice(i * chunk_size, (i + 1) * chunk_size)
 
-#%%
-def get_paths(folder_structure, base_dir=''):
+
+# %%
+def get_paths(folder_structure, base_dir=""):
     """Generate paths for a folder structure defined by a dict"""
     paths = []
     for key, value in folder_structure.items():
@@ -408,11 +433,11 @@ if __name__ == "__main__":
 
     # List the desired folder structure as a dict
     # NOTE: make sure the resulting path_list (based on folder structure) matches the tif_list
-    # NOTE: shortcut taken by calling every year twice, because there are two tif's per year. 
+    # NOTE: shortcut taken by calling every year twice, because there are two tif's per year.
     folder_structure = {
-        "SSP1": ["2010","2030","2050","2100","2150"],
-        "SSP2": ["2010","2030","2050","2100","2150"],
-        "SSP5": ["2010","2030","2050","2100","2150"],
+        "SSP1": ["2010", "2030", "2050", "2100", "2150"],
+        "SSP2": ["2010", "2030", "2050", "2100", "2150"],
+        "SSP5": ["2010", "2030", "2050", "2100", "2150"],
     }
 
     # Get list of paths for the folder structure
@@ -423,17 +448,19 @@ if __name__ == "__main__":
     collection = create_collection()
 
     for cur_path in path_list:
-        
+
         # Update current data being processed
-        print('now working on: ' + cur_path)
+        print("now working on: " + cur_path)
         # Define tif_list for the cog's created using ../notebooks/26_pp.ipynb
-        tif_list = pathlib.Path.joinpath(cog_dirs,cur_path).glob('*.tif')
+        tif_list = pathlib.Path.joinpath(cog_dirs, cur_path).glob("*.tif")
 
         for cur_tif in tif_list:
 
             # Open original dataset
-            pp = xr.open_dataset(cur_tif, engine="rasterio", mask_and_scale=False) 
-            pp = pp.assign_coords(band=("band", [f"B{k+1:02}" for k in range(pp.dims["band"])]))
+            pp = xr.open_dataset(cur_tif, engine="rasterio", mask_and_scale=False)
+            pp = pp.assign_coords(
+                band=("band", [f"B{k+1:02}" for k in range(pp.dims["band"])])
+            )
             pp = pp["band_data"].to_dataset("band")
 
             profile_options = {
@@ -446,7 +473,7 @@ if __name__ == "__main__":
             }
             storage_options = {"token": "google_default"}
 
-            CUR_HREF_PREFIX = urljoin(HREF_PREFIX,pathlib.Path(cur_path).as_posix())
+            CUR_HREF_PREFIX = urljoin(HREF_PREFIX, pathlib.Path(cur_path).as_posix())
 
             # Process the chunk using a delayed function
             item = process_block(
@@ -464,38 +491,40 @@ if __name__ == "__main__":
                 storage_options=storage_options,
             )
 
-            item_href = pathlib.Path(STAC_DIR,COLLECTION_ID,"items",cur_path,item.id)
-            item_href.with_suffix('.json')
+            item_href = pathlib.Path(
+                STAC_DIR, COLLECTION_ID, "items", cur_path, item.id
+            )
+            item_href.with_suffix(".json")
             item.set_self_href(item_href)
 
             items.append(item)
             collection.add_item(item)
 
-print(len(items))
-    
+            print(len(items))
+
     # %% store to cloud folder
 
     # # upload directory with cogs to google cloud
-    load_google_credentials(
-        google_token_fp=google_cred_dir
-    )
+    load_google_credentials(google_token_fp=google_cred_dir)
 
-    dir_to_google_cloud(
-        dir_path=str(cog_dirs),
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        dir_name=PROJ_NAME,
-    )
-
+    # dir_to_google_cloud(
+    #     dir_path=str(cog_dirs),
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     dir_name=PROJ_NAME,
+    # )
 
     # %%
-    stac_io = CoCliCoStacIO()
+    # stac_io = CoCliCoStacIO()
+    stac_io = DefaultStacIO()
     layout = CoCliCoCOGLayout()
 
     # Set up folder structure
     for cur_path in path_list:
-        STAC_DIR.joinpath(COLLECTION_ID,'items',cur_path).mkdir(parents = True, exist_ok= True)
+        STAC_DIR.joinpath(COLLECTION_ID, "items", cur_path).mkdir(
+            parents=True, exist_ok=True
+        )
 
     collection.update_extent_from_items()
 
@@ -504,10 +533,10 @@ print(len(items))
     if catalog.get_child(collection.id):
         catalog.remove_child(collection.id)
         print(f"Removed child: {collection.id}.")
-        
+
     catalog.add_child(collection)
 
-    # NOTE: This function creates problems for maintaining the folder structure. Look into this. 
+    # NOTE: This function creates problems for maintaining the folder structure. Look into this.
     collection.normalize_hrefs(str(STAC_DIR / collection.id), strategy=layout)
 
     catalog.save(
