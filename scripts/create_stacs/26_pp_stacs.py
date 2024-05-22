@@ -188,9 +188,9 @@ def create_collection(
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/"
             + COLLECTION_ID
-            + ".png",  # noqa: E501,  # noqa: E501
+            + ".jpeg",  # noqa: E501,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
