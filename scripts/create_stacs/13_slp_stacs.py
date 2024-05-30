@@ -218,49 +218,9 @@ if __name__ == "__main__":
     #%% TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     collection.summaries = Summaries({})
 
-    # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
-    # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
-
-    # Add frontend properties defined above to collection extension properties. The
-    # properties attribute of this extension is linked to the extra_fields attribute of
-    # the stac collection.
-    # coclico_ext.units = metadata["UNITS"]
-    # coclico_ext.plot_series = PLOT_SERIES
-    # coclico_ext.plot_x_axis = PLOT_X_AXIS
-    # coclico_ext.plot_type = PLOT_TYPE
-    # coclico_ext.min_ = MIN
-    # coclico_ext.max_ = MAX
-    # coclico_ext.linear_gradient = LINEAR_GRADIENT
-
-    links = [
-        pystac.Link(
-            rel=pystac.RelType.LICENSE,
-            target="https://coclicoservices.eu/legal/",
-            media_type="text/html",
-            title="ODbL-1.0 License",  # NOTE: not sure if this applies
-        )
-    ]
-
-    collection.links = links
-
-    pystac.extensions.item_assets.ItemAssetsExtension.add_to(collection)
-
-    ASSET_EXTRA_FIELDS = {
-        "xarray:storage_options": {"token": "google_default"},
-    }
-
-    collection.extra_fields["item_assets"] = {
-        "data": {
-            "type": pystac.MediaType.COG,
-            "title": "Coastal Hazard Flood Projections",
-            "roles": ["data"],
-            "description": "Coastal Flooding projections for Europe",
-            **ASSET_EXTRA_FIELDS,
-        }
-    }
-
+    collection.extra_fields["item_assets"] = {"data": {"type": pystac.MediaType.COG}}
     collection.extra_fields["deltares:units"] = metadata["UNITS"]
-    collection.extra_fields["deltares:plot_type"] = PLOT_TYPE
+    # collection.extra_fields["deltares:plot_type"] = PLOT_TYPE # NOTE: 
     collection.extra_fields["deltares:min"] = MIN
     collection.extra_fields["deltares:max"] = MAX
 
