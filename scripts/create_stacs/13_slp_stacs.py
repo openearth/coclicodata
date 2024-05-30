@@ -3,15 +3,23 @@ import os
 import pathlib
 import sys
 import json
+import glob
+import xarray as xr
+import numpy as np
+import datetime
+import rasterio
+import shapely
+import pandas as pd
 from posixpath import join as urljoin
 
 import pystac
+from pystac.stac_io import DefaultStacIO
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud
+from coclicodata.etl.cloud_utils import dataset_from_google_cloud,load_google_credentials, dir_to_google_cloud
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.coclico_stac.io import CoCliCoStacIO
-from coclicodata.coclico_stac.layouts import CoCliCoZarrLayout
+from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.templates import (
     extend_links,
     gen_default_collection_props,
@@ -31,66 +39,74 @@ from coclicodata.coclico_stac.utils import (
     rm_special_characters,
 )
 
+# TODO: move itemize to ETL or stac.blueprint when generalized
+def itemize(
+    da,
+    item: pystac.Item,
+    blob_name: str,
+    asset_roles: "List[str] | None" = None,  # "" enables Python 3.8 development not to crash: https://github.com/tiangolo/typer/issues/371
+    asset_media_type=pystac.MediaType.COG,
+) -> pystac.Item:
+    """ """
+    import rioxarray  # noqa
+
+    item = item.clone()
+    dst_crs = rasterio.crs.CRS.from_epsg(4326)
+
+    bbox = rasterio.warp.transform_bounds(da.rio.crs, dst_crs, *da.rio.bounds())
+    geometry = shapely.geometry.mapping(shapely.geometry.box(*bbox))
+
+    item.id = blob_name
+    item.geometry = geometry
+    item.bbox = bbox
+    item.datetime = pd.Timestamp(da["time"].item()).to_pydatetime()  # dataset specific
+    # item.datetime = cftime_to_pdts(da["time"].item()).to_pydatetime() # dataset specific
+
+    ext = pystac.extensions.projection.ProjectionExtension.ext(
+        item, add_if_missing=True
+    )
+    ext.bbox = da.rio.bounds()
+    ext.shape = da.shape[-2:]
+    ext.epsg = da.rio.crs.to_epsg()
+    ext.geometry = shapely.geometry.mapping(shapely.geometry.box(*ext.bbox))
+    ext.transform = list(da.rio.transform())[:6]
+    ext.add_to(item)
+
+    roles = asset_roles or ["data"]
+
+    href = os.path.join(
+        GCS_PROTOCOL,
+        BUCKET_NAME,
+        BUCKET_PROJ,
+        COLLECTION_ID,
+        blob_name,
+    )
+
+    # TODO: We need to generalize this `href` somewhat.
+    asset = pystac.Asset(
+        href=href,
+        media_type=asset_media_type,
+        roles=roles,
+    )
+
+    item.add_asset("data", asset)
+
+    return item
+
+
 if __name__ == "__main__":
     # hard-coded input params at project level
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROTOCOL = "https://storage.googleapis.com"
+    GCS_PROJECT = "coclico-11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
-    MAPBOX_PROJ = "global-data-viewer"
 
-    # hard-coded input params at project level
-    coclico_data_dir = pathlib.Path(
-        p_drive,
-        "11205479-coclico",
-        "FULLTRACK_DATA",
-        "WP3",
-    )
-    dataset_dir = coclico_data_dir.joinpath("pilot")
-
-    # opening metadata
-    metadata_fp = coclico_data_dir.joinpath("metadata", "metadata_SLP.json")
-    with open(metadata_fp, "r") as f:
-        metadata = json.load(f)
-
-    # STAC configs
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
-    COLLECTION_TITLE = metadata["TITLE"]
-    COLLECTION_ID = metadata["TITLE_ABBREVIATION"]  # name of stac collection
-    DATASET_DESCRIPTION = metadata["DESCRIPTION"]
+    COLLECTION_ID = "slp"  # name of stac collection
 
-    # hard-coded input params which differ per dataset
-    DATASET_FILENAME = "ar6_slr_pilots.zarr"
-    VARIABLES = ["slr"]  # xarray variables in dataset
-    X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
-    Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
-    TEMPORAL_DIMENSION = "time"  # False, None or str; temporal ""
-    ADDITIONAL_DIMENSIONS = [
-        "scenarios",
-        "time",
-    ]  # Empty list or list of str; additional dims ""
-    DIMENSIONS_TO_IGNORE = [
-        "stations",
-        "nensemble",
-        "nscenarios",
-    ]  # List of str; dims ignored by datacube
-    MAP_SELECTION_DIMS = {
-        "scenarios": [
-            "high",
-            "ssp126",
-            "ssp245",
-            "ssp585",
-        ],
-        "time": [2030, 2050, 2100, 2150],
-        "nensemble": 1,
-    }
-    # hard-coded frontend properties
-    STATIONS = "locationId"
-    TYPE = "circle"
-    ON_CLICK = {}
-
-    # these are added at collection level (for graph plot in the dashboard)
-    UNITS = "m"
-    PLOT_SERIES = "slr"
+    # these are added at collection level, determine dashboard graph layout using all items
+    PLOT_SERIES = "scenarios"
     PLOT_X_AXIS = "time"
     PLOT_TYPE = "line"
     MIN = 0
@@ -101,186 +117,152 @@ if __name__ == "__main__":
         {"color": "hsl(0,90%,70%)", "offset": "100.000%", "opacity": 100},
     ]
 
-    # functions to generate properties that vary per dataset but cannot be hard-coded because
-    # they also require input arguments
-    def get_paint_props(item_key: str):
-        return {
-            "circle-color": [
-                "interpolate",
-                ["linear"],
-                ["get", item_key],
-                0,
-                "hsl(110,90%,80%)",
-                1.5,
-                "hsla(55, 88%, 53%, 0.5)",
-                3.0,
-                "hsl(0, 90%, 70%)",
-            ],
-            "circle-radius": [
-                "interpolate",
-                ["linear"],
-                ["zoom"],
-                0,
-                0.5,
-                1,
-                1,
-                5,
-                5,
-            ],
-        }
-
-    # semi hard-coded input params
-    gcs_zarr_store = os.path.join("gcs://", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME)
-    gcs_api_zarr_store = os.path.join(
-        "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
+    # define local directories
+    home = pathlib.Path().home()
+    tmp_dir = home.joinpath("data", "tmp")
+    coclico_data_dir = p_drive.joinpath(
+        "11207608-coclico", "FULLTRACK_DATA", "WP3"
+    )  # remote p drive
+    google_cred_dir = p_drive.joinpath(
+        "11207608-coclico", "FASTTRACK_DATA", "google_credentials_new.json"
     )
 
-    # read data from gcs zarr store
-    ds = dataset_from_google_cloud(
-        bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
-    )
+    # hard-coded input params which differ per dataset
+    METADATA_LIST = glob.glob(str(coclico_data_dir.joinpath('data','*.json')))
+    DATASET_DIR = "data"
+    CF_FILE = "slr_medium_confidence_values_CF.nc"
 
-    # import xarray as xr
+    # use local or remote data dir
+    use_local_data = False
 
-    # fpath = pathlib.Path.home().joinpath("data", "tmp", "europe_storm_surge_level.zarr")
-    # ds = xr.open_zarr(fpath)
+    if use_local_data:
+        ds_dir = tmp_dir.joinpath(DATASET_DIR)
+    else:
+        ds_dir = coclico_data_dir.joinpath(DATASET_DIR)
 
-    # cast zero terminated bytes to str because json library cannot write handle bytes
-    ds = zero_terminated_bytes_as_str(ds)
+    if not ds_dir.exists():
+        raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
-    # remove characters that cause problems in the frontend.
-    ds = rm_special_characters(
-        ds, dimensions_to_check=ADDITIONAL_DIMENSIONS, characters=["%"]
-    )
+    # directory to export result
+    cog_dirs = coclico_data_dir.joinpath("cogs")
 
-    title = ds.attrs.get("title", COLLECTION_ID)
-
-    # load coclico data catalog
-    catalog = Catalog.from_file(
-        os.path.join(
-            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
-        )
-    )
+    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent.parent,
-        STAC_DIR,
-        TEMPLATE_COLLECTION,
-        "collection.json",
+        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
     )
+
+    layout = CoCliCoCOGLayout()
+    
+    #%% DO THE WORK
+    # Hard code the various ssp scenarios considered
+    scens = 'high_end', 'ssp126', 'ssp245', 'ssp585'
+
+    # List all nc-files from data folder
+    ncfile_list = glob.glob(str(ds_dir.joinpath("*.nc")))
+
+    for scen, file in zip(scens, ncfile_list):
+        if not scen in file:
+            raise ValueError('The some or more of the strings defined in scens are not found in your file_list')
+
+    # load metadata
+    with open(r'p:\11207608-coclico\FULLTRACK_DATA\WP3\data\full_dataset_metadata\SLP_CoCliCo_metadata.json', "r") as f:
+            ds_metadata = json.load(f)
 
     # generate collection for dataset
     collection = get_template_collection(
-        template_fp=template_fp,
-        collection_id=COLLECTION_ID,
-        title=COLLECTION_TITLE,
-        description=DATASET_DESCRIPTION,
-        keywords=[],
-    )
+        template_fp=    template_fp,
+        collection_id=  COLLECTION_ID,
+        title=          ds_metadata["TITLE"],
+        description=    ds_metadata["SHORT_DESCRIPTION"],
+        keywords=       ds_metadata["KEYWORDS"],
+        license=        ds_metadata["LICENSE"],
+        spatial_extent= ds_metadata["SPATIAL_EXTENT"],
+        temporal_extent=ds_metadata["TEMPORAL_EXTENT"],
+        providers=      ds_metadata["PROVIDERS"]
+        )
+            
+    for scen, ncfile, metadata_fp in zip(scens, ncfile_list, METADATA_LIST):
 
-    # add datacube dimensions derived from xarray dataset to dataset stac_obj
-    collection = add_datacube(
-        stac_obj=collection,
-        ds=ds,
-        x_dimension=X_DIMENSION,
-        y_dimension=Y_DIMENSION,
-        temporal_dimension=TEMPORAL_DIMENSION,
-        additional_dimensions=ADDITIONAL_DIMENSIONS,
-        reference_system=ds.CRS,
-    )
+        slp = xr.open_dataset(ncfile, engine="rasterio", mask_and_scale=False)
 
-    # This dataset has quite some dimensions, so if we would parse all information the end-user
-    # would be overwhelmed by all options. So for the stac items that we generate for the frontend
-    # visualizations a subset of the data is selected. Of course, this operation is dataset specific.
-    for k, v in MAP_SELECTION_DIMS.items():
-        if k in ds.dims and ds.coords:
-            ds = ds.sel({k: v})
-        else:
-            try:
-                # assume that coordinates with strings always have same dim name but with n
-                ds = ds.sel({"n" + k: k == v})
-            except:
-                raise ValueError(f"Cannot find {k}")
+        slp['time'] = slp.indexes['time'].to_datetimeindex()
+        
+        # load metadata template
+        with open(metadata_fp, "r") as f:
+            metadata = json.load(f)
 
-    # generate stac feature keys (strings which will be stac item ids) for mapbox layers
-    if len(ADDITIONAL_DIMENSIONS) > 0:
-        dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
-        dimcombs = get_dimension_dot_product(dimvals)
-    else:
-        dimvals = {}
-        dimcombs = []
+        for var in slp:
+            for itime, time in enumerate(slp['time'].values):    
+                
+                # Select the variable and timestep from dataset
+                da = slp[var].isel(time = itime)
 
-    # TODO: check what can be customized in the layout
-    layout = CoCliCoZarrLayout()
+                # Set final output file name, nc-file is broken down into tif's 
+                item_name = np.datetime_as_string(time, unit='Y') + '.tif'
 
-    # create stac collection per variable and add to dataset collection
-    for var in VARIABLES:
-        # add zarr store as asset to stac_obj
-        collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
+                blob_name = pathlib.Path(
+                    scen,
+                    var,
+                    item_name,
+                )
 
-        # stac items are generated per AdditionalDimension (non spatial)
-        for dimcomb in dimcombs:
-            mapbox_url = get_mapbox_url(MAPBOX_PROJ, DATASET_FILENAME, var)
+                outpath = cog_dirs.joinpath(blob_name)
+                template_item = pystac.Item(
+                    "id", None, None, datetime.datetime(2000, 1, 1), {}
+                )
 
-            # generate stac item key and add link to asset to the stac item
-            item_id = get_mapbox_item_id(dimcomb)
-            feature = gen_default_item(f"{var}-mapbox-{item_id}")
-            feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url))
+                item = itemize(da, template_item, blob_name=str(blob_name))
+                collection.add_item(item, strategy=layout)
 
-            # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
-            coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
-
-            coclico_ext.item_key = item_id
-            coclico_ext.paint = get_paint_props(item_id)
-            coclico_ext.type_ = TYPE
-            coclico_ext.stations = STATIONS
-            coclico_ext.on_click = ON_CLICK
-
-            # TODO: include this in our datacube?
-            # add dimension key-value pairs to stac item properties dict
-            for k, v in dimcomb.items():
-                feature.properties[k] = v
-
-            # add stac item to collection
-            collection.add_item(feature, strategy=layout)
-
-    # if no variables present we still need to add zarr reference at collection level
-    if not VARIABLES:
-        collection.add_asset("data", gen_zarr_asset(title, gcs_api_zarr_store))
-
-    # TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
+    #%% TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     collection.summaries = Summaries({})
-    # TODO: check if maxcount is required (inpsired on xstac library)
-    # stac_obj.summaries.maxcount = 50
-    for k, v in dimvals.items():
-        collection.summaries.add(k, v)
 
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
-    coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
+    # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
 
     # Add frontend properties defined above to collection extension properties. The
     # properties attribute of this extension is linked to the extra_fields attribute of
     # the stac collection.
-    coclico_ext.units = UNITS
-    coclico_ext.plot_series = PLOT_SERIES
-    coclico_ext.plot_x_axis = PLOT_X_AXIS
-    coclico_ext.plot_type = PLOT_TYPE
-    coclico_ext.min_ = MIN
-    coclico_ext.max_ = MAX
-    coclico_ext.linear_gradient = LINEAR_GRADIENT
+    # coclico_ext.units = metadata["UNITS"]
+    # coclico_ext.plot_series = PLOT_SERIES
+    # coclico_ext.plot_x_axis = PLOT_X_AXIS
+    # coclico_ext.plot_type = PLOT_TYPE
+    # coclico_ext.min_ = MIN
+    # coclico_ext.max_ = MAX
+    # coclico_ext.linear_gradient = LINEAR_GRADIENT
 
-    # set extra link properties
-    extend_links(collection, dimvals.keys())
+    links = [
+        pystac.Link(
+            rel=pystac.RelType.LICENSE,
+            target="https://coclicoservices.eu/legal/",
+            media_type="text/html",
+            title="ODbL-1.0 License",  # NOTE: not sure if this applies
+        )
+    ]
 
-    # save and limit number of folders
-    catalog.add_child(collection)
+    collection.links = links
 
-    collection.normalize_hrefs(
-        os.path.join(
-            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
-        ),
-        strategy=layout,
-    )
+    pystac.extensions.item_assets.ItemAssetsExtension.add_to(collection)
+
+    ASSET_EXTRA_FIELDS = {
+        "xarray:storage_options": {"token": "google_default"},
+    }
+
+    collection.extra_fields["item_assets"] = {
+        "data": {
+            "type": pystac.MediaType.COG,
+            "title": "Coastal Hazard Flood Projections",
+            "roles": ["data"],
+            "description": "Coastal Flooding projections for Europe",
+            **ASSET_EXTRA_FIELDS,
+        }
+    }
+
+    collection.extra_fields["deltares:units"] = metadata["UNITS"]
+    collection.extra_fields["deltares:plot_type"] = PLOT_TYPE
+    collection.extra_fields["deltares:min"] = MIN
+    collection.extra_fields["deltares:max"] = MAX
 
     # Add thumbnail
     collection.add_asset(
@@ -292,10 +274,47 @@ if __name__ == "__main__":
         ),
     )
 
+    # Check if collection already exists within catalog
+    if catalog.get_child(collection.id):
+        # If so, delete child
+        catalog.remove_child(collection.id)
+        print(f"Removed child: {collection.id}.")
+
+    # add collection to catalog
+    catalog.add_child(collection)
+
+    # normalize the paths
+    collection.normalize_hrefs(
+        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout
+    )
+
+    # Validate collection instead of full catalog in stac_to_cloud.py
+    collection.validate_all()
+
+    # Initialize stac_io
+    stac_io = DefaultStacIO()
+
+    # save updated catalog to local drive
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
-        stac_io=CoCliCoStacIO(),
+        # dest_href=str(tmp_dir),
+        stac_io=CoCliCoStacIO(), # TODO: Adjust to STAC IO
     )
+    print("Done!")
+
+    # upload directory with cogs to google cloud
+    load_google_credentials(
+        google_token_fp=google_cred_dir
+    )
+
+    dir_to_google_cloud(
+        dir_path=str(cog_dirs),
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        dir_name='slp',
+    )
+
 
 # %%

@@ -33,10 +33,10 @@ def get_template_collection(
     title: str,
     description: str,
     keywords: list,
-    # license: str,
-    # spatial_extent: list,
-    # temporal_extent: list,
-    # providers: list,
+    license: str,
+    spatial_extent: list,
+    temporal_extent: list,
+    providers: list,
     # hosting_platform: str,
 ) -> pystac.Collection:
     """Deltares CoCliCo STAC Obj from template file.
