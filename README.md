@@ -42,7 +42,7 @@ Follow these steps for installation:
    ```
 13. For running jupyter notebooks and / or python scripts, we recommend to install VS Code editor: https://code.visualstudio.com/ as it offers flexibility in selecting environments, directories and python interpreters as well as offers various useful extensions all in one user interface.
 14. Open VS Code and select the cloned `coclicodata` folder as your working directory. As a test, you can open `01_storm_surge.ipynb` in notebooks. Select your kernel (the `coclicodata` env) in the top right corner and run cells by pressing shift-enter. You should be able to progress through the notebook without any errors in case you put the NC files present in `docs\example` in the right directory. Please change `coclico_data_dir` and `dataset_dir` accordingly. 
-15. Might you run into trouble with these installation guidelines, please reach out to [@username](https://github.com/EtienneKras), [@username](https://github.com/mathvansoest) or [@username](https://github.com/FlorisCalkoen) for help.  
+15. Might you run into trouble with these installation guidelines, please reach out to [@EtienneKras](https://github.com/EtienneKras), [@mathvansoest](https://github.com/mathvansoest) or [@FlorisCalkoen](https://github.com/FlorisCalkoen) for help.  
 
 ## Use pre-commit locally
 
