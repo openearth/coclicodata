@@ -11,8 +11,8 @@ Follow these steps for installation:
 
 1. Install GitHub Desktop for your OS: https://desktop.github.com/ 
 2. Install the Mamba Package Manager (miniforge3) for your OS: https://github.com/conda-forge/miniforge#mambaforge 
-3. Open a miniforge prompt (by searching “miniforge” in the task bar) and run “mamba –version” to check if the installation was complete. 
-4. Clone the `coclicodata` repo by adding (“Add” --> “clone repository” --> "URL") URL in GitHub Desktop, you can find the URL under the green “code” button in this `coclicodata` repo. Please change the local path to something like: `C:\Users\***\Documents\GitHub` (where you create the GitHub folder yourself). The repo will be cloned here. 
+3. Open a miniforge prompt (by searching "miniforge" in the task bar) and run `mamba –-version` to check if the installation was complete. 
+4. Clone the `coclicodata` repo by adding ("Add" --> "clone repository" --> "URL") URL in GitHub Desktop, you can find the URL under the green "code" button in this `coclicodata` repo. Please change the local path to something like: `C:\Users\***\Documents\GitHub` (where you create the GitHub folder yourself). The repo will be cloned here. 
 5. In the miniforge prompt, change the directory to the cloned repo by running `cd C:\Users\***\Documents\GitHub\coclicodata`, where *** needs to be replaced to your system variables.
 6. This directory contains an `environment.yml` file with all the necessary packages describing the software dependencies. Create the software environment by running the following command in the miniforge prompt (note, this will take about 10 minutes to run): 
 
@@ -35,14 +35,14 @@ Follow these steps for installation:
 
 10. To check if all went well you can run `mamba list` to list all installed packages and search for, for instance `mapbox`. If it is present, you can continue. 
 11. Now, this is a bit confusing, but we still need to install our `coclicodata` package. This is available in the repo you just cloned with the same name in the folder `src/coclicodata`. As this package is not published online, we cannot do pip or mamba installations, we need to install it from our clone. 
-12. Install the coclicodata package by running (if you are still in the `C:\Users\***\Documents\GitHub\coclicodata` directory):
+12. Install the `coclicodata` package by running (if you are still in the `C:\Users\***\Documents\GitHub\coclicodata` directory):
 
    ``` bash
    pip install -e . 
    ```
 13. For running jupyter notebooks and / or python scripts, we recommend to install VS Code editor: https://code.visualstudio.com/ as it offers flexibility in selecting environments, directories and python interpreters as well as offers various useful extensions all in one user interface.
-14. Open VS Code and select the cloned coclicodata folder as your working directory. As a test, you can open `01_storm_surge.ipynb` in notebooks. Select your kernel (the `coclicodata` env) in the top right corner and run cells by pressing shift-enter. You should be able to progress through the notebook without any errors in case you put the NC files present in `docs\example` in the right directory. Please change `coclico_data_dir` and `dataset_dir` accordingly. 
-15. Might you run into trouble with these installation guidelines, please reach out to @EtienneKras, @mathvansoest or @FlorisCalkoen for help.  
+14. Open VS Code and select the cloned `coclicodata` folder as your working directory. As a test, you can open `01_storm_surge.ipynb` in notebooks. Select your kernel (the `coclicodata` env) in the top right corner and run cells by pressing shift-enter. You should be able to progress through the notebook without any errors in case you put the NC files present in `docs\example` in the right directory. Please change `coclico_data_dir` and `dataset_dir` accordingly. 
+15. Might you run into trouble with these installation guidelines, please reach out to [@username](https://github.com/EtienneKras), [@username](https://github.com/mathvansoest) or [@username](https://github.com/FlorisCalkoen) for help.  
 
 ## Use pre-commit locally
 
