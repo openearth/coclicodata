@@ -169,19 +169,39 @@ if __name__ == "__main__":
     with open(r'p:\11207608-coclico\FULLTRACK_DATA\WP3\data\full_dataset_metadata\SLP_CoCliCo_metadata.json', "r") as f:
             ds_metadata = json.load(f)
 
+    if "Creative Commons" in ds_metadata["LICENSE"] and "4.0" in ds_metadata["LICENSE"]:
+            ds_metadata["LICENSE"] = "CC-BY-4.0"
+
     # generate collection for dataset
     collection = get_template_collection(
         template_fp=    template_fp,
         collection_id=  COLLECTION_ID,
         title=          ds_metadata["TITLE"],
         description=    ds_metadata["SHORT_DESCRIPTION"],
-        keywords=       ds_metadata["KEYWORDS"],
+        keywords=       ds_metadata['KEYWORDS'].extend(["Sea Levels", "Full-Track"]),
         license=        ds_metadata["LICENSE"],
         spatial_extent= ds_metadata["SPATIAL_EXTENT"],
         temporal_extent=ds_metadata["TEMPORAL_EXTENT"],
-        providers=      ds_metadata["PROVIDERS"]
+        providers=      [
+                        pystac.Provider(
+                            name="Deltares",
+                            roles=[
+                                pystac.provider.ProviderRole.PROCESSOR,
+                                pystac.provider.ProviderRole.HOST,
+                            ],
+                            url="https://deltares.nl",
+                        ),
+                        pystac.Provider(
+                            ds_metadata["PROVIDERS"]["name"],
+                            roles=[
+                                pystac.provider.ProviderRole.PRODUCER,
+                            ],
+                            url=ds_metadata["PROVIDERS"]["url"],
+                            description=ds_metadata["PROVIDERS"]["description"],
+                        ),
+                    ]
         )
-            
+#%%        
     for scen, ncfile, metadata_fp in zip(scens, ncfile_list, METADATA_LIST):
 
         slp = xr.open_dataset(ncfile, engine="rasterio", mask_and_scale=False)
@@ -219,8 +239,8 @@ if __name__ == "__main__":
     collection.summaries = Summaries({})
 
     collection.extra_fields["item_assets"] = {"data": {"type": pystac.MediaType.COG}}
-    collection.extra_fields["deltares:units"] = metadata["UNITS"]
-    # collection.extra_fields["deltares:plot_type"] = PLOT_TYPE # NOTE: 
+    collection.extra_fields["deltares:units"] = ds_metadata["UNITS"]
+    collection.extra_fields["deltares:plotType"] = PLOT_TYPE # NOTE:this causes validation to break 
     collection.extra_fields["deltares:min"] = MIN
     collection.extra_fields["deltares:max"] = MAX
 
@@ -259,7 +279,7 @@ if __name__ == "__main__":
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
         # dest_href=str(tmp_dir),
-        stac_io=CoCliCoStacIO(), # TODO: Adjust to STAC IO
+        stac_io=stac_io, # TODO: Adjust to STAC IO
     )
     print("Done!")
 

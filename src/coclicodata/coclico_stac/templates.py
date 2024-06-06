@@ -62,9 +62,9 @@ def get_template_collection(
     collection.title = title
     collection.description = description
     collection.keywords = keywords
-    # collection.license = license
-    # collection.extent.spatial.bbox = spatial_extent
-    # collection.extent.temporal.interval = temporal_extent
+    collection.license = license
+    collection.extent.spatial.bbox = spatial_extent
+    collection.extent.temporal.interval = temporal_extent
     # collection.providers = providers
 
     # Drop existing items, dimensions and summaries
