@@ -172,13 +172,16 @@ if __name__ == "__main__":
     if "Creative Commons" in ds_metadata["LICENSE"] and "4.0" in ds_metadata["LICENSE"]:
             ds_metadata["LICENSE"] = "CC-BY-4.0"
 
+    # Add extra keywords
+    ds_metadata['KEYWORDS'].extend(["Sea Levels", "Full-Track"])
+
     # generate collection for dataset
     collection = get_template_collection(
         template_fp=    template_fp,
         collection_id=  COLLECTION_ID,
         title=          ds_metadata["TITLE"],
         description=    ds_metadata["SHORT_DESCRIPTION"],
-        keywords=       ds_metadata['KEYWORDS'].extend(["Sea Levels", "Full-Track"]),
+        keywords=       ds_metadata['KEYWORDS'],
         license=        ds_metadata["LICENSE"],
         spatial_extent= ds_metadata["SPATIAL_EXTENT"],
         temporal_extent=ds_metadata["TEMPORAL_EXTENT"],
@@ -201,7 +204,7 @@ if __name__ == "__main__":
                         ),
                     ]
         )
-#%%        
+    #%%   
     for scen, ncfile, metadata_fp in zip(scens, ncfile_list, METADATA_LIST):
 
         slp = xr.open_dataset(ncfile, engine="rasterio", mask_and_scale=False)

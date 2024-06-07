@@ -65,7 +65,7 @@ def get_template_collection(
     collection.license = license
     collection.extent.spatial.bbox = spatial_extent
     collection.extent.temporal.interval = temporal_extent
-    # collection.providers = providers
+    collection.providers = providers
 
     # Drop existing items, dimensions and summaries
     collection.set_root(None)
