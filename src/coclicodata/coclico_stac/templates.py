@@ -33,10 +33,10 @@ def get_template_collection(
     title: str,
     description: str,
     keywords: list,
-    # license: str,
-    # spatial_extent: list,
-    # temporal_extent: list,
-    # providers: list,
+    license: str,
+    spatial_extent: list,
+    temporal_extent: list,
+    providers: list,
     # hosting_platform: str,
 ) -> pystac.Collection:
     """Deltares CoCliCo STAC Obj from template file.
@@ -62,10 +62,10 @@ def get_template_collection(
     collection.title = title
     collection.description = description
     collection.keywords = keywords
-    # collection.license = license
-    # collection.extent.spatial.bbox = spatial_extent
-    # collection.extent.temporal.interval = temporal_extent
-    # collection.providers = providers
+    collection.license = license
+    collection.extent.spatial.bbox = spatial_extent
+    collection.extent.temporal.interval = temporal_extent
+    collection.providers = providers
 
     # Drop existing items, dimensions and summaries
     collection.set_root(None)
