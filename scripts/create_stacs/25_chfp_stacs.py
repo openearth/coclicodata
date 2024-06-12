@@ -63,7 +63,7 @@ PROJ_NAME = "cfhp"
 
 # hard-coded STAC templates
 CUR_CWD = pathlib.Path.cwd()
-STAC_DIR = CUR_CWD / "current"
+STAC_DIR = CUR_CWD.parent.parent / "current"
 
 # hard-coded input params which differ per dataset
 METADATA = "Mean_spring_tide_HD.json"
@@ -170,6 +170,8 @@ def create_collection(
         "European" "CoCliCo",
         "Deltares",
         "Cloud Optimized GeoTIFF",
+        "Natural Hazards",
+        "Full-Track"
     ]
 
     if description is None:
@@ -528,13 +530,13 @@ if __name__ == "__main__":
     # # upload directory with cogs to google cloud
     load_google_credentials(google_token_fp=google_cred_dir)
 
-    # dir_to_google_cloud(
-    #     dir_path=str(cog_dirs),
-    #     gcs_project=GCS_PROJECT,
-    #     bucket_name=BUCKET_NAME,
-    #     bucket_proj=BUCKET_PROJ,
-    #     dir_name=PROJ_NAME,
-    # )
+    dir_to_google_cloud(
+        dir_path=str(cog_dirs),
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        dir_name=PROJ_NAME,
+    )
 
     # %%
     stac_io = DefaultStacIO()
