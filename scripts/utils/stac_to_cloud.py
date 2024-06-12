@@ -37,20 +37,20 @@ if __name__ == "__main__":
         os.path.join(source_dir_fp, "catalog.json")  # local cloned STAC
     )
 
-    if (
-        catalog.validate_all() == None
-    ):  # no valid STAC (note, pystac >1.10 and jsonschema >4.20)
-        print(
-            "STAC is not valid and hence not uploaded to cloud, please adjust"
-            " accordingly by debugging the STAC catalog."
-        )
-    else:
-        dir_to_google_cloud(
-            dir_path=source_dir_fp,
-            gcs_project=GCS_PROJECT,
-            bucket_name=BUCKET_NAME,
-            bucket_proj=BUCKET_PROJ,
-            dir_name=STAC_NAME,
-        )
+    # if (
+    #     catalog.validate_all() == None
+    # ):  # no valid STAC (note, pystac >1.10 and jsonschema >4.20)
+    #     print(
+    #         "STAC is not valid and hence not uploaded to cloud, please adjust"
+    #         " accordingly by debugging the STAC catalog."
+    #     )
+    # else:
+    dir_to_google_cloud(
+        dir_path=source_dir_fp,
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        dir_name=STAC_NAME,
+    )
 
 # %%
