@@ -1,0 +1,239 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "box_130",
+  "properties": {
+    "title": "ShorelineMonitor Raw Series",
+    "description": "Parquet dataset with ShorlineMonitor Raw Series for this region.",
+    "table:columns": [
+      {
+        "name": "time",
+        "type": "timestamp[ns]",
+        "description": "Annual shoreline position timestamp."
+      },
+      {
+        "name": "tr_name",
+        "type": "string",
+        "description": "A unique identifier for each transect, constructed from three key components: the 'coastline_id', 'segment_id', and 'interpolated_distance'. The 'coastline_id' corresponds to the FID in OpenStreetMap (OSM) and is prefixed with 'cl'. The 'segment_id' indicates the segment of the OSM coastline split by a UTM grid, prefixed with 's'. The 'interpolated_distance' represents the distance from the starting point of the coastline to the transect, interpolated along the segment, and is prefixed with 'tr'. The complete structure is 'cl[coastline_id]s[segment_id]tr[interpolated_distance]', exemplified by 'cl32946s04tr08168547'. This composition ensures each transect name is a distinct and informative representation of its geographical and spatial attributes."
+      },
+      {
+        "name": "obs_group",
+        "type": "int64",
+        "description": "Group of shoreline position observations from the same Shoreline Monitor shoreline linestring. The observations on the group are considered to find the representative shoreline position."
+      },
+      {
+        "name": "source_file",
+        "type": "string",
+        "description": "Indicates Shoreline Monitor BOX and file source."
+      },
+      {
+        "name": "utm_crs",
+        "type": "int64",
+        "description": "EPSG code representing the UTM Coordinate Reference System for the shoreline position observation."
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": "Well-Known Binary (WKB) representation of the shoreline position as a point geometry."
+      },
+      {
+        "name": "lon",
+        "type": "float",
+        "description": "Longitude of the shoreline position observation."
+      },
+      {
+        "name": "lat",
+        "type": "float",
+        "description": "Latitude of the shoreline position observation."
+      },
+      {
+        "name": "shoreline_chainage",
+        "type": "float",
+        "description": "Represent the shoreline position in reference to the transect origin in meter."
+      },
+      {
+        "name": "shoreline_position",
+        "type": "float",
+        "description": "Represent the shoreline position in reference to the last non-outlier primary observation on each transect in meter."
+      },
+      {
+        "name": "shoreline_sinuosity",
+        "type": "float",
+        "description": "Indicates the sinuosity of the source ShorelineMonitor coastline. The Sinuosity calculates the ratio between total coastline length to a straight line from coastline's start point to end point."
+      },
+      {
+        "name": "is_shoal",
+        "type": "bool",
+        "description": "Indicate whether the shoreline observation lies on a very small island. This criteria is based on the GCTS's properties. The column indicates true for shoreline point observation on closed coastline transect with length less than 10 km."
+      },
+      {
+        "name": "obs_group_stdev",
+        "type": "float",
+        "description": "Standard deviation of the observations within an observation group, providing a measure of variability or dispersion among the data points."
+      },
+      {
+        "name": "obs_group_range",
+        "type": "float",
+        "description": "Range between the minimum and maximum observations within an observation group, highlighting the spread of values."
+      },
+      {
+        "name": "obs_group_count",
+        "type": "int64",
+        "description": "Total number of observations within a group, indicating the volume of data points collected for a specific transect."
+      },
+      {
+        "name": "obs_is_primary",
+        "type": "bool",
+        "description": "Boolean flag indicating whether the observation is considered the primary data point for its respective year and transect, typically representing the most reliable or significant observation."
+      },
+      {
+        "name": "obs_is_qa",
+        "type": "bool",
+        "description": "Boolean flag representing whether the observation has passed quality assurance checks, ensuring data integrity and reliability."
+      },
+      {
+        "name": "obs_is_outlier",
+        "type": "float",
+        "description": "Boolean indicator of whether an observation is categorized as an outlier based on a specific statistical method, such as the Median Absolute Deviation."
+      },
+      {
+        "name": "obs_primary_mdn",
+        "type": "float",
+        "description": "Median of the primary observations for shoreline positions, providing a central value that minimizes the effect of outliers and skewed data."
+      },
+      {
+        "name": "obs_baseline",
+        "type": "float"
+      },
+      {
+        "name": "obs_count",
+        "type": "float",
+        "description": "Total count of observations recorded, reflecting the comprehensive dataset collected over time for the analysis."
+      },
+      {
+        "name": "obs_primary_count",
+        "type": "float"
+      },
+      {
+        "name": "mdn_offset",
+        "type": "float",
+        "description": "Offset distance from the median of primary observations on the same transect, used to analyze deviations and trends in shoreline positions."
+      },
+      {
+        "name": "tr_is_qa",
+        "type": "bool",
+        "description": "Quality assurance flag for the transect, indicating whether the transect data meets predefined quality criteria."
+      },
+      {
+        "name": "tr_stdev",
+        "type": "float",
+        "description": "Standard deviation of observations across a transect, measuring the variability or spread of shoreline positions."
+      },
+      {
+        "name": "tr_range",
+        "type": "float",
+        "description": "Range of observations from minimum to maximum along a transect, illustrating the extent of shoreline positional changes."
+      },
+      {
+        "name": "quadkey",
+        "type": "string",
+        "description": "QuadKey code corresponding to the transect's origin at zoom level 12, based on the Bing Maps Tile System for spatial indexing and map visualization."
+      },
+      {
+        "name": "bbox.xmax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.xmin",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymin",
+        "type": "double"
+      }
+    ],
+    "proj:bbox": [
+      168.09293411035182,
+      0.11564401909455281,
+      173.9459285196359,
+      6.165173911154861
+    ],
+    "proj:epsg": 4326,
+    "table:row_count": 81912,
+    "created": "2024-06-20T15:08:37.768294Z",
+    "datetime": "2024-06-08T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          173.9459285196359,
+          0.11564401909455281
+        ],
+        [
+          173.9459285196359,
+          6.165173911154861
+        ],
+        [
+          168.09293411035182,
+          6.165173911154861
+        ],
+        [
+          168.09293411035182,
+          0.11564401909455281
+        ],
+        [
+          173.9459285196359,
+          0.11564401909455281
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "ShorelineMonitor: Satellite-derived shoreline raw series"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "ShorelineMonitor: Satellite-derived shoreline raw series"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "az://shorelinemonitor-raw-series/release/2024-06-08/box_130.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "ShorelineMonitor Raw Series",
+      "description": "Parquet dataset with ShorlineMonitor Raw Series for this region.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    168.09293411035182,
+    0.11564401909455281,
+    173.9459285196359,
+    6.165173911154861
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "shorelinemonitor-raw-series"
+}
