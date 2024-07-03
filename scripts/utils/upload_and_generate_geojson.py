@@ -32,42 +32,31 @@ from coclicodata.coclico_stac.utils import (
 
 if __name__ == "__main__":
     # hard-coded input params
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "CoCliCo - 11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
 
     # hard-coded input params at project level
-    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "FULLTRACK_DATA")
-    dataset_dir = coclico_data_dir.joinpath("WP3", "pilot")
-    cred_dir = pathlib.Path(p_drive, "11205479-coclico", "FASTTRACK_DATA")
-    IN_FILENAME = "SLP_MvS.zarr"  # original filename as on P drive
-    OUT_FILENAME = "ar6_slr_pilots.zarr"  # file name in the cloud and on MapBox
-    VARIABLES = ["slr"]  # what variable(s) do you want to show as marker color?
+    coclico_data_dir = pathlib.Path(p_drive, "11207608-coclico", "FULLTRACK_DATA")
+    dataset_dir = coclico_data_dir.joinpath("WP3", "data", "NetCDF")
+    cred_dir = pathlib.Path(p_drive, "11207608-coclico", "FASTTRACK_DATA")
+    IN_FILENAME = "CTP_ReturnPeriods.zarr"  # original filename as on P drive
+    OUT_FILENAME = "twl.zarr"  # file name in the cloud and on MapBox
+    VARIABLES = ["RP1", "RP100","RP1000"]  # what variable(s) do you want to show as marker color?
     # dimensions to include, i.e. what are the dimensions that you want to use as to affect the marker color (never include stations). These will be the drop down menu's. Note down without n.. in front.
-    ADDITIONAL_DIMENSIONS = ["scenarios", "time"]
+    ADDITIONAL_DIMENSIONS = []
     # use these to reduce dimension like {ensemble: "mean", "time": [1995, 2020, 2100]}, i.e. which of the dimensions do you want to use. Also specify the subsets (if there are a lot maybe make a selection). These will be the values in the drop down menu's. If only one (like mean), specify a value without a list to squeeze the dataset. Needs to span the entire dim space (except for (n)stations).
     MAP_SELECTION_DIMS = {
-        "scenarios": [
-            "high",
-            "ssp126",
-            "ssp245",
-            "ssp585",
-        ],  # TODO: fix bug. If I put ["ssp126", "ssp245", "ssp585"] if doesn't work properly as nscenarios and scenarios are disconnected in the variable. If I put nscenarios = [0,1,2] (like for ensembles) I get an error because of the disconnection
-        "time": [2030, 2050, 2100, 2150],
-        "nensemble": 1,  # TODO: fix bug. As I am not specifying ensemble in additional dimension, I cannot filter on ensemble: "mean"
-    }
+        "locs": ["locs"],
+        }#= {"items":["locs"]}
     # which dimensions to ignore (if n... in front of dim, it goes searching in additional_dimension for dim without n in front (ntime -> time). Except for nstations, just specify station in this case). This spans up the remainder of the dimension space.
-    DIMENSIONS_TO_IGNORE = [
-        "stations",
-        "nensemble",
-        "nscenarios",
-    ]  # dimensions to ignore
+    DIMENSIONS_TO_IGNORE = []  # dimensions to ignore
 
     # TODO: safe cloud creds in password client
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
     load_google_credentials(
-        google_token_fp=cred_dir.joinpath("google_credentials.json")
+        google_token_fp=cred_dir.joinpath("google_credentials_new.json")
     )
 
     # TODO: come up with checks for data
@@ -105,22 +94,22 @@ if __name__ == "__main__":
     # This dataset has quite some dimensions, so if we would parse all information the end-user
     # would be overwhelmed by all options. So for the stac items that we generate for the frontend
     # visualizations a subset of the data is selected. Of course, this operation is dataset specific.
-    for k, v in MAP_SELECTION_DIMS.items():
-        if k in ds.dims and ds.coords:
-            ds = ds.sel({k: v})
-        else:
-            try:
-                # assume that coordinates with strings always have same dim name but with n
-                ds = ds.sel({"n" + k: k == v})
-            except:
-                raise ValueError(f"Cannot find {k}")
+    # for k, v in MAP_SELECTION_DIMS.items():
+    #     if k in ds.dims and ds.coords:
+    #         ds = ds.sel({k: v})
+    #     else:
+    #         try:
+    #             # assume that coordinates with strings always have same dim name but with n
+    #             ds = ds.sel({"n" + k: k == v})
+    #         except:
+    #             raise ValueError(f"Cannot find {k}")
 
-    dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
-    dimcombs = get_dimension_dot_product(dimvals)
+    # dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
+    # dimcombs = get_dimension_dot_product(dimvals)
 
     for var in VARIABLES:
         collection = get_geojson(
-            ds, variable=var, dimension_combinations=dimcombs, stations_dim="stations"
+            ds, variable=var, dimension_combinations=[], stations_dim="locs"
         )
 
         # save feature collection as geojson in tempdir and upload to cloud

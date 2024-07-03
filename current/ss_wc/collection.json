@@ -1,0 +1,637 @@
+{
+    "type": "Collection",
+    "id": "ss_wc",
+    "stac_version": "1.0.0",
+    "description": "Coastal Target Points (lon, lat) and their respective mean significant wave height (Hsmean), 99th percentile storm surge (SSp99) and mean tidal range (tidal_range). The coordinate system is ETRS 1989 LAEA (EPSG 3035). Hsmean, SSp99 and tidal_range values are in meters.",
+    "links": [
+        {
+            "rel": "item",
+            "href": "./Hsmean-mapbox/Hsmean-mapbox.json",
+            "type": "application/json",
+            "properties": {}
+        },
+        {
+            "rel": "item",
+            "href": "./SSp99-mapbox/SSp99-mapbox.json",
+            "type": "application/json",
+            "properties": {}
+        },
+        {
+            "rel": "item",
+            "href": "./tidal_range-mapbox/tidal_range-mapbox.json",
+            "type": "application/json",
+            "properties": {}
+        },
+        {
+            "rel": "root",
+            "href": "../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        },
+        {
+            "rel": "parent",
+            "href": "../catalog.json",
+            "type": "application/json",
+            "title": "CoCliCo STAC Catalog"
+        }
+    ],
+    "stac_extensions": [
+        "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+        "https://stac-extensions.github.io/datacube/v2.2.0/schema.json"
+    ],
+    "deltares:units": "m",
+    "deltares:plotSeries": "scenario",
+    "deltares:plotxAxis": "time",
+    "deltares:plotType": "area",
+    "deltares:min": 0,
+    "deltares:max": 3,
+    "deltares:linearGradient": [
+        {
+            "color": "hsl(0,90%,80%)",
+            "offset": "0.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsla(55,88%,53%,0.5)",
+            "offset": "50.000%",
+            "opacity": 100
+        },
+        {
+            "color": "hsl(110,90%,70%)",
+            "offset": "100.000%",
+            "opacity": 100
+        }
+    ],
+    "cube:dimensions": {
+        "lon": {
+            "axis": "x",
+            "extent": [
+                -18.168,
+                34.5992
+            ],
+            "description": "longitude",
+            "reference_system": {
+                "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
+                "type": "ProjectedCRS",
+                "name": "ETRS89-extended / LAEA Europe",
+                "base_crs": {
+                    "name": "ETRS89",
+                    "datum_ensemble": {
+                        "name": "European Terrestrial Reference System 1989 ensemble",
+                        "members": [
+                            {
+                                "name": "European Terrestrial Reference Frame 1989",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1178
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1990",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1179
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1991",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1180
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1992",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1181
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1993",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1182
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1994",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1183
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1996",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1184
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1997",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1185
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 2000",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1186
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 2005",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1204
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 2014",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1206
+                                }
+                            }
+                        ],
+                        "ellipsoid": {
+                            "name": "GRS 1980",
+                            "semi_major_axis": 6378137,
+                            "inverse_flattening": 298.257222101
+                        },
+                        "accuracy": "0.1",
+                        "id": {
+                            "authority": "EPSG",
+                            "code": 6258
+                        }
+                    },
+                    "coordinate_system": {
+                        "subtype": "ellipsoidal",
+                        "axis": [
+                            {
+                                "name": "Geodetic latitude",
+                                "abbreviation": "Lat",
+                                "direction": "north",
+                                "unit": "degree"
+                            },
+                            {
+                                "name": "Geodetic longitude",
+                                "abbreviation": "Lon",
+                                "direction": "east",
+                                "unit": "degree"
+                            }
+                        ]
+                    },
+                    "id": {
+                        "authority": "EPSG",
+                        "code": 4258
+                    }
+                },
+                "conversion": {
+                    "name": "Europe Equal Area 2001",
+                    "method": {
+                        "name": "Lambert Azimuthal Equal Area",
+                        "id": {
+                            "authority": "EPSG",
+                            "code": 9820
+                        }
+                    },
+                    "parameters": [
+                        {
+                            "name": "Latitude of natural origin",
+                            "value": 52,
+                            "unit": "degree",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 8801
+                            }
+                        },
+                        {
+                            "name": "Longitude of natural origin",
+                            "value": 10,
+                            "unit": "degree",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 8802
+                            }
+                        },
+                        {
+                            "name": "False easting",
+                            "value": 4321000,
+                            "unit": "metre",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 8806
+                            }
+                        },
+                        {
+                            "name": "False northing",
+                            "value": 3210000,
+                            "unit": "metre",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 8807
+                            }
+                        }
+                    ]
+                },
+                "coordinate_system": {
+                    "subtype": "Cartesian",
+                    "axis": [
+                        {
+                            "name": "Northing",
+                            "abbreviation": "Y",
+                            "direction": "north",
+                            "unit": "metre"
+                        },
+                        {
+                            "name": "Easting",
+                            "abbreviation": "X",
+                            "direction": "east",
+                            "unit": "metre"
+                        }
+                    ]
+                },
+                "scope": "Statistical analysis.",
+                "area": "Europe - European Union (EU) countries and candidates. Europe - onshore and offshore: Albania; Andorra; Austria; Belgium; Bosnia and Herzegovina; Bulgaria; Croatia; Cyprus; Czechia; Denmark; Estonia; Faroe Islands; Finland; France; Germany; Gibraltar; Greece; Hungary; Iceland; Ireland; Italy; Kosovo; Latvia; Liechtenstein; Lithuania; Luxembourg; Malta; Monaco; Montenegro; Netherlands; North Macedonia; Norway including Svalbard and Jan Mayen; Poland; Portugal including Madeira and Azores; Romania; San Marino; Serbia; Slovakia; Slovenia; Spain including Canary Islands; Sweden; Switzerland; T\u00fcrkiye (Turkey); United Kingdom (UK) including Channel Islands and Isle of Man; Vatican City State.",
+                "bbox": {
+                    "south_latitude": 24.6,
+                    "west_longitude": -35.58,
+                    "north_latitude": 84.73,
+                    "east_longitude": 44.83
+                },
+                "id": {
+                    "authority": "EPSG",
+                    "code": 3035
+                }
+            },
+            "type": "spatial"
+        },
+        "lat": {
+            "axis": "y",
+            "extent": [
+                27.6298,
+                71.1914
+            ],
+            "description": "latitude",
+            "reference_system": {
+                "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
+                "type": "ProjectedCRS",
+                "name": "ETRS89-extended / LAEA Europe",
+                "base_crs": {
+                    "name": "ETRS89",
+                    "datum_ensemble": {
+                        "name": "European Terrestrial Reference System 1989 ensemble",
+                        "members": [
+                            {
+                                "name": "European Terrestrial Reference Frame 1989",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1178
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1990",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1179
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1991",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1180
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1992",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1181
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1993",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1182
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1994",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1183
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1996",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1184
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 1997",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1185
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 2000",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1186
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 2005",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1204
+                                }
+                            },
+                            {
+                                "name": "European Terrestrial Reference Frame 2014",
+                                "id": {
+                                    "authority": "EPSG",
+                                    "code": 1206
+                                }
+                            }
+                        ],
+                        "ellipsoid": {
+                            "name": "GRS 1980",
+                            "semi_major_axis": 6378137,
+                            "inverse_flattening": 298.257222101
+                        },
+                        "accuracy": "0.1",
+                        "id": {
+                            "authority": "EPSG",
+                            "code": 6258
+                        }
+                    },
+                    "coordinate_system": {
+                        "subtype": "ellipsoidal",
+                        "axis": [
+                            {
+                                "name": "Geodetic latitude",
+                                "abbreviation": "Lat",
+                                "direction": "north",
+                                "unit": "degree"
+                            },
+                            {
+                                "name": "Geodetic longitude",
+                                "abbreviation": "Lon",
+                                "direction": "east",
+                                "unit": "degree"
+                            }
+                        ]
+                    },
+                    "id": {
+                        "authority": "EPSG",
+                        "code": 4258
+                    }
+                },
+                "conversion": {
+                    "name": "Europe Equal Area 2001",
+                    "method": {
+                        "name": "Lambert Azimuthal Equal Area",
+                        "id": {
+                            "authority": "EPSG",
+                            "code": 9820
+                        }
+                    },
+                    "parameters": [
+                        {
+                            "name": "Latitude of natural origin",
+                            "value": 52,
+                            "unit": "degree",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 8801
+                            }
+                        },
+                        {
+                            "name": "Longitude of natural origin",
+                            "value": 10,
+                            "unit": "degree",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 8802
+                            }
+                        },
+                        {
+                            "name": "False easting",
+                            "value": 4321000,
+                            "unit": "metre",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 8806
+                            }
+                        },
+                        {
+                            "name": "False northing",
+                            "value": 3210000,
+                            "unit": "metre",
+                            "id": {
+                                "authority": "EPSG",
+                                "code": 8807
+                            }
+                        }
+                    ]
+                },
+                "coordinate_system": {
+                    "subtype": "Cartesian",
+                    "axis": [
+                        {
+                            "name": "Northing",
+                            "abbreviation": "Y",
+                            "direction": "north",
+                            "unit": "metre"
+                        },
+                        {
+                            "name": "Easting",
+                            "abbreviation": "X",
+                            "direction": "east",
+                            "unit": "metre"
+                        }
+                    ]
+                },
+                "scope": "Statistical analysis.",
+                "area": "Europe - European Union (EU) countries and candidates. Europe - onshore and offshore: Albania; Andorra; Austria; Belgium; Bosnia and Herzegovina; Bulgaria; Croatia; Cyprus; Czechia; Denmark; Estonia; Faroe Islands; Finland; France; Germany; Gibraltar; Greece; Hungary; Iceland; Ireland; Italy; Kosovo; Latvia; Liechtenstein; Lithuania; Luxembourg; Malta; Monaco; Montenegro; Netherlands; North Macedonia; Norway including Svalbard and Jan Mayen; Poland; Portugal including Madeira and Azores; Romania; San Marino; Serbia; Slovakia; Slovenia; Spain including Canary Islands; Sweden; Switzerland; T\u00fcrkiye (Turkey); United Kingdom (UK) including Channel Islands and Isle of Man; Vatican City State.",
+                "bbox": {
+                    "south_latitude": 24.6,
+                    "west_longitude": -35.58,
+                    "north_latitude": 84.73,
+                    "east_longitude": 44.83
+                },
+                "id": {
+                    "authority": "EPSG",
+                    "code": 3035
+                }
+            },
+            "type": "spatial"
+        }
+    },
+    "cube:variables": {
+        "Hsmean": {
+            "type": "data",
+            "description": "Mean of Hs hourly time series over the period 1985-2022",
+            "dimensions": [
+                "locs"
+            ],
+            "unit": "m",
+            "attrs": {
+                "description": "Mean of Hs hourly time series over the period 1985-2022",
+                "long_name": "Mean value of significant height",
+                "short_name": "Hs",
+                "units": "m"
+            },
+            "shape": [
+                51010
+            ],
+            "chunks": [
+                25505
+            ]
+        },
+        "SSp99": {
+            "type": "data",
+            "description": "99th percentile of storm surge hourly time series over the period 1985-2021",
+            "dimensions": [
+                "locs"
+            ],
+            "unit": "m",
+            "attrs": {
+                "description": "99th percentile of storm surge hourly time series over the period 1985-2021",
+                "long_name": "99th percentile of storm surge sea level variation",
+                "short_name": "SS",
+                "units": "m"
+            },
+            "shape": [
+                51010
+            ],
+            "chunks": [
+                25505
+            ]
+        },
+        "lat": {
+            "type": "auxiliary",
+            "description": "latitude",
+            "dimensions": [
+                "locs"
+            ],
+            "unit": "degrees_north",
+            "attrs": {
+                "long_name": "latitude",
+                "short_name": "lat",
+                "standard_name": "latitude",
+                "units": "degrees_north"
+            },
+            "shape": [
+                51010
+            ],
+            "chunks": [
+                25505
+            ]
+        },
+        "lon": {
+            "type": "auxiliary",
+            "description": "longitude",
+            "dimensions": [
+                "locs"
+            ],
+            "unit": "degrees_east",
+            "attrs": {
+                "long_name": "longitude",
+                "short_name": "lon",
+                "standard_name": "longitude",
+                "units": "degrees_east"
+            },
+            "shape": [
+                51010
+            ],
+            "chunks": [
+                25505
+            ]
+        },
+        "tidal_range": {
+            "type": "data",
+            "description": "Difference between the mean high water level and the mean low water level over the period 1985-2021",
+            "dimensions": [
+                "locs"
+            ],
+            "unit": "m",
+            "attrs": {
+                "description": "Difference between the mean high water level and the mean low water level over the period 1985-2021",
+                "long_name": "Mean_tidal_range",
+                "short_name": "tidal_range",
+                "units": "m"
+            },
+            "shape": [
+                51010
+            ],
+            "chunks": [
+                25505
+            ]
+        }
+    },
+    "title": "Storm Surge and Wave Climate",
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    -180.0,
+                    -90.0,
+                    180.0,
+                    90.0
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    null,
+                    null
+                ]
+            ]
+        }
+    },
+    "license": null,
+    "keywords": [
+        "Waves",
+        "Storm Surge",
+        "tide",
+        "coast",
+        "EU scale"
+    ],
+    "providers": [
+        {
+            "name": "Universidad de Cantabria, Instituto de Hidraulica Ambiental de la Universidad de Cantabria 'IHCantabria'",
+            "description": " IHCantabria is a collaborative research institute formed by the partnership of the Universidad de Cantabria and the Government of Cantabria. It is actively engaged in scientific and technical endeavors pertaining to continental and coastal water engineering. Its overarching vision is to establish itself as a leading institution known for providing innovative solutions rooted in scientific excellence. These solutions are centered around the integrated management of socio-ecological water systems, with the ultimate aim of contributing to a more sustainable global environment.",
+            "roles": "provider",
+            "url": "www.ihcantabria.com"
+        }
+    ],
+    "assets": {
+        "data": {
+            "href": "https://storage.googleapis.com/coclico-data-public/coclico/ss_wc.zarr",
+            "title": "EU Coastal Target Points - Coastal marine climatologies zarr root",
+            "description": "The root of the EU Coastal Target Points - Coastal marine climatologies zarr dataset on public Google Cloud Storage.",
+            "roles": [
+                "data",
+                "zarr-root",
+                "gcs"
+            ]
+        },
+        "thumbnail": {
+            "href": "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/ss_wc.png",
+            "type": "image/png",
+            "title": "Thumbnail"
+        }
+    }
+}
