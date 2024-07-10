@@ -165,9 +165,9 @@ if __name__ == "__main__":
         collection_id=COLLECTION_ID,
         title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
-        keywords=METADATA["KEYWORDS"],
-        license=None, # NOTE: no license/doi was provided in the meta data
-        spatial_extent=None, # NOTE: no spatial extent was provided in the meta data
+        keywords=METADATA["KEYWORDS"].append(["Sea Levels", "Full-Track"]),
+        license="CC-BY-4.0",    # NOTE: no license/doi was provided in the metadata
+        spatial_extent=None,    # NOTE: no spatial extent was provided in the metadata
         temporal_extent=METADATA["TEMPORAL_EXTENT"],
         providers=[pystac.Provider(name=METADATA['PROVIDERS']['name'],
                                   url=METADATA['PROVIDERS']['url'],
