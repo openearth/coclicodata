@@ -171,7 +171,7 @@ if __name__ == "__main__":
         temporal_extent=METADATA["TEMPORAL_EXTENT"],
         providers=[pystac.Provider(name=METADATA['PROVIDERS']['name'],
                                   url=METADATA['PROVIDERS']['url'],
-                                  roles=METADATA['PROVIDERS']['roles'],
+                                  roles=[METADATA['PROVIDERS']['roles']], # NOTE: roles is plural and for that reason should be a list
                                   description=METADATA['PROVIDERS']['description'])]
     )
     
