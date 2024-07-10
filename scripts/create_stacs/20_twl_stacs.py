@@ -171,7 +171,7 @@ if __name__ == "__main__":
         temporal_extent=METADATA["TEMPORAL_EXTENT"],
         providers=[pystac.Provider(name=METADATA['PROVIDERS']['name'],
                                   url=METADATA['PROVIDERS']['url'],
-                                  roles=[METADATA['PROVIDERS']['roles']], # NOTE: roles is plural and for that reason should be a list
+                                  roles=['producer'], # NOTE: roles is plural and for that reason should be a list, consisting of one or more ['producer', 'licensor', 'processor', 'host']
                                   description=METADATA['PROVIDERS']['description'])]
     )
     
@@ -189,6 +189,7 @@ if __name__ == "__main__":
 # %%
     # TODO: check what can be customized in the layout
     layout = CoCliCoZarrLayout()
+    stac_io = DefaultStacIO()
 
     # create stac collection per variable and add to dataset collection
     for var in VARIABLES:
@@ -268,6 +269,6 @@ if __name__ == "__main__":
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
-        stac_io=CoCliCoStacIO(),
+        stac_io=stac_io,
     )
 # %%

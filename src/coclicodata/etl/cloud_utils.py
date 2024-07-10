@@ -1,7 +1,9 @@
+#%%
 import os
 import pathlib
 import subprocess
 import tempfile
+import click
 import warnings
 from itertools import product
 from posixpath import join as urljoin
@@ -65,9 +67,8 @@ def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
     uri = urljoin("gs://" + bucket_name, bucket_proj, zarr_filename)
     return xr.open_zarr(uri)
 
-
 def dir_to_google_cloud(
-    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str
+    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str,
 ) -> None:
     """Upload directory to Google Cloud Services
 
@@ -82,14 +83,22 @@ def dir_to_google_cloud(
     )
 
     target_path = urljoin(bucket_name, bucket_proj, dir_name)
+    print(target_path)
 
-    # saved directory to google cloud
-    print(f"Writing to directory at {target_path}...")
-    try:
-        fs.put(dir_path, target_path, recursive=True)
-        print("Done!")
-    except OSError as e:
-        print(f"Failed uploading: \n {e}")
+    # Check if could directory already exists
+    if fs.exists(urljoin(target_path,'catalog.json')):
+        print(f"Cloud directory {target_path} already exists...")
+        if click.confirm('Do you want to overwirte this directory?'):
+            # fs.rm(target_path,recursive=True)
+            print('Bucket directory should be deleted manually. Work in progress...')
+    else:
+        # saved directory to google cloud
+        print(f"Writing to directory at {target_path}...")
+        try:
+            fs.put(dir_path, target_path, recursive=True)
+            print("Done!")
+        except OSError as e:
+            print(f"Failed uploading: \n {e}")
 
 
 def google_cloud_to_dir(
@@ -217,15 +226,43 @@ if __name__ == "__main__":
     BUCKET_NAME = "dgds-data-public"
     BUCKET_PROJ = "coclico"
 
-    # semi hard-coded variables including both local and remote drives
-    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
-    network_dir = coclico_data_dir.joinpath("06_adaptation_jrc")
-    local_dir = pathlib.Path.home().joinpath("ddata", "temp")
+    # # semi hard-coded variables including both local and remote drives
+    # coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
+    # network_dir = coclico_data_dir.joinpath("06_adaptation_jrc")
+    # local_dir = pathlib.Path.home().joinpath("ddata", "temp")
 
-    # TODO: safe cloud creds in password client
-    load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
+    # # TODO: safe cloud creds in password client
+    # load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
+    # load_google_credentials(
+    #     google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+    # )
+
+    # hard-coded input params
+    GCS_PROJECT = "coclico-11207608-002"
+    BUCKET_NAME = "coclico-data-public"
+    BUCKET_PROJ = "coclico"
+    STAC_NAME = "coclico-stac2"
+    IN_DIRNAME = "current"
+
+    # hard-coded input params at project level
+    cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
+
+    # upload dir to gcs from local drive
+    source_dir_fp = str(
+        pathlib.Path(__file__).parent.parent.parent.joinpath(IN_DIRNAME)
+    )
+
+    # load google credentials
     load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+        google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
+    )
+
+    dir_to_google_cloud(
+        dir_path=source_dir_fp,
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        dir_name=STAC_NAME,
     )
 
     # # commented code is here to provide an example of how this file can be used as a script to
@@ -247,3 +284,5 @@ if __name__ == "__main__":
     #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     # )
     # )
+
+# %%
