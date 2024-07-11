@@ -82,23 +82,31 @@ def dir_to_google_cloud(
         gcs_project, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
     )
 
+    # Define Google Cloud target directory
     target_path = urljoin(bucket_name, bucket_proj, dir_name)
-    print(target_path)
 
     # Check if could directory already exists
     if fs.exists(urljoin(target_path,'catalog.json')):
         print(f"Cloud directory {target_path} already exists...")
+        # Ask user to confirm directory overwrite
         if click.confirm('Do you want to overwirte this directory?'):
-            # fs.rm(target_path,recursive=True)
-            print('Bucket directory should be deleted manually. Work in progress...')
-    else:
-        # saved directory to google cloud
-        print(f"Writing to directory at {target_path}...")
-        try:
-            fs.put(dir_path, target_path, recursive=True)
-            print("Done!")
-        except OSError as e:
-            print(f"Failed uploading: \n {e}")
+            # Check if user is on the main branch
+            if dir_name == 'coclico-stac' and click.confirm(
+                'You trying to overwrite the main coclico-stac, are you working from the coclicodata Github main branch?'
+                ):
+                    # Remove target directory to be updated
+                    fs.rm(target_path,recursive=True)
+            else:
+                # Remove target directory to be updated
+                fs.rm(target_path,recursive=True)
+    
+    # saved directory to google cloud
+    print(f"Writing to directory at {target_path}...")
+    try:
+        fs.put(dir_path, target_path, recursive=True)
+        print("Done!")
+    except OSError as e:
+        print(f"Failed uploading: \n {e}")
 
 
 def google_cloud_to_dir(
@@ -241,21 +249,17 @@ if __name__ == "__main__":
     GCS_PROJECT = "coclico-11207608-002"
     BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
-    STAC_NAME = "coclico-stac2"
+    STAC_NAME = "coclico-stac-ss_wc"
     IN_DIRNAME = "current"
 
     # hard-coded input params at project level
     cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
 
     # upload dir to gcs from local drive
-    source_dir_fp = str(
-        pathlib.Path(__file__).parent.parent.parent.joinpath(IN_DIRNAME)
-    )
+    source_dir_fp = str(pathlib.Path(__file__).parent.parent.parent.parent.joinpath(IN_DIRNAME))
 
     # load google credentials
-    load_google_credentials(
-        google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
-    )
+    load_google_credentials(google_token_fp=cred_data_dir.joinpath("google_credentials_new.json"))
 
     dir_to_google_cloud(
         dir_path=source_dir_fp,
