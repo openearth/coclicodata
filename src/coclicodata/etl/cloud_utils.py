@@ -228,22 +228,6 @@ def load_google_credentials(google_token_fp: Union[pathlib.Path, None] = None) -
 
 
 if __name__ == "__main__":
-    # hard-coded input params
-    DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
-    BUCKET_PROJ = "coclico"
-
-    # # semi hard-coded variables including both local and remote drives
-    # coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
-    # network_dir = coclico_data_dir.joinpath("06_adaptation_jrc")
-    # local_dir = pathlib.Path.home().joinpath("ddata", "temp")
-
-    # # TODO: safe cloud creds in password client
-    # load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
-    # load_google_credentials(
-    #     google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
-    # )
 
     # hard-coded input params
     GCS_PROJECT = "coclico-11207608-002"

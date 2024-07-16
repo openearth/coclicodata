@@ -73,6 +73,9 @@ if __name__ == "__main__":
     with open(METADATA_FILE, "r") as f:
         METADATA = json.load(f)
 
+    # Extend keywords
+    METADATA["KEYWORDS"].extend(["Sea Levels", "Full-Track"])
+
     # hard-coded input params at project level
     BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
@@ -165,7 +168,7 @@ if __name__ == "__main__":
         collection_id=COLLECTION_ID,
         title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
-        keywords=METADATA["KEYWORDS"].append(["Sea Levels", "Full-Track"]),
+        keywords=METADATA["KEYWORDS"],
         license="CC-BY-4.0",    # NOTE: no license/doi was provided in the metadata
         spatial_extent=None,    # NOTE: no spatial extent was provided in the metadata
         temporal_extent=METADATA["TEMPORAL_EXTENT"],
