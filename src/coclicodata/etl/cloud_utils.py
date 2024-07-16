@@ -67,6 +67,28 @@ def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
     uri = urljoin("gs://" + bucket_name, bucket_proj, zarr_filename)
     return xr.open_zarr(uri)
 
+def file_to_google_cloud(
+    file_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str, file_name: str, return_URL: bool = False,
+):
+    """
+    Upload a single file to Google Cloud Services
+    """
+    # file system interface for google cloud storage
+    fs = gcsfs.GCSFileSystem(
+        gcs_project, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+    )
+
+    # Define Google Cloud target directory
+    target_filepath = urljoin(bucket_name, bucket_proj, dir_name, file_name)
+
+    # Upload file
+    fs.put(file_path,target_filepath)
+    
+    # When requested return resulting URL
+    if return_URL:
+        return fs.url(target_filepath)
+
+
 def dir_to_google_cloud(
     dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str,
 ) -> None:

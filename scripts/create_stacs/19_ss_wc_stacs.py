@@ -6,6 +6,7 @@ import datetime
 import pathlib
 import glob
 import os
+import cv2
 
 # import sys
 # from re import S, template
@@ -31,10 +32,11 @@ from pystac.stac_io import DefaultStacIO
 from pystac import Catalog, CatalogType, Collection, Summaries
 # Import coclico modules
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud
+from coclicodata.etl.cloud_utils import dataset_from_google_cloud, file_to_google_cloud, load_google_credentials
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.coclico_stac.io import CoCliCoStacIO
+from coclicodata.coclico_stac.reshape_im import reshape_aspectratio_image
 from coclicodata.coclico_stac.layouts import CoCliCoZarrLayout
 from coclicodata.coclico_stac.templates import (
     extend_links,
@@ -77,9 +79,11 @@ if __name__ == "__main__":
     METADATA["KEYWORDS"].extend(["Sea Levels", "Full-Track"])
 
     # hard-coded input params at project level
+    GCS_PROJECT = "coclico-11207608-002"
     BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
+    CRED_DIR = pathlib.Path(p_drive, "11207608-coclico", "FASTTRACK_DATA")
 
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
@@ -249,11 +253,33 @@ if __name__ == "__main__":
         {k: v for k, v in MAP_SELECTION_DIMS.items() if k not in dimvals.keys()}.keys(),
     )
 
+    # Set thumbnail directory
+    THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath('thumbnails')
+    THUMB_FILE = THUMB_DIR.joinpath(COLLECTION_ID + '.png')
+
+    # Make sure image is reshaped to desired aspect ratio (default = 16/9)
+    cropped_im = reshape_aspectratio_image(str(THUMB_FILE))
+
+    # Overwrite image with cropped version
+    cv2.imwrite(str(THUMB_FILE), cropped_im)
+
+    # Load google credentials
+    load_google_credentials(google_token_fp=CRED_DIR.joinpath("google_credentials_new.json") )
+
+    # Upload thumbnail to cloud
+    THUMB_URL = file_to_google_cloud(str(THUMB_FILE),
+                                    GCS_PROJECT,
+                                    BUCKET_NAME,
+                                    BUCKET_PROJ,
+                                    'assets/thumbnails',
+                                    THUMB_FILE.name, 
+                                    return_URL = True)
+
     # Add thumbnail
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501
+            THUMB_URL,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
