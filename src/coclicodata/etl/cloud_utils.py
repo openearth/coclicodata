@@ -1,7 +1,9 @@
+#%%
 import os
 import pathlib
 import subprocess
 import tempfile
+import click
 import warnings
 from itertools import product
 from posixpath import join as urljoin
@@ -65,9 +67,30 @@ def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
     uri = urljoin("gs://" + bucket_name, bucket_proj, zarr_filename)
     return xr.open_zarr(uri)
 
+def file_to_google_cloud(
+    file_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str, file_name: str, return_URL: bool = False,
+):
+    """
+    Upload a single file to Google Cloud Services
+    """
+    # file system interface for google cloud storage
+    fs = gcsfs.GCSFileSystem(
+        gcs_project, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+    )
+
+    # Define Google Cloud target directory
+    target_filepath = urljoin(bucket_name, bucket_proj, dir_name, file_name)
+
+    # Upload file
+    fs.put(file_path,target_filepath)
+    
+    # When requested return resulting URL
+    if return_URL:
+        return fs.url(target_filepath)
+
 
 def dir_to_google_cloud(
-    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str
+    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str,
 ) -> None:
     """Upload directory to Google Cloud Services
 
@@ -81,8 +104,24 @@ def dir_to_google_cloud(
         gcs_project, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
     )
 
+    # Define Google Cloud target directory
     target_path = urljoin(bucket_name, bucket_proj, dir_name)
 
+    # Check if could directory already exists
+    if fs.exists(urljoin(target_path,'catalog.json')):
+        print(f"Cloud directory {target_path} already exists...")
+        # Ask user to confirm directory overwrite
+        if click.confirm('Do you want to overwirte this directory?'):
+            # Check if user is on the main branch
+            if dir_name == 'coclico-stac' and click.confirm(
+                'You trying to overwrite the main coclico-stac, are you working from the coclicodata Github main branch?'
+                ):
+                    # Remove target directory to be updated
+                    fs.rm(target_path,recursive=True)
+            else:
+                # Remove target directory to be updated
+                fs.rm(target_path,recursive=True)
+    
     # saved directory to google cloud
     print(f"Writing to directory at {target_path}...")
     try:
@@ -211,21 +250,29 @@ def load_google_credentials(google_token_fp: Union[pathlib.Path, None] = None) -
 
 
 if __name__ == "__main__":
+
     # hard-coded input params
-    DATASET_FILENAME = "CoastAlRisk_Europe_EESSL.zarr"
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "coclico-11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
+    STAC_NAME = "coclico-stac-ss_wc"
+    IN_DIRNAME = "current"
 
-    # semi hard-coded variables including both local and remote drives
-    coclico_data_dir = pathlib.Path(p_drive, "11205479-coclico", "data")
-    network_dir = coclico_data_dir.joinpath("06_adaptation_jrc")
-    local_dir = pathlib.Path.home().joinpath("ddata", "temp")
+    # hard-coded input params at project level
+    cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
 
-    # TODO: safe cloud creds in password client
-    load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
-    load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+    # upload dir to gcs from local drive
+    source_dir_fp = str(pathlib.Path(__file__).parent.parent.parent.parent.joinpath(IN_DIRNAME))
+
+    # load google credentials
+    load_google_credentials(google_token_fp=cred_data_dir.joinpath("google_credentials_new.json"))
+
+    dir_to_google_cloud(
+        dir_path=source_dir_fp,
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        dir_name=STAC_NAME,
     )
 
     # # commented code is here to provide an example of how this file can be used as a script to
@@ -247,3 +294,5 @@ if __name__ == "__main__":
     #     bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
     # )
     # )
+
+# %%
