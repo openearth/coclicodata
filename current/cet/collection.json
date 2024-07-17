@@ -1,0 +1,216 @@
+{
+  "type": "Collection",
+  "id": "cet",
+  "stac_version": "1.0.0",
+  "description": "The erosion database is based around a qualitative coastal classification which defines a limited number of coastal geomorphic types.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "item",
+      "href": "./items/CoCliCo_Erosion_database_240808.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/version/v1.2.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "title": "CET",
+      "description": "Coastal erosion typology database for Europe",
+      "roles": [
+        "data"
+      ],
+      "type": "application/vnd.apache.parquet",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "Source",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Country",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Covered",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "SEG_ID",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "SEG_Length",
+          "type": "int64",
+          "description": ""
+        },
+        {
+          "name": "Floodplain",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "L_FP",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "R_FP_1",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "R_FP_2",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Onshore_structure",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Offshore_structure",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Harbour",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Activ_geo",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Barrier",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Sed_type_1",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Sed_type_2",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Hist_Trend",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Code_18",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Recl_18",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "Notes",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "geometry",
+          "type": "binary",
+          "description": ""
+        }
+      ]
+    }
+  },
+  "base_url": "gs://coclico-data-public/coclico/cet",
+  "sci:citation": "None.",
+  "version": "1",
+  "title": "Coastal Erosion Typology",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -31.386545494931003,
+          32.457482285641014,
+          60.24216959014434,
+          67.12036364463012
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2024-01-22T00:00:00Z",
+          "2024-01-22T00:00:00Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "Coastal",
+    "Zone",
+    "Erosion",
+    "Typology"
+  ],
+  "providers": [
+    {
+      "name": "University of East Anglia (UEA)",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://research-portal.uea.ac.uk/en/"
+    },
+    {
+      "name": "Deltares",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://deltares.nl"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/cet.jpeg",
+      "type": "image/jpeg",
+      "title": "Thumbnail"
+    },
+    "geoparquet-stac-items": {
+      "href": "gs://coclico-data-public/coclico/items/cet.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "GeoParquet STAC items",
+      "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "roles": [
+        "data"
+      ]
+    }
+  }
+}

@@ -90,8 +90,8 @@ def file_to_google_cloud(
 
 
 def dir_to_google_cloud(
-    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str,
-) -> None:
+    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str,  return_URL: bool = False
+):
     """Upload directory to Google Cloud Services
 
     # TODO: fails when uploading to store that already exists or;
@@ -129,6 +129,10 @@ def dir_to_google_cloud(
         print("Done!")
     except OSError as e:
         print(f"Failed uploading: \n {e}")
+
+    # When requested return resulting URL
+    if return_URL:
+        return fs.url(target_filepath)
 
 
 def google_cloud_to_dir(
