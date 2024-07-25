@@ -13,6 +13,7 @@ import dataclasses
 import datetime
 import logging
 import os
+import cv2
 import pathlib
 import re
 import json
@@ -31,8 +32,9 @@ from posixpath import join as urljoin
 from dotenv import load_dotenv
 from pystac.stac_io import DefaultStacIO
 
-from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud
+from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud, file_to_google_cloud
 from coclicodata.drive_config import p_drive
+from coclicodata.coclico_stac.reshape_im import reshape_aspectratio_image
 
 from coastmonitor import stac_table
 from coastmonitor.stac.layouts import ParquetLayout
@@ -83,6 +85,9 @@ ds_fp = ds_path.joinpath("CoCliCo_Erosion_database_240808.parquet")  # file dire
 metadata_fp = ds_fp.with_suffix('.json')
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
+
+# # extend keywords
+metadata['KEYWORDS'].extend('Full-Track','Natural Hazards')
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -473,6 +478,35 @@ if __name__ == "__main__":
             description="Snapshot of the collection's STAC items exported to GeoParquet format.",
             media_type=PARQUET_MEDIA_TYPE,
             roles=["data"],
+        ),
+    )
+
+     # Set thumbnail directory
+    THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath('thumbnails')
+    THUMB_FILE = THUMB_DIR.joinpath(COLLECTION_ID + '.png')
+
+    # Make sure image is reshaped to desired aspect ratio (default = 16/9)
+    cropped_im = reshape_aspectratio_image(str(THUMB_FILE))
+
+    # Overwrite image with cropped version
+    cv2.imwrite(str(THUMB_FILE), cropped_im)
+
+    # Upload thumbnail to cloud
+    THUMB_URL = file_to_google_cloud(str(THUMB_FILE),
+                                    GCS_PROJECT,
+                                    BUCKET_NAME,
+                                    BUCKET_PROJ,
+                                    'assets/thumbnails',
+                                    THUMB_FILE.name, 
+                                    return_URL = True)
+
+    # Add thumbnail
+    collection.add_asset(
+        "thumbnail",
+        pystac.Asset(
+            THUMB_URL,  # noqa: E501
+            title="Thumbnail",
+            media_type=pystac.MediaType.PNG,
         ),
     )
 
