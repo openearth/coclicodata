@@ -1,0 +1,182 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "box_106_s18e135_part-e66433f7f7a3",
+  "properties": {
+    "title": "ShorelineMonitor: Satellite-Derived Shorelines",
+    "description": "ShorelineMonitor: Satellite-Derived Shorelines in Parquet format",
+    "table:columns": [
+      {
+        "name": "shoreline_name",
+        "type": "string",
+        "description": "Name assigned to the shoreline segment. The name consists of the box, the MultiLineString group and the LineString index; i.e., 'box_xx_xx_mlsxx_lsxx'."
+      },
+      {
+        "name": "time",
+        "type": "timestamp[ns]",
+        "description": "Timestamp of the shoreline observation."
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": "Shoreline geometry represented as linestrings, encoded in Well-Known Binary (WKB) format."
+      },
+      {
+        "name": "determination_times",
+        "type": "list<element: string>",
+        "description": "Times of the imagery that are included in the composite image. These are assumed to be UTC."
+      },
+      {
+        "name": "start_datetime",
+        "type": "string",
+        "description": "Start datetime refers to the timestamp (ISO 8601 format) of the first image that is included in the composite image."
+      },
+      {
+        "name": "end_datetime",
+        "type": "string",
+        "description": "End datetime refers to the timestamp (ISO 8601 format) of the last image that is included in the composite image."
+      },
+      {
+        "name": "otsu_threshold",
+        "type": "float",
+        "description": "Threshold value determined by Otsu's method for image binarization."
+      },
+      {
+        "name": "otsu_separability",
+        "type": "float",
+        "description": "Measure of the separability between land and water classes as determined by Otsu's method."
+      },
+      {
+        "name": "qa_cloud_cover",
+        "type": "string",
+        "description": "Quality assurance (GEE) information regarding cloud cover in the imagery."
+      },
+      {
+        "name": "image_id",
+        "type": "string",
+        "description": "Identifier for the source composite image used to derive the shoreline."
+      },
+      {
+        "name": "box_id",
+        "type": "string",
+        "description": "Unique identifier for the shoreline box within the global ShorelineMonitor system."
+      },
+      {
+        "name": "source_filename",
+        "type": "string",
+        "description": "Name of the original file from which shoreline data was processed."
+      },
+      {
+        "name": "group",
+        "type": "int32",
+        "description": "Identifier for multi-linestring groups/segments within the source ShorelineMonitor data as exported from GEE."
+      },
+      {
+        "name": "bbox.xmax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.xmin",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymin",
+        "type": "double"
+      },
+      {
+        "name": "quadkey",
+        "type": "string",
+        "description": "QuadKey (zoom level 7) for spatial indexing, representing the spatial location of the shoreline segment."
+      }
+    ],
+    "proj:bbox": [
+      134.97619,
+      -17.678658,
+      143.730142,
+      -8.391901
+    ],
+    "proj:epsg": 4326,
+    "start_datetime": "1986-01-01T00:00:00Z",
+    "end_datetime": "2021-01-01T00:00:00Z",
+    "table:row_count": 56666,
+    "datetime": "2024-06-18T13:43:30.313552Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          143.730142,
+          -17.678658
+        ],
+        [
+          143.730142,
+          -8.391901
+        ],
+        [
+          134.97619,
+          -8.391901
+        ],
+        [
+          134.97619,
+          -17.678658
+        ],
+        [
+          143.730142,
+          -17.678658
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/collection.json",
+      "type": "application/json",
+      "title": "ShorelineMonitor: Satellite-Derived Shorelines"
+    },
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/collection.json",
+      "type": "application/json",
+      "title": "ShorelineMonitor: Satellite-Derived Shorelines"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_106_s18e135_part-e66433f7f7a3/box_106_s18e135_part-e66433f7f7a3.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "az://shorelinemonitor-shorelines/release/2024-06-17/box=106/s18e135_part-e66433f7f7a3.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "ShorelineMonitor Satellite-Derived Shorelines",
+      "description": "ShorelineMonitor Parquet dataset with Satellite-Derived Shorelines for this region.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    134.97619,
+    -17.678658,
+    143.730142,
+    -8.391901
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "shorelinemonitor-shorelines"
+}
