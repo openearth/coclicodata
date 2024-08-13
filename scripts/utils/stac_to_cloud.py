@@ -8,7 +8,7 @@ import os
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
 
-from coclicodata.etl.cloud_utils import dir_to_google_cloud, load_google_credentialsy
+from coclicodata.etl.cloud_utils import dir_to_google_cloud, load_google_credentials
 from coclicodata.drive_config import p_drive
 
 if __name__ == "__main__":
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     GCS_PROJECT = "coclico-11207608-002"
     BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
-    STAC_NAME = "coclico-stac-ss_wc" #NOTE: if working from main STAC_NAME = 'coclico-stac', if working from branch STAC_NAME = coclico-stac-***
+    STAC_NAME = "coclico-stac-cfhp" #NOTE: if working from main STAC_NAME = 'coclico-stac', if working from branch STAC_NAME = coclico-stac-***
     IN_DIRNAME = "current"
 
     # hard-coded input params at project level
