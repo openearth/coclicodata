@@ -101,8 +101,8 @@ def itemize(
 
     # TODO: We need to generalize this `href` somewhat.
     vasset = pystac.Asset(  # data asset
-        href="https://coclico.avi.deltares.nl/geoserver/slr/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
-        % title,
+        href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
+        % (COLLECTION_ID, title),
         media_type="application/png",
         title=title,
         description="OGS WMS url",
