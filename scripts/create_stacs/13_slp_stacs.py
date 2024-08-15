@@ -15,7 +15,11 @@ from posixpath import join as urljoin
 import pystac
 from pystac.stac_io import DefaultStacIO
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud,load_google_credentials, dir_to_google_cloud
+from coclicodata.etl.cloud_utils import (
+    dataset_from_google_cloud,
+    load_google_credentials,
+    dir_to_google_cloud,
+)
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.coclico_stac.io import CoCliCoStacIO
@@ -38,6 +42,7 @@ from coclicodata.coclico_stac.utils import (
     get_mapbox_item_id,
     rm_special_characters,
 )
+
 
 # TODO: move itemize to ETL or stac.blueprint when generalized
 def itemize(
@@ -72,8 +77,6 @@ def itemize(
     ext.transform = list(da.rio.transform())[:6]
     ext.add_to(item)
 
-    roles = asset_roles or ["data"]
-
     href = os.path.join(
         GCS_PROTOCOL,
         BUCKET_NAME,
@@ -82,14 +85,31 @@ def itemize(
         blob_name,
     )
 
+    roles = asset_roles or ["data"]
+
     # TODO: We need to generalize this `href` somewhat.
-    asset = pystac.Asset(
+    dasset = pystac.Asset(  # data asset
         href=href,
         media_type=asset_media_type,
         roles=roles,
     )
 
-    item.add_asset("data", asset)
+    item.add_asset("data", dasset)
+
+    roles = asset_roles or ["visual"]
+    title = COLLECTION_ID + ":" + blob_name.split(".")[0].replace("\\", "_")
+
+    # TODO: We need to generalize this `href` somewhat.
+    vasset = pystac.Asset(  # data asset
+        href="https://coclico.avi.deltares.nl/geoserver/slr/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
+        % title,
+        media_type="application/png",
+        title=title,
+        description="OGS WMS url",
+        roles=roles,
+    )
+
+    item.add_asset("visual", vasset)
 
     return item
 
@@ -104,6 +124,13 @@ if __name__ == "__main__":
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
     COLLECTION_ID = "slp"  # name of stac collection
+
+    # hard-coded input params which differ per dataset
+    ADDITIONAL_DIMENSIONS = [
+        "scenarios",
+        "ensemble",
+        "time",
+    ]  # List of str; dims added to datacube
 
     # these are added at collection level, determine dashboard graph layout using all items
     PLOT_SERIES = "scenarios"
@@ -128,7 +155,7 @@ if __name__ == "__main__":
     )
 
     # hard-coded input params which differ per dataset
-    METADATA_LIST = glob.glob(str(coclico_data_dir.joinpath('data','*.json')))
+    METADATA_LIST = glob.glob(str(coclico_data_dir.joinpath("data", "*.json")))
     DATASET_DIR = "data"
     CF_FILE = "slr_medium_confidence_values_CF.nc"
 
@@ -146,83 +173,97 @@ if __name__ == "__main__":
     # directory to export result
     cog_dirs = coclico_data_dir.joinpath("cogs")
 
-    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     layout = CoCliCoCOGLayout()
-    
-    #%% DO THE WORK
+
+    # %% DO THE WORK
     # Hard code the various ssp scenarios considered
-    scens = 'high_end', 'ssp126', 'ssp245', 'ssp585'
+    scens = "high_end", "ssp126", "ssp245", "ssp585"
 
     # List all nc-files from data folder
     ncfile_list = glob.glob(str(ds_dir.joinpath("*.nc")))
 
     for scen, file in zip(scens, ncfile_list):
         if not scen in file:
-            raise ValueError('The some or more of the strings defined in scens are not found in your file_list')
+            raise ValueError(
+                "The some or more of the strings defined in scens are not found in your file_list"
+            )
 
     # load metadata
-    with open(r'p:\11207608-coclico\FULLTRACK_DATA\WP3\data\full_dataset_metadata\SLP_CoCliCo_metadata.json', "r") as f:
-            ds_metadata = json.load(f)
+    with open(
+        r"p:\11207608-coclico\FULLTRACK_DATA\WP3\data\full_dataset_metadata\SLP_CoCliCo_metadata.json",
+        "r",
+    ) as f:
+        ds_metadata = json.load(f)
 
     if "Creative Commons" in ds_metadata["LICENSE"] and "4.0" in ds_metadata["LICENSE"]:
-            ds_metadata["LICENSE"] = "CC-BY-4.0"
+        ds_metadata["LICENSE"] = "CC-BY-4.0"
 
     # Add extra keywords
-    ds_metadata['KEYWORDS'].extend(["Sea Levels", "Full-Track"])
+    ds_metadata["KEYWORDS"].extend(["Sea Levels", "Full-Track"])
 
     # generate collection for dataset
     collection = get_template_collection(
-        template_fp=    template_fp,
-        collection_id=  COLLECTION_ID,
-        title=          ds_metadata["TITLE"],
-        description=    ds_metadata["SHORT_DESCRIPTION"],
-        keywords=       ds_metadata['KEYWORDS'],
-        license=        ds_metadata["LICENSE"],
-        spatial_extent= ds_metadata["SPATIAL_EXTENT"],
+        template_fp=template_fp,
+        collection_id=COLLECTION_ID,
+        title=ds_metadata["TITLE"],
+        description=ds_metadata["SHORT_DESCRIPTION"],
+        keywords=ds_metadata["KEYWORDS"],
+        license=ds_metadata["LICENSE"],
+        spatial_extent=ds_metadata["SPATIAL_EXTENT"],
         temporal_extent=ds_metadata["TEMPORAL_EXTENT"],
-        providers=      [
-                        pystac.Provider(
-                            name="Deltares",
-                            roles=[
-                                pystac.provider.ProviderRole.PROCESSOR,
-                                pystac.provider.ProviderRole.HOST,
-                            ],
-                            url="https://deltares.nl",
-                        ),
-                        pystac.Provider(
-                            ds_metadata["PROVIDERS"]["name"],
-                            roles=[
-                                pystac.provider.ProviderRole.PRODUCER,
-                            ],
-                            url=ds_metadata["PROVIDERS"]["url"],
-                            description=ds_metadata["PROVIDERS"]["description"],
-                        ),
-                    ]
-        )
-    #%%   
+        providers=[
+            pystac.Provider(
+                name="Deltares",
+                roles=[
+                    pystac.provider.ProviderRole.PROCESSOR,
+                    pystac.provider.ProviderRole.HOST,
+                ],
+                url="https://deltares.nl",
+            ),
+            pystac.Provider(
+                ds_metadata["PROVIDERS"]["name"],
+                roles=[
+                    pystac.provider.ProviderRole.PRODUCER,
+                ],
+                url=ds_metadata["PROVIDERS"]["url"],
+                description=ds_metadata["PROVIDERS"]["description"],
+            ),
+        ],
+    )
+
+    # %%
+    dimcombs = []
     for scen, ncfile, metadata_fp in zip(scens, ncfile_list, METADATA_LIST):
 
         slp = xr.open_dataset(ncfile, engine="rasterio", mask_and_scale=False)
 
-        slp['time'] = slp.indexes['time'].to_datetimeindex()
-        
+        slp["time"] = slp.indexes["time"].to_datetimeindex()
+
         # load metadata template
         with open(metadata_fp, "r") as f:
             metadata = json.load(f)
 
         for var in slp:
-            for itime, time in enumerate(slp['time'].values):    
-                
-                # Select the variable and timestep from dataset
-                da = slp[var].isel(time = itime)
+            for itime, time in enumerate(slp["time"].values):
 
-                # Set final output file name, nc-file is broken down into tif's 
-                item_name = np.datetime_as_string(time, unit='Y') + '.tif'
+                # Select the variable and timestep from dataset
+                da = slp[var].isel(time=itime)
+
+                # Set final output file name, nc-file is broken down into tif's
+                item_name = np.datetime_as_string(time, unit="Y") + ".tif"
 
                 blob_name = pathlib.Path(
                     scen,
@@ -230,28 +271,61 @@ if __name__ == "__main__":
                     item_name,
                 )
 
+                # TODO: generalize this
+                dimcomb = {
+                    ADDITIONAL_DIMENSIONS[0]: scen,
+                    ADDITIONAL_DIMENSIONS[1]: var,
+                    ADDITIONAL_DIMENSIONS[2]: item_name.split(".")[0],
+                }
+                dimcombs.append(dimcomb)
+
                 outpath = cog_dirs.joinpath(blob_name)
                 template_item = pystac.Item(
                     "id", None, None, datetime.datetime(2000, 1, 1), {}
                 )
 
                 item = itemize(da, template_item, blob_name=str(blob_name))
+
+                # TODO: include this in our datacube?
+                # add dimension key-value pairs to stac item properties dict
+                for k, v in dimcomb.items():
+                    item.properties[k] = v
+
                 collection.add_item(item, strategy=layout)
 
-    #%% TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
+    # %% TODO: use gen_default_summaries() from blueprint.py after making it frontend compliant.
     collection.summaries = Summaries({})
+    # TODO: check if maxcount is required (inpsired on xstac library)
+    # stac_obj.summaries.maxcount = 50
+    dimvals = {}
+    for d in dimcombs:
+        for key, value in d.items():
+            if key not in dimvals:
+                dimvals[key] = []
+            if value not in dimvals[key]:
+                dimvals[key].append(value)
+
+    for k, v in dimvals.items():
+        collection.summaries.add(k, v)
 
     collection.extra_fields["item_assets"] = {"data": {"type": pystac.MediaType.COG}}
     collection.extra_fields["deltares:units"] = ds_metadata["UNITS"]
-    collection.extra_fields["deltares:plotType"] = PLOT_TYPE # NOTE:this causes validation to break 
+    collection.extra_fields["deltares:plotType"] = (
+        PLOT_TYPE  # NOTE:this causes validation to break
+    )
     collection.extra_fields["deltares:min"] = MIN
     collection.extra_fields["deltares:max"] = MAX
+
+    # set extra link properties
+    extend_links(collection, dimvals.keys())
 
     # Add thumbnail
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
+            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
@@ -268,7 +342,10 @@ if __name__ == "__main__":
 
     # normalize the paths
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
+        ),
+        strategy=layout,
     )
 
     # Validate collection instead of full catalog in stac_to_cloud.py
@@ -282,21 +359,19 @@ if __name__ == "__main__":
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
         # dest_href=str(tmp_dir),
-        stac_io=stac_io, # TODO: Adjust to STAC IO
+        stac_io=stac_io,  # TODO: Adjust to STAC IO
     )
     print("Done!")
 
     # upload directory with cogs to google cloud
-    load_google_credentials(
-        google_token_fp=google_cred_dir
-    )
+    load_google_credentials(google_token_fp=google_cred_dir)
 
     dir_to_google_cloud(
         dir_path=str(cog_dirs),
         gcs_project=GCS_PROJECT,
         bucket_name=BUCKET_NAME,
         bucket_proj=BUCKET_PROJ,
-        dir_name='slp',
+        dir_name="slp",
     )
 
 
