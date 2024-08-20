@@ -1,0 +1,175 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "LAU_NUTS_CFHP_Final",
+  "properties": {
+    "title": "CFHP_LAU_stats",
+    "description": "Flood statistics across multiple scenarios at the LAU level, connected to NUTS2, NUTS3, and country classifications.",
+    "table:columns": [
+      {
+        "name": "GISCO_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "CNTR_CODE",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "nuts_2",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "nuts_3",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LAU_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LAU_NAME",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "POP_2020",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "POP_DENS_2",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "AREA_KM2",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "YEAR",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "FID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "LOW_DEFENDED_MAPS\\SLR\\SSP245\\2050\\n_nans",
+        "type": "int32",
+        "description": ""
+      },
+      {
+        "name": "LOW_DEFENDED_MAPS\\SLR\\SSP245\\2050\\n_less05",
+        "type": "int32",
+        "description": ""
+      },
+      {
+        "name": "LOW_DEFENDED_MAPS\\SLR\\SSP245\\2050\\n_more05",
+        "type": "int32",
+        "description": ""
+      },
+      {
+        "name": "LOW_DEFENDED_MAPS\\SLR\\SSP245\\2050\\total",
+        "type": "int32",
+        "description": ""
+      },
+      {
+        "name": "LOW_DEFENDED_MAPS\\SLR\\SSP245\\2050\\flooded",
+        "type": "double",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -2824243.6908,
+      -3076198.0823,
+      10026005.2215,
+      5415709.913699999
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 98613,
+    "created": "2024-08-20T12:37:47.606663Z",
+    "datetime": "2024-01-22T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          93.1752791130622,
+          -29.857519696177313
+        ],
+        [
+          93.1752791130622,
+          37.855412297701754
+        ],
+        [
+          -81.78251054209933,
+          37.855412297701754
+        ],
+        [
+          -81.78251054209933,
+          -29.857519696177313
+        ],
+        [
+          93.1752791130622,
+          -29.857519696177313
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Flood Statistics by LAUs"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Flood Statistics by LAUs"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "gs://coclico-data-public/coclico/CFHP_LAU_stats/LAU_NUTS_CFHP_Final.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "CFHP_LAU_stats",
+      "description": "Flood statistics across multiple scenarios at the LAU level, connected to NUTS2, NUTS3, and country classifications.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    -81.78251054209933,
+    -29.857519696177313,
+    93.1752791130622,
+    37.855412297701754
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "CFHP_LAU_stats"
+}
