@@ -6,21 +6,27 @@
   "links": [
     {
       "rel": "item",
-      "href": "./RP1-mapbox/RP1-mapbox.json",
+      "href": "./values-mapbox/values-mapbox-RP-1.json",
       "type": "application/json",
-      "properties": {}
+      "properties": {
+        "RP": "1"
+      }
     },
     {
       "rel": "item",
-      "href": "./RP100-mapbox/RP100-mapbox.json",
+      "href": "./values-mapbox/values-mapbox-RP-100.json",
       "type": "application/json",
-      "properties": {}
+      "properties": {
+        "RP": "100"
+      }
     },
     {
       "rel": "item",
-      "href": "./RP1000-mapbox/RP1000-mapbox.json",
+      "href": "./values-mapbox/values-mapbox-RP-1000.json",
       "type": "application/json",
-      "properties": {}
+      "properties": {
+        "RP": "1000"
+      }
     },
     {
       "rel": "root",
@@ -479,71 +485,11 @@
     }
   },
   "cube:variables": {
-    "RP1": {
-      "type": "data",
-      "description": "From total water level hourly time series over the period 1985-2021, refered to local mean sea level",
-      "dimensions": [
-        "locs"
-      ],
-      "unit": "m",
-      "attrs": {
-        "description": "From total water level hourly time series over the period 1985-2021, refered to local mean sea level",
-        "long_name": "1-yr return value of total water level, including tide, surge and wave set up",
-        "short_name": "return_levels",
-        "units": "m"
-      },
-      "shape": [
-        51010
-      ],
-      "chunks": [
-        25505
-      ]
-    },
-    "RP100": {
-      "type": "data",
-      "description": "From total water level hourly time series over the period 1985-2021, refered to local mean sea level",
-      "dimensions": [
-        "locs"
-      ],
-      "unit": "m",
-      "attrs": {
-        "description": "From total water level hourly time series over the period 1985-2021, refered to local mean sea level",
-        "long_name": "100-yr return value of total water level, including tide, surge and wave set up",
-        "short_name": "return_levels",
-        "units": "m"
-      },
-      "shape": [
-        51010
-      ],
-      "chunks": [
-        25505
-      ]
-    },
-    "RP1000": {
-      "type": "data",
-      "description": "From total water level hourly time series over the period 1985-2021, refered to local mean sea level",
-      "dimensions": [
-        "locs"
-      ],
-      "unit": "m",
-      "attrs": {
-        "description": "From total water level hourly time series over the period 1985-2021, refered to local mean sea level",
-        "long_name": "1000-yr return value of total water level, including tide, surge and wave set up",
-        "short_name": "return_levels",
-        "units": "m"
-      },
-      "shape": [
-        51010
-      ],
-      "chunks": [
-        25505
-      ]
-    },
     "lat": {
       "type": "auxiliary",
       "description": "latitude",
       "dimensions": [
-        "locs"
+        "stations"
       ],
       "unit": "degrees_north",
       "attrs": {
@@ -563,7 +509,7 @@
       "type": "auxiliary",
       "description": "longitude",
       "dimensions": [
-        "locs"
+        "stations"
       ],
       "unit": "degrees_east",
       "attrs": {
@@ -576,6 +522,29 @@
         51010
       ],
       "chunks": [
+        25505
+      ]
+    },
+    "values": {
+      "type": "data",
+      "description": "From total water level hourly time series over the period 1985-2021, refered to local mean sea level",
+      "dimensions": [
+        "RP",
+        "stations"
+      ],
+      "unit": "m",
+      "attrs": {
+        "description": "From total water level hourly time series over the period 1985-2021, refered to local mean sea level",
+        "long_name": "1-yr return value of total water level, including tide, surge and wave set up",
+        "short_name": "return_levels",
+        "units": "m"
+      },
+      "shape": [
+        3,
+        51010
+      ],
+      "chunks": [
+        2,
         25505
       ]
     }
@@ -619,6 +588,13 @@
       "url": "www.ihcantabria.com"
     }
   ],
+  "summaries": {
+    "RP": [
+      "1",
+      "100",
+      "1000"
+    ]
+  },
   "assets": {
     "data": {
       "href": "https://storage.googleapis.com/coclico-data-public/coclico/twl.zarr",
