@@ -67,14 +67,14 @@ if __name__ == "__main__":
 
     # hard-coded input params which differ per dataset
     DATASET_FILENAME = COLLECTION_ID + '.zarr'
-    VARIABLES = ["values"]  # xarray variables in dataset
+    VARIABLES = ["twl"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
     TEMPORAL_DIMENSION = None  # False, None or str; temporal ""
     ADDITIONAL_DIMENSIONS = None
     DIMENSIONS_TO_IGNORE = ["stations"]  # False, None, or str; additional dims ""
     MAP_SELECTION_DIMS = {"RP": [1,100,1000]}
-    STATIONS = "stations"
+    STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
 

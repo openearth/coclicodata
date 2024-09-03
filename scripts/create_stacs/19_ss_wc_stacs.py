@@ -42,8 +42,8 @@ if __name__ == "__main__":
     WP_DIR = COCLICO_DATA_DIR.joinpath("WP3")
     DATA_DIR = WP_DIR.joinpath("data")
     DS_DIR = DATA_DIR.joinpath("NetCDF")
-    ZARR_FILE = DS_DIR.joinpath("CTP_ReturnPeriods.zarr")
-    METADATA_FILE = DS_DIR.joinpath("CTP_ReturnPeriods.json")
+    ZARR_FILE = DS_DIR.joinpath("CTP_MarineClimatologies.zarr")
+    METADATA_FILE = DS_DIR.joinpath("CTP_MarineClimatologies.json")
 
     # Load metadata for setting variables such as data description etc.
     with open(METADATA_FILE, "r") as f:
@@ -70,8 +70,8 @@ if __name__ == "__main__":
     VARIABLES = ["Hsmean", "SSp99", "tidal_range"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
-    TEMPORAL_DIMENSION = None  # False, None or str; temporal ""
-    ADDITIONAL_DIMENSIONS = None
+    TEMPORAL_DIMENSION = False  # False, None or str; temporal ""
+    ADDITIONAL_DIMENSIONS = []
     DIMENSIONS_TO_IGNORE = ["stations"]  # False, None, or str; additional dims ""
     MAP_SELECTION_DIMS = None
     STATIONS = "locationId"
@@ -174,13 +174,17 @@ if __name__ == "__main__":
         ds=ds,
         x_dimension=X_DIMENSION,
         y_dimension=Y_DIMENSION,
-        temporal_dimension=False,
+        temporal_dimension=TEMPORAL_DIMENSION,
         additional_dimensions=ADDITIONAL_DIMENSIONS
     )
 
     # generate stac feature keys (strings which will be stac item ids) for mapbox layers
-    dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
-    dimcombs = get_dimension_dot_product(dimvals)
+    if len(ADDITIONAL_DIMENSIONS) > 0:
+        dimvals = get_dimension_values(ds, dimensions_to_ignore=DIMENSIONS_TO_IGNORE)
+        dimcombs = get_dimension_dot_product(dimvals)
+    else:
+        dimvals = {}
+        dimcombs = []
 
     # TODO: check what can be customized in the layout
     layout = CoCliCoZarrLayout()
