@@ -87,7 +87,7 @@ with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
 # # extend keywords
-metadata['KEYWORDS'].extend(['Background Layer'])
+metadata['KEYWORDS'].extend(["Full-Track", "Background Layer"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -318,7 +318,7 @@ def create_item(
     item = stac_table.generate(
         uri=asset_href,
         template=template,
-        infer_bbox=None,
+        infer_bbox=True,
         infer_geometry=None,
         datetime_column=None,
         infer_datetime=stac_table.InferDatetimeOptions.no,
