@@ -9,7 +9,7 @@
       {
         "name": "time",
         "type": "timestamp[ns]",
-        "description": "Annual shoreline position timestamp, the timestamp corresponds to each point's Shoreline Monitor timestamp."
+        "description": "Annual shoreline position timestamp."
       },
       {
         "name": "tr_name",
@@ -47,14 +47,14 @@
         "description": "Latitude of the shoreline position observation."
       },
       {
-        "name": "shoreline_position",
+        "name": "shoreline_chainage",
         "type": "float",
-        "description": "Represent the shoreline position in reference to the first point of GCTS Transects in meter."
+        "description": "Represent the shoreline position in reference to the transect origin in meter."
       },
       {
-        "name": "shoreline_position_trans",
+        "name": "shoreline_position",
         "type": "float",
-        "description": "Represent the shoreline position in reference to the first non-outlier primary observation on each transect in meter."
+        "description": "Represent the shoreline position in reference to the last non-outlier primary observation on each transect in meter."
       },
       {
         "name": "shoreline_sinuosity",
@@ -102,9 +102,17 @@
         "description": "Median of the primary observations for shoreline positions, providing a central value that minimizes the effect of outliers and skewed data."
       },
       {
+        "name": "obs_baseline",
+        "type": "float"
+      },
+      {
         "name": "obs_count",
-        "type": "int64",
+        "type": "float",
         "description": "Total count of observations recorded, reflecting the comprehensive dataset collected over time for the analysis."
+      },
+      {
+        "name": "obs_primary_count",
+        "type": "float"
       },
       {
         "name": "mdn_offset",
@@ -150,14 +158,14 @@
     ],
     "proj:bbox": [
       11.758600605746823,
-      -33.113488159419624,
+      -33.11348815941963,
       17.96595876750201,
       -17.679672573844964
     ],
     "proj:epsg": 4326,
     "table:row_count": 620464,
-    "created": "2024-05-08T22:22:01.288166Z",
-    "datetime": "2024-05-06T00:00:00Z"
+    "created": "2024-06-20T15:02:11.581845Z",
+    "datetime": "2024-06-08T00:00:00Z"
   },
   "geometry": {
     "type": "Polygon",
@@ -165,7 +173,7 @@
       [
         [
           17.96595876750201,
-          -33.113488159419624
+          -33.11348815941963
         ],
         [
           17.96595876750201,
@@ -177,11 +185,11 @@
         ],
         [
           11.758600605746823,
-          -33.113488159419624
+          -33.11348815941963
         ],
         [
           17.96595876750201,
-          -33.113488159419624
+          -33.11348815941963
         ]
       ]
     ]
@@ -208,7 +216,7 @@
   ],
   "assets": {
     "data": {
-      "href": "az://shorelinemonitor-raw-series/release/2024-05-06/box_077.parquet",
+      "href": "az://shorelinemonitor-raw-series/release/2024-06-08/box_077.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "ShorelineMonitor Raw Series",
       "description": "Parquet dataset with ShorlineMonitor Raw Series for this region.",
@@ -219,7 +227,7 @@
   },
   "bbox": [
     11.758600605746823,
-    -33.113488159419624,
+    -33.11348815941963,
     17.96595876750201,
     -17.679672573844964
   ],
