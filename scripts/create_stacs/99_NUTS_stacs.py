@@ -87,7 +87,7 @@ with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
 # # extend keywords
-metadata['KEYWORDS'].extend(['Background Layer'])
+metadata['KEYWORDS'].extend(["Full-Track", "Background Layer"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
