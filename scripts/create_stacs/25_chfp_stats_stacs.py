@@ -32,7 +32,11 @@ from posixpath import join as urljoin
 from dotenv import load_dotenv
 from pystac.stac_io import DefaultStacIO
 
-from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud, file_to_google_cloud
+from coclicodata.etl.cloud_utils import (
+    load_google_credentials,
+    dir_to_google_cloud,
+    file_to_google_cloud,
+)
 from coclicodata.drive_config import p_drive
 from coclicodata.coclico_stac.reshape_im import reshape_aspectratio_image
 
@@ -78,16 +82,16 @@ if not ds_dir.exists():
 
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
-ds_path = ds_dir.joinpath("WP4","LAU_stats")
-ds_fp = ds_path.joinpath("LAU_NUTS_CFHP.parquet")  # file directory
+ds_path = ds_dir.joinpath("WP4", "LAU_stats")
+ds_fp = ds_path.joinpath("LAU_NUTS_CFHP_EPSG4326.parquet")  # file directory
 
 # # load metadata template
-metadata_fp = ds_path.joinpath('metadata',ds_fp.name).with_suffix('.json')
+metadata_fp = ds_path.joinpath("metadata", "LAU_NUTS_CFHP").with_suffix(".json")
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
 # # extend keywords
-metadata['KEYWORDS'].extend(['Full-Track','Natural Hazards'])
+metadata["KEYWORDS"].extend(["Full-Track", "Natural Hazards"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -103,6 +107,7 @@ PARQUET_MEDIA_TYPE = "application/vnd.apache.parquet"
 GEOPARQUET_STAC_ITEMS_HREF = (
     f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/items/{COLLECTION_ID}.parquet"
 )
+
 
 # %%
 # %%
@@ -372,7 +377,7 @@ if __name__ == "__main__":
     )
 
     # %% test if file is multi-indexed, if we need to write to the cloud and whether we need to split files
-    dum = gpd.read_parquet(ds_fp) # read parquet file
+    dum = gpd.read_parquet(ds_fp)  # read parquet file
     split = "N"  # value to determine if we need to split the files
     for file in os.listdir(ds_path):
         if file.endswith(".parquet"):
@@ -443,11 +448,11 @@ if __name__ == "__main__":
             bucket_name=BUCKET_NAME,
             bucket_proj=BUCKET_PROJ,
             dir_name=PROJ_NAME,
-            file_name=ds_fp.name
+            file_name=ds_fp.name,
         )
-    
+
     elif paths:
-        print('Dataset already exists in the Google Bucket')
+        print("Dataset already exists in the Google Bucket")
 
     # %% get descriptions
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
@@ -491,9 +496,9 @@ if __name__ == "__main__":
         ),
     )
 
-     # Set thumbnail directory
-    THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath('thumbnails')
-    THUMB_FILE = THUMB_DIR.joinpath(COLLECTION_ID + '.png')
+    # Set thumbnail directory
+    THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath("thumbnails")
+    THUMB_FILE = THUMB_DIR.joinpath(COLLECTION_ID + ".png")
 
     # Make sure image is reshaped to desired aspect ratio (default = 16/9)
     cropped_im = reshape_aspectratio_image(str(THUMB_FILE))
@@ -502,13 +507,15 @@ if __name__ == "__main__":
     cv2.imwrite(str(THUMB_FILE), cropped_im)
 
     # Upload thumbnail to cloud
-    THUMB_URL = file_to_google_cloud(str(THUMB_FILE),
-                                    GCS_PROJECT,
-                                    BUCKET_NAME,
-                                    BUCKET_PROJ,
-                                    'assets/thumbnails',
-                                    THUMB_FILE.name, 
-                                    return_URL = True)
+    THUMB_URL = file_to_google_cloud(
+        str(THUMB_FILE),
+        GCS_PROJECT,
+        BUCKET_NAME,
+        BUCKET_PROJ,
+        "assets/thumbnails",
+        THUMB_FILE.name,
+        return_URL=True,
+    )
 
     # Add thumbnail
     collection.add_asset(
