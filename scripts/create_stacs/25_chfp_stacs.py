@@ -32,13 +32,23 @@ from pystac.stac_io import DefaultStacIO
 # from datacube.utils.cog import write_cog
 from coclicodata.drive_config import p_drive
 
-# from pystac import Catalog, CatalogType, Collection, Summaries
+from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud
 from coclicodata.coclico_stac.io import CoCliCoStacIO
 from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.extension import (
     CoclicoExtension,
 )  # self built stac extension
+from coclicodata.coclico_stac.templates import (
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_template_collection,
+)
 
 # from coastmonitor.io.cloud import (
 #     to_https_url,
@@ -63,7 +73,7 @@ PROJ_NAME = "cfhp"
 
 # hard-coded STAC templates
 CUR_CWD = pathlib.Path.cwd()
-STAC_DIR = CUR_CWD.parent.parent / "current"
+STAC_DIR = CUR_CWD / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 METADATA = "Mean_spring_tide_HD.json"
@@ -171,7 +181,7 @@ def create_collection(
         "Deltares",
         "Cloud Optimized GeoTIFF",
         "Natural Hazards",
-        "Full-Track"
+        "Full-Track",
     ]
 
     if description is None:
@@ -200,6 +210,16 @@ def create_collection(
             media_type=pystac.MediaType.PNG,
         ),
     )
+
+    collection.add_asset(
+        "geoserver_link",
+        pystac.Asset(
+            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=cfhp:lau_nuts_cfhp&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+            title="Geoserver Parquet link",
+            media_type="application/vnd.apache.parquet",
+        ),
+    )
+
     collection.links = links
     collection.keywords = keywords
 
@@ -331,6 +351,28 @@ def create_asset(
     return item
 
 
+def create_asset_mosaic(item, storage_prefix):
+    title = (
+        COLLECTION_ID
+        + ":"
+        + storage_prefix.split(COLLECTION_ID + "/")[1].replace("/", "_")
+    )
+
+    # TODO: We need to generalize this `href` somewhat.
+    vasset = pystac.Asset(  # data asset
+        href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
+        % (COLLECTION_ID, title),
+        media_type="application/png",
+        title=title,
+        description="OGS WMS url",
+        roles=["visual"],
+    )
+
+    item.add_asset("visual", vasset)
+    ...
+    return item
+
+
 # %%
 # ## Function to process one data partition
 def process_block(
@@ -375,7 +417,13 @@ def process_block(
     )
 
     # item_name_dum = str(file_path).split("\\")[-1]
-    item_id = file_path.relative_to(base_path).as_posix()
+    if item_type == "single":
+        item_id = file_path.relative_to(base_path).as_posix()
+    if item_type == "mosaic":
+        item_id = (
+            file_path.relative_to(base_path).as_posix().split("/" + name_prefix)[0]
+            + ".tif"
+        )
     # item_id = item_id_dum.replace(item_name_dum, item_name)  # to match with item_name
     item = create_item(block, item_id=item_id)
 
@@ -399,15 +447,18 @@ def process_block(
 
         nbytes = os.path.getsize(file_path)
 
-        item = create_asset(
-            item,
-            asset_title=da.name,
-            asset_href=href,
-            nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
-            resolution=resolution,
-            data_type=raster.DataType.FLOAT32,  # should be same as how data is written
-            nbytes=nbytes,
-        )
+        if item_type == "single":
+            item = create_asset(
+                item,
+                asset_title=da.name,
+                asset_href=href,
+                nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
+                resolution=resolution,
+                data_type=raster.DataType.FLOAT32,  # should be same as how data is written
+                nbytes=nbytes,
+            )
+        if item_type == "mosaic":
+            item = create_asset_mosaic(item, storage_prefix=storage_prefix)
 
     return item
 
@@ -444,99 +495,221 @@ if __name__ == "__main__":
 
     ## Setup folder structure
     # List different types on map folders
-    map_types = ["HIGH_DEFENDED_MAPS", "LOW_DEFENDED_MAPS", "UNDEFENDED_MAPS"]
+    item_type = "mosaic"  # "single" or "mosaic"
+    item_properties = ["defense level", "rp", "scenarios", "time"]
+    map_types = [
+        "HIGH_DEFENDED_MAPS",
+        "LOW_DEFENDED_MAPS",
+        "UNDEFENDED_MAPS",
+    ]  # 3 options
+    rps = ["static", "1", "100", "1000"]  # 4 options
+    scenarios = ["none", "SSP126", "SSP245", "SSP585", "High_end"]  # 5 options
+    times = ["2010", "2030", "2050", "2100", "2150"]  # 5 options
 
     # List all tif files present in first folder (note: it is assumed that the same files are present in all folders)
-    tif_list = glob.glob(str(ds_dir.joinpath("data", map_types[0], "*.tif")))
+    # tif_list = glob.glob(str(ds_dir.joinpath("data", map_types[0], "*.tif")))
 
-    # List the desired folder structure as a dict
-    # NOTE: make sure the resulting path_list (based on folder structure) matches the tif_list
-    folder_structure = {
-        "Mean_spring_tide": [],
-        "RP": ["1000", "100", "1"],
-        "SLR": {
-            "High_end": ["2100", "2150"],
-            "SSP126": ["2100"],
-            "SSP245": ["2050", "2100"],
-            "SSP585": ["2030", "2050", "2100"],
-        },
-    }
+    # # List the desired folder structure as a dict
+    # # NOTE: make sure the resulting path_list (based on folder structure) matches the tif_list
+    # folder_structure = {
+    #     "Mean_spring_tide": [],
+    #     "RP": ["1000", "100", "1"],
+    #     "SLR": {
+    #         "High_end": ["2100", "2150"],
+    #         "SSP126": ["2100"],
+    #         "SSP245": ["2050", "2100"],
+    #         "SSP585": ["2030", "2050", "2100"],
+    #     },
+    # }
 
-    # Get list of paths for the folder structure
-    path_list = get_paths(folder_structure)
+    # # Get list of paths for the folder structure
+    # path_list = get_paths(folder_structure)
 
     items = []
+    dimcombs = []
 
     collection = create_collection()
 
+    # for map_type in map_types:
+    #     for cur_path in path_list:
+
+    #         print("now working on: " + map_type + " " + cur_path)
+
+    #         tif_list = pathlib.Path.joinpath(cog_dirs, map_type, cur_path).glob("*.tif")
+
+    #         for cur_tif in tif_list:
+
+    #             cfhp = xr.open_dataset(
+    #                 cur_tif, engine="rasterio", mask_and_scale=False
+    #             )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
+    #             cfhp = cfhp.assign_coords(
+    #                 band=("band", [f"B{k+1:02}" for k in range(cfhp.dims["band"])])
+    #             )
+    #             cfhp = cfhp["band_data"].to_dataset("band")
+
+    #             profile_options = {
+    #                 "driver": "COG",
+    #                 "dtype": "float32",
+    #                 "compress": "DEFLATE",
+    #                 # "interleave": "band",
+    #                 # "ZLEVEL": 9,
+    #                 # "predictor": 1,
+    #             }
+    #             storage_options = {"token": "google_default"}
+
+    #             CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, cur_path)
+
+    #             # Process the chunk using a delayed function
+    #             item = process_block(
+    #                 cur_tif,
+    #                 cog_dirs,
+    #                 resolution=30,
+    #                 data_type=raster.DataType.FLOAT32,
+    #                 storage_prefix=CUR_HREF_PREFIX,
+    #                 name_prefix="B01",
+    #                 include_band="",
+    #                 time_dim=False,
+    #                 x_dim="x",
+    #                 y_dim="y",
+    #                 profile_options=profile_options,
+    #                 storage_options=storage_options,
+    #             )
+
+    #             item_href = pathlib.Path(
+    #                 STAC_DIR, COLLECTION_ID, "items", map_type, cur_path, item.id
+    #             )
+    #             item_href.with_suffix(".json")
+    #             item.set_self_href(item_href)
+
+    #             items.append(item)
+    #             collection.add_item(item)
+
     for map_type in map_types:
-        for cur_path in path_list:
+        for rp in rps:
+            for scen in scenarios:
+                for time in times:
+                    if (
+                        rp == "static" and scen == "none" and time == "2010"
+                    ):  # mean spring tide
+                        tif_list = list(
+                            pathlib.Path.joinpath(
+                                cog_dirs, map_type, "Mean_spring_tide"
+                            ).glob("*.tif")
+                        )
+                        cur_path = "Mean_spring_tide"
+                        STAC_DIR.joinpath(COLLECTION_ID, "items", map_type).mkdir(
+                            parents=True, exist_ok=True
+                        )
+                        filename = os.path.join(map_type, "Mean_spring_tide")
+                        print(map_type, rp, scen, time)
+                    elif (
+                        rp != "static" and scen == "none" and time == "2010"
+                    ):  # RPs frist batchs only for 2010 (hindcast)
+                        tif_list = list(
+                            pathlib.Path.joinpath(cog_dirs, map_type, "RP", rp).glob(
+                                "*.tif"
+                            )
+                        )
+                        cur_path = os.path.join("RP", rp)
+                        STAC_DIR.joinpath(COLLECTION_ID, "items", map_type, "RP").mkdir(
+                            parents=True, exist_ok=True
+                        )
+                        filename = os.path.join(map_type, "RP", rp)
+                        print(map_type, rp, scen, time)
+                    elif rp == "static" and scen != "none":  # this is for the SLR maps
+                        tif_list = list(
+                            pathlib.Path.joinpath(
+                                cog_dirs, map_type, "SLR", scen, time
+                            ).glob("*.tif")
+                        )
+                        cur_path = os.path.join("SLR", scen, time)
+                        if (
+                            len(tif_list) > 0
+                        ):  # we have data so we continue (so not for all times)
+                            STAC_DIR.joinpath(
+                                COLLECTION_ID, "items", map_type, "SLR", scen
+                            ).mkdir(parents=True, exist_ok=True)
+                            filename = os.path.join(map_type, "SLR", scen, time)
+                            print(map_type, rp, scen, time)
+                        else:  # break loop if not satisfied
+                            continue
+                    else:  # break loop if not satisfied (so not for all other combinations)
+                        continue
 
-            print("now working on: " + map_type + " " + cur_path)
+                    # print(len(tif_list))
 
-            tif_list = pathlib.Path.joinpath(cog_dirs, map_type, cur_path).glob("*.tif")
+                    # note, Here it changes because we are dealing with mosaics iso single tiffs. We will use a single tiff to create one item to direct to the mosaic
+                    cfhp = xr.open_dataset(
+                        tif_list[0], engine="rasterio", mask_and_scale=False
+                    )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
+                    cfhp = cfhp.assign_coords(
+                        band=("band", [f"B{k+1:02}" for k in range(cfhp.dims["band"])])
+                    )
+                    cfhp = cfhp["band_data"].to_dataset("band")
 
-            for cur_tif in tif_list:
+                    profile_options = {
+                        "driver": "COG",
+                        "dtype": "float32",
+                        "compress": "DEFLATE",
+                        # "interleave": "band",
+                        # "ZLEVEL": 9,
+                        # "predictor": 1,
+                    }
+                    storage_options = {"token": "google_default"}
 
-                cfhp = xr.open_dataset(
-                    cur_tif, engine="rasterio", mask_and_scale=False
-                )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
-                cfhp = cfhp.assign_coords(
-                    band=("band", [f"B{k+1:02}" for k in range(cfhp.dims["band"])])
-                )
-                cfhp = cfhp["band_data"].to_dataset("band")
+                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, cur_path)
 
-                profile_options = {
-                    "driver": "COG",
-                    "dtype": "float32",
-                    "compress": "DEFLATE",
-                    # "interleave": "band",
-                    # "ZLEVEL": 9,
-                    # "predictor": 1,
-                }
-                storage_options = {"token": "google_default"}
+                    # Process the chunk using a delayed function
+                    item = process_block(
+                        tif_list[0],
+                        cog_dirs,
+                        resolution=30,
+                        data_type=raster.DataType.FLOAT32,
+                        storage_prefix=CUR_HREF_PREFIX,
+                        name_prefix="B01",
+                        include_band="",
+                        time_dim=False,
+                        x_dim="x",
+                        y_dim="y",
+                        profile_options=profile_options,
+                        storage_options=storage_options,
+                    )
 
-                CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, cur_path)
+                    item_href = pathlib.Path(STAC_DIR, COLLECTION_ID, "items", cur_path)
+                    item.set_self_href(item_href.with_suffix(".json"))
+                    item.id = filename + ".tif"
 
-                # Process the chunk using a delayed function
-                item = process_block(
-                    cur_tif,
-                    cog_dirs,
-                    resolution=30,
-                    data_type=raster.DataType.FLOAT32,
-                    storage_prefix=CUR_HREF_PREFIX,
-                    name_prefix="B01",
-                    include_band="",
-                    time_dim=False,
-                    x_dim="x",
-                    y_dim="y",
-                    profile_options=profile_options,
-                    storage_options=storage_options,
-                )
+                    # TODO: generalize this
+                    dimcomb = {
+                        item_properties[0]: map_type,
+                        item_properties[1]: rp,
+                        item_properties[2]: scen,
+                        item_properties[3]: time,
+                    }
+                    dimcombs.append(dimcomb)
 
-                item_href = pathlib.Path(
-                    STAC_DIR, COLLECTION_ID, "items", map_type, cur_path, item.id
-                )
-                item_href.with_suffix(".json")
-                item.set_self_href(item_href)
+                    # TODO: include this in our datacube?
+                    # add dimension key-value pairs to stac item properties dict
+                    for k, v in dimcomb.items():
+                        item.properties[k] = v
 
-                items.append(item)
-                collection.add_item(item)
+                    items.append(item)
+                    collection.add_item(item)
 
     print(len(items))
 
     # %% store to cloud folder
 
     # # upload directory with cogs to google cloud
-    load_google_credentials(google_token_fp=google_cred_dir)
+    # load_google_credentials(google_token_fp=google_cred_dir)
 
-    dir_to_google_cloud(
-        dir_path=str(cog_dirs),
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        dir_name=PROJ_NAME,
-    )
+    # dir_to_google_cloud(
+    #     dir_path=str(cog_dirs),
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     dir_name=PROJ_NAME,
+    # )
 
     # %%
     stac_io = DefaultStacIO()
@@ -544,13 +717,30 @@ if __name__ == "__main__":
     layout = CoCliCoCOGLayout()
 
     # Set up folder structure
-    for map_type in map_types:
-        for cur_path in path_list:
-            STAC_DIR.joinpath(COLLECTION_ID, "items", map_type, cur_path).mkdir(
-                parents=True, exist_ok=True
-            )
+    # for map_type in map_types:
+    #     for cur_path in path_list:
+    #         STAC_DIR.joinpath(COLLECTION_ID, "items", map_type, cur_path).mkdir(
+    #             parents=True, exist_ok=True
+    #         )
 
     collection.update_extent_from_items()
+
+    collection.summaries = Summaries({})
+    # TODO: check if maxcount is required (inpsired on xstac library)
+    # stac_obj.summaries.maxcount = 50
+    dimvals = {}
+    for d in dimcombs:
+        for key, value in d.items():
+            if key not in dimvals:
+                dimvals[key] = []
+            if value not in dimvals[key]:
+                dimvals[key].append(value)
+
+    for k, v in dimvals.items():
+        collection.summaries.add(k, v)
+
+    # set extra link properties
+    extend_links(collection, dimvals.keys())
 
     catalog = pystac.Catalog.from_file(str(STAC_DIR / "catalog.json"))
 
