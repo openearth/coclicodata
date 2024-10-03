@@ -53,7 +53,7 @@ BUCKET_PROJ = "coclico"
 PROJ_NAME = "CFHP_LAU_stats"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"
+STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "CFHP_LAU_stats"
@@ -83,7 +83,7 @@ if not ds_dir.exists():
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
 ds_path = ds_dir.joinpath("WP4", "LAU_stats")
-ds_fp = ds_path.joinpath("LAU_NUTS_CFHP_EPSG4326.parquet")  # file directory
+ds_fp = ds_path.joinpath("LAU_NUTS_CFHP_CLEANCM.parquet")  # file directory
 
 # # load metadata template
 metadata_fp = ds_path.joinpath("metadata", "LAU_NUTS_CFHP").with_suffix(".json")
@@ -473,8 +473,10 @@ if __name__ == "__main__":
     collection = create_collection(extra_fields={"base_url": uri})
 
     for uri in uris:
-        print(uri)
+        GCS_url = urljoin(HREF_PREFIX, uri.split("/")[-1])
+        print(GCS_url)
         item = create_item(uri)
+        item.assets["data"].href = GCS_url  # replace with https link iso gs uri
         collection.add_item(item)
 
     collection.update_extent_from_items()
@@ -488,7 +490,7 @@ if __name__ == "__main__":
     collection.add_asset(
         "geoparquet-stac-items",
         pystac.Asset(
-            GEOPARQUET_STAC_ITEMS_HREF,
+            GCS_url,
             title="GeoParquet STAC items",
             description="Snapshot of the collection's STAC items exported to GeoParquet format.",
             media_type=PARQUET_MEDIA_TYPE,
