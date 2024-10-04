@@ -268,7 +268,14 @@ def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLI
     # middle_datetime = start_datetime + (end_datetime - start_datetime) / 2
 
     # the bbox of the STAC item is provided in 4326
-    bbox = rasterio.warp.transform_bounds(block.rio.crs, dst_crs, *block.rio.bounds())
+    if item_type == "single":
+        bbox = rasterio.warp.transform_bounds(
+            block.rio.crs, dst_crs, *block.rio.bounds()
+        )
+    if item_type == "mosaic":
+        bbox = rasterio.warp.transform_bounds(
+            block.rio.crs, dst_crs, *tuple(metadata["SPATIAL_EXTENT"])
+        )
     geometry = shapely.geometry.mapping(shapely.make_valid(shapely.geometry.box(*bbox)))
     bbox = shapely.make_valid(shapely.box(*bbox)).bounds
 
@@ -292,7 +299,11 @@ def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLI
     ext = pystac.extensions.projection.ProjectionExtension.ext(
         item, add_if_missing=True
     )
-    ext.bbox = block.rio.bounds()  # these are provided in the crs of the data
+
+    if item_type == "single":
+        ext.bbox = block.rio.bounds()  # these are provided in the crs of the data
+    if item_type == "mosaic":
+        ext.bbox = tuple(metadata["SPATIAL_EXTENT"])
     ext.shape = tuple(v for k, v in block.sizes.items() if k in ["y", "x"])
     ext.epsg = block.rio.crs.to_epsg()
     ext.geometry = shapely.geometry.mapping(shapely.geometry.box(*ext.bbox))
@@ -355,7 +366,9 @@ def create_asset_mosaic(item, storage_prefix):
     title = (
         COLLECTION_ID
         + ":"
-        + storage_prefix.split(COLLECTION_ID + "/")[1].replace("/", "_")
+        + storage_prefix.split(COLLECTION_ID + "/")[1]
+        .replace("/", "_")
+        .replace("\\", "_")
     )
 
     # TODO: We need to generalize this `href` somewhat.
