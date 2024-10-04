@@ -366,7 +366,9 @@ def create_asset_mosaic(item, storage_prefix):
     title = (
         COLLECTION_ID
         + ":"
-        + storage_prefix.split(COLLECTION_ID + "/")[1].replace("/", "_")
+        + storage_prefix.split(COLLECTION_ID + "/")[1]
+        .replace("/", "_")
+        .replace("\\", "_")
     )
 
     # TODO: We need to generalize this `href` somewhat.
