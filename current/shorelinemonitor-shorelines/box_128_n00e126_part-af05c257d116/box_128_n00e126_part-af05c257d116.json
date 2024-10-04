@@ -1,7 +1,44 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
   "id": "box_128_n00e126_part-af05c257d116",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          139.799946,
+          0.000368
+        ],
+        [
+          139.799946,
+          11.03929
+        ],
+        [
+          125.764443,
+          11.03929
+        ],
+        [
+          125.764443,
+          0.000368
+        ],
+        [
+          139.799946,
+          0.000368
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    125.764443,
+    0.000368,
+    139.799946,
+    11.03929
+  ],
   "properties": {
     "title": "ShorelineMonitor: Satellite-Derived Shorelines",
     "description": "ShorelineMonitor: Satellite-Derived Shorelines in Parquet format",
@@ -105,33 +142,6 @@
     "table:row_count": 19874,
     "datetime": "2024-06-18T13:53:01.615693Z"
   },
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          139.799946,
-          0.000368
-        ],
-        [
-          139.799946,
-          11.03929
-        ],
-        [
-          125.764443,
-          11.03929
-        ],
-        [
-          125.764443,
-          0.000368
-        ],
-        [
-          139.799946,
-          0.000368
-        ]
-      ]
-    ]
-  },
   "links": [
     {
       "rel": "collection",
@@ -168,15 +178,5 @@
       ]
     }
   },
-  "bbox": [
-    125.764443,
-    0.000368,
-    139.799946,
-    11.03929
-  ],
-  "stac_extensions": [
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
-  ],
   "collection": "shorelinemonitor-shorelines"
 }

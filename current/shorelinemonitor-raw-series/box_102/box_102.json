@@ -1,7 +1,44 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
   "id": "box_102",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          55.85644153810059,
+          -4.8090627030541615
+        ],
+        [
+          55.85644153810059,
+          -4.276545777509366
+        ],
+        [
+          55.361984478899984,
+          -4.276545777509366
+        ],
+        [
+          55.361984478899984,
+          -4.8090627030541615
+        ],
+        [
+          55.85644153810059,
+          -4.8090627030541615
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    55.361984478899984,
+    -4.8090627030541615,
+    55.85644153810059,
+    -4.276545777509366
+  ],
   "properties": {
     "title": "ShorelineMonitor Raw Series",
     "description": "Parquet dataset with ShorlineMonitor Raw Series for this region.",
@@ -167,33 +204,6 @@
     "created": "2024-06-20T15:03:49.322468Z",
     "datetime": "2024-06-08T00:00:00Z"
   },
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          55.85644153810059,
-          -4.8090627030541615
-        ],
-        [
-          55.85644153810059,
-          -4.276545777509366
-        ],
-        [
-          55.361984478899984,
-          -4.276545777509366
-        ],
-        [
-          55.361984478899984,
-          -4.8090627030541615
-        ],
-        [
-          55.85644153810059,
-          -4.8090627030541615
-        ]
-      ]
-    ]
-  },
   "links": [
     {
       "rel": "collection",
@@ -230,15 +240,5 @@
       ]
     }
   },
-  "bbox": [
-    55.361984478899984,
-    -4.8090627030541615,
-    55.85644153810059,
-    -4.276545777509366
-  ],
-  "stac_extensions": [
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
-  ],
   "collection": "shorelinemonitor-raw-series"
 }

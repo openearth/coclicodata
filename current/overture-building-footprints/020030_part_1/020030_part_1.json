@@ -1,7 +1,44 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
   "id": "020030_part_1",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -164.6274253,
+          60.4768348
+        ],
+        [
+          -164.6274253,
+          61.5369577
+        ],
+        [
+          -166.139716,
+          61.5369577
+        ],
+        [
+          -166.139716,
+          60.4768348
+        ],
+        [
+          -164.6274253,
+          60.4768348
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -166.139716,
+    60.4768348,
+    -164.6274253,
+    61.5369577
+  ],
   "properties": {
     "title": "building-footprints",
     "description": "Parquet dataset with overture building footprints for this region.",
@@ -144,33 +181,6 @@
     "created": "2024-04-01T14:36:23.826871Z",
     "datetime": "2024-02-15T00:00:00Z"
   },
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          -164.6274253,
-          60.4768348
-        ],
-        [
-          -164.6274253,
-          61.5369577
-        ],
-        [
-          -166.139716,
-          61.5369577
-        ],
-        [
-          -166.139716,
-          60.4768348
-        ],
-        [
-          -164.6274253,
-          60.4768348
-        ]
-      ]
-    ]
-  },
   "links": [
     {
       "rel": "collection",
@@ -207,15 +217,5 @@
       ]
     }
   },
-  "bbox": [
-    -166.139716,
-    60.4768348,
-    -164.6274253,
-    61.5369577
-  ],
-  "stac_extensions": [
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
-  ],
   "collection": "overture-building-footprints"
 }

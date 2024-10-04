@@ -1,14 +1,50 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
   "id": "LOW_DEFENDED_MAPS\\RP\\100.tif",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          61.66235206971166,
+          26.928266424771234
+        ],
+        [
+          61.66235206971166,
+          82.08487934026306
+        ],
+        [
+          -67.60937483733917,
+          82.08487934026306
+        ],
+        [
+          -67.60937483733917,
+          26.928266424771234
+        ],
+        [
+          61.66235206971166,
+          26.928266424771234
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -67.60937483733917,
+    26.928266424771234,
+    61.66235206971166,
+    82.08487934026306
+  ],
   "properties": {
-    "created": "2024-10-03T10:59:06.348217Z",
+    "created": "2024-10-04T05:54:09.540036Z",
     "proj:bbox": [
-      2639275.0,
-      1425000.0,
-      3458475.0,
-      2138875.0
+      5415925,
+      941625,
+      1547750,
+      6525950
     ],
     "proj:shape": [
       32768,
@@ -20,24 +56,24 @@
       "coordinates": [
         [
           [
-            3458475.0,
-            1425000.0
+            1547750.0,
+            941625.0
           ],
           [
-            3458475.0,
-            2138875.0
+            1547750.0,
+            6525950.0
           ],
           [
-            2639275.0,
-            2138875.0
+            5415925.0,
+            6525950.0
           ],
           [
-            2639275.0,
-            1425000.0
+            5415925.0,
+            941625.0
           ],
           [
-            3458475.0,
-            1425000.0
+            1547750.0,
+            941625.0
           ]
         ]
       ]
@@ -56,33 +92,6 @@
     "scenarios": "none",
     "time": "2010",
     "datetime": "2022-02-22T00:00:00Z"
-  },
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          0.5748590811096848,
-          34.07623936666823
-        ],
-        [
-          0.5748590811096848,
-          41.81799896509171
-        ],
-        [
-          -9.952980419882547,
-          41.81799896509171
-        ],
-        [
-          -9.952980419882547,
-          34.07623936666823
-        ],
-        [
-          0.5748590811096848,
-          34.07623936666823
-        ]
-      ]
-    ]
   },
   "links": [
     {
@@ -111,23 +120,14 @@
   ],
   "assets": {
     "visual": {
-      "href": "https://coclico.avi.deltares.nl/geoserver/cfhp/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=cfhp:LOW_DEFENDED_MAPS_RP/100",
+      "href": "https://coclico.avi.deltares.nl/geoserver/cfhp/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=cfhp:LOW_DEFENDED_MAPS_RP_100",
       "type": "application/png",
-      "title": "cfhp:LOW_DEFENDED_MAPS_RP\\100",
+      "title": "cfhp:LOW_DEFENDED_MAPS_RP_100",
       "description": "OGS WMS url",
       "roles": [
         "visual"
       ]
     }
   },
-  "bbox": [
-    -9.952980419882547,
-    34.07623936666823,
-    0.5748590811096848,
-    41.81799896509171
-  ],
-  "stac_extensions": [
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
-  ],
   "collection": "cfhp"
 }
