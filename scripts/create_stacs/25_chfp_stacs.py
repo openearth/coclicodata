@@ -362,7 +362,8 @@ def create_asset(
     return item
 
 
-def create_asset_mosaic(item, storage_prefix):
+def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_href, nodata, resolution, data_type, nbytes=None
+):
     title = (
         COLLECTION_ID
         + ":"
@@ -382,7 +383,29 @@ def create_asset_mosaic(item, storage_prefix):
     )
 
     item.add_asset("visual", vasset)
-    ...
+
+    # TODO: Add raw data to assets with href to Google Cloud Bucket
+    # Get the components of the current tif
+    tif_id = pathlib.Path(*pathlib.Path(storage_prefix).parts[5:])
+
+
+    chunk_list = raw_data_dir.joinpath(tif_id).glob('*.tif')
+
+    # Iterate over all chunks
+    for chunk in chunk_list:
+
+        print(chunk)
+
+       # Add each chunk to the asset
+        item = create_asset(
+                            item, 
+                            tif_id.joinpath(chunk.name), 
+                            str(pathlib.Path(asset_href).with_name(chunk.name)), 
+                            nodata, 
+                            resolution, 
+                            data_type, 
+                            nbytes)
+
     return item
 
 
@@ -471,7 +494,17 @@ def process_block(
                 nbytes=nbytes,
             )
         if item_type == "mosaic":
-            item = create_asset_mosaic(item, storage_prefix=storage_prefix)
+            item = create_asset_mosaic(
+                                        item, 
+                                        storage_prefix=storage_prefix,
+                                        raw_data_dir=base_path,
+                                        asset_title=da.name,
+                                        asset_href=href,
+                                        nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
+                                        resolution=resolution,
+                                        data_type=raster.DataType.FLOAT32,  # should be same as how data is written
+                                        nbytes=nbytes
+                                    )
 
     return item
 
@@ -614,7 +647,7 @@ if __name__ == "__main__":
                             parents=True, exist_ok=True
                         )
                         filename = os.path.join(map_type, "Mean_spring_tide")
-                        print(map_type, rp, scen, time)
+                        # print(map_type, rp, scen, time)
                     elif (
                         rp != "static" and scen == "none" and time == "2010"
                     ):  # RPs frist batchs only for 2010 (hindcast)
@@ -628,7 +661,7 @@ if __name__ == "__main__":
                             parents=True, exist_ok=True
                         )
                         filename = os.path.join(map_type, "RP", rp)
-                        print(map_type, rp, scen, time)
+                        # print(map_type, rp, scen, time)
                     elif rp == "static" and scen != "none":  # this is for the SLR maps
                         tif_list = list(
                             pathlib.Path.joinpath(
@@ -643,7 +676,7 @@ if __name__ == "__main__":
                                 COLLECTION_ID, "items", map_type, "SLR", scen
                             ).mkdir(parents=True, exist_ok=True)
                             filename = os.path.join(map_type, "SLR", scen, time)
-                            print(map_type, rp, scen, time)
+                            # print(map_type, rp, scen, time)
                         else:  # break loop if not satisfied
                             continue
                     else:  # break loop if not satisfied (so not for all other combinations)
@@ -709,7 +742,7 @@ if __name__ == "__main__":
                     items.append(item)
                     collection.add_item(item)
 
-    print(len(items))
+    # print(len(items))
 
     # %% store to cloud folder
 
