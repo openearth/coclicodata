@@ -399,8 +399,8 @@ def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_h
        # Add each chunk to the asset
         item = create_asset(
                             item, 
-                            tif_id.joinpath(chunk.name), 
-                            str(pathlib.Path(asset_href).with_name(chunk.name)), 
+                            str(tif_id.joinpath(chunk.name)), 
+                            urljoin(storage_prefix,chunk.name), 
                             nodata, 
                             resolution, 
                             data_type, 
@@ -703,7 +703,7 @@ if __name__ == "__main__":
                     }
                     storage_options = {"token": "google_default"}
 
-                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, cur_path)
+                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, *cur_path.split('\\'))
 
                     # Process the chunk using a delayed function
                     item = process_block(
