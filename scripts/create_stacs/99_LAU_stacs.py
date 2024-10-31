@@ -105,7 +105,7 @@ PARQUET_MEDIA_TYPE = "application/vnd.apache.parquet"
 # PREFIX = f"gcts-{TRANSECT_LENGTH}m.parquet"
 # BASE_URL = f"gs://{CONTAINER_NAME}/{PREFIX}"
 GEOPARQUET_STAC_ITEMS_HREF = (
-    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/items/{COLLECTION_ID}.parquet"
+    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{COLLECTION_ID}/{ds_fp.name}"
 )
 
 
