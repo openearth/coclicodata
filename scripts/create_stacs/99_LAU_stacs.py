@@ -83,7 +83,7 @@ if not ds_dir.exists():
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
 ds_path = ds_dir.joinpath("XX_LAU")
-ds_fp = ds_path.joinpath("LAU_RG_01M_2020_3035.parquet")  # file directory
+ds_fp = ds_path.joinpath("LAU_2020_NUTS_2021_01M_3035.parquet")  # file directory
 
 # # load metadata template
 metadata_fp = ds_path.joinpath("metadata", ds_fp.name).with_suffix(".json")
@@ -105,7 +105,7 @@ PARQUET_MEDIA_TYPE = "application/vnd.apache.parquet"
 # PREFIX = f"gcts-{TRANSECT_LENGTH}m.parquet"
 # BASE_URL = f"gs://{CONTAINER_NAME}/{PREFIX}"
 GEOPARQUET_STAC_ITEMS_HREF = (
-    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/items/{COLLECTION_ID}.parquet"
+    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{COLLECTION_ID}/{ds_fp.name}"
 )
 
 
@@ -432,7 +432,7 @@ if __name__ == "__main__":
     ):  # if not multi-indexed and no need to split and cloud file does not exist
 
         # upload directory to the cloud (files already parquet)
-        dir_to_google_cloud(
+        file_to_google_cloud(
             dir_path=str(ds_fp),
             gcs_project=GCS_PROJECT,
             bucket_name=BUCKET_NAME,
