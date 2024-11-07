@@ -72,7 +72,7 @@ BUCKET_PROJ = "coclico"
 PROJ_NAME = "cfhp"
 
 # hard-coded STAC templates
-CUR_CWD = pathlib.Path.cwd()
+CUR_CWD = pathlib.Path.cwd().parent.parent
 STAC_DIR = CUR_CWD / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
@@ -259,7 +259,7 @@ def create_collection(
 
 # %%
 def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLIT):
-    dst_crs = rasterio.crs.CRS.from_epsg(4326)
+    dst_crs = rasterio.crs.CRS.from_epsg(metadata['CRS'].split(':')[-1])
 
     # when the data spans a range, it's common practice to use the middle time as the datetime provided
     # in the STAC item. So then you have to infer the start_datetime, end_datetime and get the middle
@@ -327,7 +327,7 @@ def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLI
 
 # %%
 def create_asset(
-    item, asset_title, asset_href, nodata, resolution, data_type, nbytes=None
+    item, asset_title, asset_href, nodata, resolution, data_type, bbox, nbytes=None
 ):
     asset = pystac.Asset(
         href=asset_href,
@@ -358,12 +358,19 @@ def create_asset(
             description="Coastal Flood Projections",
         )
     ]
+
+    # Enable the Projection extension on the asset
+
+    projection = pystac.extensions.projection.ProjectionExtension.ext(asset)
+
+    projection.bbox = list(bbox)
+    projection.geometry = shapely.geometry.mapping(shapely.make_valid(shapely.geometry.box(*bbox)))
+
     ...
     return item
 
 
-def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_href, nodata, resolution, data_type, nbytes=None
-):
+def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_href, nodata, resolution, data_type, bbox_crs, nbytes=None):
     title = (
         COLLECTION_ID
         + ":"
@@ -394,7 +401,12 @@ def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_h
     # Iterate over all chunks
     for chunk in chunk_list:
 
-        print(chunk)
+        # Open chunk to determine bounding box
+        chunk_ds = xr.open_dataset(chunk)
+
+        bbox = rasterio.warp.transform_bounds(
+            chunk_ds.rio.crs, bbox_crs, *chunk_ds.rio.bounds()
+        )
 
        # Add each chunk to the asset
         item = create_asset(
@@ -403,7 +415,8 @@ def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_h
                             urljoin(storage_prefix,chunk.name), 
                             nodata, 
                             resolution, 
-                            data_type, 
+                            data_type,
+                            bbox, 
                             nbytes)
 
     return item
@@ -503,6 +516,7 @@ def process_block(
                                         nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
                                         resolution=resolution,
                                         data_type=raster.DataType.FLOAT32,  # should be same as how data is written
+                                        bbox_crs= rasterio.crs.CRS.from_epsg(metadata['CRS'].split(':')[-1]),
                                         nbytes=nbytes
                                     )
 
