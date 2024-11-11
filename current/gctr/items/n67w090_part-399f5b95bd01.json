@@ -1,10 +1,10 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
-  "id": "n67e010_part-990b22b0c6d3",
+  "id": "n67w090_part-399f5b95bd01",
   "properties": {
-    "title": "GCTS",
-    "description": "Parquet dataset with coastal transects (2000 m) at 100 m alongshore resolution for this region.",
+    "title": "GCTR",
+    "description": "Parquet dataset with coastal transects and their attributes at 100-m alongshore resolution for this region.",
     "table:columns": [
       {
         "name": "transect_id",
@@ -86,42 +86,102 @@
         "name": "common_region_name",
         "type": "string",
         "description": "Common region name (EN) in which the transect is located. The regions are extracted from Overture Maps (divisions)."
+      },
+      {
+        "name": "dist_b0",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 0 degree."
+      },
+      {
+        "name": "dist_b30",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 30 degree."
+      },
+      {
+        "name": "dist_b60",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 60 degree."
+      },
+      {
+        "name": "dist_b90",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 90 degree."
+      },
+      {
+        "name": "dist_b120",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 120 degree."
+      },
+      {
+        "name": "dist_b150",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 150 degree."
+      },
+      {
+        "name": "dist_b180",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 180 degree."
+      },
+      {
+        "name": "dist_b210",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 210 degree."
+      },
+      {
+        "name": "dist_b240",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 240 degree."
+      },
+      {
+        "name": "dist_b270",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 270 degree."
+      },
+      {
+        "name": "dist_b300",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 300 degree."
+      },
+      {
+        "name": "dist_b330",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing + 330 degree."
       }
     ],
     "proj:bbox": [
-      10.415408379310252,
-      66.50458545284066,
-      90.02795856218327,
-      81.86756819737198
+      -90.05929688568439,
+      66.50435737903862,
+      -7.9036232753206574,
+      83.66967471602302
     ],
     "proj:epsg": 4326,
-    "table:row_count": 523905,
-    "created": "2024-11-11T15:54:17.299086Z",
-    "datetime": "2024-08-02T00:00:00Z"
+    "table:row_count": 803314,
+    "created": "2024-11-11T15:57:28.178089Z",
+    "datetime": "2024-08-06T00:00:00Z"
   },
   "geometry": {
     "type": "Polygon",
     "coordinates": [
       [
         [
-          90.02795856218327,
-          66.50458545284066
+          -7.9036232753206574,
+          66.50435737903862
         ],
         [
-          90.02795856218327,
-          81.86756819737198
+          -7.9036232753206574,
+          83.66967471602302
         ],
         [
-          10.415408379310252,
-          81.86756819737198
+          -90.05929688568439,
+          83.66967471602302
         ],
         [
-          10.415408379310252,
-          66.50458545284066
+          -90.05929688568439,
+          66.50435737903862
         ],
         [
-          90.02795856218327,
-          66.50458545284066
+          -7.9036232753206574,
+          66.50435737903862
         ]
       ]
     ]
@@ -131,7 +191,7 @@
       "rel": "collection",
       "href": "../collection.json",
       "type": "application/json",
-      "title": "Global Coastal Transect System (GCTS)"
+      "title": "Global Coastal Transect Repository (GCTR)"
     },
     {
       "rel": "root",
@@ -143,29 +203,29 @@
       "rel": "parent",
       "href": "../collection.json",
       "type": "application/json",
-      "title": "Global Coastal Transect System (GCTS)"
+      "title": "Global Coastal Transect Repository (GCTR)"
     }
   ],
   "assets": {
     "data": {
-      "href": "az://gcts/release/2024-08-02/n67e010_part-990b22b0c6d3.parquet",
+      "href": "az://gctr/release/2024-08-06/n67w090_part-399f5b95bd01.parquet",
       "type": "application/vnd.apache.parquet",
-      "title": "GCTS",
-      "description": "Parquet dataset with coastal transects (2000 m) at 100 m alongshore resolution for this region.",
+      "title": "GCTR",
+      "description": "Parquet dataset with coastal transects and their attributes at 100-m alongshore resolution for this region.",
       "roles": [
         "data"
       ]
     }
   },
   "bbox": [
-    10.415408379310252,
-    66.50458545284066,
-    90.02795856218327,
-    81.86756819737198
+    -90.05929688568439,
+    66.50435737903862,
+    -7.9036232753206574,
+    83.66967471602302
   ],
   "stac_extensions": [
     "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
   ],
-  "collection": "gcts"
+  "collection": "gctr"
 }
