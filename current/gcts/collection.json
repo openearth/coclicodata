@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "gcts",
   "stac_version": "1.0.0",
-  "description": "\nCross-shore coastal transects are essential to coastal monitoring, offering a consistent \nreference line to measure coastal change, while providing a robust foundation to map \ncoastal characteristics and derive coastal statistics thereof. The Global Coastal Transect \nSystem consists of more than 11 million cross-shore coastal transects uniformly spaced at \n100-m intervals alongshore, for all OpenStreetMap coastlines that are longer than 5 kilometers.\nThe dataset is more extensively described in Enabling Coastal Analytics at Planetary Scale \n(Calkoen, Floris. 2024, \"Enabling Coastal Analytics at Planetary Scale. In review.). \n",
+  "description": "\nCross-shore coastal transects are essential to coastal monitoring, offering a consistent\nreference line to measure coastal change, while providing a robust foundation to map\ncoastal characteristics and derive coastal statistics thereof. The Global Coastal Transect\nSystem consists of more than 11 million cross-shore coastal transects uniformly spaced at\n100-m intervals alongshore, for all OpenStreetMap coastlines that are longer than 5 kilometers.\nThe dataset is more extensively described Calkoen et al., 2024. \"Enabling Coastal Analytics\nat Planetary Scale\" available [here](https://doi.org/10.1016/j.envsoft.2024.106257).\n",
   "links": [
     {
       "rel": "license",
@@ -12,82 +12,82 @@
     },
     {
       "rel": "item",
-      "href": "./items/n67e010_part-5def52f559b4.json",
+      "href": "./items/n67e010_part-990b22b0c6d3.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/n67w090_part-359f677306c1.json",
+      "href": "./items/n67w090_part-476b1b812949.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/n67w180_part-263e9cb9888f.json",
+      "href": "./items/n67w180_part-9d5b84eec900.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/n69e090_part-9868be4770fd.json",
+      "href": "./items/n69e090_part-9de0ab56870e.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s00e000_part-1ca396980e20.json",
+      "href": "./items/s00e090_part-5029be8d9afc.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s00e090_part-d5a0cd564131.json",
+      "href": "./items/s00w000_part-593f94208834.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s00w090_part-372ca9bdfc40.json",
+      "href": "./items/s00w090_part-7c78d95655f6.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s00w180_part-1f91d4d0e3ee.json",
+      "href": "./items/s00w180_part-3fb7f53b1f9a.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s44w180_part-0a9fab5d4c42.json",
+      "href": "./items/s44w180_part-2c7d8a735a92.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s67e003_part-dcd9a48e68c9.json",
+      "href": "./items/s67e003_part-5f304c488c48.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s67e092_part-b2b9f9b31521.json",
+      "href": "./items/s67e092_part-5a4f5c13b21a.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s67w090_part-6ab003f65517.json",
+      "href": "./items/s67w090_part-66eb7ff4867c.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s70e000_part-e18715974987.json",
+      "href": "./items/s70e000_part-819926bac694.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s78e090_part-11f9dc53ffe3.json",
+      "href": "./items/s78e090_part-278ff9b788f3.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s78w090_part-2ead13304e1e.json",
+      "href": "./items/s78w090_part-20702259b1dc.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./items/s79w180_part-3bc6264ba479.json",
+      "href": "./items/s79w180_part-b2733edc4950.json",
       "type": "application/json"
     },
     {
@@ -122,7 +122,7 @@
       },
       "table:columns": [
         {
-          "name": "tr_name",
+          "name": "transect_id",
           "type": "string",
           "description": "A unique identifier for each transect, constructed from three key components: the 'coastline_id', 'segment_id', and 'interpolated_distance'. The 'coastline_id' corresponds to the FID in OpenStreetMap (OSM) and is prefixed with 'cl'. The 'segment_id' indicates the segment of the OSM coastline split by a UTM grid, prefixed with 's'. The 'interpolated_distance' represents the distance from the starting point of the coastline to the transect, interpolated along the segment, and is prefixed with 'tr'. The complete structure is 'cl[coastline_id]s[segment_id]tr[interpolated_distance]', exemplified by 'cl32946s04tr08168547'. This composition ensures each transect name is a distinct and informative representation of its geographical and spatial attributes."
         },
@@ -147,17 +147,17 @@
           "description": "Well-Known Binary (WKB) representation of the transect as a linestring geometry."
         },
         {
-          "name": "coastline_is_closed",
+          "name": "osm_coastline_is_closed",
           "type": "bool",
           "description": "Indicates whether the source OpenStreetMap (OSM) coastline, from which the transects were derived, forms a closed loop. A value of 'true' suggests that the coastline represents an enclosed area, such as an island."
         },
         {
-          "name": "coastline_length",
+          "name": "osm_coastline_length",
           "type": "int32",
           "description": "Represents the total length of the source OpenStreetMap (OSM) coastline, that is summed across various UTM regions. It reflects the aggregate length of the original coastline from which the transects are derived."
         },
         {
-          "name": "utm_crs",
+          "name": "utm_epsg",
           "type": "int32",
           "description": "EPSG code representing the UTM Coordinate Reference System for the transect."
         },
@@ -172,39 +172,39 @@
           "description": "QuadKey corresponding to the transect origin location at zoom 12, following the Bing Maps Tile System for spatial indexing."
         },
         {
-          "name": "isoCountryCodeAlpha2",
+          "name": "continent",
           "type": "string",
-          "description": "ISO 3166-1 alpha-2 country code for the country in which the transect is located."
+          "description": "Name of the continent in which the transect is located."
         },
         {
-          "name": "admin_level_1_name",
+          "name": "country",
           "type": "string",
-          "description": "Name of the first-level administrative division (e.g., country) in which the transect is located."
+          "description": "ISO alpha-2 country code for the country in which the transect is located. The country data are extracted from Overture Maps (divisions)."
         },
         {
-          "name": "isoSubCountryCode",
+          "name": "common_country_name",
           "type": "string",
-          "description": "ISO code for the sub-country or second-level administrative division in which the transect is located."
+          "description": "Common country name (EN) in which the transect is located. The country data are extracted from Overture Maps (divisions)."
         },
         {
-          "name": "admin_level_2_name",
+          "name": "common_region_name",
           "type": "string",
-          "description": "Name of the second-level administrative division (e.g., state or province) in which the transect is located."
+          "description": "Common region name (EN) in which the transect is located. The regions are extracted from Overture Maps (divisions)."
         }
       ]
     }
   },
-  "container_uri": "az://gcts/release/2024-03-18",
-  "sci:citation": "Calkoen, Floris. 2024. \"Enabling Coastal Analytics at Planetary Scale.\" In review.",
-  "version": "1.0.0",
+  "container_uri": "az://gcts/release/2024-08-02",
+  "sci:citation": "\n    Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart,\n    Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024,\n    106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.\n    (https://www.sciencedirect.com/science/article/pii/S1364815224003189)\n    ",
+  "version": "2024-08-02",
   "title": "Global Coastal Transect System (GCTS)",
   "extent": {
     "spatial": {
       "bbox": [
         [
-          -179.99979946036342,
+          -179.99979945991507,
           -78.74747176732404,
-          179.9998718372176,
+          179.9998718338963,
           83.66967471602302
         ]
       ]
@@ -212,24 +212,25 @@
     "temporal": {
       "interval": [
         [
-          "2024-03-18T00:00:00Z",
-          "2024-03-18T00:00:00Z"
+          "2024-08-02T00:00:00Z",
+          "2024-08-02T00:00:00Z"
         ]
       ]
     }
   },
   "license": "CC-BY-4.0",
   "keywords": [
-    "Coast",
-    "Coastal",
+    "Coastal analytics",
+    "Cloud technology",
+    "Coastal change",
+    "Coastal monitoring",
+    "Satellite-derived shorelines",
+    "Low elevation coastal zone",
+    "Data management",
     "Transects",
-    "Coastal transects",
-    "Coastal Change",
-    "Satellite-Derived Shorelines",
-    "SDS",
     "GCTS",
-    "CoCliCo",
     "Deltares",
+    "CoCliCo",
     "GeoParquet"
   ],
   "providers": [
@@ -251,7 +252,7 @@
       "title": "Thumbnail"
     },
     "geoparquet-stac-items": {
-      "href": "az://items/gcts.parquet",
+      "href": "az://items-test/gcts.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
