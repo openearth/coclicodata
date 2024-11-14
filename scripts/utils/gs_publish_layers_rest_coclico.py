@@ -32,28 +32,62 @@
 
 import requests
 from requests.auth import HTTPBasicAuth
+from dotenv import load_dotenv
 import os
+import json
+
+# Load the environment variables from the .env file
+load_dotenv(override=True)
 
 # Configuration
-user = ""
-password = ""
-geoserver_url = ""
+user = os.getenv("GEOSERVER_USER")
+password = os.getenv("GEOSERVER_PASSWORD")
+geoserver_url = os.getenv("GEOSERVER_URL")
 auth = HTTPBasicAuth(user, password)
-workspace = ""
-style_name = ""
+workspace = "deltaDTM"  # created manually in the geoserver
+style_name = "deltaDTM_style"  # created manually in the geoserver??
 
 
 # 1. provide the collection.json
-layers_dir = ""
-# read all files in the directory
-layers = os.listdir(layers_dir)
+# layers_dir = ""
+# # read all files in the directory
+# layers = os.listdir(layers_dir)
+
+f_collection = open(
+    r"C:\Users\kras\Documents\GitHub\coclicodata\current\deltares-delta-dtm\collection.json"
+)
+collection = json.load(f_collection)
+href_items = [item["href"] for item in collection["links"] if item["rel"] == "item"]
+
+# Define the desired prefix
+prefix = "file:///opt/coclico-data-public/coclico/%s/" % workspace
+
 
 layer_names = []
-for layer in layers:
+for item in href_items:
 
-    layer_name = layer
+    # Remove the '._items/' prefix
+    layer_name = item.replace("./items/", "")
+    # Replace '/' with '_'
+    layer_name = layer_name.replace("/", "_")
+    # Remove the file extension
+    layer_name = layer_name.replace(".json", "")
+
+    layer_names.append(f"%s:{layer_name}" % workspace)
+
+    """ # Serializing json
+    json_object = json.dumps({"layers": layer_names}, indent=4)
+    
+    # Writing to sample.json
+    with open("sample.json", "w") as outfile:
+        outfile.write(json_object) """
+
     store_name = layer_name
-    gtif_path = layer
+    gtif_path = item.replace("./items/", prefix).replace(".json", ".tif")
+
+    # layer_name = layer
+    # store_name = layer_name
+    # gtif_path = layer
 
     # Headers for XML data
     headers = {"Content-type": "text/xml"}

@@ -4,8 +4,8 @@
 #   Copyright (C) 2024 Deltares
 #       Ioanna Micha
 #       ioanna.micha@deltares.nl
-#       
-#      
+#
+#
 #   This library is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation, either version 3 of the License, or
@@ -32,56 +32,71 @@
 
 import requests
 from requests.auth import HTTPBasicAuth
+from dotenv import load_dotenv
 import os
 
+# Load the environment variables from the .env file
+load_dotenv(override=True)
 
-username = ""
-password = ""
+username = os.getenv("GEOSERVER_USER")
+password = os.getenv("GEOSERVER_PASSWORD")
 # Configuration locally
-geoserver_url = "http://localhost:8080/geoserver/rest" #rest endpoint
-auth = HTTPBasicAuth(username, password) 
-workspace = "cfhp"
-headers = {
-    "Content-type": "text/xml"
-}
+geoserver_url = os.getenv("GEOSERVER_URL")  # rest endpoint
+auth = HTTPBasicAuth(username, password)
+workspace = "deltaDTM"
+style_name = "deltaDTM_style"  # created manually in the geoserver??
+headers = {"Content-type": "text/xml"}
 
-#path_prefix = "file:///opt/coclico-data-public/coclico/"
+# path_prefix = "file:///opt/coclico-data-public/coclico/"
 path_prefix = "file:/opt/coclico-data-public/coclico/"
-#file://C:/data/cp_cfhp/HIGH_DEFENDED_MAPS/Mean_spring_tide
+# file://C:/data/cp_cfhp/HIGH_DEFENDED_MAPS/Mean_spring_tide
 
 
-local_path_with_files = r"C:\data\cp_cfhp"
+local_path_with_files = r"p:\11207608-coclico\FULLTRACK_DATA\WP2\DeltaDTM_example"
 
-#read in the local_path_with_files directory all the paths that contains files and keep the unique paths
+# read in the local_path_with_files directory all the paths that contains files and keep the unique paths
 paths = []
 for root, dirs, files in os.walk(local_path_with_files):
     for file in files:
         paths.append(os.path.join(root, file))
 
-#remove the files from the paths
+# remove the files from the paths
 paths = [os.path.dirname(path) for path in paths]
-#append at the beginning of the path the path_prefix
 
-paths = [path.replace('C:\\data\\cp_cfhp\\', 'file:///opt/coclico-data-public/coclico/cfhp/') for path in paths]
-paths = [path_prefix + path for path in paths]
+# append at the beginning of the path the path_prefix
+paths = [
+    path.replace(
+        local_path_with_files.replace("/", "//"),
+        "file:///opt/coclico-data-public/coclico/%s/" % workspace,
+    )
+    for path in paths
+]
+
+# paths = [path_prefix + path for path in paths] # TODO: ONLY FOR SUBDIRECTORIES, DOESNT REALLY WORK PROPERLY
+
 # make all the '\' to '/'
-paths = [path.replace('\\', '/') for path in paths]
+paths = [path.replace("\\", "/") for path in paths]
 unique_paths = list(set(paths))
 
 
 path = unique_paths[0]
 for path in unique_paths:
-    #print(path)
-    
-    # keep only the part after the string 'cp_cfhp'
-    store_name = path.split('cfhp/')[1]
-    store_name = store_name.replace('/', '_')
-    
+    # print(path)
+
+    # keep only the part after the string workspace
+    store_name = path.split("%s/" % workspace)[1]
+    store_name = store_name.replace("/", "_")
+
+    if (
+        store_name == ""
+    ):  # if the store_name is empty, then the store_name is the workspace (no subdirectories)
+        store_name = workspace
+
     layer_name = store_name
     print(layer_name)
 
     tiles_path = path
-    
+
     # Step 1: Create the Coverage Store for ImageMosaic
     data_store_url = f"{geoserver_url}/workspaces/{workspace}/coveragestores"
     data_store_data = f"""
@@ -97,24 +112,23 @@ for path in unique_paths:
     </coverageStore>
     """
 
-    response = requests.post(data_store_url, auth=auth, headers=headers, data=data_store_data)
+    response = requests.post(
+        data_store_url, auth=auth, headers=headers, data=data_store_data
+    )
     if response.status_code == 201:
         print("Store created successfully")
     else:
         print(f"Failed to create store: {response.content}")
 
-
-
     #########################################################################################
     # Step 2: Publish the Mosaic using PUT for ImageMosaic
     publish_url = f"{geoserver_url}/workspaces/{workspace}/coveragestores/{store_name}/external.imagemosaic"
-    publish_params = {
-        "configure": "first",
-        "coverageName": layer_name
-    }
+    publish_params = {"configure": "first", "coverageName": layer_name}
 
     # This endpoint triggers the ImageMosaic initialization, similar to what the UI does
-    response = requests.put(publish_url, auth=auth, headers=headers, data=tiles_path, params =publish_params)
+    response = requests.put(
+        publish_url, auth=auth, headers=headers, data=tiles_path, params=publish_params
+    )
 
     if response.status_code == 201:
         print(f"Layer: {workspace}:{layer_name} published successfully")
@@ -136,4 +150,3 @@ for path in unique_paths:
         print("Style assigned successfully")
     else:
         print(f"Failed to assign style: {response.content}")
-
