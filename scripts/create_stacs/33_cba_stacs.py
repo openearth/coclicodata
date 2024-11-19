@@ -85,6 +85,10 @@ if not ds_dir.exists():
 ds_path = ds_dir.joinpath("WP6", "data", "CBA")
 ds_fp = ds_path.joinpath("GCF.open.CBA_country.all.parquet")  # file directory
 
+# Front end makes geopackages to go alongside the parquet data
+# if this exists define here
+FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG4326.gpkg")
+
 # # load metadata template
 metadata_fp = ds_path.joinpath("metadata_GCF_CBA.json")
 with open(metadata_fp, "r") as f:
@@ -442,6 +446,18 @@ if __name__ == "__main__":
             dir_name=PROJ_NAME,
             file_name=ds_fp.name,
         )
+
+        # Also upload the Front-end geopackage if it exists
+        if FE_gpkg_fp != None:
+                    # upload directory to the cloud (files already parquet)
+            file_to_google_cloud(
+                file_path=str(FE_gpkg_fp),
+                gcs_project=GCS_PROJECT,
+                bucket_name=BUCKET_NAME,
+                bucket_proj=BUCKET_PROJ,
+                dir_name=PROJ_NAME,
+                file_name=ds_fp.name,
+            )
 
     elif paths:
         print("Dataset already exists in the Google Bucket")
