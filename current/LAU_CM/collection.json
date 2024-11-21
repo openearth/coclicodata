@@ -1,6 +1,6 @@
 {
   "type": "Collection",
-  "id": "LAU",
+  "id": "LAU_CM",
   "stac_version": "1.0.0",
   "description": "The LAUs are a administrative to help ensure that data are readily available and policies can be implemented effectively using these units, a subdivision of the NUTS 3 regions covering the EU's whole economic territory and appropriate for implementing local level typologies included in Tercet, namely the coastal area and the degree of urbanisation (DEGURBA) classification, including city and functional urban areas (FUA) definitions.",
   "links": [
@@ -9,11 +9,6 @@
       "href": "../catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
-    },
-    {
-      "rel": "item",
-      "href": "./items/LAU_2020_NUTS_2021_01M_3035.json",
-      "type": "application/json"
     },
     {
       "rel": "item",
@@ -36,7 +31,7 @@
   "item_assets": {
     "data": {
       "title": "LAU",
-      "description": "A system of local administrative units (LAUs) compatible with NUTS",
+      "description": "A system of local administrative units (LAUs) compatible with NUTS, clipped only to the coastal area",
       "roles": [
         "data"
       ],
@@ -104,20 +99,25 @@
           "name": "geometry",
           "type": "binary",
           "description": ""
+        },
+        {
+          "name": "__index_level_0__",
+          "type": "int64",
+          "description": ""
         }
       ]
     }
   },
-  "base_url": "gs://coclico-data-public/coclico/LAU",
+  "base_url": "gs://coclico-data-public/coclico/LAU_CM/LAU_2020_NUTS_2021_01M_3035_CM.parquet",
   "sci:citation": "None.",
   "version": "1",
-  "title": "Local administrative units",
+  "title": "Local administrative units, clipped by Coastal Mask",
   "extent": {
     "spatial": {
       "bbox": [
         [
-          -81.78251054209933,
-          -29.857519696177313,
+          -81.12146941539005,
+          -29.12357316038395,
           93.1752791130622,
           37.855412297701754
         ]
@@ -161,12 +161,12 @@
   ],
   "assets": {
     "thumbnail": {
-      "href": "https://storage.googleapis.com/download/storage/v1/b/coclico-data-public/o/coclico%2Fassets%2Fthumbnails%2FLAU.png?alt=media",
+      "href": "https://storage.googleapis.com/download/storage/v1/b/coclico-data-public/o/coclico%2Fassets%2Fthumbnails%2FLAU_CM.png?alt=media",
       "type": "image/png",
       "title": "Thumbnail"
     },
     "geoparquet-stac-items": {
-      "href": "gs://coclico-data-public/coclico/LAU/LAU_2020_NUTS_2021_01M_3035.parquet",
+      "href": "gs://coclico-data-public/coclico/LAU_CM/LAU_2020_NUTS_2021_01M_3035_CM.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",

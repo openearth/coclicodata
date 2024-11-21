@@ -1,0 +1,175 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "LAU_2020_NUTS_2021_01M_3035_CM",
+  "properties": {
+    "title": "LAU",
+    "description": "A system of local administrative units (LAUs) compatible with NUTS, clipped only to the coastal area",
+    "table:columns": [
+      {
+        "name": "type",
+        "type": "string"
+      },
+      {
+        "name": "stac_version",
+        "type": "string"
+      },
+      {
+        "name": "stac_extensions",
+        "type": "list<item: string>"
+      },
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "bbox",
+        "type": "list<item: double>"
+      },
+      {
+        "name": "links",
+        "type": "list<item: struct<href: null, rel: string, title: string, type: string>>"
+      },
+      {
+        "name": "data.description",
+        "type": "string"
+      },
+      {
+        "name": "data.href",
+        "type": "string"
+      },
+      {
+        "name": "data.roles",
+        "type": "list<item: string>"
+      },
+      {
+        "name": "data.title",
+        "type": "string"
+      },
+      {
+        "name": "data.type",
+        "type": "string"
+      },
+      {
+        "name": "collection",
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "table:columns",
+        "type": "list<item: struct<description: string, name: string, type: string>>"
+      },
+      {
+        "name": "proj:bbox",
+        "type": "list<item: double>"
+      },
+      {
+        "name": "proj:epsg",
+        "type": "int64"
+      },
+      {
+        "name": "table:row_count",
+        "type": "int64"
+      },
+      {
+        "name": "created",
+        "type": "timestamp[us, tz=utc]"
+      },
+      {
+        "name": "datetime",
+        "type": "timestamp[us, tz=utc]"
+      }
+    ],
+    "proj:bbox": [
+      -81.12146941539005,
+      -29.12357316038395,
+      93.1752791130622,
+      37.855412297701754
+    ],
+    "proj:epsg": 4326,
+    "table:row_count": 1,
+    "created": "2024-11-19T15:22:25.390351Z",
+    "datetime": "2024-01-22T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Local administrative units, clipped by Coastal Mask"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Local administrative units, clipped by Coastal Mask"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "gs://coclico-data-public/coclico/LAU_CM/LAU_2020_NUTS_2021_01M_3035_CM.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "LAU",
+      "description": "A system of local administrative units (LAUs) compatible with NUTS, clipped only to the coastal area",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    -81.12146941539005,
+    -29.12357316038395,
+    93.1752791130622,
+    37.855412297701754
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "LAU_CM"
+}
