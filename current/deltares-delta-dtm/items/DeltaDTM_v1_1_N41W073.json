@@ -1,131 +1,131 @@
 {
-    "type": "Feature",
-    "stac_version": "1.0.0",
-    "stac_extensions": [
-        "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
-        "https://stac-extensions.github.io/file/v2.1.0/schema.json",
-        "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
-    ],
-    "id": "DeltaDTM_v1_1_N41W073",
-    "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-            [
-                [
-                    -72.0001388888889,
-                    41.000138888888884
-                ],
-                [
-                    -72.0001388888889,
-                    42.00013888888889
-                ],
-                [
-                    -73.00013888888888,
-                    42.00013888888889
-                ],
-                [
-                    -73.00013888888888,
-                    41.000138888888884
-                ],
-                [
-                    -72.0001388888889,
-                    41.000138888888884
-                ]
-            ]
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+  ],
+  "id": "DeltaDTM_v1_1_N41W073",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -72.0001388888889,
+          41.000138888888884
+        ],
+        [
+          -72.0001388888889,
+          42.00013888888889
+        ],
+        [
+          -73.00013888888888,
+          42.00013888888889
+        ],
+        [
+          -73.00013888888888,
+          41.000138888888884
+        ],
+        [
+          -72.0001388888889,
+          41.000138888888884
         ]
-    },
-    "bbox": [
-        -73.00013888888888,
-        41.000138888888884,
-        -72.0001388888889,
-        42.00013888888889
+      ]
+    ]
+  },
+  "bbox": [
+    -73.00013888888888,
+    41.000138888888884,
+    -72.0001388888889,
+    42.00013888888889
+  ],
+  "properties": {
+    "created": "2024-11-22T10:01:01.536781Z",
+    "proj:bbox": [
+      -73.00013888888888,
+      41.000138888888884,
+      -72.0001388888889,
+      42.00013888888889
     ],
-    "properties": {
-        "created": "2024-11-21T12:35:52.001803Z",
-        "proj:bbox": [
-            -73.00013888888888,
-            41.000138888888884,
+    "proj:shape": [
+      3600,
+      3600
+    ],
+    "proj:epsg": 9518,
+    "proj:geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -72.0001388888889,
+            41.000138888888884
+          ],
+          [
             -72.0001388888889,
             42.00013888888889
-        ],
-        "proj:shape": [
-            3600,
-            3600
-        ],
-        "proj:epsg": 9518,
-        "proj:geometry": {
-            "type": "Polygon",
-            "coordinates": [
-                [
-                    [
-                        -72.0001388888889,
-                        41.000138888888884
-                    ],
-                    [
-                        -72.0001388888889,
-                        42.00013888888889
-                    ],
-                    [
-                        -73.00013888888888,
-                        42.00013888888889
-                    ],
-                    [
-                        -73.00013888888888,
-                        41.000138888888884
-                    ],
-                    [
-                        -72.0001388888889,
-                        41.000138888888884
-                    ]
-                ]
-            ]
-        },
-        "proj:transform": [
-            0.0002777777777777778,
-            0.0,
+          ],
+          [
             -73.00013888888888,
-            0.0,
-            -0.0002777777777777778,
             42.00013888888889
-        ],
-        "datetime": "2023-10-30T00:00:00Z"
+          ],
+          [
+            -73.00013888888888,
+            41.000138888888884
+          ],
+          [
+            -72.0001388888889,
+            41.000138888888884
+          ]
+        ]
+      ]
     },
-    "links": [
-        {
-            "rel": "collection",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "DeltaDTM: A global coastal digital terrain model"
-        },
-        {
-            "rel": "root",
-            "href": "../../catalog.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
-        },
-        {
-            "rel": "parent",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "DeltaDTM: A global coastal digital terrain model"
-        }
+    "proj:transform": [
+      0.0002777777777777778,
+      0.0,
+      -73.00013888888888,
+      0.0,
+      -0.0002777777777777778,
+      42.00013888888889
     ],
-    "assets": {
-        "data": {
-            "href": "az://deltares-delta-dtm/v1.1/v1.1/DeltaDTM_v1_1_N41W073.tif",
-            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
-            "title": "DeltaDTM",
-            "raster:bands": [
-                {
-                    "nodata": -9999,
-                    "data_type": "float32",
-                    "spatial_resolution": 30
-                }
-            ],
-            "roles": [
-                "data"
-            ]
-        }
+    "datetime": "2023-10-30T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "DeltaDTM: A global coastal digital terrain model"
     },
-    "collection": "deltares-delta-dtm"
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "DeltaDTM: A global coastal digital terrain model"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "az://deltares-delta-dtm/v1.1/v1.1/DeltaDTM_v1_1_N41W073.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "DeltaDTM",
+      "raster:bands": [
+        {
+          "nodata": -9999,
+          "data_type": "float32",
+          "spatial_resolution": 30
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "deltares-delta-dtm"
 }
