@@ -1,0 +1,136 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+  ],
+  "id": "DeltaDTM_v1_1_S52W058",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -57.00020833333333,
+          -51.999861111111116
+        ],
+        [
+          -57.00020833333333,
+          -50.99986111111111
+        ],
+        [
+          -58.00020833333333,
+          -50.99986111111111
+        ],
+        [
+          -58.00020833333333,
+          -51.999861111111116
+        ],
+        [
+          -57.00020833333333,
+          -51.999861111111116
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -58.00020833333333,
+    -51.999861111111116,
+    -57.00020833333333,
+    -50.99986111111111
+  ],
+  "properties": {
+    "created": "2024-11-22T15:51:10.098892Z",
+    "proj:bbox": [
+      -58.00020833333333,
+      -51.999861111111116,
+      -57.00020833333333,
+      -50.99986111111111
+    ],
+    "proj:shape": [
+      3600,
+      2400
+    ],
+    "proj:epsg": 9518,
+    "proj:geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -57.00020833333333,
+            -51.999861111111116
+          ],
+          [
+            -57.00020833333333,
+            -50.99986111111111
+          ],
+          [
+            -58.00020833333333,
+            -50.99986111111111
+          ],
+          [
+            -58.00020833333333,
+            -51.999861111111116
+          ],
+          [
+            -57.00020833333333,
+            -51.999861111111116
+          ]
+        ]
+      ]
+    },
+    "proj:transform": [
+      0.00041666666666666664,
+      0.0,
+      -58.00020833333333,
+      0.0,
+      -0.0002777777777777778,
+      -50.99986111111111
+    ],
+    "datetime": "2023-10-30T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-delta-dtm/collection.json",
+      "type": "application/json",
+      "title": "DeltaDTM: A global coastal digital terrain model"
+    },
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-delta-dtm/collection.json",
+      "type": "application/json",
+      "title": "DeltaDTM: A global coastal digital terrain model"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/deltares-delta-dtm/DeltaDTM_v1_1_S52W058/DeltaDTM_v1_1_S52W058.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "az://deltares-delta-dtm/v1.1/DeltaDTM_v1_1_S52W058.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "DeltaDTM",
+      "raster:bands": [
+        {
+          "nodata": -9999,
+          "data_type": "float32",
+          "spatial_resolution": 30
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "deltares-delta-dtm"
+}
