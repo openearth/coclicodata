@@ -72,7 +72,7 @@ BUCKET_PROJ = "coclico"
 PROJ_NAME = "cfhp"
 
 # hard-coded STAC templates
-CUR_CWD = pathlib.Path.cwd()
+CUR_CWD = pathlib.Path.cwd().parent.parent
 STAC_DIR = CUR_CWD / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
@@ -259,7 +259,7 @@ def create_collection(
 
 # %%
 def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLIT):
-    dst_crs = rasterio.crs.CRS.from_epsg(4326)
+    dst_crs = rasterio.crs.CRS.from_epsg(metadata['CRS'].split(':')[-1])
 
     # when the data spans a range, it's common practice to use the middle time as the datetime provided
     # in the STAC item. So then you have to infer the start_datetime, end_datetime and get the middle
@@ -327,7 +327,7 @@ def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLI
 
 # %%
 def create_asset(
-    item, asset_title, asset_href, nodata, resolution, data_type, nbytes=None
+    item, asset_title, asset_href, nodata, resolution, data_type, bbox, nbytes=None
 ):
     asset = pystac.Asset(
         href=asset_href,
@@ -358,11 +358,19 @@ def create_asset(
             description="Coastal Flood Projections",
         )
     ]
+
+    # Enable the Projection extension on the asset
+
+    projection = pystac.extensions.projection.ProjectionExtension.ext(asset)
+
+    projection.bbox = list(bbox)
+    projection.geometry = shapely.geometry.mapping(shapely.make_valid(shapely.geometry.box(*bbox)))
+
     ...
     return item
 
 
-def create_asset_mosaic(item, storage_prefix):
+def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_href, nodata, resolution, data_type, bbox_crs, nbytes=None):
     title = (
         COLLECTION_ID
         + ":"
@@ -382,7 +390,35 @@ def create_asset_mosaic(item, storage_prefix):
     )
 
     item.add_asset("visual", vasset)
-    ...
+
+    # TODO: Add raw data to assets with href to Google Cloud Bucket
+    # Get the components of the current tif
+    tif_id = pathlib.Path(*pathlib.Path(storage_prefix).parts[5:])
+
+
+    chunk_list = raw_data_dir.joinpath(tif_id).glob('*.tif')
+
+    # Iterate over all chunks
+    for chunk in chunk_list:
+
+        # Open chunk to determine bounding box
+        chunk_ds = xr.open_dataset(chunk)
+
+        bbox = rasterio.warp.transform_bounds(
+            chunk_ds.rio.crs, bbox_crs, *chunk_ds.rio.bounds()
+        )
+
+       # Add each chunk to the asset
+        item = create_asset(
+                            item, 
+                            str(tif_id.joinpath(chunk.name)), 
+                            urljoin(storage_prefix,chunk.name), 
+                            nodata, 
+                            resolution, 
+                            data_type,
+                            bbox, 
+                            nbytes)
+
     return item
 
 
@@ -471,7 +507,18 @@ def process_block(
                 nbytes=nbytes,
             )
         if item_type == "mosaic":
-            item = create_asset_mosaic(item, storage_prefix=storage_prefix)
+            item = create_asset_mosaic(
+                                        item, 
+                                        storage_prefix=storage_prefix,
+                                        raw_data_dir=base_path,
+                                        asset_title=da.name,
+                                        asset_href=href,
+                                        nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
+                                        resolution=resolution,
+                                        data_type=raster.DataType.FLOAT32,  # should be same as how data is written
+                                        bbox_crs= rasterio.crs.CRS.from_epsg(metadata['CRS'].split(':')[-1]),
+                                        nbytes=nbytes
+                                    )
 
     return item
 
@@ -614,7 +661,7 @@ if __name__ == "__main__":
                             parents=True, exist_ok=True
                         )
                         filename = os.path.join(map_type, "Mean_spring_tide")
-                        print(map_type, rp, scen, time)
+                        # print(map_type, rp, scen, time)
                     elif (
                         rp != "static" and scen == "none" and time == "2010"
                     ):  # RPs frist batchs only for 2010 (hindcast)
@@ -628,7 +675,7 @@ if __name__ == "__main__":
                             parents=True, exist_ok=True
                         )
                         filename = os.path.join(map_type, "RP", rp)
-                        print(map_type, rp, scen, time)
+                        # print(map_type, rp, scen, time)
                     elif rp == "static" and scen != "none":  # this is for the SLR maps
                         tif_list = list(
                             pathlib.Path.joinpath(
@@ -643,7 +690,7 @@ if __name__ == "__main__":
                                 COLLECTION_ID, "items", map_type, "SLR", scen
                             ).mkdir(parents=True, exist_ok=True)
                             filename = os.path.join(map_type, "SLR", scen, time)
-                            print(map_type, rp, scen, time)
+                            # print(map_type, rp, scen, time)
                         else:  # break loop if not satisfied
                             continue
                     else:  # break loop if not satisfied (so not for all other combinations)
@@ -670,7 +717,7 @@ if __name__ == "__main__":
                     }
                     storage_options = {"token": "google_default"}
 
-                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, cur_path)
+                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, *cur_path.split('\\'))
 
                     # Process the chunk using a delayed function
                     item = process_block(
@@ -709,7 +756,7 @@ if __name__ == "__main__":
                     items.append(item)
                     collection.add_item(item)
 
-    print(len(items))
+    # print(len(items))
 
     # %% store to cloud folder
 
