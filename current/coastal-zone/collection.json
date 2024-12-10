@@ -2,13 +2,26 @@
   "type": "Collection",
   "id": "coastal-zone",
   "stac_version": "1.0.0",
-  "description": "\nThe Coastal Zone dataset provides a vectorized representation of coastal zones at multiple buffer distances. \nIt is derived from a generalized version of the OpenStreetMap coastline (2023-02) and serves as a valuable \ntool for masking other datasets or for spatial analysis in coastal regions. \n\nThis STAC collection includes multiple layers, each corresponding to a specific buffer distance:\n500m, 1000m, 2000m, 5000m, 10000m, and 15000m. The buffer distance defines the zone's extent, with the \ntotal width being twice the buffer distance (e.g., a 5000m buffer results in a zone 10km wide). \n\nEach layer in the collection is stored as a separate item and can be filtered using the `buffer_size` \nfield in the item's properties. These layers contain only the geometry, enabling seamless integration with \nother geospatial data.\n\nPlease consider the following citation when using this dataset:\n\nFloris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart,\nEnabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024,\n106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.\n(https://www.sciencedirect.com/science/article/pii/S1364815224003189)\n\n",
+  "description": "\nThe Coastal Zone dataset provides a vectorized representation of coastal zones at multiple buffer distances.\nIt is derived from a generalized version of the OpenStreetMap coastline (2023-02) and serves as a valuable\ntool for masking other datasets or for spatial analysis in coastal regions.\n\nThis STAC collection includes multiple layers, each corresponding to a specific buffer distance:\n500m, 1000m, 2000m, 5000m, 10000m, and 15000m. The buffer distance defines the zone's extent, with the\ntotal width being twice the buffer distance (e.g., a 5000m buffer results in a zone 10km wide).\n\nEach layer in the collection is stored as a separate item and can be filtered using the `buffer_size`\nfield in the item's properties. These layers contain only the geometry, enabling seamless integration with\nother geospatial data.\n\nPlease consider the following citation when using this dataset:\n\nFloris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart,\nEnabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024,\n106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.\n(https://www.sciencedirect.com/science/article/pii/S1364815224003189)\n\n",
   "links": [
     {
       "rel": "license",
       "href": "https://creativecommons.org/licenses/by/4.0/",
       "type": "text/html",
       "title": "CC BY 4.0 "
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257",
+      "title": "Citation DOI"
     },
     {
       "rel": "item",
@@ -56,7 +69,6 @@
   "stac_extensions": [
     "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json"
   ],
   "item_assets": {
@@ -79,8 +91,15 @@
       ]
     }
   },
-  "container_uri": "az://coastal-zone/release/2024-12-08",
-  "sci:citation": "\n    Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart,\n    Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024,\n    106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.\n    (https://www.sciencedirect.com/science/article/pii/S1364815224003189)\n    ",
+  "storage_pattern": "az://coastal-zone/release/2024-12-08/*.parquet",
+  "sci:doi": "10.1016/j.envsoft.2024.106257",
+  "sci:citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.",
+  "sci:publications": [
+    {
+      "doi": "10.1016/j.envsoft.2024.106257",
+      "citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257."
+    }
+  ],
   "version": "2024-12-08",
   "title": "Coastal Zone",
   "extent": {
@@ -97,8 +116,8 @@
     "temporal": {
       "interval": [
         [
-          "2024-12-08T00:00:00Z",
-          "2024-12-08T00:00:00Z"
+          "2023-02-09T00:00:00Z",
+          "2023-02-09T00:00:00Z"
         ]
       ]
     }
@@ -129,17 +148,21 @@
   ],
   "assets": {
     "thumbnail": {
-      "href": "https://coclico.blob.core.windows.net/assets/thumbnails/coastal-zone-thumbnail.jpeg",
+      "href": "https://coclico.blob.core.windows.net/assets/thumbnails/coastal-grid-thumbnail.jpeg",
       "type": "image/jpeg",
-      "title": "Thumbnail"
+      "title": "Thumbnail",
+      "roles": [
+        "thumbnail"
+      ]
     },
     "geoparquet-stac-items": {
       "href": "az://items/coastal-zone.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "2023-02-09T00:00:00Z",
       "roles": [
-        "data"
+        "metadata"
       ]
     }
   }

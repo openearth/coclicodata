@@ -11,6 +11,19 @@
       "title": "CC BY 4.0 "
     },
     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257",
+      "title": "Citation DOI"
+    },
+    {
       "rel": "item",
       "href": "./items/n67e010_part-8333e67aa7b3.json",
       "type": "application/json"
@@ -106,7 +119,6 @@
   "stac_extensions": [
     "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json"
   ],
   "item_assets": {
@@ -254,8 +266,15 @@
       ]
     }
   },
-  "container_uri": "az://gctr/release/2024-08-06",
-  "sci:citation": "Calkoen, Floris. 2024. \"Global Coastal Transect Repository\" In progress.",
+  "storage_pattern": "az://gctr/release/2024-08-06/**/*.parquet",
+  "sci:doi": "10.1016/j.envsoft.2024.106257",
+  "sci:citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.",
+  "sci:publications": [
+    {
+      "doi": "10.1016/j.envsoft.2024.106257",
+      "citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257."
+    }
+  ],
   "version": "2024-08-06",
   "title": "Global Coastal Transect Repository (GCTR)",
   "extent": {
@@ -272,8 +291,8 @@
     "temporal": {
       "interval": [
         [
-          "2024-08-06T00:00:00Z",
-          "2024-08-06T00:00:00Z"
+          "2023-02-09T00:00:00Z",
+          "2023-02-09T00:00:00Z"
         ]
       ]
     }
@@ -315,12 +334,13 @@
       "title": "Thumbnail"
     },
     "geoparquet-stac-items": {
-      "href": "az://items-test/gctr.parquet",
+      "href": "az://items/gctr.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "2023-02-09T00:00:00Z",
       "roles": [
-        "data"
+        "metadata"
       ]
     }
   }

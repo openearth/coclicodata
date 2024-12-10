@@ -1,10 +1,46 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
   "id": "n67w090_part-399f5b95bd01",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -7.9036232753206574,
+          66.50435737903862
+        ],
+        [
+          -7.9036232753206574,
+          83.66967471602302
+        ],
+        [
+          -90.05929688568439,
+          83.66967471602302
+        ],
+        [
+          -90.05929688568439,
+          66.50435737903862
+        ],
+        [
+          -7.9036232753206574,
+          66.50435737903862
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -90.05929688568439,
+    66.50435737903862,
+    -7.9036232753206574,
+    83.66967471602302
+  ],
   "properties": {
-    "title": "GCTR",
-    "description": "Parquet dataset with coastal transects and their attributes at 100-m alongshore resolution for this region.",
+    "created": "2024-12-09T23:47:18.380007Z",
     "table:columns": [
       {
         "name": "transect_id",
@@ -156,37 +192,15 @@
     ],
     "proj:epsg": 4326,
     "table:row_count": 803314,
-    "created": "2024-11-11T15:57:28.178089Z",
-    "datetime": "2024-08-06T00:00:00Z"
-  },
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          -7.9036232753206574,
-          66.50435737903862
-        ],
-        [
-          -7.9036232753206574,
-          83.66967471602302
-        ],
-        [
-          -90.05929688568439,
-          83.66967471602302
-        ],
-        [
-          -90.05929688568439,
-          66.50435737903862
-        ],
-        [
-          -7.9036232753206574,
-          66.50435737903862
-        ]
-      ]
-    ]
+    "datetime": "2023-02-09T00:00:00Z"
   },
   "links": [
+    {
+      "rel": "alternate",
+      "href": "https://coclico.blob.core.windows.net/gctr/release/2024-08-06/n67w090_part-399f5b95bd01.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "HTTPS access"
+    },
     {
       "rel": "collection",
       "href": "../collection.json",
@@ -217,15 +231,5 @@
       ]
     }
   },
-  "bbox": [
-    -90.05929688568439,
-    66.50435737903862,
-    -7.9036232753206574,
-    83.66967471602302
-  ],
-  "stac_extensions": [
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
-  ],
   "collection": "gctr"
 }

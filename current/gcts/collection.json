@@ -11,6 +11,19 @@
       "title": "CC BY 4.0 "
     },
     {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257",
+      "title": "Citation DOI"
+    },
+    {
       "rel": "item",
       "href": "./items/n67e010_part-990b22b0c6d3.json",
       "type": "application/json"
@@ -106,7 +119,6 @@
   "stac_extensions": [
     "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json"
   ],
   "item_assets": {
@@ -194,8 +206,15 @@
       ]
     }
   },
-  "container_uri": "az://gcts/release/2024-08-02",
-  "sci:citation": "\n    Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart,\n    Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024,\n    106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.\n    (https://www.sciencedirect.com/science/article/pii/S1364815224003189)\n    ",
+  "storage_pattern": "az://gcts/release/2024-08-02/*.parquet",
+  "sci:doi": "10.1016/j.envsoft.2024.106257",
+  "sci:citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.",
+  "sci:publications": [
+    {
+      "doi": "10.1016/j.envsoft.2024.106257",
+      "citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257."
+    }
+  ],
   "version": "2024-08-02",
   "title": "Global Coastal Transect System (GCTS)",
   "extent": {
@@ -212,8 +231,8 @@
     "temporal": {
       "interval": [
         [
-          "2024-08-02T00:00:00Z",
-          "2024-08-02T00:00:00Z"
+          "2023-02-09T00:00:00Z",
+          "2023-02-09T00:00:00Z"
         ]
       ]
     }
@@ -249,15 +268,19 @@
     "thumbnail": {
       "href": "https://coclico.blob.core.windows.net/assets/thumbnails/gcts-thumbnail.jpeg",
       "type": "image/jpeg",
-      "title": "Thumbnail"
+      "title": "Thumbnail",
+      "roles": [
+        "thumbnail"
+      ]
     },
     "geoparquet-stac-items": {
-      "href": "az://items-test/gcts.parquet",
+      "href": "az://items/gcts.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "2023-02-09T00:00:00Z",
       "roles": [
-        "data"
+        "metadata"
       ]
     }
   }

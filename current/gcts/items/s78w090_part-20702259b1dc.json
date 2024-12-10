@@ -1,10 +1,46 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
   "id": "s78w090_part-20702259b1dc",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -0.0006344845087479812,
+          -78.14544733177561
+        ],
+        [
+          -0.0006344845087479812,
+          -66.50914140789267
+        ],
+        [
+          -89.99748519145491,
+          -66.50914140789267
+        ],
+        [
+          -89.99748519145491,
+          -78.14544733177561
+        ],
+        [
+          -0.0006344845087479812,
+          -78.14544733177561
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -89.99748519145491,
+    -78.14544733177561,
+    -0.0006344845087479812,
+    -66.50914140789267
+  ],
   "properties": {
-    "title": "GCTS",
-    "description": "Parquet dataset with coastal transects (2000 m) at 100 m alongshore resolution for this region.",
+    "created": "2024-12-09T23:42:49.267130Z",
     "table:columns": [
       {
         "name": "transect_id",
@@ -96,37 +132,15 @@
     ],
     "proj:epsg": 4326,
     "table:row_count": 102877,
-    "created": "2024-11-11T15:55:42.529131Z",
-    "datetime": "2024-08-02T00:00:00Z"
-  },
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [
-          -0.0006344845087479812,
-          -78.14544733177561
-        ],
-        [
-          -0.0006344845087479812,
-          -66.50914140789267
-        ],
-        [
-          -89.99748519145491,
-          -66.50914140789267
-        ],
-        [
-          -89.99748519145491,
-          -78.14544733177561
-        ],
-        [
-          -0.0006344845087479812,
-          -78.14544733177561
-        ]
-      ]
-    ]
+    "datetime": "2023-02-09T00:00:00Z"
   },
   "links": [
+    {
+      "rel": "alternate",
+      "href": "https://coclico.blob.core.windows.net/gcts/release/2024-08-02/s78w090_part-20702259b1dc.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "HTTPS access"
+    },
     {
       "rel": "collection",
       "href": "../collection.json",
@@ -157,15 +171,5 @@
       ]
     }
   },
-  "bbox": [
-    -89.99748519145491,
-    -78.14544733177561,
-    -0.0006344845087479812,
-    -66.50914140789267
-  ],
-  "stac_extensions": [
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
-  ],
   "collection": "gcts"
 }
