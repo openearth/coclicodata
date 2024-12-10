@@ -115,7 +115,7 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # directory to export result
-cog_dirs = ds_dir.joinpath("cogs")
+cog_dirs = ds_dir.joinpath("cogs_28nov24")
 ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
 
 # load metadata template
@@ -401,6 +401,8 @@ def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_h
     # Iterate over all chunks
     for chunk in chunk_list:
 
+        print(chunk)
+
         # Open chunk to determine bounding box
         chunk_ds = xr.open_dataset(chunk)
 
@@ -563,7 +565,7 @@ if __name__ == "__main__":
         "UNDEFENDED_MAPS",
     ]  # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
-    scenarios = ["none", "SSP126", "SSP245", "SSP585", "High_end"]  # 5 options
+    scenarios = ["None", "SSP126", "SSP245", "SSP585", "High_end"]  # 5 options
     times = ["2010", "2030", "2050", "2100", "2150"]  # 5 options
 
     # List all tif files present in first folder (note: it is assumed that the same files are present in all folders)
@@ -644,59 +646,66 @@ if __name__ == "__main__":
     #             items.append(item)
     #             collection.add_item(item)
 
-    for map_type in map_types:
+    for map_type in [map_types[0]]:
         for rp in rps:
             for scen in scenarios:
                 for time in times:
-                    if (
-                        rp == "static" and scen == "none" and time == "2010"
-                    ):  # mean spring tide
-                        tif_list = list(
-                            pathlib.Path.joinpath(
-                                cog_dirs, map_type, "Mean_spring_tide"
-                            ).glob("*.tif")
-                        )
-                        cur_path = "Mean_spring_tide"
-                        STAC_DIR.joinpath(COLLECTION_ID, "items", map_type).mkdir(
-                            parents=True, exist_ok=True
-                        )
-                        filename = os.path.join(map_type, "Mean_spring_tide")
-                        # print(map_type, rp, scen, time)
-                    elif (
-                        rp != "static" and scen == "none" and time == "2010"
-                    ):  # RPs frist batchs only for 2010 (hindcast)
-                        tif_list = list(
-                            pathlib.Path.joinpath(cog_dirs, map_type, "RP", rp).glob(
-                                "*.tif"
-                            )
-                        )
-                        cur_path = os.path.join("RP", rp)
-                        STAC_DIR.joinpath(COLLECTION_ID, "items", map_type, "RP").mkdir(
-                            parents=True, exist_ok=True
-                        )
-                        filename = os.path.join(map_type, "RP", rp)
-                        # print(map_type, rp, scen, time)
-                    elif rp == "static" and scen != "none":  # this is for the SLR maps
-                        tif_list = list(
-                            pathlib.Path.joinpath(
-                                cog_dirs, map_type, "SLR", scen, time
-                            ).glob("*.tif")
-                        )
-                        cur_path = os.path.join("SLR", scen, time)
-                        if (
-                            len(tif_list) > 0
-                        ):  # we have data so we continue (so not for all times)
-                            STAC_DIR.joinpath(
-                                COLLECTION_ID, "items", map_type, "SLR", scen
-                            ).mkdir(parents=True, exist_ok=True)
-                            filename = os.path.join(map_type, "SLR", scen, time)
-                            # print(map_type, rp, scen, time)
-                        else:  # break loop if not satisfied
-                            continue
-                    else:  # break loop if not satisfied (so not for all other combinations)
-                        continue
+                    # if (
+                    #     rp == "static" and scen == "none" and time == "2010"
+                    # ):  # mean spring tide
+                    #     tif_list = list(
+                    #         pathlib.Path.joinpath(
+                    #             cog_dirs, map_type, "Mean_spring_tide"
+                    #         ).glob("*.tif")
+                    #     )
+                    #     cur_path = "Mean_spring_tide"
+                    #     STAC_DIR.joinpath(COLLECTION_ID, "items", map_type).mkdir(
+                    #         parents=True, exist_ok=True
+                    #     )
+                    #     filename = os.path.join(map_type, "Mean_spring_tide")
+                    #     # print(map_type, rp, scen, time)
+                    # elif (
+                    #     rp != "static" and scen == "none" and time == "2010"
+                    # ):  # RPs frist batchs only for 2010 (hindcast)
+                    #     tif_list = list(
+                    #         pathlib.Path.joinpath(cog_dirs, map_type, "RP", rp).glob(
+                    #             "*.tif"
+                    #         )
+                    #     )
+                    #     cur_path = os.path.join("RP", rp)
+                    #     STAC_DIR.joinpath(COLLECTION_ID, "items", map_type, "RP").mkdir(
+                    #         parents=True, exist_ok=True
+                    #     )
+                    #     filename = os.path.join(map_type, "RP", rp)
+                    #     # print(map_type, rp, scen, time)
+                    # elif rp == "static" and scen != "none":  # this is for the SLR maps
+                    #     tif_list = list(
+                    #         pathlib.Path.joinpath(
+                    #             cog_dirs, map_type, "SLR", scen, time
+                    #         ).glob("*.tif")
+                    #     )
+                    #     cur_path = os.path.join("SLR", scen, time)
+                    #     if (
+                    #         len(tif_list) > 0
+                    #     ):  # we have data so we continue (so not for all times)
+                    #         STAC_DIR.joinpath(
+                    #             COLLECTION_ID, "items", map_type, "SLR", scen
+                    #         ).mkdir(parents=True, exist_ok=True)
+                    #         filename = os.path.join(map_type, "SLR", scen, time)
+                    #         # print(map_type, rp, scen, time)
+                    #     else:  # break loop if not satisfied
+                    #         continue
+                    # else:  # break loop if not satisfied (so not for all other combinations)
+                    #     continue
 
                     # print(len(tif_list))
+
+                    tif_list = list(cog_dirs.joinpath(map_type, rp, scen, time).glob("*.tif"))
+                    cur_path = os.path.join(map_type, rp, scen, time)
+                    filename = os.path.join(map_type, rp, scen, time)
+
+                    if len(tif_list) == 0:
+                        continue
 
                     # note, Here it changes because we are dealing with mosaics iso single tiffs. We will use a single tiff to create one item to direct to the mosaic
                     cfhp = xr.open_dataset(
@@ -717,7 +726,7 @@ if __name__ == "__main__":
                     }
                     storage_options = {"token": "google_default"}
 
-                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, *cur_path.split('\\'))
+                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, *cur_path.split('\\'))
 
                     # Process the chunk using a delayed function
                     item = process_block(

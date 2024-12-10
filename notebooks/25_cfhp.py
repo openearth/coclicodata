@@ -108,13 +108,13 @@ map_types = [
     "UNDEFENDED_MAPS",
 ]  # 3 options
 
-for map_type in [map_types[0]]:
+for map_type in [map_types[2]]:
     print(map_type)
 
     # Iterate over the original tif files
     tif_list = ds_dir.joinpath(map_type).glob("*.tif")
     
-    for cur_tif in [list(tif_list)[-1]]:
+    for cur_tif in tif_list:
 
         rp,scenario,time = extract_info(Path(*cur_tif.parts[5:]))
 
