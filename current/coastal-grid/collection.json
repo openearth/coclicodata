@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "coastal-grid",
   "stac_version": "1.0.0",
-  "description": "\nThe Coastal Grid dataset provides a global tiling system for geospatial analytics in coastal areas.\nIt supports scalable data processing workflows by offering structured grids at varying zoom levels\n(5, 6, 7) and buffer sizes (500m, 1000m, 2000m, 5000m, 10000m, 15000m).\n\nEach tile contains information on intersecting countries, continents, and Sentinel-2 MGRS tiles\nas nested JSON lists. The dataset is particularly suited for applications requiring global coastal\ncoverage, such as satellite-based coastal monitoring, spatial analytics, and large-scale data processing.\n\nKey Features:\n- Global coverage of the coastal zone, derived from OpenStreetMap's generalized coastline (2023-02).\n- Precomputed intersections with countries, continents, and MGRS tiles.\n- Designed for use in scalable geospatial workflows.\n\nThis dataset is structured as a STAC collection, with individual items for each zoom level and buffer\nsize combination. Users can filter items by the `zoom` and `buffer_size` fields in the STAC metadata.\n\nPlease consider the following citation when using this dataset:\n\nFloris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart,\nEnabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024,\n106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.\n",
+  "description": "\nThe Coastal Grid dataset provides a global tiling system for geospatial analytics in coastal areas.\nIt supports scalable data processing workflows by offering structured grids at varying zoom levels\n(5, 6, 7, 8, 9, 10) and buffer sizes (500m, 1000m, 2000m, 5000m, 10000m, 15000m).\n\nEach tile contains information on intersecting countries, continents, and Sentinel-2 MGRS tiles\nas nested JSON lists. The dataset is particularly suited for applications requiring global coastal\ncoverage, such as satellite-based coastal monitoring, spatial analytics, and large-scale data processing.\n\nKey Features:\n- Global coverage of the coastal zone, derived from OpenStreetMap's generalized coastline (2023-02).\n- Precomputed intersections with countries, continents, and MGRS tiles.\n- Designed for use in scalable geospatial workflows.\n\nThis dataset is structured as a STAC collection, with individual items for each zoom level and buffer\nsize combination. Users can filter items by the `zoom` and `buffer_size` fields in the STAC metadata.\n\nPlease consider the following citation when using this dataset:\n\nFloris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart,\nEnabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024,\n106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.\n",
   "links": [
     {
       "rel": "license",
@@ -17,6 +17,31 @@
     {
       "rel": "cite-as",
       "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z10_10000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z10_1000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z10_15000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z10_2000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z10_5000m.json",
+      "type": "application/json"
     },
     {
       "rel": "item",
@@ -109,6 +134,66 @@
       "type": "application/json"
     },
     {
+      "rel": "item",
+      "href": "./items/coastal_grid_z8_10000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z8_1000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z8_15000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z8_2000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z8_5000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z8_500m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z9_10000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z9_1000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z9_15000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z9_2000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z9_5000m.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/coastal_grid_z9_500m.json",
+      "type": "application/json"
+    },
+    {
       "rel": "root",
       "href": "../catalog.json",
       "type": "application/json",
@@ -154,6 +239,11 @@
           "description": "Bounding box of the tile in WGS84 coordinates, represented as a dictionary."
         },
         {
+          "name": "coastal_grid:utm_epsg",
+          "type": "int32",
+          "description": "EPSG code for the UTM zone of the tile estimated by GeoPandas.estimate_utm_crs()."
+        },
+        {
           "name": "admin:countries",
           "type": "string",
           "description": "JSON list of countries intersecting the tile (e.g., '[\"CA\", \"US\"]')."
@@ -176,7 +266,7 @@
       ]
     }
   },
-  "storage_pattern": "az://coastal-grid/release/2024-12-10/*.parquet",
+  "storage_pattern": "az://coastal-grid/release/2024-12-11/*.parquet",
   "sci:doi": "10.1016/j.envsoft.2024.106257",
   "sci:citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.",
   "sci:publications": [
@@ -185,7 +275,7 @@
       "citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Etiënne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257."
     }
   ],
-  "version": "2024-12-10",
+  "version": "2024-12-11",
   "title": "Coastal Grid",
   "extent": {
     "spatial": {

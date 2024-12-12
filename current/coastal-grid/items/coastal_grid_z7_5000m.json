@@ -40,7 +40,7 @@
     83.70970558975208
   ],
   "properties": {
-    "created": "2024-12-09T23:54:17.239383Z",
+    "created": "2024-12-12T08:21:49.293743Z",
     "table:columns": [
       {
         "name": "coastal_grid:id",
@@ -67,6 +67,11 @@
       {
         "name": "coastal_grid:bbox.ymin",
         "type": "double"
+      },
+      {
+        "name": "coastal_grid:utm_epsg",
+        "type": "int64",
+        "description": "EPSG code for the UTM zone of the tile estimated by GeoPandas.estimate_utm_crs()."
       },
       {
         "name": "admin:countries",
@@ -102,7 +107,7 @@
   "links": [
     {
       "rel": "alternate",
-      "href": "https://coclico.blob.core.windows.net/coastal-grid/release/2024-12-10/coastal_grid_z7_5000m.parquet",
+      "href": "https://coclico.blob.core.windows.net/coastal-grid/release/2024-12-11/coastal_grid_z7_5000m.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "HTTPS access"
     },
@@ -127,7 +132,7 @@
   ],
   "assets": {
     "data": {
-      "href": "az://coastal-grid/release/2024-12-10/coastal_grid_z7_5000m.parquet",
+      "href": "az://coastal-grid/release/2024-12-11/coastal_grid_z7_5000m.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "Coastal Grid",
       "description": "Parquet dataset providing a global structured coastal grid for coastal analytics",
@@ -149,6 +154,11 @@
           "name": "coastal_grid:bbox",
           "type": "object",
           "description": "Bounding box of the tile in WGS84 coordinates, represented as a dictionary."
+        },
+        {
+          "name": "coastal_grid:utm_epsg",
+          "type": "int32",
+          "description": "EPSG code for the UTM zone of the tile estimated by GeoPandas.estimate_utm_crs()."
         },
         {
           "name": "admin:countries",
