@@ -1,0 +1,140 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "NUTS_RG_01M_2021_3035_CM",
+  "properties": {
+    "title": "NUTS",
+    "description": "The NUTS are a hierarchical system divided into 3 levels, clipped only to the coastal area",
+    "table:columns": [
+      {
+        "name": "NUTS_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LEVL_CODE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "CNTR_CODE",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "NAME_LATN",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "NUTS_NAME",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "MOUNT_TYPE",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "URBN_TYPE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "COAST_TYPE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "__index_level_0__",
+        "type": "int64",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -2824230.8134000003,
+      -3076162.6068,
+      10026010.8334,
+      6405005.3475
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 921,
+    "created": "2024-12-12T12:55:33.336278Z",
+    "datetime": "2024-01-22T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          103.456913582018,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          -29.857082115784582
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Nomenclature of territorial units for statistics, clipped by Coastal Mask"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Nomenclature of territorial units for statistics, clipped by Coastal Mask"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "gs://coclico-data-public/coclico/NUTS_CM/NUTS_RG_01M_2021_3035_CM.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "NUTS",
+      "description": "The NUTS are a hierarchical system divided into 3 levels, clipped only to the coastal area",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    -90.23528381409483,
+    -29.857082115784582,
+    103.456913582018,
+    39.79889221318682
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "NUTS_CM"
+}
