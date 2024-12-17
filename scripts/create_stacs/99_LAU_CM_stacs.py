@@ -53,7 +53,7 @@ BUCKET_PROJ = "coclico"
 PROJ_NAME = "LAU_CM"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"
+STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "XX_LAU"
@@ -431,7 +431,7 @@ if __name__ == "__main__":
     #     dum.index.nlevels == 1 and split == "N" and paths == []
     # ):  # if not multi-indexed and no need to split and cloud file does not exist
 
-        # upload directory to the cloud (files already parquet)
+    # upload directory to the cloud (files already parquet)
     file_to_google_cloud(
         file_path=str(ds_fp),
         gcs_project=GCS_PROJECT,
@@ -440,7 +440,6 @@ if __name__ == "__main__":
         dir_name=PROJ_NAME,
         file_name=ds_fp.name,
         )
-
 
     # %% get descriptions
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
