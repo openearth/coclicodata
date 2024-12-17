@@ -69,7 +69,7 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "cfhp"
+PROJ_NAME = "cfhp_all"
 
 # hard-coded STAC templates
 CUR_CWD = pathlib.Path.cwd().parent.parent
@@ -79,7 +79,7 @@ STAC_DIR = CUR_CWD / "current"  # .parent.parent
 METADATA = "Mean_spring_tide_HD.json"
 DATASET_DIR = "WP4"
 CF_FILE = "Mean_spring_tide_HD.tif"  # NOTE: multiple files
-COLLECTION_ID = "cfhp"  # name of stac collection
+COLLECTION_ID = "cfhp_all"  # name of stac collection
 
 # these are added at collection level, determine dashboard graph layout using all items
 PLOT_SERIES = "scenarios"
@@ -565,7 +565,7 @@ if __name__ == "__main__":
         "UNDEFENDED_MAPS",
     ]  # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
-    scenarios = ["None", "SSP126", "SSP245", "SSP585", "High_end"]  # 5 options
+    scenarios = ["None", "SSP126", "SSP245", "SSP585", "High_End"]  # 5 options
     times = ["2010", "2030", "2050", "2100", "2150"]  # 5 options
 
     # List all tif files present in first folder (note: it is assumed that the same files are present in all folders)
@@ -646,7 +646,7 @@ if __name__ == "__main__":
     #             items.append(item)
     #             collection.add_item(item)
 
-    for map_type in [map_types[0]]:
+    for map_type in map_types:
         for rp in rps:
             for scen in scenarios:
                 for time in times:
