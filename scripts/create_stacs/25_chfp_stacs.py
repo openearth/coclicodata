@@ -214,7 +214,7 @@ def create_collection(
     collection.add_asset(
         "geoserver_link",
         pystac.Asset(
-            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=cba:GCF_open_CBA_country_all_EPSG4326&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=cfhp:lau_nuts_cfhp&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
             title="Geoserver Parquet link",
             media_type="application/vnd.apache.parquet",
         ),
@@ -259,7 +259,7 @@ def create_collection(
 
 # %%
 def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLIT):
-    dst_crs = rasterio.crs.CRS.from_epsg(metadata['CRS'].split(':')[-1])
+    dst_crs = rasterio.crs.CRS.from_epsg(metadata["CRS"].split(":")[-1])
 
     # when the data spans a range, it's common practice to use the middle time as the datetime provided
     # in the STAC item. So then you have to infer the start_datetime, end_datetime and get the middle
@@ -364,13 +364,26 @@ def create_asset(
     projection = pystac.extensions.projection.ProjectionExtension.ext(asset)
 
     projection.bbox = list(bbox)
-    projection.geometry = shapely.geometry.mapping(shapely.make_valid(shapely.geometry.box(*bbox)))
+    projection.geometry = shapely.geometry.mapping(
+        shapely.make_valid(shapely.geometry.box(*bbox))
+    )
 
     ...
     return item
 
 
-def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_href, nodata, resolution, data_type, bbox_crs, nbytes=None):
+def create_asset_mosaic(
+    item,
+    storage_prefix,
+    raw_data_dir,
+    asset_title,
+    asset_href,
+    nodata,
+    resolution,
+    data_type,
+    bbox_crs,
+    nbytes=None,
+):
     title = (
         COLLECTION_ID
         + ":"
@@ -395,8 +408,7 @@ def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_h
     # Get the components of the current tif
     tif_id = pathlib.Path(*pathlib.Path(storage_prefix).parts[5:])
 
-
-    chunk_list = raw_data_dir.joinpath(tif_id).glob('*.tif')
+    chunk_list = raw_data_dir.joinpath(tif_id).glob("*.tif")
 
     # Iterate over all chunks
     for chunk in chunk_list:
@@ -410,16 +422,17 @@ def create_asset_mosaic(item, storage_prefix, raw_data_dir, asset_title, asset_h
             chunk_ds.rio.crs, bbox_crs, *chunk_ds.rio.bounds()
         )
 
-       # Add each chunk to the asset
+        # Add each chunk to the asset
         item = create_asset(
-                            item, 
-                            str(tif_id.joinpath(chunk.name)), 
-                            urljoin(storage_prefix,chunk.name), 
-                            nodata, 
-                            resolution, 
-                            data_type,
-                            bbox, 
-                            nbytes)
+            item,
+            str(tif_id.joinpath(chunk.name)),
+            urljoin(storage_prefix, chunk.name),
+            nodata,
+            resolution,
+            data_type,
+            bbox,
+            nbytes,
+        )
 
     return item
 
@@ -510,17 +523,17 @@ def process_block(
             )
         if item_type == "mosaic":
             item = create_asset_mosaic(
-                                        item, 
-                                        storage_prefix=storage_prefix,
-                                        raw_data_dir=base_path,
-                                        asset_title=da.name,
-                                        asset_href=href,
-                                        nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
-                                        resolution=resolution,
-                                        data_type=raster.DataType.FLOAT32,  # should be same as how data is written
-                                        bbox_crs= rasterio.crs.CRS.from_epsg(metadata['CRS'].split(':')[-1]),
-                                        nbytes=nbytes
-                                    )
+                item,
+                storage_prefix=storage_prefix,
+                raw_data_dir=base_path,
+                asset_title=da.name,
+                asset_href=href,
+                nodata=da.rio.nodata.item(),  # use item() as this converts np dtype to python dtype
+                resolution=resolution,
+                data_type=raster.DataType.FLOAT32,  # should be same as how data is written
+                bbox_crs=rasterio.crs.CRS.from_epsg(metadata["CRS"].split(":")[-1]),
+                nbytes=nbytes,
+            )
 
     return item
 
@@ -700,7 +713,9 @@ if __name__ == "__main__":
 
                     # print(len(tif_list))
 
-                    tif_list = list(cog_dirs.joinpath(map_type, rp, scen, time).glob("*.tif"))
+                    tif_list = list(
+                        cog_dirs.joinpath(map_type, rp, scen, time).glob("*.tif")
+                    )
                     cur_path = os.path.join(map_type, rp, scen, time)
                     filename = os.path.join(map_type, rp, scen, time)
 
@@ -726,7 +741,7 @@ if __name__ == "__main__":
                     }
                     storage_options = {"token": "google_default"}
 
-                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, *cur_path.split('\\'))
+                    CUR_HREF_PREFIX = urljoin(HREF_PREFIX, *cur_path.split("\\"))
 
                     # Process the chunk using a delayed function
                     item = process_block(
