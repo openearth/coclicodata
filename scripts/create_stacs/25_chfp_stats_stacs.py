@@ -83,10 +83,10 @@ if not ds_dir.exists():
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
 ds_path = ds_dir.joinpath("WP4", "LAU_stats")
-ds_fp = ds_path.joinpath("LAU_NUTS_CFHP_CLEANCM.parquet")  # file directory
+ds_fp = ds_path.joinpath("LAU_NUTS_CFHP_CLEANCM_all.parquet")  # file directory
 
 # # load metadata template
-metadata_fp = ds_path.joinpath("metadata", "LAU_NUTS_CFHP").with_suffix(".json")
+metadata_fp = ds_path.joinpath("metadata", "LAU_NUTS_CFHP_all").with_suffix(".json")
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
