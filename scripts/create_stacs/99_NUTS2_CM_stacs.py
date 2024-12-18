@@ -50,7 +50,7 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "NUTS0_CM"
+PROJ_NAME = "NUTS2_CM"
 
 # hard-coded STAC templates
 STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
@@ -58,7 +58,7 @@ STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 # hard-coded input params which differ per dataset
 DATASET_DIR = "XX_NUTS"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "NUTS0_CM"  # name of stac collection
+COLLECTION_ID = "NUTS2_CM"  # name of stac collection
 MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
@@ -83,7 +83,7 @@ if not ds_dir.exists():
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
 ds_path = ds_dir.joinpath("XX_NUTS")
-ds_fp = ds_path.joinpath("NUTS0_RG_01M_2021_3035_CM.parquet")  # file directory
+ds_fp = ds_path.joinpath("NUTS2_RG_01M_2021_3035_CM.parquet")  # file directory
 
 # # load metadata template
 metadata_fp = ds_path.joinpath("metadata", ds_fp.name).with_suffix(".json")
