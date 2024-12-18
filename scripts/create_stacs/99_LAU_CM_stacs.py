@@ -439,7 +439,7 @@ if __name__ == "__main__":
         bucket_proj=BUCKET_PROJ,
         dir_name=PROJ_NAME,
         file_name=ds_fp.name,
-        )
+    )
 
     # %% get descriptions
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
@@ -460,8 +460,10 @@ if __name__ == "__main__":
     collection = create_collection(extra_fields={"base_url": uri})
 
     for uri in uris:
-        print(uri)
+        GCS_url = urljoin(HREF_PREFIX, uri.split("/")[-1])
+        print(GCS_url)
         item = create_item(uri)
+        item.assets["data"].href = GCS_url  # replace with https link iso gs uri
         collection.add_item(item)
 
     collection.update_extent_from_items()
