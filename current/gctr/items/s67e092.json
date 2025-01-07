@@ -1,0 +1,380 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "id": "s67e092",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          179.9998718338963,
+          -66.52166531106887
+        ],
+        [
+          179.9998718338963,
+          0.008131447605039291
+        ],
+        [
+          92.21395148904566,
+          0.008131447605039291
+        ],
+        [
+          92.21395148904566,
+          -66.52166531106887
+        ],
+        [
+          179.9998718338963,
+          -66.52166531106887
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    92.21395148904566,
+    -66.52166531106887,
+    179.9998718338963,
+    0.008131447605039291
+  ],
+  "properties": {
+    "created": "2024-12-18T17:16:13.643168Z",
+    "table:columns": [
+      {
+        "name": "transect_id",
+        "type": "string",
+        "description": "Unique identifier for each transect, constructed from coastline, segment, and distance."
+      },
+      {
+        "name": "lon",
+        "type": "float",
+        "description": "Longitude coordinate of the transect origin."
+      },
+      {
+        "name": "lat",
+        "type": "float",
+        "description": "Latitude coordinate of the transect origin."
+      },
+      {
+        "name": "bearing",
+        "type": "float",
+        "description": "Bearing angle of the transect, measured clockwise from the north."
+      },
+      {
+        "name": "geometry",
+        "type": "WKB",
+        "description": "Transect geometry as a Well-Known Binary (WKB) LineString."
+      },
+      {
+        "name": "osm_coastline_is_closed",
+        "type": "bool",
+        "description": "Indicates whether the source OpenStreetMap coastline forms a closed loop (e.g., an island)."
+      },
+      {
+        "name": "osm_coastline_length",
+        "type": "int32",
+        "description": "Total length of the source OpenStreetMap coastline in meters, summed across UTM zones."
+      },
+      {
+        "name": "utm_epsg",
+        "type": "int32",
+        "description": "EPSG code representing the UTM Coordinate Reference System of the transect."
+      },
+      {
+        "name": "bbox.xmax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.xmin",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymin",
+        "type": "double"
+      },
+      {
+        "name": "quadkey",
+        "type": "string",
+        "description": "Spatial index for the transect origin, following the Bing Maps Tile System."
+      },
+      {
+        "name": "continent",
+        "type": "string",
+        "description": "Name of the continent where the transect is located."
+      },
+      {
+        "name": "country",
+        "type": "string",
+        "description": "ISO alpha-2 country code for the transect's location."
+      },
+      {
+        "name": "common_country_name",
+        "type": "string",
+        "description": "Common name of the country where the transect is located."
+      },
+      {
+        "name": "common_region_name",
+        "type": "string",
+        "description": "Common name of the region where the transect is located."
+      },
+      {
+        "name": "dist_b0",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 0°."
+      },
+      {
+        "name": "dist_b30",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 30°."
+      },
+      {
+        "name": "dist_b60",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 60°."
+      },
+      {
+        "name": "dist_b90",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 90°."
+      },
+      {
+        "name": "dist_b120",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 120°."
+      },
+      {
+        "name": "dist_b150",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 150°."
+      },
+      {
+        "name": "dist_b180",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 180°."
+      },
+      {
+        "name": "dist_b210",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 210°."
+      },
+      {
+        "name": "dist_b240",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 240°."
+      },
+      {
+        "name": "dist_b270",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 270°."
+      },
+      {
+        "name": "dist_b300",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 300°."
+      },
+      {
+        "name": "dist_b330",
+        "type": "float",
+        "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 330°."
+      },
+      {
+        "name": "sds:change_rate",
+        "type": "float",
+        "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (SDS)."
+      }
+    ],
+    "proj:bbox": [
+      92.21395148904566,
+      -66.52166531106887,
+      179.9998718338963,
+      0.008131447605039291
+    ],
+    "proj:epsg": 4326,
+    "table:row_count": 1460836,
+    "datetime": "2023-02-09T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "alternate",
+      "href": "https://coclico.blob.core.windows.net/gctr/release/2024-12-17/s67e092.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "HTTPS access"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Coastal Transect Repository (GCTR)"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Coastal Transect Repository (GCTR)"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "az://gctr/release/2024-12-17/s67e092.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Global Coastal Transect Repository (GCTR)",
+      "description": "\nA Parquet dataset containing coastal transects and derived attributes, including intersection \ndistances to OSM coastlines at multiple bearings and shoreline change rates from the ShorelineMonitor dataset.\n",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "transect_id",
+          "type": "string",
+          "description": "Unique identifier for each transect, constructed from coastline, segment, and distance."
+        },
+        {
+          "name": "lon",
+          "type": "float32",
+          "description": "Longitude coordinate of the transect origin."
+        },
+        {
+          "name": "lat",
+          "type": "float32",
+          "description": "Latitude coordinate of the transect origin."
+        },
+        {
+          "name": "bearing",
+          "type": "float32",
+          "description": "Bearing angle of the transect, measured clockwise from the north."
+        },
+        {
+          "name": "geometry",
+          "type": "geometry",
+          "description": "Transect geometry as a Well-Known Binary (WKB) LineString."
+        },
+        {
+          "name": "osm_coastline_is_closed",
+          "type": "bool",
+          "description": "Indicates whether the source OpenStreetMap coastline forms a closed loop (e.g., an island)."
+        },
+        {
+          "name": "osm_coastline_length",
+          "type": "int32",
+          "description": "Total length of the source OpenStreetMap coastline in meters, summed across UTM zones."
+        },
+        {
+          "name": "utm_epsg",
+          "type": "int32",
+          "description": "EPSG code representing the UTM Coordinate Reference System of the transect."
+        },
+        {
+          "name": "bbox",
+          "type": "object",
+          "description": "Bounding box of the transect geometry, defined by minimum and maximum x (longitude) and y (latitude) coordinates."
+        },
+        {
+          "name": "quadkey",
+          "type": "string",
+          "description": "Spatial index for the transect origin, following the Bing Maps Tile System."
+        },
+        {
+          "name": "continent",
+          "type": "string",
+          "description": "Name of the continent where the transect is located."
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "description": "ISO alpha-2 country code for the transect's location."
+        },
+        {
+          "name": "common_country_name",
+          "type": "string",
+          "description": "Common name of the country where the transect is located."
+        },
+        {
+          "name": "common_region_name",
+          "type": "string",
+          "description": "Common name of the region where the transect is located."
+        },
+        {
+          "name": "dist_b0",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 0°."
+        },
+        {
+          "name": "dist_b30",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 30°."
+        },
+        {
+          "name": "dist_b60",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 60°."
+        },
+        {
+          "name": "dist_b90",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 90°."
+        },
+        {
+          "name": "dist_b120",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 120°."
+        },
+        {
+          "name": "dist_b150",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 150°."
+        },
+        {
+          "name": "dist_b180",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 180°."
+        },
+        {
+          "name": "dist_b210",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 210°."
+        },
+        {
+          "name": "dist_b240",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 240°."
+        },
+        {
+          "name": "dist_b270",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 270°."
+        },
+        {
+          "name": "dist_b300",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 300°."
+        },
+        {
+          "name": "dist_b330",
+          "type": "float32",
+          "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 330°."
+        },
+        {
+          "name": "sds:change_rate",
+          "type": "float32",
+          "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (SDS)."
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "gctr"
+}

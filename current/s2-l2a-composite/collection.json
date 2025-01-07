@@ -1,0 +1,142 @@
+{
+  "type": "Collection",
+  "id": "s2-l2a-composite",
+  "stac_version": "1.0.0",
+  "description": "\nAn annual composite dataset created using CoastPy Simple Composite from Sentinel-2 Level-2A data hosted on the Planetary Computer.\nThe composite includes 6 bands (RGB, NIR, SWIR16, SWIR22) and is derived by selecting the least cloudy 10 scenes per orbital ground track.\n",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "item",
+      "href": "./items/31UEU-00.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/31UEV-00.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/31UFU-00.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./items/31UFV-00.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/version/v1.2.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "title": "Annual Composite Bands",
+      "description": "Cloud-optimized GeoTIFF containing composite bands.",
+      "roles": [
+        "data"
+      ],
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "raster:bands": [
+        {
+          "name": "red",
+          "description": "Red band"
+        },
+        {
+          "name": "green",
+          "description": "Green band"
+        },
+        {
+          "name": "blue",
+          "description": "Blue band"
+        },
+        {
+          "name": "nir",
+          "description": "Near Infrared band"
+        },
+        {
+          "name": "swir16",
+          "description": "Shortwave Infrared 1.6 µm band"
+        },
+        {
+          "name": "swir22",
+          "description": "Shortwave Infrared 2.2 µm band"
+        }
+      ]
+    }
+  },
+  "sci:citation": "Calkoen, Floris et al., 'In progress', ",
+  "version": "1.0",
+  "title": "Sentinel-2 L2A Annual Composites",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          4.214397054970407,
+          52.014399443995714,
+          6.3514211180390765,
+          53.6403598030595
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2023-01-17T10:42:59.025000Z",
+          "2023-12-01T10:54:11.024000Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "providers": [
+    {
+      "name": "Deltares",
+      "roles": [
+        "producer",
+        "processor",
+        "host"
+      ],
+      "url": "https://deltares.nl"
+    },
+    {
+      "name": "Microsoft",
+      "roles": [
+        "host"
+      ],
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://example.com/thumbnail.jpeg",
+      "type": "image/jpeg",
+      "title": "Thumbnail",
+      "roles": [
+        "thumbnail"
+      ]
+    },
+    "geoparquet-stac-items": {
+      "href": "https://coclico.blob.core.windows.net/items/s2-l2a-composite.parquet/s2-l2a-composite.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "GeoParquet STAC items",
+      "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "roles": [
+        "metadata"
+      ]
+    }
+  }
+}
