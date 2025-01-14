@@ -374,6 +374,21 @@ def create_item(
 # %%
 # ## Do the work
 if __name__ == "__main__":
+
+    ## Setup folder structure
+    # List different types on map folders
+    # item_type = "single"  # "single" or "mosaic"
+    item_properties = ["adaptation strategy", "scenarios", "time"]
+    adap_strategy = [
+        "protection",
+        "retreat",
+        "acc",
+        "protect_retreat",
+        "no_adaptation",
+    ]  # 5 options
+    scenarios = ["SSP126", "SSP245", "SSP585"]  # 3 options
+    times = ["2050", "2100", "2150"]  # 3 options
+
     log = logging.getLogger()
     log.setLevel(logging.ERROR)
 
@@ -562,8 +577,5 @@ if __name__ == "__main__":
         dest_href=str(STAC_DIR),
         stac_io=stac_io,
     )
-
-# %%
-
 
 # %%
