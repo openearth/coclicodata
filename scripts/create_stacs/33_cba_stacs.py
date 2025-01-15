@@ -41,6 +41,7 @@ from coclicodata.drive_config import p_drive
 from coclicodata.coclico_stac.reshape_im import reshape_aspectratio_image
 
 from coastmonitor import stac_table
+from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coastmonitor.stac.layouts import ParquetLayout
 
 # %%
@@ -53,7 +54,7 @@ BUCKET_PROJ = "coclico"
 PROJ_NAME = "CBA"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"
+STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "WP6"
@@ -81,13 +82,13 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # # directory to export result
-# cog_dirs = ds_dir.joinpath("cogs")
 ds_path = ds_dir.joinpath("WP6", "data", "CBA")
-ds_fp = ds_path.joinpath("GCF.open.CBA_country.all.parquet")  # file directory
+parq_dirs = ds_path.joinpath("maps")
+ds_fp = ds_path.joinpath("GCF.open.CBA_country.all.parquet")  # file directory dummy
 
 # Front end makes geopackages to go alongside the parquet data
 # if this exists define here
-FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG4326.gpkg")
+# FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG4326.gpkg")
 
 # # load metadata template
 metadata_fp = ds_path.joinpath("metadata_GCF_CBA.json")
@@ -389,6 +390,7 @@ if __name__ == "__main__":
     scenarios = ["SSP126", "SSP245", "SSP585"]  # 3 options
     times = ["2050", "2100", "2150"]  # 3 options
 
+    # %%
     log = logging.getLogger()
     log.setLevel(logging.ERROR)
 
@@ -397,99 +399,116 @@ if __name__ == "__main__":
         google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
     )
 
-    # %% test if file is multi-indexed, if we need to write to the cloud and whether we need to split files
-    dum = gpd.read_parquet(ds_fp)  # read parquet file
-    split = "N"  # value to determine if we need to split the files
-    for file in os.listdir(ds_path):
-        if file.endswith(".parquet"):
-            if os.path.getsize(ds_path.joinpath(file)) / 10**6 > MAX_FILE_SIZE:
-                split = "Y"  # change slit to Yes
-                break
+    # %% store to cloud folder
 
-    # bucket content
+    # dir_to_google_cloud(
+    #     dir_path=str(parq_dirs),
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     dir_name=PROJ_NAME,
+    # )
+
+    # %% bucket content
     uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}"
     # storage_options = {"account_name": "coclico", "credential": sas_token}
     # fs, token, [root] = fsspec.get_fs_token_paths(uri, storage_options=storage_options)
     fs = gcsfs.GCSFileSystem(
         gcs_project=GCS_PROJECT, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
     )
-    paths = fs.glob(uri + "/*.parquet")
+    paths = fs.glob(uri + "/**/*.parquet")
     uris = ["gs://" + p for p in paths]
 
+    # %% test if file is multi-indexed, if we need to write to the cloud and whether we need to split files
+    dum = gpd.read_parquet(ds_fp)  # read parquet file
+    # split = "N"  # value to determine if we need to split the files
+    # for file in os.listdir(ds_path):
+    #     if file.endswith(".parquet"):
+    #         if os.path.getsize(ds_path.joinpath(file)) / 10**6 > MAX_FILE_SIZE:
+    #             split = "Y"  # change slit to Yes
+    #             break
+
     # TODO: build something in for assessing size of parquet data, do this in both the if and elif statements
-    if (
-        dum.index.nlevels > 1 or split == "Y"
-    ) and paths == []:  # if multi-indexed or split and there is nothing in the cloud
-        files = os.listdir(ds_path)  # list all files in the directory
-        files_clean = [k for k in files if ".parquet" in k]  # only select parquet files
+    # if (
+    #     dum.index.nlevels > 1 or split == "Y"
+    # ) and paths == []:  # if multi-indexed or split and there is nothing in the cloud
+    #     files = os.listdir(ds_path)  # list all files in the directory
+    #     files_clean = [k for k in files if ".parquet" in k]  # only select parquet files
 
-        for file in files_clean:
-            print(file)
-            file_size = os.path.getsize(ds_path.joinpath(file)) / 10**6
+    #     for file in files_clean:
+    #         print(file)
+    #         file_size = os.path.getsize(ds_path.joinpath(file)) / 10**6
 
-            if file_size < MAX_FILE_SIZE:  # test if file size is smaller than 500MB
-                dspd = gpd.read_parquet(ds_path.joinpath(file))  # read parquet file
-                if dum.index.nlevels > 1:
-                    dspd = dspd.reset_index()  # reset multi-index
+    #         if file_size < MAX_FILE_SIZE:  # test if file size is smaller than 500MB
+    #             dspd = gpd.read_parquet(ds_path.joinpath(file))  # read parquet file
+    #             if dum.index.nlevels > 1:
+    #                 dspd = dspd.reset_index()  # reset multi-index
 
-                # write to the cloud, single file
-                dspd.to_parquet(
-                    f"{uri}/{file}", engine="pyarrow"
-                )  # or supply with local path if needed
+    #             # write to the cloud, single file
+    #             dspd.to_parquet(
+    #                 f"{uri}/{file}", engine="pyarrow"
+    #             )  # or supply with local path if needed
 
-            elif file_size > MAX_FILE_SIZE:  # test if file size is smaller than 500MB
-                dspd = gpd.read_parquet(ds_path.joinpath(file))  # read parquet file
+    #         elif file_size > MAX_FILE_SIZE:  # test if file size is smaller than 500MB
+    #             dspd = gpd.read_parquet(ds_path.joinpath(file))  # read parquet file
 
-                batch_size = int(
-                    np.ceil(len(dspd) / np.ceil(file_size / MAX_FILE_SIZE))
-                )  # calc batch size (max number of rows per partition)
-                if dum.index.nlevels > 1:
-                    dspd = dspd.reset_index()  # reset multi-index
-                splitted_dspd = partition_dataframe(dspd, batch_size)  # calc partitions
+    #             batch_size = int(
+    #                 np.ceil(len(dspd) / np.ceil(file_size / MAX_FILE_SIZE))
+    #             )  # calc batch size (max number of rows per partition)
+    #             if dum.index.nlevels > 1:
+    #                 dspd = dspd.reset_index()  # reset multi-index
+    #             splitted_dspd = partition_dataframe(dspd, batch_size)  # calc partitions
 
-                # write to the cloud, all split files
-                for idx, split_dspd in enumerate(splitted_dspd):
-                    file_name = (
-                        file.split(".")[0]
-                        + "_{:02d}.".format(idx + 1)
-                        + file.split(".")[1]
-                    )  # add zero-padded index (+1 to start at 1) to file name
-                    split_dspd.to_parquet(
-                        f"{uri}/{file_name}", engine="pyarrow"
-                    )  # or supply with local path if needed
+    #             # write to the cloud, all split files
+    #             for idx, split_dspd in enumerate(splitted_dspd):
+    #                 file_name = (
+    #                     file.split(".")[0]
+    #                     + "_{:02d}.".format(idx + 1)
+    #                     + file.split(".")[1]
+    #                 )  # add zero-padded index (+1 to start at 1) to file name
+    #                 split_dspd.to_parquet(
+    #                     f"{uri}/{file_name}", engine="pyarrow"
+    #                 )  # or supply with local path if needed
 
-    elif (
-        dum.index.nlevels == 1 and split == "N" and paths == []
-    ):  # if not multi-indexed and no need to split and cloud file does not exist
+    # elif (
+    #     dum.index.nlevels == 1 and split == "N" and paths == []
+    # ):  # if not multi-indexed and no need to split and cloud file does not exist
 
-        # upload directory to the cloud (files already parquet)
-        file_to_google_cloud(
-            file_path=str(ds_fp),
-            gcs_project=GCS_PROJECT,
-            bucket_name=BUCKET_NAME,
-            bucket_proj=BUCKET_PROJ,
-            dir_name=PROJ_NAME,
-            file_name=ds_fp.name,
-        )
+    #     # upload directory to the cloud (files already parquet)
+    #     file_to_google_cloud(
+    #         file_path=str(ds_fp),
+    #         gcs_project=GCS_PROJECT,
+    #         bucket_name=BUCKET_NAME,
+    #         bucket_proj=BUCKET_PROJ,
+    #         dir_name=PROJ_NAME,
+    #         file_name=ds_fp.name,
+    #     )
 
-        # Also upload the Front-end geopackage if it exists
-        if FE_gpkg_fp != None:
-            # upload directory to the cloud (files already parquet)
-            file_to_google_cloud(
-                file_path=str(FE_gpkg_fp),
-                gcs_project=GCS_PROJECT,
-                bucket_name=BUCKET_NAME,
-                bucket_proj=BUCKET_PROJ,
-                dir_name=PROJ_NAME,
-                file_name=ds_fp.name,
-            )
+    #     # Also upload the Front-end geopackage if it exists
+    #     if FE_gpkg_fp != None:
+    #         # upload directory to the cloud (files already parquet)
+    #         file_to_google_cloud(
+    #             file_path=str(FE_gpkg_fp),
+    #             gcs_project=GCS_PROJECT,
+    #             bucket_name=BUCKET_NAME,
+    #             bucket_proj=BUCKET_PROJ,
+    #             dir_name=PROJ_NAME,
+    #             file_name=ds_fp.name,
+    #         )
 
-    elif paths:
-        print("Dataset already exists in the Google Bucket")
+    # elif paths:
+    #     print("Dataset already exists in the Google Bucket")
 
     # %% get descriptions
+    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/CBA_stats"
+    paths_dum = fs.glob(uri_dum + "/*.parquet")
+    uris_dum = ["gs://" + p for p in paths_dum]
+    HREF_PREFIX_dum = urljoin(
+        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, "CBA_stats"
+    )  # cloud export directory
+    GCS_url_dum = urljoin(HREF_PREFIX_dum, uris_dum[0].split("/")[-1])
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
-        uris[0]
+        uris_dum[0]
     )  # select first file of the cloud directory
 
     ASSET_EXTRA_FIELDS = {
@@ -502,15 +521,53 @@ if __name__ == "__main__":
 
     stac_io = DefaultStacIO()
     layout = ParquetLayout()
+    # layout = CoCliCoCOGLayout()
 
     collection = create_collection(extra_fields={"base_url": uri})
 
-    for uri in uris:
-        GCS_url = urljoin(HREF_PREFIX, uri.split("/")[-1])
-        print(GCS_url)
-        item = create_item(uri)
-        item.assets["data"].href = GCS_url  # replace with https link iso gs uri
-        collection.add_item(item)
+    # for uri in uris:
+    #     GCS_url = urljoin(HREF_PREFIX, strat, scen, uri.split("/")[-1])
+    #     print(GCS_url)
+    #     item = create_item(uri)
+    #     item.assets["data"].href = GCS_url  # replace with https link iso gs uri
+    #     collection.add_item(item)
+
+    uris = []
+    for strat in adap_strategy:
+        for scen in scenarios:
+            for time in times:
+                file_name = f"GCF_open_CBA_country_{strat}_{scen}_{time}.parquet"
+                uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{strat}/{scen}/{file_name}"
+                print(uri)
+                uris.append(uri)
+
+                GCS_url = urljoin(HREF_PREFIX, strat, scen, uri.split("/")[-1])
+                item = create_item(uri)
+                item.assets["data"].href = GCS_url  # replace with https link iso gs uri
+
+                # might be the solution to the folder struct problem!
+                # cur_path = os.path.join(map_type, rp, scen, time)
+                # item_href = pathlib.Path(STAC_DIR, COLLECTION_ID, "items", cur_path)
+                # item.set_self_href(item_href.with_suffix(".json"))
+
+                collection.add_item(item, strategy=layout)
+
+    # collection.summaries = Summaries({})
+    # # TODO: check if maxcount is required (inpsired on xstac library)
+    # # stac_obj.summaries.maxcount = 50
+    # dimvals = {}
+    # for d in dimcombs:
+    #     for key, value in d.items():
+    #         if key not in dimvals:
+    #             dimvals[key] = []
+    #         if value not in dimvals[key]:
+    #             dimvals[key].append(value)
+
+    # for k, v in dimvals.items():
+    #     collection.summaries.add(k, v)
+
+    # # set extra link properties
+    # extend_links(collection, dimvals.keys())
 
     collection.update_extent_from_items()
 
@@ -523,7 +580,7 @@ if __name__ == "__main__":
     collection.add_asset(
         "geoparquet-stac-items",
         pystac.Asset(
-            GCS_url,
+            GCS_url_dum,
             title="GeoParquet STAC items",
             description="Snapshot of the collection's STAC items exported to GeoParquet format.",
             media_type=PARQUET_MEDIA_TYPE,
