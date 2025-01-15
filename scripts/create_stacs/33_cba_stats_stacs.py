@@ -50,15 +50,15 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "CBA"
+PROJ_NAME = "CBA_stats"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"
+STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "WP6"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "cba"  # name of stac collection
+COLLECTION_ID = "cba_stats"  # name of stac collection
 MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
@@ -466,7 +466,7 @@ if __name__ == "__main__":
                 bucket_name=BUCKET_NAME,
                 bucket_proj=BUCKET_PROJ,
                 dir_name=PROJ_NAME,
-                file_name=ds_fp.name,
+                file_name=FE_gpkg_fp.name,
             )
 
     elif paths:
