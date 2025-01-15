@@ -18,7 +18,7 @@ def reshape_aspectratio_image(image_file_path, aspect_ratio=16 / 9):
         return im
 
     # In case of too wide for aspect ratio
-    if im.shape[0] / im.shape[1] < aspect_ratio:
+    if im.shape[0] / im.shape[1] > aspect_ratio:
         # Determine the indexes for a square image
         middle_column = im.shape[1] / 2
         left_column = round(middle_column - im.shape[0] * aspect_ratio / 2)
