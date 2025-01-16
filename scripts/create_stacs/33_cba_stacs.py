@@ -23,6 +23,7 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 from typing import Any
+from pathlib import Path
 
 import fsspec
 import pystac
@@ -31,6 +32,7 @@ from typing import List
 from posixpath import join as urljoin
 from dotenv import load_dotenv
 from pystac.stac_io import DefaultStacIO
+from pystac import Catalog, CatalogType, Collection, Summaries
 
 from coclicodata.etl.cloud_utils import (
     load_google_credentials,
@@ -39,10 +41,19 @@ from coclicodata.etl.cloud_utils import (
 )
 from coclicodata.drive_config import p_drive
 from coclicodata.coclico_stac.reshape_im import reshape_aspectratio_image
+from coclicodata.coclico_stac.templates import (
+    extend_links,
+    gen_default_collection_props,
+    gen_default_item,
+    gen_default_item_props,
+    gen_default_summaries,
+    gen_mapbox_asset,
+    gen_zarr_asset,
+    get_template_collection,
+)
 
 from coastmonitor import stac_table
-from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
-from coastmonitor.stac.layouts import ParquetLayout
+from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout, CoCliCoParquetLayout
 
 # %%
 # ## Define variables
@@ -416,8 +427,8 @@ if __name__ == "__main__":
     fs = gcsfs.GCSFileSystem(
         gcs_project=GCS_PROJECT, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
     )
-    paths = fs.glob(uri + "/**/*.parquet")
-    uris = ["gs://" + p for p in paths]
+    # paths = fs.glob(uri + "/**/*.parquet")
+    # uris = ["gs://" + p for p in paths]
 
     # %% test if file is multi-indexed, if we need to write to the cloud and whether we need to split files
     dum = gpd.read_parquet(ds_fp)  # read parquet file
@@ -520,8 +531,7 @@ if __name__ == "__main__":
     catalog = pystac.Catalog.from_file(str(STAC_DIR / "catalog.json"))
 
     stac_io = DefaultStacIO()
-    layout = ParquetLayout()
-    # layout = CoCliCoCOGLayout()
+    layout = CoCliCoParquetLayout()
 
     collection = create_collection(extra_fields={"base_url": uri})
 
@@ -533,6 +543,8 @@ if __name__ == "__main__":
     #     collection.add_item(item)
 
     uris = []
+    dimcombs = []
+    items = []
     for strat in adap_strategy:
         for scen in scenarios:
             for time in times:
@@ -545,29 +557,57 @@ if __name__ == "__main__":
                 item = create_item(uri)
                 item.assets["data"].href = GCS_url  # replace with https link iso gs uri
 
-                # might be the solution to the folder struct problem!
-                # cur_path = os.path.join(map_type, rp, scen, time)
-                # item_href = pathlib.Path(STAC_DIR, COLLECTION_ID, "items", cur_path)
-                # item.set_self_href(item_href.with_suffix(".json"))
+                # set the file path structure
+                cur_path = os.path.join(strat, scen, time)
+                item_href = pathlib.Path(STAC_DIR, COLLECTION_ID, "items", cur_path)
+                item.set_self_href(item_href.with_suffix(".json"))
+                item.id = cur_path + ".parquet"
 
-                collection.add_item(item, strategy=layout)
+                # TODO: generalize this
+                dimcomb = {
+                    item_properties[0]: strat,
+                    item_properties[1]: scen,
+                    item_properties[2]: time,
+                }
+                dimcombs.append(dimcomb)
 
-    # collection.summaries = Summaries({})
-    # # TODO: check if maxcount is required (inpsired on xstac library)
-    # # stac_obj.summaries.maxcount = 50
-    # dimvals = {}
-    # for d in dimcombs:
-    #     for key, value in d.items():
-    #         if key not in dimvals:
-    #             dimvals[key] = []
-    #         if value not in dimvals[key]:
-    #             dimvals[key].append(value)
+                # TODO: include this in our datacube?
+                # add dimension key-value pairs to stac item properties dict
+                for k, v in dimcomb.items():
+                    item.properties[k] = v
 
-    # for k, v in dimvals.items():
-    #     collection.summaries.add(k, v)
+                title = COLLECTION_ID + ":" + Path(file_name).stem
+                # TODO: We need to generalize this `href` somewhat.
+                vasset = pystac.Asset(  # data asset
+                    href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
+                    % (COLLECTION_ID, title),
+                    media_type="application/png",
+                    title=title,
+                    description="OGS WMS url",
+                    roles=["visual"],
+                )
 
-    # # set extra link properties
-    # extend_links(collection, dimvals.keys())
+                item.add_asset("visual", vasset)
+
+                items.append(item)
+                collection.add_item(item)
+
+    collection.summaries = Summaries({})
+    # TODO: check if maxcount is required (inpsired on xstac library)
+    # stac_obj.summaries.maxcount = 50
+    dimvals = {}
+    for d in dimcombs:
+        for key, value in d.items():
+            if key not in dimvals:
+                dimvals[key] = []
+            if value not in dimvals[key]:
+                dimvals[key].append(value)
+
+    for k, v in dimvals.items():
+        collection.summaries.add(k, v)
+
+    # set extra link properties
+    extend_links(collection, dimvals.keys())
 
     collection.update_extent_from_items()
 
