@@ -5,7 +5,7 @@
     "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
   ],
-  "id": "GCF.open.CBA_country.all",
+  "id": "no_adaptation\\SSP126\\2050.parquet",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
@@ -49,87 +49,7 @@
         "description": ""
       },
       {
-        "name": "nuts",
-        "type": "string",
-        "description": ""
-      },
-      {
         "name": "coast_length",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protection_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "retreat_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "acc_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protect_retreat_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "no_adaptation_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protection_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "retreat_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "acc_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protect_retreat_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "no_adaptation_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protection_2150",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "retreat_2150",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "acc_2150",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protect_retreat_2150",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "no_adaptation_2150",
         "type": "double",
         "description": ""
       },
@@ -159,9 +79,13 @@
         "description": ""
       },
       {
-        "name": "scenarios",
-        "type": "string",
+        "name": "no_adaptation_2050",
+        "type": "double",
         "description": ""
+      },
+      {
+        "name": "__index_level_0__",
+        "type": "int64"
       }
     ],
     "proj:bbox": [
@@ -171,8 +95,11 @@
       6405005.3475
     ],
     "proj:epsg": 3035,
-    "table:row_count": 105,
-    "created": "2024-11-21T09:28:12.205348Z",
+    "table:row_count": 35,
+    "created": "2025-01-16T09:47:47.395405Z",
+    "adaptation strategy": "no_adaptation",
+    "scenarios": "SSP126",
+    "time": "2050",
     "datetime": "2020-01-01T00:00:00Z"
   },
   "links": [
@@ -196,18 +123,27 @@
     },
     {
       "rel": "self",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cba/GCF.open.CBA_country.all/GCF.open.CBA_country.all.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cba/no_adaptation/SSP126/2050.parquet/no_adaptation/SSP126/2050.parquet.json",
       "type": "application/json"
     }
   ],
   "assets": {
     "data": {
-      "href": "https://storage.googleapis.com/coclico-data-public/coclico/CBA/GCF.open.CBA_country.all.parquet",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/CBA/no_adaptation/SSP126/GCF_open_CBA_country_no_adaptation_SSP126_2050.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "CBA",
       "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
       "roles": [
         "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/cba/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=cba:GCF_open_CBA_country_no_adaptation_SSP126_2050",
+      "type": "application/png",
+      "title": "cba:GCF_open_CBA_country_no_adaptation_SSP126_2050",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
       ]
     }
   },

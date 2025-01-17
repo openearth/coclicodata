@@ -1,0 +1,151 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "id": "protection\\SSP126\\2100.parquet",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          103.456913582018,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          -29.857082115784582
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -90.23528381409483,
+    -29.857082115784582,
+    103.456913582018,
+    39.79889221318682
+  ],
+  "properties": {
+    "title": "CBA",
+    "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
+    "table:columns": [
+      {
+        "name": "country",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "coast_length",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "costs_adaptation",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "costs_damage",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "costs",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "NUTS_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "protection_2100",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "__index_level_0__",
+        "type": "int64"
+      }
+    ],
+    "proj:bbox": [
+      -2824230.8134000003,
+      -3076162.6068,
+      10026010.8334,
+      6405005.3475
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 35,
+    "created": "2025-01-16T09:47:13.027399Z",
+    "adaptation strategy": "protection",
+    "scenarios": "SSP126",
+    "time": "2100",
+    "datetime": "2020-01-01T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cba/collection.json",
+      "type": "application/json",
+      "title": "Cost-benefit analysis of coastal adaptation per floodplain"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cba/collection.json",
+      "type": "application/json",
+      "title": "Cost-benefit analysis of coastal adaptation per floodplain"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cba/protection/SSP126/2100.parquet/protection/SSP126/2100.parquet.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/CBA/protection/SSP126/GCF_open_CBA_country_protection_SSP126_2100.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "CBA",
+      "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/cba/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=cba:GCF_open_CBA_country_protection_SSP126_2100",
+      "type": "application/png",
+      "title": "cba:GCF_open_CBA_country_protection_SSP126_2100",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "collection": "cba"
+}

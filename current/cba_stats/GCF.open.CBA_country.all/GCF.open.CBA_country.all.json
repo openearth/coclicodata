@@ -1,0 +1,210 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "id": "GCF.open.CBA_country.all",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          103.456913582018,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          -29.857082115784582
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -90.23528381409483,
+    -29.857082115784582,
+    103.456913582018,
+    39.79889221318682
+  ],
+  "properties": {
+    "title": "CBA",
+    "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
+    "table:columns": [
+      {
+        "name": "country",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "coast_length",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "protection_2050",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "retreat_2050",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "acc_2050",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "protect_retreat_2050",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "no_adaptation_2050",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "protection_2100",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "retreat_2100",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "acc_2100",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "protect_retreat_2100",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "no_adaptation_2100",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "protection_2150",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "retreat_2150",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "acc_2150",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "protect_retreat_2150",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "no_adaptation_2150",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "costs_adaptation",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "costs_damage",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "costs",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "NUTS_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "scenarios",
+        "type": "string",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -2824230.8134000003,
+      -3076162.6068,
+      10026010.8334,
+      6405005.3475
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 105,
+    "created": "2025-01-15T07:06:10.833749Z",
+    "datetime": "2020-01-01T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cba_stats/collection.json",
+      "type": "application/json",
+      "title": "Cost-benefit analysis of coastal adaptation per floodplain"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cba_stats/collection.json",
+      "type": "application/json",
+      "title": "Cost-benefit analysis of coastal adaptation per floodplain"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/cba_stats/GCF.open.CBA_country.all/GCF.open.CBA_country.all.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/CBA_stats/GCF.open.CBA_country.all.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "CBA",
+      "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "cba_stats"
+}
