@@ -1,7 +1,7 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
-  "id": "GCF.open.CBA_country.all",
+  "id": "protect_retreat\\SSP245\\2050.parquet",
   "properties": {
     "title": "CBA",
     "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
@@ -12,87 +12,7 @@
         "description": ""
       },
       {
-        "name": "nuts",
-        "type": "string",
-        "description": ""
-      },
-      {
         "name": "coast_length",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protection_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "retreat_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "acc_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protect_retreat_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "no_adaptation_2050",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protection_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "retreat_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "acc_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protect_retreat_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "no_adaptation_2100",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protection_2150",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "retreat_2150",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "acc_2150",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "protect_retreat_2150",
-        "type": "double",
-        "description": ""
-      },
-      {
-        "name": "no_adaptation_2150",
         "type": "double",
         "description": ""
       },
@@ -122,9 +42,13 @@
         "description": ""
       },
       {
-        "name": "scenarios",
-        "type": "string",
+        "name": "protect_retreat_2050",
+        "type": "double",
         "description": ""
+      },
+      {
+        "name": "__index_level_0__",
+        "type": "int64"
       }
     ],
     "proj:bbox": [
@@ -134,8 +58,11 @@
       6405005.3475
     ],
     "proj:epsg": 3035,
-    "table:row_count": 105,
-    "created": "2024-11-21T09:28:12.205348Z",
+    "table:row_count": 35,
+    "created": "2025-01-16T09:47:41.750969Z",
+    "adaptation strategy": "protect_retreat",
+    "scenarios": "SSP245",
+    "time": "2050",
     "datetime": "2020-01-01T00:00:00Z"
   },
   "geometry": {
@@ -168,31 +95,40 @@
   "links": [
     {
       "rel": "root",
-      "href": "../../catalog.json",
+      "href": "../../../../catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
     },
     {
       "rel": "collection",
-      "href": "../collection.json",
+      "href": "../../../collection.json",
       "type": "application/json",
       "title": "Cost-benefit analysis of coastal adaptation per floodplain"
     },
     {
       "rel": "parent",
-      "href": "../collection.json",
+      "href": "../../../collection.json",
       "type": "application/json",
       "title": "Cost-benefit analysis of coastal adaptation per floodplain"
     }
   ],
   "assets": {
     "data": {
-      "href": "https://storage.googleapis.com/coclico-data-public/coclico/CBA/GCF.open.CBA_country.all.parquet",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/CBA/protect_retreat/SSP245/GCF_open_CBA_country_protect_retreat_SSP245_2050.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "CBA",
       "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
       "roles": [
         "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/cba/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=cba:GCF_open_CBA_country_protect_retreat_SSP245_2050",
+      "type": "application/png",
+      "title": "cba:GCF_open_CBA_country_protect_retreat_SSP245_2050",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
       ]
     }
   },

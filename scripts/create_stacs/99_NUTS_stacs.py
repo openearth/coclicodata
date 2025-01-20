@@ -105,7 +105,7 @@ PARQUET_MEDIA_TYPE = "application/vnd.apache.parquet"
 # PREFIX = f"gcts-{TRANSECT_LENGTH}m.parquet"
 # BASE_URL = f"gs://{CONTAINER_NAME}/{PREFIX}"
 GEOPARQUET_STAC_ITEMS_HREF = (
-    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/items/{COLLECTION_ID}.parquet"
+    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{COLLECTION_ID}/{ds_fp.name}"
 )
 
 
@@ -386,62 +386,61 @@ if __name__ == "__main__":
     uris = ["gs://" + p for p in paths]
 
     # TODO: build something in for assessing size of parquet data, do this in both the if and elif statements
-    if (
-        dum.index.nlevels > 1 or split == "Y"
-    ) and paths == []:  # if multi-indexed or split and there is nothing in the cloud
-        files = os.listdir(ds_path)  # list all files in the directory
-        files_clean = [k for k in files if ".parquet" in k]  # only select parquet files
+    # if (
+    #     dum.index.nlevels > 1 or split == "Y"
+    # ) and paths == []:  # if multi-indexed or split and there is nothing in the cloud
+    #     files = os.listdir(ds_path)  # list all files in the directory
+    #     files_clean = [k for k in files if ".parquet" in k]  # only select parquet files
 
-        for file in files_clean:
-            print(file)
-            file_size = os.path.getsize(ds_path.joinpath(file)) / 10**6
+    #     for file in files_clean:
+    #         print(file)
+    #         file_size = os.path.getsize(ds_path.joinpath(file)) / 10**6
 
-            if file_size < MAX_FILE_SIZE:  # test if file size is smaller than 500MB
-                dspd = gpd.read_parquet(ds_path.joinpath(file))  # read parquet file
-                if dum.index.nlevels > 1:
-                    dspd = dspd.reset_index()  # reset multi-index
+    #         if file_size < MAX_FILE_SIZE:  # test if file size is smaller than 500MB
+    #             dspd = gpd.read_parquet(ds_path.joinpath(file))  # read parquet file
+    #             if dum.index.nlevels > 1:
+    #                 dspd = dspd.reset_index()  # reset multi-index
 
-                # write to the cloud, single file
-                dspd.to_parquet(
-                    f"{uri}/{file}", engine="pyarrow"
-                )  # or supply with local path if needed
+    #             # write to the cloud, single file
+    #             dspd.to_parquet(
+    #                 f"{uri}/{file}", engine="pyarrow"
+    #             )  # or supply with local path if needed
 
-            elif file_size > MAX_FILE_SIZE:  # test if file size is smaller than 500MB
-                dspd = gpd.read_parquet(ds_path.joinpath(file))  # read parquet file
+    #         elif file_size > MAX_FILE_SIZE:  # test if file size is smaller than 500MB
+    #             dspd = gpd.read_parquet(ds_path.joinpath(file))  # read parquet file
 
-                batch_size = int(
-                    np.ceil(len(dspd) / np.ceil(file_size / MAX_FILE_SIZE))
-                )  # calc batch size (max number of rows per partition)
-                if dum.index.nlevels > 1:
-                    dspd = dspd.reset_index()  # reset multi-index
-                splitted_dspd = partition_dataframe(dspd, batch_size)  # calc partitions
+    #             batch_size = int(
+    #                 np.ceil(len(dspd) / np.ceil(file_size / MAX_FILE_SIZE))
+    #             )  # calc batch size (max number of rows per partition)
+    #             if dum.index.nlevels > 1:
+    #                 dspd = dspd.reset_index()  # reset multi-index
+    #             splitted_dspd = partition_dataframe(dspd, batch_size)  # calc partitions
 
-                # write to the cloud, all split files
-                for idx, split_dspd in enumerate(splitted_dspd):
-                    file_name = (
-                        file.split(".")[0]
-                        + "_{:02d}.".format(idx + 1)
-                        + file.split(".")[1]
-                    )  # add zero-padded index (+1 to start at 1) to file name
-                    split_dspd.to_parquet(
-                        f"{uri}/{file_name}", engine="pyarrow"
-                    )  # or supply with local path if needed
+    #             # write to the cloud, all split files
+    #             for idx, split_dspd in enumerate(splitted_dspd):
+    #                 file_name = (
+    #                     file.split(".")[0]
+    #                     + "_{:02d}.".format(idx + 1)
+    #                     + file.split(".")[1]
+    #                 )  # add zero-padded index (+1 to start at 1) to file name
+    #                 split_dspd.to_parquet(
+    #                     f"{uri}/{file_name}", engine="pyarrow"
+    #                 )  # or supply with local path if needed
 
-    elif (
-        dum.index.nlevels == 1 and split == "N" and paths == []
-    ):  # if not multi-indexed and no need to split and cloud file does not exist
+    # elif (
+    #     dum.index.nlevels == 1 and split == "N" and paths == []
+    # ):  # if not multi-indexed and no need to split and cloud file does not exist
 
         # upload directory to the cloud (files already parquet)
-        dir_to_google_cloud(
-            dir_path=str(ds_fp),
-            gcs_project=GCS_PROJECT,
-            bucket_name=BUCKET_NAME,
-            bucket_proj=BUCKET_PROJ,
-            dir_name=PROJ_NAME,
+    file_to_google_cloud(
+        file_path=str(ds_fp),
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        dir_name=PROJ_NAME,
+        file_name=ds_fp.name,
         )
 
-    elif paths:
-        print("Dataset already exists in the Google Bucket")
 
     # %% get descriptions
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
