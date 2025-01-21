@@ -5,6 +5,10 @@
   "properties": {
     "title": "NUTS2",
     "description": "The NUTS are a hierarchical system divided into 3 levels, clipped only to the coastal area. This is level 2.",
+    "deltares:paint": {
+      "fill-color": "rgba(0,0,0,0)",
+      "fill-outline-color": "#000000"
+    },
     "table:columns": [
       {
         "name": "NUTS_ID",
@@ -65,7 +69,7 @@
     ],
     "proj:epsg": 3035,
     "table:row_count": 199,
-    "created": "2024-12-18T16:35:19.160216Z",
+    "created": "2025-01-21T14:27:50.054398Z",
     "datetime": "2024-01-22T00:00:00Z"
   },
   "geometry": {
@@ -106,13 +110,13 @@
       "rel": "collection",
       "href": "../collection.json",
       "type": "application/json",
-      "title": "Nomenclature of territorial units for statistics level 2, clipped by Coastal Mask"
+      "title": "Coastal NUTS2"
     },
     {
       "rel": "parent",
       "href": "../collection.json",
       "type": "application/json",
-      "title": "Nomenclature of territorial units for statistics level 2, clipped by Coastal Mask"
+      "title": "Coastal NUTS2"
     }
   ],
   "assets": {
@@ -123,6 +127,15 @@
       "description": "The NUTS are a hierarchical system divided into 3 levels, clipped only to the coastal area. This is level 2.",
       "roles": [
         "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=nuts2:coclico_NUTS2_CM_NUTS2_RG_01M_2021_3035_CM&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+      "type": "application/png",
+      "title": "nuts2:coclico_NUTS2_CM_NUTS2_RG_01M_2021_3035_CM",
+      "description": "OGS WMTS url",
+      "roles": [
+        "visual"
       ]
     }
   },
