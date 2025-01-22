@@ -133,15 +133,16 @@ def add_datacube(
             reference_system=reference_system,
         )
 
-    for additional_dimension in additional_dimensions:
-        dimensions[additional_dimension] = build_additional_dimension(
-            ds,
-            additional_dimension,
-            extent=None,
-            values=True,
-            step=None,
-            reference_system=reference_system,
-        )
+    if additional_dimensions:
+        for additional_dimension in additional_dimensions:
+            dimensions[additional_dimension] = build_additional_dimension(
+                ds,
+                additional_dimension,
+                extent=None,
+                values=True,
+                step=None,
+                reference_system=reference_system,
+            )
 
     variables = build_variables(ds)
 

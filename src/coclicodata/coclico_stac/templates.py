@@ -3,6 +3,7 @@ from datetime import datetime
 
 import pystac
 from pystac import Asset, Collection, RelType
+from typing import Optional
 
 
 def gen_default_item(name="unique"):
@@ -33,10 +34,10 @@ def get_template_collection(
     title: str,
     description: str,
     keywords: list,
-    # license: str,
-    # spatial_extent: list,
-    # temporal_extent: list,
-    # providers: list,
+    license: Optional[str] = None,
+    spatial_extent: Optional[list] = None,
+    temporal_extent: Optional[list] = None,
+    providers: Optional[list] = None,
     # hosting_platform: str,
 ) -> pystac.Collection:
     """Deltares CoCliCo STAC Obj from template file.
@@ -62,10 +63,10 @@ def get_template_collection(
     collection.title = title
     collection.description = description
     collection.keywords = keywords
-    # collection.license = license
-    # collection.extent.spatial.bbox = spatial_extent
-    # collection.extent.temporal.interval = temporal_extent
-    # collection.providers = providers
+    collection.license = license
+    collection.extent.spatial.bbox = spatial_extent
+    collection.extent.temporal.interval = temporal_extent
+    collection.providers = providers
 
     # Drop existing items, dimensions and summaries
     collection.set_root(None)
