@@ -146,7 +146,7 @@ def gen_default_props(
 
 def gen_zarr_asset(
     variable="ESL",
-    url="gcs://dgds-data-public/coclico/CoastAlRisk_Europe_EESSL.zarr",
+    url="gcs://coclico-data-public/coclico/CoastAlRisk_Europe_EESSL.zarr",
 ):
     return Asset(
         href=url,
@@ -180,7 +180,7 @@ def extend_links(collection, dimension_names):
 
 
 if __name__ == "__main__":
-    zarr_fn = "gcs://dgds-data-public/coclico/CoastAlRisk_Europe_EESSL.zarr"
+    zarr_fn = "gcs://coclico-data-public/coclico/CoastAlRisk_Europe_EESSL.zarr"
     mapbox_url, mapbox_source = "https://", "adsasd"
     template = "deltares-coclico-ssl"
     variable = "elevation"

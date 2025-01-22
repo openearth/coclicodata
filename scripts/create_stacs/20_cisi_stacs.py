@@ -18,7 +18,11 @@ from typing import List, Mapping, Optional
 
 import pystac
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud,load_google_credentials, dir_to_google_cloud
+from coclicodata.etl.cloud_utils import (
+    dataset_from_google_cloud,
+    load_google_credentials,
+    dir_to_google_cloud,
+)
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.coclico_stac.io import CoCliCoStacIO
@@ -345,14 +349,16 @@ def collate(items: xr.DataArray) -> List[pystac.Item]:
 
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-    metadata_fp = pathlib.Path(__file__).parent.parent.parent.joinpath("metadata_template.json")
+    metadata_fp = pathlib.Path(__file__).parent.parent.parent.joinpath(
+        "metadata_template.json"
+    )
     with open(metadata_fp, "r") as f:
         metadata = json.load(f)
 
     # hard-coded input params at project level
     GCS_PROTOCOL = "https://storage.googleapis.com"
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "coclico-11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
 
     # hard-coded input params which differ per dataset
@@ -365,10 +371,12 @@ if __name__ == "__main__":
     DATASET_FILENAME = "europe.tif"  # sample from source data
     HOME = pathlib.Path().home()
     DATA_DIR = HOME.joinpath("data", "src")
-    COCLICO_DATA_DIR = coclico_data_dir = p_drive.joinpath("11205479-coclico", "FASTTRACK_DATA")  # remote p drive
+    COCLICO_DATA_DIR = coclico_data_dir = p_drive.joinpath(
+        "11205479-coclico", "FASTTRACK_DATA"
+    )  # remote p drive
     DATASET_DIR = "20_cisi"
     OUTDIR = pathlib.Path.home() / "data" / "tmp" / "cisi_test"
-    HREF_PREFIX = f"https://storage.googleapis.com/dgds-data-public/coclico/{metadata['TITLE_ABBREVIATION']}"
+    HREF_PREFIX = f"https://storage.googleapis.com/coclico-data-public/coclico/{metadata['TITLE_ABBREVIATION']}"
     USE_LOCAL_DATA = False  # can be used when data is also stored locally
 
     # TODO: check what can be customized with layout.
@@ -396,10 +404,17 @@ if __name__ == "__main__":
     if not ds.rio.crs:
         ds = ds.rio.write_crs(metadata["CRS"])
 
-    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     # generate collection for dataset
@@ -450,7 +465,9 @@ if __name__ == "__main__":
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
+            "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
@@ -461,7 +478,11 @@ if __name__ == "__main__":
 
     # normalize the paths
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, metadata["TITLE_ABBREVIATION"]),
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent,
+            STAC_DIR,
+            metadata["TITLE_ABBREVIATION"],
+        ),
         strategy=layout,
     )
 

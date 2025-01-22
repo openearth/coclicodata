@@ -14,7 +14,11 @@ from posixpath import join as urljoin
 
 import pystac
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud,load_google_credentials, dir_to_google_cloud
+from coclicodata.etl.cloud_utils import (
+    dataset_from_google_cloud,
+    load_google_credentials,
+    dir_to_google_cloud,
+)
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.coclico_stac.io import CoCliCoStacIO
@@ -37,6 +41,7 @@ from coclicodata.coclico_stac.utils import (
     get_mapbox_item_id,
     rm_special_characters,
 )
+
 
 def cftime_to_pdts(t: cftime._cftime) -> pd.Timestamp:
     return pd.Timestamp(
@@ -110,8 +115,8 @@ def itemize(
 if __name__ == "__main__":
     # hard-coded input params at project level
     GCS_PROTOCOL = "https://storage.googleapis.com"
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "coclico-11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
 
     STAC_DIR = "current"
@@ -161,10 +166,17 @@ if __name__ == "__main__":
     with open(metadata_fp, "r") as f:
         metadata = json.load(f)
 
-    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     # generate collection for dataset
@@ -282,7 +294,9 @@ if __name__ == "__main__":
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
+            "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
@@ -293,7 +307,10 @@ if __name__ == "__main__":
 
     # normalize the paths
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID), strategy=layout
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
+        ),
+        strategy=layout,
     )
 
     # save updated catalog to local drive

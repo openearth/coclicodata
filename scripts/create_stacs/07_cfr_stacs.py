@@ -33,7 +33,7 @@ from coclicodata.coclico_stac.utils import (
 
 if __name__ == "__main__":
     # hard-coded input params at project level
-    BUCKET_NAME = "dgds-data-public"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
 
@@ -238,7 +238,7 @@ if __name__ == "__main__":
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/"
             + COLLECTION_ID
             + ".png",  # noqa: E501
             title="Thumbnail",
