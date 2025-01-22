@@ -43,7 +43,8 @@ from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.extension import (
     CoclicoExtension,
 )  # self built stac extension
-
+from coclicodata.coclico_stac.templates import (
+    extend_links)
 # from coastmonitor.io.cloud import (
 #     to_https_url,
 #     to_storage_location,
@@ -556,7 +557,11 @@ if __name__ == "__main__":
                 }
                 storage_options = {"token": "google_default"}
 
-                CUR_HREF_PREFIX = urljoin(HREF_PREFIX, pathlib.Path(cur_path).as_posix())
+                # Get last 3 elements from pathlib.Path object
+
+                #
+
+                CUR_HREF_PREFIX = urljoin(HREF_PREFIX, scen, year)
 
                 # Process the chunk using a delayed function
                 item = process_block(
@@ -575,7 +580,7 @@ if __name__ == "__main__":
                 )
 
                 item_href = pathlib.Path(
-                    STAC_DIR, COLLECTION_ID, "items", cur_path, item.id
+                    STAC_DIR, COLLECTION_ID, "items", cur_tif.parent, item.id
                 )
                 item_href.with_suffix(".json")
                 item.set_self_href(item_href)
@@ -635,6 +640,19 @@ if __name__ == "__main__":
                 dimvals[key] = []
             if value not in dimvals[key]:
                 dimvals[key].append(value)
+
+    # set extra link properties
+    extend_links(collection, dimvals.keys())
+
+    collection.update_extent_from_items()
+
+    dims_to_ignore = {'scenarios': ['SSP3', 'SSP4']}
+
+    # Delete dims_to_ignore from dimvals
+    for k, v in dims_to_ignore.items():
+        for val in v:
+            if val in dimvals[k]:
+                dimvals[k].remove(val)
 
     for k, v in dimvals.items():
         collection.summaries.add(k, v)
