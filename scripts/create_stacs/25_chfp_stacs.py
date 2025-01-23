@@ -288,7 +288,7 @@ def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLI
     )
 
     # useful for global datasets that cross the antimerdian E-W line
-    antimeridian.fix_item(item, antimeridian_strategy)
+    # antimeridian.fix_item(item, antimeridian_strategy)
 
     # use this when the data spans a certain time range
     # item.common_metadata.start_datetime = start_datetime
@@ -412,8 +412,6 @@ def create_asset_mosaic(
 
     # Iterate over all chunks
     for chunk in chunk_list:
-
-        print(chunk)
 
         # Open chunk to determine bounding box
         chunk_ds = xr.open_dataset(chunk)
@@ -579,144 +577,50 @@ if __name__ == "__main__":
     ]  # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
     scenarios = ["None", "SSP126", "SSP245", "SSP585", "High_End"]  # 5 options
-    times = ["2010", "2030", "2050", "2100", "2150"]  # 5 options
-
-    # List all tif files present in first folder (note: it is assumed that the same files are present in all folders)
-    # tif_list = glob.glob(str(ds_dir.joinpath("data", map_types[0], "*.tif")))
-
-    # # List the desired folder structure as a dict
-    # # NOTE: make sure the resulting path_list (based on folder structure) matches the tif_list
-    # folder_structure = {
-    #     "Mean_spring_tide": [],
-    #     "RP": ["1000", "100", "1"],
-    #     "SLR": {
-    #         "High_end": ["2100", "2150"],
-    #         "SSP126": ["2100"],
-    #         "SSP245": ["2050", "2100"],
-    #         "SSP585": ["2030", "2050", "2100"],
-    #     },
-    # }
-
-    # # Get list of paths for the folder structure
-    # path_list = get_paths(folder_structure)
+    times = ["2010", "2030", "2050", "2100"]  # 4 options
 
     items = []
     dimcombs = []
 
     collection = create_collection()
 
-    # for map_type in map_types:
-    #     for cur_path in path_list:
-
-    #         print("now working on: " + map_type + " " + cur_path)
-
-    #         tif_list = pathlib.Path.joinpath(cog_dirs, map_type, cur_path).glob("*.tif")
-
-    #         for cur_tif in tif_list:
-
-    #             cfhp = xr.open_dataset(
-    #                 cur_tif, engine="rasterio", mask_and_scale=False
-    #             )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
-    #             cfhp = cfhp.assign_coords(
-    #                 band=("band", [f"B{k+1:02}" for k in range(cfhp.dims["band"])])
-    #             )
-    #             cfhp = cfhp["band_data"].to_dataset("band")
-
-    #             profile_options = {
-    #                 "driver": "COG",
-    #                 "dtype": "float32",
-    #                 "compress": "DEFLATE",
-    #                 # "interleave": "band",
-    #                 # "ZLEVEL": 9,
-    #                 # "predictor": 1,
-    #             }
-    #             storage_options = {"token": "google_default"}
-
-    #             CUR_HREF_PREFIX = urljoin(HREF_PREFIX, map_type, cur_path)
-
-    #             # Process the chunk using a delayed function
-    #             item = process_block(
-    #                 cur_tif,
-    #                 cog_dirs,
-    #                 resolution=30,
-    #                 data_type=raster.DataType.FLOAT32,
-    #                 storage_prefix=CUR_HREF_PREFIX,
-    #                 name_prefix="B01",
-    #                 include_band="",
-    #                 time_dim=False,
-    #                 x_dim="x",
-    #                 y_dim="y",
-    #                 profile_options=profile_options,
-    #                 storage_options=storage_options,
-    #             )
-
-    #             item_href = pathlib.Path(
-    #                 STAC_DIR, COLLECTION_ID, "items", map_type, cur_path, item.id
-    #             )
-    #             item_href.with_suffix(".json")
-    #             item.set_self_href(item_href)
-
-    #             items.append(item)
-    #             collection.add_item(item)
-
     for map_type in map_types:
         for rp in rps:
             for scen in scenarios:
                 for time in times:
-                    # if (
-                    #     rp == "static" and scen == "none" and time == "2010"
-                    # ):  # mean spring tide
-                    #     tif_list = list(
-                    #         pathlib.Path.joinpath(
-                    #             cog_dirs, map_type, "Mean_spring_tide"
-                    #         ).glob("*.tif")
-                    #     )
-                    #     cur_path = "Mean_spring_tide"
-                    #     STAC_DIR.joinpath(COLLECTION_ID, "items", map_type).mkdir(
-                    #         parents=True, exist_ok=True
-                    #     )
-                    #     filename = os.path.join(map_type, "Mean_spring_tide")
-                    #     # print(map_type, rp, scen, time)
-                    # elif (
-                    #     rp != "static" and scen == "none" and time == "2010"
-                    # ):  # RPs frist batchs only for 2010 (hindcast)
-                    #     tif_list = list(
-                    #         pathlib.Path.joinpath(cog_dirs, map_type, "RP", rp).glob(
-                    #             "*.tif"
-                    #         )
-                    #     )
-                    #     cur_path = os.path.join("RP", rp)
-                    #     STAC_DIR.joinpath(COLLECTION_ID, "items", map_type, "RP").mkdir(
-                    #         parents=True, exist_ok=True
-                    #     )
-                    #     filename = os.path.join(map_type, "RP", rp)
-                    #     # print(map_type, rp, scen, time)
-                    # elif rp == "static" and scen != "none":  # this is for the SLR maps
-                    #     tif_list = list(
-                    #         pathlib.Path.joinpath(
-                    #             cog_dirs, map_type, "SLR", scen, time
-                    #         ).glob("*.tif")
-                    #     )
-                    #     cur_path = os.path.join("SLR", scen, time)
-                    #     if (
-                    #         len(tif_list) > 0
-                    #     ):  # we have data so we continue (so not for all times)
-                    #         STAC_DIR.joinpath(
-                    #             COLLECTION_ID, "items", map_type, "SLR", scen
-                    #         ).mkdir(parents=True, exist_ok=True)
-                    #         filename = os.path.join(map_type, "SLR", scen, time)
-                    #         # print(map_type, rp, scen, time)
-                    #     else:  # break loop if not satisfied
-                    #         continue
-                    # else:  # break loop if not satisfied (so not for all other combinations)
-                    #     continue
 
-                    # print(len(tif_list))
+                    # Logic to fill the matrix of available tif's 
+                    if time == "2010":
+                        tif_scen = "None"
+                        tif_time = time
+                    elif scen == "None":
+                        tif_scen = scen
+                        tif_time = "2010"
+                    elif time == "2030" and scen != "None":
+                        tif_scen = "SSP585"
+                        tif_time = time
+                    elif time == "2050" and scen == "SSP126":
+                        tif_scen = "SSP245"
+                        tif_time = time
+                    elif time == "2050" and scen == "High_End":
+                        tif_scen = "SSP585"
+                        tif_time = time
+                    else:
+                        tif_scen = scen
+                        tif_time = time
+                    
+                    print("now working on: " + map_type + "/" + rp + "/" + scen + "/" + time)
+                    print("using tif: " + tif_scen + "/" + tif_time)
 
                     tif_list = list(
-                        cog_dirs.joinpath(map_type, rp, scen, time).glob("*.tif")
+                        cog_dirs.joinpath(map_type, rp, tif_scen, tif_time).glob("*.tif")
                     )
-                    cur_path = os.path.join(map_type, rp, scen, time)
+                    
+                    # Raise error when tif_list is empty
+                    if len(tif_list) == 0:
+                        raise FileNotFoundError(f"No tif files found in {cog_dirs.joinpath(map_type, rp, scen, time)}")
+
+                    cur_path = os.path.join(map_type, rp, tif_scen, tif_time)
                     filename = os.path.join(map_type, rp, scen, time)
 
                     if len(tif_list) == 0:
@@ -727,7 +631,7 @@ if __name__ == "__main__":
                         tif_list[0], engine="rasterio", mask_and_scale=False
                     )  # .isel({"x":slice(0, 40000), "y":slice(0, 40000)})
                     cfhp = cfhp.assign_coords(
-                        band=("band", [f"B{k+1:02}" for k in range(cfhp.dims["band"])])
+                        band=("band", [f"B{k+1:02}" for k in range(cfhp.sizes["band"])])
                     )
                     cfhp = cfhp["band_data"].to_dataset("band")
 
@@ -780,8 +684,6 @@ if __name__ == "__main__":
                     items.append(item)
                     collection.add_item(item)
 
-    # print(len(items))
-
     # %% store to cloud folder
 
     # # upload directory with cogs to google cloud
@@ -799,13 +701,6 @@ if __name__ == "__main__":
     stac_io = DefaultStacIO()
     # stac_io = CoCliCoStacIO()
     layout = CoCliCoCOGLayout()
-
-    # Set up folder structure
-    # for map_type in map_types:
-    #     for cur_path in path_list:
-    #         STAC_DIR.joinpath(COLLECTION_ID, "items", map_type, cur_path).mkdir(
-    #             parents=True, exist_ok=True
-    #         )
 
     collection.update_extent_from_items()
 
