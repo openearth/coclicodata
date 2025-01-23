@@ -9,8 +9,10 @@ import os
 
 # import sys
 # from re import S, template
-import json
+import json5
+import pyarrow
 import fsspec
+import gcsfs
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 # import cftime
@@ -24,7 +26,9 @@ import shapely
 import xarray as xr
 import math
 import dask
+import stac_geoparquet
 from posixpath import join as urljoin
+from pystac import Summaries
 from pystac.extensions import eo, raster
 from stactools.core.utils import antimeridian
 from pystac.stac_io import DefaultStacIO
@@ -39,7 +43,8 @@ from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.extension import (
     CoclicoExtension,
 )  # self built stac extension
-
+from coclicodata.coclico_stac.templates import (
+    extend_links)
 # from coastmonitor.io.cloud import (
 #     to_https_url,
 #     to_storage_location,
@@ -63,7 +68,7 @@ PROJ_NAME = "pp"
 
 # hard-coded STAC templates
 CUR_CWD = pathlib.Path.cwd()
-STAC_DIR = CUR_CWD / "current"
+STAC_DIR = CUR_CWD.parent.parent / "current"
 
 # hard-coded input params which differ per dataset
 METADATA = "metadata_population.json"
@@ -111,7 +116,7 @@ ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
 # load metadata template
 metadata_fp = ds_dir.joinpath("metadata", METADATA)
 with open(metadata_fp, "r") as f:
-    metadata = json.load(f)
+    metadata = json5.load(f)
 
 # data output configurations
 HREF_PREFIX = urljoin(
@@ -119,8 +124,37 @@ HREF_PREFIX = urljoin(
 )  # cloud export directory
 TMP_DIR = pathlib.Path.home() / "tmp"
 
+PARQUET_MEDIA_TYPE = "application/vnd.apache.parquet"
+
+# CONTAINER_NAME = "transects"
+# PREFIX = f"gcts-{TRANSECT_LENGTH}m.parquet"
+# BASE_URL = f"gs://{CONTAINER_NAME}/{PREFIX}"
+GEOPARQUET_STAC_ITEMS_HREF = (
+    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/items/{COLLECTION_ID}.parquet"
+)
+
 
 # %%
+def read_parquet_schema_df(uri: str) -> List:  # pd.DataFrame:
+    """Return a Pandas dataframe corresponding to the schema of a local URI of a parquet file.
+
+    The returned dataframe has the columns: column, pa_dtype
+    """
+    # Ref: https://stackoverflow.com/a/64288036/
+    # Ref: https://stackoverflow.com/questions/41567081/get-schema-of-parquet-file-in-python
+    schema = pyarrow.parquet.read_schema(uri, memory_map=True)
+    # schema = pd.DataFrame(({"name": name, "type": str(pa_dtype)} for name, pa_dtype in zip(schema.names, schema.types)))
+    schema = [
+        {
+            "name": name,
+            "type": str(pa_dtype),
+            "description": "",
+        }  # TODO: add column descriptions once received from the VU
+        for name, pa_dtype in zip(schema.names, schema.types)
+    ]
+    # schema = schema.reindex(columns=["name", "type"], fill_value=pd.NA)  # Ensures columns in case the parquet file has an empty dataframe.
+    return schema
+
 def create_collection(
     description: str | None = None, extra_fields: dict[str, Any] | None = None
 ) -> pystac.Collection:
@@ -195,6 +229,18 @@ def create_collection(
             media_type=pystac.MediaType.PNG,
         ),
     )
+
+    
+    collection.add_asset(
+        "geoserver_link",
+        pystac.Asset(
+            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=pp:pop_fp_LAU_EPSG4326&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+            title="Geoserver Parquet link",
+            media_type="application/vnd.apache.parquet",
+        ),
+    )
+
+
     collection.links = links
     collection.keywords = keywords
 
@@ -429,6 +475,40 @@ def get_paths(folder_structure, base_dir=""):
 # ## Do the work
 if __name__ == "__main__":
 
+    # store to cloud folder
+
+    # # upload directory with cogs to google cloud
+    load_google_credentials(google_token_fp=google_cred_dir)
+
+    # dir_to_google_cloud(
+    #     dir_path=str(cog_dirs),
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     dir_name=PROJ_NAME,
+    # )
+
+    fs = gcsfs.GCSFileSystem(
+        gcs_project=GCS_PROJECT, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+    )
+
+    # get descriptions
+    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/pp_stats"
+    paths_dum = fs.glob(uri_dum + "/*.parquet")
+    uris_dum = ["gs://" + p for p in paths_dum]
+    HREF_PREFIX_dum = urljoin(
+        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, "pp_stats"
+    )  # cloud export directory
+    GCS_url_dum = urljoin(HREF_PREFIX_dum, uris_dum[0].split("/")[-1])
+    COLUMN_DESCRIPTIONS = read_parquet_schema_df(
+        uris_dum[0]
+    )  # select first file of the cloud directory
+
+    ASSET_EXTRA_FIELDS = {
+        "table:storage_options": {"account_name": "coclico"},
+        "table:columns": COLUMN_DESCRIPTIONS,
+    }
+
     ## Setup folder structure
 
     # List the desired folder structure as a dict
@@ -444,76 +524,98 @@ if __name__ == "__main__":
     path_list = get_paths(folder_structure)
 
     items = []
+    dimcombs = []
 
     collection = create_collection()
 
-    for cur_path in path_list:
+    scens = ["SSP1", "SSP2", "SSP3", "SSP4", "SSP5"]
+    years = ["2010", "2030", "2050", "2100"]
+    item_properties = ["scenarios", "time"]
 
-        # Update current data being processed
-        print("now working on: " + cur_path)
-        # Define tif_list for the cog's created using ../notebooks/26_pp.ipynb
-        tif_list = pathlib.Path.joinpath(cog_dirs, cur_path).glob("*.tif")
+    for scen in scens:
+        for year in years:
 
-        for cur_tif in tif_list:
+            # Define tif_list for the cog's created using ../notebooks/26_pp.ipynb
+            tif_list = pathlib.Path.joinpath(cog_dirs, scen, year).glob("*.tif")
 
-            # Open original dataset
-            pp = xr.open_dataset(cur_tif, engine="rasterio", mask_and_scale=False)
-            pp = pp.assign_coords(
-                band=("band", [f"B{k+1:02}" for k in range(pp.dims["band"])])
-            )
-            pp = pp["band_data"].to_dataset("band")
+            for cur_tif in tif_list:
 
-            profile_options = {
-                "driver": "COG",
-                "dtype": "float32",
-                "compress": "DEFLATE",
-                # "interleave": "band",
-                # "ZLEVEL": 9,
-                # "predictor": 1,
-            }
-            storage_options = {"token": "google_default"}
+                # Open original dataset
+                pp = xr.open_dataset(cur_tif, engine="rasterio", mask_and_scale=False)
+                pp = pp.assign_coords(
+                    band=("band", [f"B{k+1:02}" for k in range(pp.dims["band"])])
+                )
+                pp = pp["band_data"].to_dataset("band")
 
-            CUR_HREF_PREFIX = urljoin(HREF_PREFIX, pathlib.Path(cur_path).as_posix())
+                profile_options = {
+                    "driver": "COG",
+                    "dtype": "float32",
+                    "compress": "DEFLATE",
+                    # "interleave": "band",
+                    # "ZLEVEL": 9,
+                    # "predictor": 1,
+                }
+                storage_options = {"token": "google_default"}
 
-            # Process the chunk using a delayed function
-            item = process_block(
-                cur_tif,
-                cog_dirs,
-                resolution=30,
-                data_type=raster.DataType.FLOAT32,
-                storage_prefix=CUR_HREF_PREFIX,
-                name_prefix="B01",
-                include_band="",
-                time_dim=False,
-                x_dim="x",
-                y_dim="y",
-                profile_options=profile_options,
-                storage_options=storage_options,
-            )
+                # Get last 3 elements from pathlib.Path object
 
-            item_href = pathlib.Path(
-                STAC_DIR, COLLECTION_ID, "items", cur_path, item.id
-            )
-            item_href.with_suffix(".json")
-            item.set_self_href(item_href)
+                #
 
-            items.append(item)
-            collection.add_item(item)
+                CUR_HREF_PREFIX = urljoin(HREF_PREFIX, scen, year)
 
-            print(len(items))
+                # Process the chunk using a delayed function
+                item = process_block(
+                    cur_tif,
+                    cog_dirs,
+                    resolution=30,
+                    data_type=raster.DataType.FLOAT32,
+                    storage_prefix=CUR_HREF_PREFIX,
+                    name_prefix="B01",
+                    include_band="",
+                    time_dim=False,
+                    x_dim="x",
+                    y_dim="y",
+                    profile_options=profile_options,
+                    storage_options=storage_options,
+                )
 
-    # %% store to cloud folder
+                item_href = pathlib.Path(
+                    STAC_DIR, COLLECTION_ID, "items", cur_tif.parent, item.id
+                )
+                item_href.with_suffix(".json")
+                item.set_self_href(item_href)
 
-    # # upload directory with cogs to google cloud
-    load_google_credentials(google_token_fp=google_cred_dir)
+                title = COLLECTION_ID + ":" + pathlib.Path(item_href).with_suffix(".tif").stem
+                # TODO: We need to generalize this `href` somewhat.
+                vasset = pystac.Asset(  # data asset
+                    href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
+                    % (COLLECTION_ID, title),
+                    media_type="application/png",
+                    title=title,
+                    description="OGS WMS url",
+                    roles=["visual"],
+                )
 
-    # dir_to_google_cloud(
-    #     dir_path=str(cog_dirs),
-    #     gcs_project=GCS_PROJECT,
-    #     bucket_name=BUCKET_NAME,
-    #     bucket_proj=BUCKET_PROJ,
-    #     dir_name=PROJ_NAME,
-    # )
+                 # TODO: generalize this
+                dimcomb = {
+                    item_properties[0]: scen,
+                    item_properties[1]: year,
+                }
+                dimcombs.append(dimcomb)
+
+                # TODO: include this in our datacube?
+                # add dimension key-value pairs to stac item properties dict
+                for k, v in dimcomb.items():
+                    item.properties[k] = v
+
+                item.add_asset("visual", vasset)
+
+                items.append(item)
+                collection.add_item(item)
+
+                print(len(items))
+
+
 
     # %%
     # stac_io = CoCliCoStacIO()
@@ -528,6 +630,50 @@ if __name__ == "__main__":
 
     collection.update_extent_from_items()
 
+    collection.summaries = Summaries({})
+    # TODO: check if maxcount is required (inpsired on xstac library)
+    # stac_obj.summaries.maxcount = 50
+    dimvals = {}
+    for d in dimcombs:
+        for key, value in d.items():
+            if key not in dimvals:
+                dimvals[key] = []
+            if value not in dimvals[key]:
+                dimvals[key].append(value)
+
+    # set extra link properties
+    extend_links(collection, dimvals.keys())
+
+    collection.update_extent_from_items()
+
+    dims_to_ignore = {'scenarios': ['SSP3', 'SSP4']}
+
+    # Delete dims_to_ignore from dimvals
+    for k, v in dims_to_ignore.items():
+        for val in v:
+            if val in dimvals[k]:
+                dimvals[k].remove(val)
+
+    for k, v in dimvals.items():
+        collection.summaries.add(k, v)
+
+    items = list(collection.get_all_items())
+    items_as_json = [i.to_dict() for i in items]
+    item_extents = stac_geoparquet.to_geodataframe(items_as_json)
+    with fsspec.open(GEOPARQUET_STAC_ITEMS_HREF, mode="wb") as f:
+        item_extents.to_parquet(f)
+
+    collection.add_asset(
+        "geoparquet-stac-items",
+        pystac.Asset(
+            GCS_url_dum,
+            title="GeoParquet STAC items",
+            description="Snapshot of the collection's STAC items exported to GeoParquet format.",
+            media_type=PARQUET_MEDIA_TYPE,
+            roles=["data"],
+        ),
+    )
+    
     catalog = pystac.Catalog.from_file(str(STAC_DIR / "catalog.json"))
 
     if catalog.get_child(collection.id):

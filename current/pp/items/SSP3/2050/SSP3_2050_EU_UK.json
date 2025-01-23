@@ -1,18 +1,18 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
-  "id": "SSP1/2050/SSP1_2050_Europe.tif",
+  "id": "SSP3/2050/SSP3_2050_EU_UK.tif",
   "properties": {
-    "created": "2024-05-16T08:41:44.464546Z",
+    "created": "2025-01-22T09:53:25.281440Z",
     "proj:bbox": [
-      -180.0,
-      27.633333333405243,
-      180.0,
-      81.85833333340524
+      -25.397916667,
+      33.849583333000005,
+      45.268750000000004,
+      71.799583333
     ],
     "proj:shape": [
-      43200,
-      6507
+      8480,
+      4554
     ],
     "proj:epsg": 4326,
     "proj:geometry": {
@@ -20,37 +20,39 @@
       "coordinates": [
         [
           [
-            180.0,
-            27.633333333405243
+            45.268750000000004,
+            33.849583333000005
           ],
           [
-            180.0,
-            81.85833333340524
+            45.268750000000004,
+            71.799583333
           ],
           [
-            -180.0,
-            81.85833333340524
+            -25.397916667,
+            71.799583333
           ],
           [
-            -180.0,
-            27.633333333405243
+            -25.397916667,
+            33.849583333000005
           ],
           [
-            180.0,
-            27.633333333405243
+            45.268750000000004,
+            33.849583333000005
           ]
         ]
       ]
     },
     "proj:transform": [
-      0.008333333333333333,
+      0.008333333333372642,
       0.0,
-      -180.0,
+      -25.397916667,
       0.0,
       -0.008333333333333333,
-      81.85833333340524
+      71.799583333
     ],
-    "deltares:item_key": "SSP1/2050/SSP1_2050_Europe.tif",
+    "deltares:item_key": "SSP3/2050/SSP3_2050_EU_UK.tif",
+    "scenarios": "SSP3",
+    "time": "2050",
     "datetime": "2022-02-22T00:00:00Z"
   },
   "geometry": {
@@ -58,24 +60,24 @@
     "coordinates": [
       [
         [
-          180.0,
-          27.633333333405243
+          45.268750000000004,
+          33.849583333000005
         ],
         [
-          180.0,
-          81.85833333340524
+          45.268750000000004,
+          71.799583333
         ],
         [
-          -180.0,
-          81.85833333340524
+          -25.397916667,
+          71.799583333
         ],
         [
-          -180.0,
-          27.633333333405243
+          -25.397916667,
+          33.849583333000005
         ],
         [
-          180.0,
-          27.633333333405243
+          45.268750000000004,
+          33.849583333000005
         ]
       ]
     ]
@@ -102,10 +104,10 @@
   ],
   "assets": {
     "band_data": {
-      "href": "https://storage.googleapis.com/coclico-data-public/coclico/pp/SSP1/2050/SSP1_2050_Europe.tif",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/pp/SSP3/2050/SSP3_2050_EU_UK.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "title": "band_data",
-      "file:size": 16095260,
+      "file:size": 12025510,
       "raster:bands": [
         {
           "nodata": -9999,
@@ -122,13 +124,22 @@
       "roles": [
         "data"
       ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/pp/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=pp:SSP3_2050_EU_UK",
+      "type": "application/png",
+      "title": "pp:SSP3_2050_EU_UK",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
+      ]
     }
   },
   "bbox": [
-    -180.0,
-    27.633333333405243,
-    180.0,
-    81.85833333340524
+    -25.397916667,
+    33.849583333000005,
+    45.268750000000004,
+    71.799583333
   ],
   "stac_extensions": [
     "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
