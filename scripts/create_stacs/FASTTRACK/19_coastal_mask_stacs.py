@@ -32,6 +32,7 @@ from coclicodata.drive_config import p_drive
 # from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud
 from coclicodata.coclico_stac.io import CoCliCoStacIO
+from pystac.stac_io import DefaultStacIO
 from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.extension import (
     CoclicoExtension,
@@ -53,8 +54,8 @@ log.setLevel(logging.ERROR)
 # ## Define variables
 # hard-coded input params at project level
 GCS_PROTOCOL = "https://storage.googleapis.com"
-GCS_PROJECT = "DGDS - I1000482-002"
-BUCKET_NAME = "dgds-data-public"
+GCS_PROJECT = "coclico-11207608-002"
+BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
 PROJ_NAME = "coastal_mask"
 
@@ -200,11 +201,16 @@ def create_collection(
     collection.extra_fields["sci:citation"] = "Lincke et al., 2023, in progress"
 
     # add coclico frontend properties to collection
-    coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
-    coclico_ext.units = "bool"
-    coclico_ext.plot_type = "raster"
-    coclico_ext.min = 0
-    coclico_ext.max = 1
+    # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
+    # coclico_ext.units = "bool"
+    # coclico_ext.plot_type = "raster"
+    # coclico_ext.min = 0
+    # coclico_ext.max = 1
+
+    collection.extra_fields["deltares:units"] = "bool"
+    collection.extra_fields["deltares:plot_type"] = "raster"
+    collection.extra_fields["deltares:min"] = 0
+    collection.extra_fields["deltares:max"] = 1
 
     return collection
 
@@ -253,9 +259,11 @@ def create_item(block, item_id, antimeridian_strategy=antimeridian.Strategy.SPLI
 
     # add CoCliCo frontend properties to visualize it in the web portal
     # TODO: This is just example. We first need to decide which properties frontend needs for COG visualization
-    coclico_ext = CoclicoExtension.ext(item, add_if_missing=True)
-    coclico_ext.item_key = item_id
-    coclico_ext.add_to(item)
+    # coclico_ext = CoclicoExtension.ext(item, add_if_missing=True)
+    # coclico_ext.item_key = item_id
+    # coclico_ext.add_to(item)
+
+    item.properties["deltares:item_key"] = item_id
 
     # add more functions to describe the data at item level, for example the frontend properties to visualize it
     ...
@@ -467,20 +475,20 @@ if __name__ == "__main__":
     # ## store to cloud folder
 
     # upload directory with cogs to google cloud
-    load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
-    )
+    # load_google_credentials(
+    #     google_token_fp=coclico_data_dir.joinpath("google_credentials_new.json")
+    # )
 
-    dir_to_google_cloud(
-        dir_path=str(cog_dirs),
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        dir_name=PROJ_NAME,
-    )
+    # dir_to_google_cloud(
+    #     dir_path=str(cog_dirs),
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     dir_name=PROJ_NAME,
+    # )
 
     # %%
-    stac_io = CoCliCoStacIO()
+    stac_io = DefaultStacIO()
     layout = CoCliCoCOGLayout()
 
     collection = create_collection()
