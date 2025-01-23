@@ -22,6 +22,7 @@ from coclicodata.etl.cloud_utils import (
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.coclico_stac.io import CoCliCoStacIO
+from pystac.stac_io import DefaultStacIO
 from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.templates import (
     extend_links,
@@ -144,7 +145,7 @@ if __name__ == "__main__":
     home = pathlib.Path().home()
     tmp_dir = home.joinpath("data", "tmp")
     coclico_data_dir = p_drive.joinpath(
-        "11205479-coclico", "FASTTRACK_DATA"
+        "11207608-coclico", "FASTTRACK_DATA"
     )  # remote p drive
 
     # use local or remote data dir
@@ -277,18 +278,26 @@ if __name__ == "__main__":
     collection.summaries = Summaries({})
 
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
-    coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
+    # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
 
-    # Add frontend properties defined above to collection extension properties. The
-    # properties attribute of this extension is linked to the extra_fields attribute of
-    # the stac collection.
-    coclico_ext.units = metadata["UNITS"]
-    coclico_ext.plot_series = PLOT_SERIES
-    coclico_ext.plot_x_axis = PLOT_X_AXIS
-    coclico_ext.plot_type = PLOT_TYPE
-    coclico_ext.min_ = MIN
-    coclico_ext.max_ = MAX
-    coclico_ext.linear_gradient = LINEAR_GRADIENT
+    # # Add frontend properties defined above to collection extension properties. The
+    # # properties attribute of this extension is linked to the extra_fields attribute of
+    # # the stac collection.
+    # coclico_ext.units = metadata["UNITS"]
+    # coclico_ext.plot_series = PLOT_SERIES
+    # coclico_ext.plot_x_axis = PLOT_X_AXIS
+    # coclico_ext.plot_type = PLOT_TYPE
+    # coclico_ext.min_ = MIN
+    # coclico_ext.max_ = MAX
+    # coclico_ext.linear_gradient = LINEAR_GRADIENT
+
+    collection.extra_fields["deltares:units"] = metadata["UNITS"]
+    collection.extra_fields["deltares:plotSeries"] = PLOT_SERIES
+    collection.extra_fields["deltares:plotxAxis"] = PLOT_X_AXIS
+    collection.extra_fields["deltares:plotType"] = PLOT_TYPE
+    collection.extra_fields["deltares:min"] = MIN
+    collection.extra_fields["deltares:max"] = MAX
+    collection.extra_fields["deltares:linearGradient"] = LINEAR_GRADIENT
 
     # Add thumbnail
     collection.add_asset(
@@ -301,6 +310,10 @@ if __name__ == "__main__":
             media_type=pystac.MediaType.PNG,
         ),
     )
+
+    if catalog.get_child(collection.id):
+        catalog.remove_child(collection.id)
+        print(f"Removed child: {collection.id}.")
 
     # add collection to catalog
     catalog.add_child(collection)
@@ -318,13 +331,13 @@ if __name__ == "__main__":
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
         # dest_href=str(tmp_dir),
-        stac_io=CoCliCoStacIO(),
+        stac_io=DefaultStacIO(),
     )
     print("Done!")
 
     # upload directory with cogs to google cloud
     load_google_credentials(
-        google_token_fp=coclico_data_dir.joinpath("google_credentials.json")
+        google_token_fp=coclico_data_dir.joinpath("google_credentials_new.json")
     )
 
     dir_to_google_cloud(
