@@ -1,116 +1,114 @@
 {
-    "type": "Feature",
-    "stac_version": "1.0.0",
-    "id": "ead-mapbox-scenarios-RCP8.5-SSP3-time-2000",
-    "properties": {
-        "deltares:item_key": "scenarios-RCP8.5-SSP3-time-2000",
-        "deltares:paint": {
-            "circle-color": [
-                "interpolate",
-                [
-                    "linear"
-                ],
-                [
-                    "get",
-                    "scenarios-RCP8.5-SSP3-time-2000"
-                ],
-                0,
-                "hsl(110,90%,80%)",
-                1.5,
-                "hsla(55, 88%, 53%, 0.5)",
-                3.0,
-                "hsl(0, 90%, 70%)"
-            ],
-            "circle-radius": [
-                "interpolate",
-                [
-                    "linear"
-                ],
-                [
-                    "zoom"
-                ],
-                0,
-                0.5,
-                1,
-                1,
-                5,
-                5
-            ]
-        },
-        "deltares:type": "circle",
-        "deltares:stations": "locationId",
-        "deltares:onclick": {},
-        "scenarios": "RCP8.5-SSP3",
-        "time": 2000,
-        "datetime": "2023-09-20T17:06:40.277858Z"
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "ead-mapbox-scenarios-RCP8.5-SSP3-time-2000",
+  "properties": {
+    "deltares:item_key": "scenarios-RCP8.5-SSP3-time-2000",
+    "deltares:paint": {
+      "circle-color": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "get",
+          "scenarios-RCP8.5-SSP3-time-2000"
+        ],
+        0,
+        "hsl(110,90%,80%)",
+        1.5,
+        "hsla(55, 88%, 53%, 0.5)",
+        3.0,
+        "hsl(0, 90%, 70%)"
+      ],
+      "circle-radius": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "zoom"
+        ],
+        0,
+        0.5,
+        1,
+        1,
+        5,
+        5
+      ]
     },
-    "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-            [
-                [
-                    -180.0,
-                    -90.0
-                ],
-                [
-                    180.0,
-                    -90.0
-                ],
-                [
-                    180.0,
-                    90.0
-                ],
-                [
-                    -180.0,
-                    90.0
-                ],
-                [
-                    -180.0,
-                    -90.0
-                ]
-            ]
+    "deltares:type": "circle",
+    "deltares:stations": "locationId",
+    "deltares:onclick": {},
+    "scenarios": "RCP8.5-SSP3",
+    "time": 2000,
+    "datetime": "2025-01-22T14:11:18.610148Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          -90.0
         ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Coastal flood risk"
     },
-    "links": [
-        {
-            "rel": "collection",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "Coastal flood risk"
-        },
-        {
-            "rel": "root",
-            "href": "../../catalog.json",
-            "type": "application/json",
-            "title": "CoCliCo STAC Catalog"
-        },
-        {
-            "rel": "parent",
-            "href": "../collection.json",
-            "type": "application/json",
-            "title": "Coastal flood risk"
-        }
-    ],
-    "assets": {
-        "mapbox": {
-            "href": "mapbox://global-data-viewer.coastal_flood_risk_ead",
-            "title": "Point locations",
-            "description": "Mapbox url",
-            "type": "vector",
-            "source": "coastal_flood_risk_ead",
-            "roles": [
-                "mapbox"
-            ]
-        }
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
     },
-    "bbox": [
-        -180,
-        -90,
-        180,
-        90
-    ],
-    "stac_extensions": [
-        "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json"
-    ],
-    "collection": "cfr"
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Coastal flood risk"
+    }
+  ],
+  "assets": {
+    "mapbox": {
+      "href": "mapbox://global-data-viewer.coastal_flood_risk_ead",
+      "title": "Point locations",
+      "description": "Mapbox url",
+      "type": "vector",
+      "source": "coastal_flood_risk_ead",
+      "roles": [
+        "mapbox"
+      ]
+    }
+  },
+  "bbox": [
+    -180,
+    -90,
+    180,
+    90
+  ],
+  "stac_extensions": [],
+  "collection": "cfr"
 }

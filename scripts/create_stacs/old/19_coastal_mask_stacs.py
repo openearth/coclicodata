@@ -91,8 +91,8 @@ CM_FP = COASTAL_MASK_DIR / "Global_merit_coastal_mask_landwards.tif"
 OUTDIR = COASTAL_MASK_DIR / "cogs_test"
 
 GCS_PROTOCOL = "https://storage.googleapis.com"
-GCS_PROJECT = "DGDS - I1000482-002"
-BUCKET_NAME = "dgds-data-public"
+GCS_PROJECT = "coclico-11207608-002"
+BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
 PROJ_NAME = "coastal_mask_test"
 HREF_PREFIX = urljoin(

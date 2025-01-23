@@ -92,7 +92,10 @@ def add_datacube(
     if temporal_dimension is not False:
         # convert time formatted year ([%Y]) to datetime. Without this conversion build_temporal_dimension
         # from xstac will interpret the time integer as 1970-01-01 00:00:00.000002015
-        if ds[temporal_dimension].dtype.kind in np.typecodes["AllInteger"]:
+        if (
+            ds[temporal_dimension].dtype.kind in np.typecodes["AllInteger"]
+            or np.typecodes["AllFloat"]
+        ):
             time_values = pd.to_datetime(ds[temporal_dimension].values, format="%Y")
             ds = ds.assign_coords(
                 {

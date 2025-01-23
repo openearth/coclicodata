@@ -332,8 +332,8 @@ def collate(items: xr.DataArray) -> List[pystac.Item]:
 if __name__ == "__main__":
     # hard-coded input params at project level
     GCS_PROTOCOL = "https://storage.googleapis.com"
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "coclico-11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
 
     # hard-coded input params which differ per dataset
@@ -354,7 +354,9 @@ if __name__ == "__main__":
     COCLICO_DATA_DIR = p_drive.joinpath("11205479-coclico", "data")
     DATASET_DIR = "19_coastal_mask"
     OUTDIR = pathlib.Path.home() / "data" / "tmp" / "cogs_test"
-    HREF_PREFIX = "https://storage.googleapis.com/dgds-data-public/coclico/coastal_mask"
+    HREF_PREFIX = (
+        "https://storage.googleapis.com/coclico-data-public/coclico/coastal_mask"
+    )
     USE_LOCAL_DATA = True  # can be used when data is also stored locally
 
     # TODO: check what can be customized with layout.

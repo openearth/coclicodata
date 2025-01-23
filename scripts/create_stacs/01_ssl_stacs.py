@@ -7,9 +7,14 @@ from posixpath import join as urljoin
 
 import pystac
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud
+from coclicodata.etl.cloud_utils import (
+    dataset_from_google_cloud,
+    dataset_to_google_cloud,
+    load_google_credentials,
+)
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
+from pystac.stac_io import DefaultStacIO
 from coclicodata.coclico_stac.io import CoCliCoStacIO
 from coclicodata.coclico_stac.layouts import CoCliCoZarrLayout
 from coclicodata.coclico_stac.templates import (
@@ -22,7 +27,8 @@ from coclicodata.coclico_stac.templates import (
     gen_zarr_asset,
     get_template_collection,
 )
-from coclicodata.coclico_stac.extension import CoclicoExtension
+
+# from coclicodata.coclico_stac.extension import CoclicoExtension
 from coclicodata.coclico_stac.datacube import add_datacube
 from coclicodata.coclico_stac.utils import (
     get_dimension_dot_product,
@@ -33,7 +39,8 @@ from coclicodata.coclico_stac.utils import (
 
 if __name__ == "__main__":
     # hard-coded input params at project level
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "CoCliCo - 11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
 
@@ -53,6 +60,7 @@ if __name__ == "__main__":
     )
 
     # hard-coded input params which differ per dataset
+    DATASET_INFILENAME = "CoastAlRisk_Europe_EESSL.zarr"
     DATASET_FILENAME = "europe_storm_surge_level.zarr"
     VARIABLES = ["ssl"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
@@ -119,6 +127,24 @@ if __name__ == "__main__":
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
 
+    # add file to bucket
+    # cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
+    # # load google credentials
+    # load_google_credentials(
+    #     google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
+    # )
+    # coclico_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
+    # dataset_dir = coclico_data_dir.joinpath("01_storm_surge_jrc")
+    # source_data_fp = dataset_dir.joinpath(DATASET_INFILENAME)
+
+    # dataset_to_google_cloud(
+    #     ds=source_data_fp,
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     zarr_filename=DATASET_FILENAME,
+    # )
+
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(
         bucket_name=BUCKET_NAME, bucket_proj=BUCKET_PROJ, zarr_filename=DATASET_FILENAME
@@ -159,7 +185,7 @@ if __name__ == "__main__":
         collection_id=COLLECTION_ID,
         title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
-        keywords=[],
+        keywords=["Sea Levels", "Fast-Track"],
     )
 
     # add datacube dimensions derived from xarray dataset to dataset collection
@@ -194,13 +220,18 @@ if __name__ == "__main__":
             feature.add_asset("mapbox", gen_mapbox_asset(mapbox_url))
 
             # This calls ItemCoclicoExtension and links CoclicoExtension to the stac item
-            coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
+            # coclico_ext = CoclicoExtension.ext(feature, add_if_missing=True)
+            # coclico_ext.item_key = item_id
+            # coclico_ext.paint = get_paint_props(item_id)
+            # coclico_ext.type_ = TYPE
+            # coclico_ext.stations = STATIONS
+            # coclico_ext.on_click = ON_CLICK
 
-            coclico_ext.item_key = item_id
-            coclico_ext.paint = get_paint_props(item_id)
-            coclico_ext.type_ = TYPE
-            coclico_ext.stations = STATIONS
-            coclico_ext.on_click = ON_CLICK
+            feature.properties["deltares:item_key"] = item_id
+            feature.properties["deltares:paint"] = get_paint_props(item_id)
+            feature.properties["deltares:type"] = TYPE
+            feature.properties["deltares:stations"] = STATIONS
+            feature.properties["deltares:onclick"] = ON_CLICK
 
             # TODO: include this in our datacube?
             # add dimension key-value pairs to stac item properties dict
@@ -222,21 +253,33 @@ if __name__ == "__main__":
         collection.summaries.add(k, v)
 
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
-    coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
+    # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
 
     # Add frontend properties defined above to collection extension properties. The
     # properties attribute of this extension is linked to the extra_fields attribute of
     # the stac collection.
-    coclico_ext.units = UNITS
-    coclico_ext.plot_series = PLOT_SERIES
-    coclico_ext.plot_x_axis = PLOT_X_AXIS
-    coclico_ext.plot_type = PLOT_TYPE
-    coclico_ext.min_ = MIN
-    coclico_ext.max_ = MAX
-    coclico_ext.linear_gradient = LINEAR_GRADIENT
+    # coclico_ext.units = UNITS
+    # coclico_ext.plot_series = PLOT_SERIES
+    # coclico_ext.plot_x_axis = PLOT_X_AXIS
+    # coclico_ext.plot_type = PLOT_TYPE
+    # coclico_ext.min_ = MIN
+    # coclico_ext.max_ = MAX
+    # coclico_ext.linear_gradient = LINEAR_GRADIENT
+
+    collection.extra_fields["deltares:units"] = UNITS
+    collection.extra_fields["deltares:plotSeries"] = PLOT_SERIES
+    collection.extra_fields["deltares:plotxAxis"] = PLOT_X_AXIS
+    collection.extra_fields["deltares:plotType"] = PLOT_TYPE
+    collection.extra_fields["deltares:min"] = MIN
+    collection.extra_fields["deltares:max"] = MAX
+    collection.extra_fields["deltares:linearGradient"] = LINEAR_GRADIENT
 
     # set extra link properties
     extend_links(collection, dimvals.keys())
+
+    if catalog.get_child(collection.id):
+        catalog.remove_child(collection.id)
+        print(f"Removed child: {collection.id}.")
 
     # save and limit number of folders, TODO: check if duplicate, then skip..
     catalog.add_child(collection)
@@ -252,7 +295,7 @@ if __name__ == "__main__":
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/"
             + COLLECTION_ID
             + ".png",  # noqa: E501
             title="Thumbnail",
@@ -263,7 +306,7 @@ if __name__ == "__main__":
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
-        stac_io=CoCliCoStacIO(),
+        stac_io=DefaultStacIO(),
     )
 
 # %%
