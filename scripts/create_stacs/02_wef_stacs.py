@@ -7,7 +7,11 @@ from posixpath import join as urljoin
 
 import pystac
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud
+from coclicodata.etl.cloud_utils import (
+    dataset_from_google_cloud,
+    dataset_to_google_cloud,
+    load_google_credentials,
+)
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 
@@ -35,6 +39,7 @@ from coclicodata.coclico_stac.utils import (
 
 if __name__ == "__main__":
     # hard-coded input params at project level
+    GCS_PROJECT = "CoCliCo - 11207608-002"
     BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
     MAPBOX_PROJ = "global-data-viewer"
@@ -46,6 +51,7 @@ if __name__ == "__main__":
     DATASET_DESCRIPTION = """Dataset with extreme Wave Energy Flux (WEF) at the Global scale. WEF is estimated for a scenario with high emission of greenhouse gases (RCP8.5) for eight different return periods (5, 10, 20, 50, 100, 200, 500 and 1000) and for eleven decades (1995, 2010-2100). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1002/2016GL072488) for more dataset-specific information."""
 
     # hard-coded input params which differ per dataset
+    DATASET_INFILENAME = "CoastAlRisk_Global_WEF_RCP85.zarr"
     DATASET_FILENAME = "global_wave_energy_flux.zarr"
     VARIABLES = ["wef"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
@@ -109,6 +115,24 @@ if __name__ == "__main__":
     gcs_api_zarr_store = os.path.join(
         "https://storage.googleapis.com", BUCKET_NAME, BUCKET_PROJ, DATASET_FILENAME
     )
+
+    # add file to bucket
+    # cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
+    # # load google credentials
+    # load_google_credentials(
+    #     google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
+    # )
+    # coclico_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
+    # dataset_dir = coclico_data_dir.joinpath("02_wave_energy_jrc")
+    # source_data_fp = dataset_dir.joinpath(DATASET_INFILENAME)
+
+    # dataset_to_google_cloud(
+    #     ds=source_data_fp,
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     zarr_filename=DATASET_FILENAME,
+    # )
 
     # read data from gcs zarr store
     ds = dataset_from_google_cloud(
