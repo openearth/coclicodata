@@ -83,11 +83,11 @@ if not ds_dir.exists():
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
 ds_path = ds_dir.joinpath("WP6", "data", "CBA")
-ds_fp = ds_path.joinpath("GCF.open.CBA_country.all.parquet")  # file directory
+ds_fp = ds_path.joinpath("GCF.open.CBA_country.all.update.parquet")  # file directory
 
 # Front end makes geopackages to go alongside the parquet data
 # if this exists define here
-FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG4326.gpkg")
+FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG3035.gpkg")
 
 # # load metadata template
 metadata_fp = ds_path.joinpath("metadata_GCF_CBA.json")
@@ -95,7 +95,7 @@ with open(metadata_fp, "r") as f:
     metadata = json5.load(f)
 
 # # extend keywords
-metadata["KEYWORDS"].extend(["Full-Track", "Risk & Adaptation"])
+metadata["KEYWORDS"].extend(["Full-Track"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
