@@ -362,6 +362,17 @@ def create_item(
     item.assets["data"].title = metadata["TITLE_ABBREVIATION"]
     item.assets["data"].description = metadata["SHORT_DESCRIPTION"]
 
+    vasset = pystac.Asset(  # data asset
+        href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
+        % (COLLECTION_ID),
+        media_type="application/png",
+        title=item.assets["data"].title,
+        description="OGS WMS url",
+        roles=["visual"],
+    )
+
+    item.add_asset("visual", vasset)
+
     return item
 
 
