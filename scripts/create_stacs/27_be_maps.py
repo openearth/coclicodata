@@ -274,14 +274,14 @@ def create_collection(
         ),
     )
 
-    collection.add_asset(
-        "geoserver_link",
-        pystac.Asset(
-            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=be_stats:be_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
-            title="Geoserver Parquet link",
-            media_type="application/vnd.apache.parquet",
-        ),
-    )
+    # collection.add_asset(
+    #     "geoserver_link",
+    #     pystac.Asset(
+    #         "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=be_stats:be_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+    #         title="Geoserver Parquet link",
+    #         media_type="application/vnd.apache.parquet",
+    #     ),
+    # )
 
     # collection.links = links
     collection.keywords = metadata["KEYWORDS"]
@@ -579,7 +579,7 @@ if __name__ == "__main__":
                     for k, v in dimcomb.items():
                         item.properties[k] = v
 
-                    title = COLLECTION_ID + ":" + Path(file_name).stem
+                    title = "be_stats:" + Path(file_name).stem
                     # TODO: We need to generalize this `href` somewhat.
                     vasset = pystac.Asset(  # data asset
                         href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
