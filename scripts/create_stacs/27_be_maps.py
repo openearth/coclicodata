@@ -93,7 +93,7 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # # directory to export result
-ds_path = ds_dir.joinpath("WP6", "front_end_data", "map_stats")
+ds_path = ds_dir.joinpath("WP6", "front_end_data", "be_stats", "map_stats")
 parq_dirs = ds_path.joinpath("maps")
 ds_fp = ds_path.parent.joinpath(
     "be_stats.parquet"
@@ -550,7 +550,7 @@ if __name__ == "__main__":
         for rp in rps:
             for scen in scenarios:
                 for time in times:
-                    file_name = f"pe_stats_{map_type}_{rp}_{scen}_{time}.parquet" 
+                    file_name = f"be_stats_{map_type}_{rp}_{scen}_{time}.parquet" 
                     uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{map_type}/{rp}/{scen}/{file_name}"
                     print(uri)
                     uris.append(uri)
