@@ -62,7 +62,7 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "pp_stats/map_stats"
+PROJ_NAME = "be_stats/map_stats"
 
 # hard-coded STAC templates
 STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
@@ -70,7 +70,7 @@ STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
 # hard-coded input params which differ per dataset
 DATASET_DIR = "WP6"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "pp_maps"  # name of stac collection
+COLLECTION_ID = "be_maps"  # name of stac collection
 MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
@@ -93,10 +93,10 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # # directory to export result
-ds_path = ds_dir.joinpath("WP6", "front_end_data", "map_stats")
+ds_path = ds_dir.joinpath("WP6", "front_end_data", "be_stats", "map_stats")
 parq_dirs = ds_path.joinpath("maps")
 ds_fp = ds_path.parent.joinpath(
-    "pop_stats.parquet"
+    "be_stats.parquet"
 )  # file directory dummy
 
 # Front end makes geopackages to go alongside the parquet data
@@ -104,7 +104,7 @@ ds_fp = ds_path.parent.joinpath(
 # FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG4326.gpkg")
 
 # # load metadata template
-metadata_fp = ds_path.parent.joinpath("metadata_pop_stats.json")
+metadata_fp = ds_path.parent.joinpath("metadata_be_stats.json")
 with open(metadata_fp, "r") as f:
     metadata = json5.load(f)
 
@@ -277,7 +277,7 @@ def create_collection(
     collection.add_asset(
         "geoserver_link",
         pystac.Asset(
-            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=pp_maps:pop_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=be_maps:be_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
             title="Geoserver Parquet link",
             media_type="application/vnd.apache.parquet",
         ),
@@ -512,11 +512,11 @@ if __name__ == "__main__":
     #     print("Dataset already exists in the Google Bucket")
 
     # %% get descriptions
-    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/pp_stats"
+    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/be_stats"
     paths_dum = fs.glob(uri_dum + "/*.parquet")
     uris_dum = ["gs://" + p for p in paths_dum]
     HREF_PREFIX_dum = urljoin(
-        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, "pp_stats"
+        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, "be_stats"
     )  # cloud export directory
     GCS_url_dum = urljoin(HREF_PREFIX_dum, uris_dum[0].split("/")[-1])
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
@@ -550,7 +550,7 @@ if __name__ == "__main__":
         for rp in rps:
             for scen in scenarios:
                 for time in times:
-                    file_name = f"pop_stats_{map_type}_{rp}_{scen}_{time}.parquet" 
+                    file_name = f"be_stats_{map_type}_{rp}_{scen}_{time}.parquet" 
                     uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{map_type}/{rp}/{scen}/{file_name}"
                     print(uri)
                     uris.append(uri)
