@@ -1,0 +1,334 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+  ],
+  "id": "58GFQ_z9-s46e166-333551_20230101_20240101",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          166.64719427946704,
+          -45.58616538909736
+        ],
+        [
+          166.64719427946704,
+          -45.36015840215546
+        ],
+        [
+          166.42167945401943,
+          -45.36015840215546
+        ],
+        [
+          166.42167945401943,
+          -45.58616538909736
+        ],
+        [
+          166.64719427946704,
+          -45.58616538909736
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    166.42167945401943,
+    -45.58616538909736,
+    166.64719427946704,
+    -45.36015840215546
+  ],
+  "properties": {
+    "AREA_OR_POINT": "Area",
+    "composite:avg_interval": "48 days 08:00:00",
+    "composite:determination_method": "CoastPy Simple Median",
+    "composite:n_obs": 7,
+    "composite:stac_ids": "['S2B_MSIL2A_20230223T224809_R115_T58GFQ_20230225T084507', 'S2B_MSIL2A_20231130T224809_R115_T58GFQ_20231201T012036', 'S2B_MSIL2A_20230414T224809_R115_T58GFQ_20230415T022212', 'S2B_MSIL2A_20230213T224809_R115_T58GFQ_20230214T073727', 'S2B_MSIL2A_20230723T224809_R115_T58GFQ_20230724T042718', 'S2A_MSIL2A_20231105T224811_R115_T58GFQ_20231106T011636', 'S2B_MSIL2A_20231021T224809_R115_T58GFQ_20231022T012441']",
+    "composite:summary": "Composite dataset created by taking the median value of each pixel across all time steps.",
+    "eo:cloud_cover": 8,
+    "end_datetime": "2023-11-30T22:48:09.024000Z",
+    "start_datetime": "2023-02-13T22:48:09.024000Z",
+    "composite_avg_interval": "48 days 08:00:00",
+    "composite_determination_method": "CoastPy Simple Median",
+    "composite_n_obs": 7,
+    "composite_stac_ids": "['S2B_MSIL2A_20230223T224809_R115_T58GFQ_20230225T084507', 'S2B_MSIL2A_20231130T224809_R115_T58GFQ_20231201T012036', 'S2B_MSIL2A_20230414T224809_R115_T58GFQ_20230415T022212', 'S2B_MSIL2A_20230213T224809_R115_T58GFQ_20230214T073727', 'S2B_MSIL2A_20230723T224809_R115_T58GFQ_20230724T042718', 'S2A_MSIL2A_20231105T224811_R115_T58GFQ_20231106T011636', 'S2B_MSIL2A_20231021T224809_R115_T58GFQ_20231022T012441']",
+    "composite_summary": "Composite dataset created by taking the median value of each pixel across all time steps.",
+    "eo_cloud_cover": 8,
+    "created": "2025-02-01T17:01:37.820976Z",
+    "proj:epsg": 32758,
+    "proj:shape": [
+      2479,
+      1716
+    ],
+    "proj:bbox": [
+      166.42167945401943,
+      -45.58616538909736,
+      166.64719427946704,
+      -45.36015840215546
+    ],
+    "proj:transform": [
+      10.0,
+      0.0,
+      611340.0,
+      0.0,
+      -10.0,
+      4975730.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "datetime": "2023-02-13T22:48:09.024000Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Sentinel-2 L2A Annual Composites"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Sentinel-2 L2A Annual Composites"
+    }
+  ],
+  "assets": {
+    "blue": {
+      "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/58GFQ_z9-s46e166-333551_20230101_20240101_blue_10m.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "blue band",
+      "proj:shape": [
+        2479,
+        1716
+      ],
+      "proj:bbox": [
+        611340.0,
+        4950940.0,
+        628500.0,
+        4975730.0
+      ],
+      "proj:transform": [
+        10.0,
+        0.0,
+        611340.0,
+        0.0,
+        -10.0,
+        4975730.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "raster:bands": [
+        {
+          "nodata": -9999,
+          "data_type": "int16",
+          "spatial_resolution": 10.0,
+          "unit": "m",
+          "scale": 0.0001
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    },
+    "green": {
+      "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/58GFQ_z9-s46e166-333551_20230101_20240101_green_10m.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "green band",
+      "proj:shape": [
+        2479,
+        1716
+      ],
+      "proj:bbox": [
+        611340.0,
+        4950940.0,
+        628500.0,
+        4975730.0
+      ],
+      "proj:transform": [
+        10.0,
+        0.0,
+        611340.0,
+        0.0,
+        -10.0,
+        4975730.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "raster:bands": [
+        {
+          "nodata": -9999,
+          "data_type": "int16",
+          "spatial_resolution": 10.0,
+          "unit": "m",
+          "scale": 0.0001
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    },
+    "nir": {
+      "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/58GFQ_z9-s46e166-333551_20230101_20240101_nir_10m.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "nir band",
+      "proj:shape": [
+        2479,
+        1716
+      ],
+      "proj:bbox": [
+        611340.0,
+        4950940.0,
+        628500.0,
+        4975730.0
+      ],
+      "proj:transform": [
+        10.0,
+        0.0,
+        611340.0,
+        0.0,
+        -10.0,
+        4975730.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "raster:bands": [
+        {
+          "nodata": -9999,
+          "data_type": "int16",
+          "spatial_resolution": 10.0,
+          "unit": "m",
+          "scale": 0.0001
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    },
+    "red": {
+      "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/58GFQ_z9-s46e166-333551_20230101_20240101_red_10m.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "red band",
+      "proj:shape": [
+        2479,
+        1716
+      ],
+      "proj:bbox": [
+        611340.0,
+        4950940.0,
+        628500.0,
+        4975730.0
+      ],
+      "proj:transform": [
+        10.0,
+        0.0,
+        611340.0,
+        0.0,
+        -10.0,
+        4975730.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "raster:bands": [
+        {
+          "nodata": -9999,
+          "data_type": "int16",
+          "spatial_resolution": 10.0,
+          "unit": "m",
+          "scale": 0.0001
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    },
+    "swir16": {
+      "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/58GFQ_z9-s46e166-333551_20230101_20240101_swir16_10m.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "swir16 band",
+      "proj:shape": [
+        2479,
+        1716
+      ],
+      "proj:bbox": [
+        611340.0,
+        4950940.0,
+        628500.0,
+        4975730.0
+      ],
+      "proj:transform": [
+        10.0,
+        0.0,
+        611340.0,
+        0.0,
+        -10.0,
+        4975730.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "raster:bands": [
+        {
+          "nodata": -9999,
+          "data_type": "int16",
+          "spatial_resolution": 10.0,
+          "unit": "m",
+          "scale": 0.0001
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    },
+    "swir22": {
+      "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/58GFQ_z9-s46e166-333551_20230101_20240101_swir22_10m.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "swir22 band",
+      "proj:shape": [
+        2479,
+        1716
+      ],
+      "proj:bbox": [
+        611340.0,
+        4950940.0,
+        628500.0,
+        4975730.0
+      ],
+      "proj:transform": [
+        10.0,
+        0.0,
+        611340.0,
+        0.0,
+        -10.0,
+        4975730.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "raster:bands": [
+        {
+          "nodata": -9999,
+          "data_type": "int16",
+          "spatial_resolution": 10.0,
+          "unit": "m",
+          "scale": 0.0001
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "s2-l2a-composite"
+}
