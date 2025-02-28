@@ -579,7 +579,7 @@ if __name__ == "__main__":
                     for k, v in dimcomb.items():
                         item.properties[k] = v
 
-                    title = "be_stats:" + Path(file_name).stem
+                    title = COLLECTION_ID + ":" + Path(file_name).stem
                     # TODO: We need to generalize this `href` somewhat.
                     vasset = pystac.Asset(  # data asset
                         href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
