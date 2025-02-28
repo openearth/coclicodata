@@ -1,7 +1,7 @@
 {
   "type": "Collection",
   "id": "gctr",
-  "stac_version": "1.0.0",
+  "stac_version": "1.1.0",
   "description": "\nThe Global Coastal Transect Repository (GCTR) is a comprehensive dataset designed for global\ncoastal analytics. It builds on the Global Coastal Transect System (GCTS), which provides\nover 11 million cross-shore transects uniformly spaced at 100-m intervals. These transects\nserve as standardized reference lines for measuring coastal change, mapping characteristics,\nand deriving coastal statistics thereof. See \"Calkoen et al. (2025) Enabling coastal analytics\nat Planetary scale\" for more information.\n\nThe GCTR dataset includes derived attributes such as intersection distances to OSM coastlines\nat multiple bearings (e.g., 0°, 30°, 330°) and integrates shoreline change rates\nderived from the ShorelineMonitor's Satellite-Derived Shorelines (SDS). See Luijendijk et al.\n(2018) for more information.\n\n",
   "links": [
     {
@@ -13,82 +13,82 @@
     {
       "rel": "item",
       "href": "./items/n67e10-c90f1c.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/n67w180-e6c7b3.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/n67w90-d9edb1.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/n69e90-175cd6.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s00e90-3c5754.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s00w00-2752e6.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s00w180-50e6d0.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s00w90-b9d669.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s44w180-a8980d.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s67e03-a5d199.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s67e92-ba62d2.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s67w90-14ce26.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s70e00-f21af2.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s78e90-041f59.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s78w90-df656d.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "item",
       "href": "./items/s79w180-54dfed.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "parent",
@@ -273,12 +273,42 @@
           "name": "sds:tr_is_qa",
           "type": "boolean",
           "description": "Flag indicating whether the transect meets quality assurance criteria; a combination of minimum observations per year and standard deviation."
+        },
+        {
+          "name": "class:shore_type",
+          "type": "str",
+          "description": "Predicted shore type classification, which describes the material composing the shore (e.g., sandy sediments, rocky formations, or muddy sediments)."
+        },
+        {
+          "name": "class:coastal_type",
+          "type": "str",
+          "description": "Predicted coastal type classification, which refers to the geomorphological features of the coast, which may be natural (e.g., cliffs, dunes) or human-influenced (e.g., engineered structures)."
+        },
+        {
+          "name": "class:has_defense",
+          "type": "boolean",
+          "description": "Boolean flag indicating whether coastal defense structures (e.g., sea walls, breakwaters) are present to protect against erosion and flooding."
+        },
+        {
+          "name": "class:is_built_environment",
+          "type": "boolean",
+          "description": "Boolean flag indicating whether the coastal area is dominated by human-made structures or remains largely natural."
+        },
+        {
+          "name": "class:model",
+          "type": "str",
+          "description": "Identifier for the machine learning model used for coastal typology predictions."
+        },
+        {
+          "name": "class:datetime_created",
+          "type": "datetime64[ms]",
+          "description": "Timestamp indicating when the coastal typology predictions were generated."
         }
       ]
     }
   },
-  "storage_pattern": "az://gctr/release/2025-01-09",
-  "version": "2025-01-09",
+  "storage_pattern": "az://gctr/release/2025-02-28/*.parquet",
+  "version": "2025-02-28",
   "sci:citation": "Calkoen, 2025, Global Coastal Transect Repository (GCTR), in progress.",
   "title": "Global Coastal Transect Repository (GCTR)",
   "extent": {
@@ -323,10 +353,11 @@
       ]
     },
     "geoparquet-stac-items": {
-      "href": "https://coclico.blob.core.windows.net/items/gctr.parquet/gctr.parquet",
+      "href": "https://coclico.blob.core.windows.net/items/gctr.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "2025-02-28T14:03:22.539500Z",
       "roles": [
         "metadata"
       ]

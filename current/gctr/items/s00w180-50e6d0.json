@@ -1,9 +1,9 @@
 {
   "type": "Feature",
-  "stac_version": "1.0.0",
+  "stac_version": "1.1.0",
   "stac_extensions": [
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json"
   ],
   "id": "s00w180-50e6d0",
   "geometry": {
@@ -40,7 +40,7 @@
     66.52118909485309
   ],
   "properties": {
-    "created": "2025-01-21T08:12:39.497699Z",
+    "created": "2025-02-28T13:55:33.165321Z",
     "table:columns": [
       {
         "name": "transect_id",
@@ -212,22 +212,52 @@
         "name": "sds:tr_is_qa",
         "type": "bool",
         "description": "Flag indicating whether the transect meets quality assurance criteria; a combination of minimum observations per year and standard deviation."
+      },
+      {
+        "name": "class:shore_type",
+        "type": "string",
+        "description": "Predicted shore type classification, which describes the material composing the shore (e.g., sandy sediments, rocky formations, or muddy sediments)."
+      },
+      {
+        "name": "class:coastal_type",
+        "type": "string",
+        "description": "Predicted coastal type classification, which refers to the geomorphological features of the coast, which may be natural (e.g., cliffs, dunes) or human-influenced (e.g., engineered structures)."
+      },
+      {
+        "name": "class:has_defense",
+        "type": "bool",
+        "description": "Boolean flag indicating whether coastal defense structures (e.g., sea walls, breakwaters) are present to protect against erosion and flooding."
+      },
+      {
+        "name": "class:is_built_environment",
+        "type": "bool",
+        "description": "Boolean flag indicating whether the coastal area is dominated by human-made structures or remains largely natural."
+      },
+      {
+        "name": "class:model",
+        "type": "string",
+        "description": "Identifier for the machine learning model used for coastal typology predictions."
+      },
+      {
+        "name": "class:datetime_created",
+        "type": "timestamp[ms]",
+        "description": "Timestamp indicating when the coastal typology predictions were generated."
       }
     ],
+    "proj:code": "EPSG:4326",
     "proj:bbox": [
       -179.99922504200103,
       -0.00754661853550994,
       -89.98087465130494,
       66.52118909485309
     ],
-    "proj:epsg": 4326,
     "table:row_count": 1000455,
     "datetime": "2023-02-09T00:00:00Z"
   },
   "links": [
     {
       "rel": "alternate",
-      "href": "https://coclico.blob.core.windows.net/gctr/release/2025-01-09/s00w180-50e6d0.parquet",
+      "href": "https://coclico.blob.core.windows.net/gctr/release/2025-02-28/s00w180-50e6d0.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "HTTPS access"
     },
@@ -252,7 +282,7 @@
   ],
   "assets": {
     "data": {
-      "href": "az://gctr/release/2025-01-09/s00w180-50e6d0.parquet",
+      "href": "az://gctr/release/2025-02-28/s00w180-50e6d0.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "Global Coastal Transect Repository (GCTR)",
       "description": "\nA Parquet dataset containing coastal transects and derived attributes, including intersection\ndistances to OSM coastlines at multiple bearings and shoreline change rates from the ShorelineMonitor dataset.\n",
@@ -419,6 +449,36 @@
           "name": "sds:tr_is_qa",
           "type": "boolean",
           "description": "Flag indicating whether the transect meets quality assurance criteria; a combination of minimum observations per year and standard deviation."
+        },
+        {
+          "name": "class:shore_type",
+          "type": "str",
+          "description": "Predicted shore type classification, which describes the material composing the shore (e.g., sandy sediments, rocky formations, or muddy sediments)."
+        },
+        {
+          "name": "class:coastal_type",
+          "type": "str",
+          "description": "Predicted coastal type classification, which refers to the geomorphological features of the coast, which may be natural (e.g., cliffs, dunes) or human-influenced (e.g., engineered structures)."
+        },
+        {
+          "name": "class:has_defense",
+          "type": "boolean",
+          "description": "Boolean flag indicating whether coastal defense structures (e.g., sea walls, breakwaters) are present to protect against erosion and flooding."
+        },
+        {
+          "name": "class:is_built_environment",
+          "type": "boolean",
+          "description": "Boolean flag indicating whether the coastal area is dominated by human-made structures or remains largely natural."
+        },
+        {
+          "name": "class:model",
+          "type": "str",
+          "description": "Identifier for the machine learning model used for coastal typology predictions."
+        },
+        {
+          "name": "class:datetime_created",
+          "type": "datetime64[ms]",
+          "description": "Timestamp indicating when the coastal typology predictions were generated."
         }
       ],
       "roles": [
