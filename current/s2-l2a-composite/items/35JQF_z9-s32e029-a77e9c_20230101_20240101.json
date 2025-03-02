@@ -1,8 +1,8 @@
 {
   "type": "Feature",
-  "stac_version": "1.0.0",
+  "stac_version": "1.1.0",
   "stac_extensions": [
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
     "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
   ],
   "id": "35JQF_z9-s32e029-a77e9c_20230101_20240101",
@@ -11,23 +11,23 @@
     "coordinates": [
       [
         [
-          29.535814876625672,
+          29.535814876625665,
           -31.702224971549406
         ],
         [
-          29.535814876625672,
+          29.535814876625665,
           -31.530548893846653
         ],
         [
-          29.27575404033572,
+          29.275754040335727,
           -31.530548893846653
         ],
         [
-          29.27575404033572,
+          29.275754040335727,
           -31.702224971549406
         ],
         [
-          29.535814876625672,
+          29.535814876625665,
           -31.702224971549406
         ]
       ]
@@ -41,31 +41,19 @@
   ],
   "properties": {
     "AREA_OR_POINT": "Area",
-    "composite:avg_interval": "25 days 13:19:22.222222222",
-    "composite:determination_method": "CoastPy Simple Median",
-    "composite:n_obs": 10,
-    "composite:stac_ids": "['S2B_MSIL2A_20230712T073619_R092_T35JQF_20230712T131150', 'S2A_MSIL2A_20230418T073611_R092_T35JQF_20230419T015209', 'S2A_MSIL2A_20230607T073621_R092_T35JQF_20230607T134531', 'S2B_MSIL2A_20230831T073619_R092_T35JQF_20230831T152929', 'S2B_MSIL2A_20230702T073619_R092_T35JQF_20230702T135403', 'S2B_MSIL2A_20230811T073619_R092_T35JQF_20230811T141810', 'S2B_MSIL2A_20230821T073619_R092_T35JQF_20230821T142913', 'S2B_MSIL2A_20230113T074159_R092_T35JQF_20230113T210608', 'S2B_MSIL2A_20230602T073619_R092_T35JQF_20230602T125726', 'S2B_MSIL2A_20230423T073619_R092_T35JQF_20230424T082329']",
-    "composite:summary": "Composite dataset created by taking the median value of each pixel across all time steps.",
-    "eo:cloud_cover": 0,
-    "end_datetime": "2023-08-31T07:36:19.024000Z",
-    "start_datetime": "2023-01-13T07:41:59.024000Z",
     "composite_avg_interval": "25 days 13:19:22.222222222",
     "composite_determination_method": "CoastPy Simple Median",
     "composite_n_obs": 10,
     "composite_stac_ids": "['S2B_MSIL2A_20230712T073619_R092_T35JQF_20230712T131150', 'S2A_MSIL2A_20230418T073611_R092_T35JQF_20230419T015209', 'S2A_MSIL2A_20230607T073621_R092_T35JQF_20230607T134531', 'S2B_MSIL2A_20230831T073619_R092_T35JQF_20230831T152929', 'S2B_MSIL2A_20230702T073619_R092_T35JQF_20230702T135403', 'S2B_MSIL2A_20230811T073619_R092_T35JQF_20230811T141810', 'S2B_MSIL2A_20230821T073619_R092_T35JQF_20230821T142913', 'S2B_MSIL2A_20230113T074159_R092_T35JQF_20230113T210608', 'S2B_MSIL2A_20230602T073619_R092_T35JQF_20230602T125726', 'S2B_MSIL2A_20230423T073619_R092_T35JQF_20230424T082329']",
     "composite_summary": "Composite dataset created by taking the median value of each pixel across all time steps.",
     "eo_cloud_cover": 0,
-    "created": "2025-02-01T16:20:34.938486Z",
-    "proj:epsg": 32735,
+    "start_datetime": "2023-01-13T07:41:59.024000Z",
+    "end_datetime": "2023-08-31T07:36:19.024000Z",
+    "created": "2025-03-01T14:30:09.286576Z",
+    "proj:code": "EPSG:32735",
     "proj:shape": [
       1851,
       2428
-    ],
-    "proj:bbox": [
-      29.27575404033572,
-      -31.702224971549406,
-      29.535814876625672,
-      -31.530548893846653
     ],
     "proj:transform": [
       10.0,
@@ -78,6 +66,39 @@
       0.0,
       1.0
     ],
+    "proj:bbox": [
+      716060.0,
+      6490310.0,
+      740340.0,
+      6508820.0
+    ],
+    "proj:geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            740340.0,
+            6490310.0
+          ],
+          [
+            740340.0,
+            6508820.0
+          ],
+          [
+            716060.0,
+            6508820.0
+          ],
+          [
+            716060.0,
+            6490310.0
+          ],
+          [
+            740340.0,
+            6490310.0
+          ]
+        ]
+      ]
+    },
     "datetime": "2023-01-13T07:41:59.024000Z"
   },
   "links": [
@@ -105,15 +126,10 @@
       "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/35JQF_z9-s32e029-a77e9c_20230101_20240101_blue_10m.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "title": "blue band",
+      "proj:code": "EPSG:32735",
       "proj:shape": [
         1851,
         2428
-      ],
-      "proj:bbox": [
-        716060.0,
-        6490310.0,
-        740340.0,
-        6508820.0
       ],
       "proj:transform": [
         10.0,
@@ -126,11 +142,44 @@
         0.0,
         1.0
       ],
+      "proj:bbox": [
+        716060.0,
+        6490310.0,
+        740340.0,
+        6508820.0
+      ],
+      "proj:geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              740340.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6490310.0
+            ]
+          ]
+        ]
+      },
       "raster:bands": [
         {
           "nodata": -9999,
           "data_type": "int16",
-          "spatial_resolution": 10.0,
+          "spatial_resolution": 10,
           "unit": "m",
           "scale": 0.0001
         }
@@ -143,15 +192,10 @@
       "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/35JQF_z9-s32e029-a77e9c_20230101_20240101_green_10m.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "title": "green band",
+      "proj:code": "EPSG:32735",
       "proj:shape": [
         1851,
         2428
-      ],
-      "proj:bbox": [
-        716060.0,
-        6490310.0,
-        740340.0,
-        6508820.0
       ],
       "proj:transform": [
         10.0,
@@ -164,11 +208,44 @@
         0.0,
         1.0
       ],
+      "proj:bbox": [
+        716060.0,
+        6490310.0,
+        740340.0,
+        6508820.0
+      ],
+      "proj:geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              740340.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6490310.0
+            ]
+          ]
+        ]
+      },
       "raster:bands": [
         {
           "nodata": -9999,
           "data_type": "int16",
-          "spatial_resolution": 10.0,
+          "spatial_resolution": 10,
           "unit": "m",
           "scale": 0.0001
         }
@@ -181,15 +258,10 @@
       "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/35JQF_z9-s32e029-a77e9c_20230101_20240101_nir_10m.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "title": "nir band",
+      "proj:code": "EPSG:32735",
       "proj:shape": [
         1851,
         2428
-      ],
-      "proj:bbox": [
-        716060.0,
-        6490310.0,
-        740340.0,
-        6508820.0
       ],
       "proj:transform": [
         10.0,
@@ -202,11 +274,44 @@
         0.0,
         1.0
       ],
+      "proj:bbox": [
+        716060.0,
+        6490310.0,
+        740340.0,
+        6508820.0
+      ],
+      "proj:geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              740340.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6490310.0
+            ]
+          ]
+        ]
+      },
       "raster:bands": [
         {
           "nodata": -9999,
           "data_type": "int16",
-          "spatial_resolution": 10.0,
+          "spatial_resolution": 10,
           "unit": "m",
           "scale": 0.0001
         }
@@ -219,15 +324,10 @@
       "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/35JQF_z9-s32e029-a77e9c_20230101_20240101_red_10m.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "title": "red band",
+      "proj:code": "EPSG:32735",
       "proj:shape": [
         1851,
         2428
-      ],
-      "proj:bbox": [
-        716060.0,
-        6490310.0,
-        740340.0,
-        6508820.0
       ],
       "proj:transform": [
         10.0,
@@ -240,11 +340,44 @@
         0.0,
         1.0
       ],
+      "proj:bbox": [
+        716060.0,
+        6490310.0,
+        740340.0,
+        6508820.0
+      ],
+      "proj:geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              740340.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6490310.0
+            ]
+          ]
+        ]
+      },
       "raster:bands": [
         {
           "nodata": -9999,
           "data_type": "int16",
-          "spatial_resolution": 10.0,
+          "spatial_resolution": 10,
           "unit": "m",
           "scale": 0.0001
         }
@@ -257,15 +390,10 @@
       "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/35JQF_z9-s32e029-a77e9c_20230101_20240101_swir16_10m.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "title": "swir16 band",
+      "proj:code": "EPSG:32735",
       "proj:shape": [
         1851,
         2428
-      ],
-      "proj:bbox": [
-        716060.0,
-        6490310.0,
-        740340.0,
-        6508820.0
       ],
       "proj:transform": [
         10.0,
@@ -278,11 +406,44 @@
         0.0,
         1.0
       ],
+      "proj:bbox": [
+        716060.0,
+        6490310.0,
+        740340.0,
+        6508820.0
+      ],
+      "proj:geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              740340.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6490310.0
+            ]
+          ]
+        ]
+      },
       "raster:bands": [
         {
           "nodata": -9999,
           "data_type": "int16",
-          "spatial_resolution": 10.0,
+          "spatial_resolution": 10,
           "unit": "m",
           "scale": 0.0001
         }
@@ -295,15 +456,10 @@
       "href": "https://coclico.blob.core.windows.net/tmp/s2-l2a-composite/release/2025-01-17/35JQF_z9-s32e029-a77e9c_20230101_20240101_swir22_10m.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "title": "swir22 band",
+      "proj:code": "EPSG:32735",
       "proj:shape": [
         1851,
         2428
-      ],
-      "proj:bbox": [
-        716060.0,
-        6490310.0,
-        740340.0,
-        6508820.0
       ],
       "proj:transform": [
         10.0,
@@ -316,11 +472,44 @@
         0.0,
         1.0
       ],
+      "proj:bbox": [
+        716060.0,
+        6490310.0,
+        740340.0,
+        6508820.0
+      ],
+      "proj:geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              740340.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6508820.0
+            ],
+            [
+              716060.0,
+              6490310.0
+            ],
+            [
+              740340.0,
+              6490310.0
+            ]
+          ]
+        ]
+      },
       "raster:bands": [
         {
           "nodata": -9999,
           "data_type": "int16",
-          "spatial_resolution": 10.0,
+          "spatial_resolution": 10,
           "unit": "m",
           "scale": 0.0001
         }

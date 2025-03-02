@@ -1,7 +1,7 @@
 {
   "type": "Collection",
   "id": "shorelinemonitor-series",
-  "stac_version": "1.0.0",
+  "stac_version": "1.1.0",
   "description": "\nThe ShorelineMonitor dataset provides shoreline change series derived from annually composited Landsat satellite imagery\nover the period 1984 - 2024. These data include shoreline positions and additional metrics to extract reliable\nshoreline change per transect.\n\nThe ShorelineMonitor Shorelines are mapped onto the Global Coastal Transect System (GCTS), which consists of over 11 million\n100-m alongshore spaced resolution.\n\nA key attribute in the dataset is the `obs_is_primary` flag, which can be used to filter the primary shoreline change series.\nThe primary series includes at most one observation per year per transect, so that can be used as an annualized view of shoreline\ndynamics. These primary observations are the foundation for calculating annual shoreline change rates and trends.\n\nFor cases where the primary series may not accurately capture shoreline dynamics, additional attributes in the dataset can be utilized\nto develop alternative methods for identifying the primary change series more effectively. We look forward to your contributions on this!\n",
   "links": [
     {
@@ -2188,7 +2188,6 @@
     }
   ],
   "stac_extensions": [
-    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json",
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
   ],
