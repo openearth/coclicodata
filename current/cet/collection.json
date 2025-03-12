@@ -2,18 +2,24 @@
   "type": "Collection",
   "id": "cet",
   "stac_version": "1.1.0",
-  "description": "The erosion database is based around a qualitative coastal classification which defines a limited number of coastal geomorphic types.",
+  "description": "\nThis database brings together existing information on erosion and relevant coastal characteristics in a GIS environment, facilitating broad-scale analysis.\n",
   "links": [
+    {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "CC BY 4.0 "
+    },
+    {
+      "rel": "item",
+      "href": "./items/CoCliCo_Erosion_database_250221.json",
+      "type": "application/geo+json"
+    },
     {
       "rel": "root",
       "href": "../catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
-    },
-    {
-      "rel": "item",
-      "href": "./items/CoCliCo_Erosion_database_240808.json",
-      "type": "application/json"
     },
     {
       "rel": "parent",
@@ -23,14 +29,14 @@
     }
   ],
   "stac_extensions": [
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json"
   ],
   "item_assets": {
     "data": {
       "title": "CET",
-      "description": "Coastal erosion typology database for Europe",
+      "description": "Parquet dataset with coastal erosion data for this region.",
       "roles": [
         "data"
       ],
@@ -40,122 +46,142 @@
       },
       "table:columns": [
         {
-          "name": "Source",
+          "name": "source",
           "type": "string",
-          "description": ""
+          "description": "Source of coastline data used in analysis."
         },
         {
-          "name": "Country",
+          "name": "country",
           "type": "string",
-          "description": ""
+          "description": "ISO 2-letter country code where the segment is located."
         },
         {
-          "name": "Covered",
+          "name": "covered",
           "type": "string",
-          "description": ""
+          "description": "Indicates if the coastal classification has been applied: 'Y' (Yes), 'N' (No), 'N/A' (Not included)."
         },
         {
-          "name": "SEG_ID",
+          "name": "seg_id",
           "type": "string",
-          "description": ""
+          "description": "Unique segment ID assigned within each country."
         },
         {
-          "name": "SEG_Length",
-          "type": "int64",
-          "description": ""
+          "name": "seg_length",
+          "type": "int",
+          "description": "Length of the coastal segment in meters."
         },
         {
-          "name": "Floodplain",
+          "name": "associated_floodplain",
           "type": "string",
-          "description": ""
+          "description": "Indicates if the segment is associated with a floodplain ('Y' for Yes, 'N' for No)."
         },
         {
-          "name": "L_FP",
+          "name": "local_floodplain",
           "type": "string",
-          "description": ""
+          "description": "ID of the local floodplain adjacent to the coastline segment."
         },
         {
-          "name": "R_FP_1",
+          "name": "remote_floodplain_1",
           "type": "string",
-          "description": ""
+          "description": "ID of the first remote floodplain associated with the coastline segment."
         },
         {
-          "name": "R_FP_2",
+          "name": "remote_floodplain_2",
           "type": "string",
-          "description": ""
+          "description": "ID of the second remote floodplain associated with the coastline segment."
         },
         {
-          "name": "Onshore_structure",
+          "name": "onshore_structure",
           "type": "string",
-          "description": ""
+          "description": "Indicates presence of onshore engineered structures affecting coastal evolution ('Y' for Yes, 'N' for No)."
         },
         {
-          "name": "Offshore_structure",
+          "name": "offshore_structure",
           "type": "string",
-          "description": ""
+          "description": "Indicates presence of offshore structures like breakwaters affecting coastal evolution ('Y' for Yes, 'N' for No)."
         },
         {
-          "name": "Harbour",
+          "name": "harbour",
           "type": "string",
-          "description": ""
+          "description": "Indicates presence of a permanent port or harbour structure ('Y' for Yes, 'N' for No)."
         },
         {
-          "name": "Activ_geo",
+          "name": "geomorphological_class",
           "type": "string",
-          "description": ""
+          "description": "Classification of the coastal geomorphology (e.g., Beach, Erodible cliffs, Dune system, Wetlands)."
         },
         {
-          "name": "Barrier",
+          "name": "barrier",
           "type": "string",
-          "description": ""
+          "description": "Description of the broad-scale coastal barrier feature, if present (e.g., Spit, Barrier Island, Tombolo)."
         },
         {
-          "name": "Sed_type_1",
+          "name": "primary_sediment_type",
           "type": "string",
-          "description": ""
+          "description": "Primary sediment type of the coastal segment (e.g., Sand, Mud, Rock, Sand/Gravel)."
         },
         {
-          "name": "Sed_type_2",
+          "name": "secondary_sediment_type",
           "type": "string",
-          "description": ""
+          "description": "Secondary sediment type, if applicable (e.g., rock platforms in a sandy beach)."
         },
         {
-          "name": "Hist_Trend",
+          "name": "historical_shoreline_change_regime",
           "type": "string",
-          "description": ""
+          "description": "Historical trend of shoreline movement from 1984 to 2021: 'Ero' (Erosion), 'Acc' (Accretion), 'Sta' (Stable)."
         },
         {
-          "name": "Code_18",
+          "name": "corine_code_18",
           "type": "string",
-          "description": ""
+          "description": "Corine 2018 land cover classification code for the segment."
         },
         {
-          "name": "Recl_18",
+          "name": "corine_code_simplified",
           "type": "string",
-          "description": ""
+          "description": "Simplified reclassification of Corine 2018 land cover codes."
+        },
+        {
+          "name": "Future_erosion",
+          "type": "float",
+          "description": "Probability of future erosion occurring at the segment location."
+        },
+        {
+          "name": "Future_accretion",
+          "type": "float",
+          "description": "Probability of future accretion occurring at the segment location."
+        },
+        {
+          "name": "Future_stable",
+          "type": "float",
+          "description": "Probability of future stability at the segment location."
         },
         {
           "name": "Notes",
-          "type": "double",
-          "description": ""
+          "type": "string",
+          "description": "Additional notes or comments on the segment."
+        },
+        {
+          "name": "Local_floodplain_area_km2",
+          "type": "float",
+          "description": "Total area (km²) of the associated local floodplain."
         },
         {
           "name": "geometry",
-          "type": "binary",
-          "description": ""
+          "type": "geometry",
+          "description": "Geospatial representation of the coastal segment in a MULTILINESTRING format."
         }
       ]
     }
   },
-  "base_url": "gs://coclico-data-public/coclico/cet",
-  "sci:citation": "None.",
-  "version": "1",
-  "title": "Coastal Erosion Typology",
+  "storage_pattern": "az://cet/release/2025-02-21/*.parquet",
+  "sci:citation": "Hanson et al., in progress.",
+  "version": "2025-02-21",
+  "title": "The CoCliCo coastal characteristics database to support erosion analysis",
   "extent": {
     "spatial": {
       "bbox": [
         [
-          -31.386545494931003,
+          -31.386545494931013,
           32.457482285641014,
           60.24216959014434,
           67.12036364463012
@@ -165,51 +191,56 @@
     "temporal": {
       "interval": [
         [
-          "2024-01-22T00:00:00Z",
-          "2024-01-22T00:00:00Z"
+          "2025-02-21T00:00:00Z",
+          "2025-02-21T00:00:00Z"
         ]
       ]
     }
   },
   "license": "CC-BY-4.0",
   "keywords": [
-    "Coastal",
-    "Zone",
-    "Erosion",
-    "Typology",
-    "Full-Track"
+    "Coastal analytics",
+    "Coastal erosion",
+    "Coastal floodingDeltares",
+    "CoCliCo",
+    "GeoParquet"
   ],
   "providers": [
-    {
-      "name": "University of East Anglia (UEA)",
-      "roles": [
-        "producer",
-        "licensor"
-      ],
-      "url": "https://research-portal.uea.ac.uk/en/"
-    },
     {
       "name": "Deltares",
       "roles": [
         "processor",
-        "host"
+        "licensor"
       ],
       "url": "https://deltares.nl"
+    },
+    {
+      "name": "CoCliCo",
+      "roles": [
+        "producer",
+        "licensor",
+        "host"
+      ],
+      "url": "https://coclicoservices.eu/"
     }
   ],
   "assets": {
     "thumbnail": {
-      "href": "https://storage.googleapis.com/download/storage/v1/b/coclico-data-public/o/coclico%2Fassets%2Fthumbnails%2Fcet.png?alt=media",
-      "type": "image/png",
-      "title": "Thumbnail"
+      "href": "https://coclico.blob.core.windows.net/assets/thumbnails/cet-thumbnail.jpeg",
+      "type": "image/jpeg",
+      "title": "Thumbnail",
+      "roles": [
+        "thumbnail"
+      ]
     },
     "geoparquet-stac-items": {
-      "href": "gs://coclico-data-public/coclico/items/cet.parquet",
+      "href": "https://coclico.blob.core.windows.net/items/cet.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "2025-03-12T13:51:10.240024Z",
       "roles": [
-        "data"
+        "metadata"
       ]
     }
   }

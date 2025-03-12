@@ -1,0 +1,188 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+  ],
+  "id": "CoCliCo_Erosion_database_250221",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          60.24216959014434,
+          32.457482285641014
+        ],
+        [
+          60.24216959014434,
+          67.12036364463012
+        ],
+        [
+          -31.386545494931013,
+          67.12036364463012
+        ],
+        [
+          -31.386545494931013,
+          32.457482285641014
+        ],
+        [
+          60.24216959014434,
+          32.457482285641014
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -31.386545494931013,
+    32.457482285641014,
+    60.24216959014434,
+    67.12036364463012
+  ],
+  "properties": {
+    "created": "2025-03-12T13:51:02.705480Z",
+    "table:columns": [
+      {
+        "name": "source",
+        "type": "string"
+      },
+      {
+        "name": "country",
+        "type": "string"
+      },
+      {
+        "name": "covered",
+        "type": "string"
+      },
+      {
+        "name": "seg_id",
+        "type": "string"
+      },
+      {
+        "name": "seg_length",
+        "type": "int32"
+      },
+      {
+        "name": "associated_floodplain",
+        "type": "string"
+      },
+      {
+        "name": "local_floodplain",
+        "type": "string"
+      },
+      {
+        "name": "remote_floodplain_1",
+        "type": "string"
+      },
+      {
+        "name": "remote_floodplain_2",
+        "type": "string"
+      },
+      {
+        "name": "onshore_structure",
+        "type": "string"
+      },
+      {
+        "name": "offshore_structure",
+        "type": "string"
+      },
+      {
+        "name": "harbour",
+        "type": "string"
+      },
+      {
+        "name": "geomorphological_class",
+        "type": "string"
+      },
+      {
+        "name": "barrier",
+        "type": "string"
+      },
+      {
+        "name": "primary_sediment_type",
+        "type": "string"
+      },
+      {
+        "name": "secondary_sediment_type",
+        "type": "string"
+      },
+      {
+        "name": "historical_shoreline_change_regime",
+        "type": "string"
+      },
+      {
+        "name": "corine_code_18",
+        "type": "string"
+      },
+      {
+        "name": "corine_code_simplified",
+        "type": "string"
+      },
+      {
+        "name": "Future_erosion",
+        "type": "double"
+      },
+      {
+        "name": "Future_accretion",
+        "type": "double"
+      },
+      {
+        "name": "Future_stable",
+        "type": "double"
+      },
+      {
+        "name": "Notes",
+        "type": "string"
+      },
+      {
+        "name": "Local_floodplain_area_km2",
+        "type": "double"
+      },
+      {
+        "name": "geometry",
+        "type": "WKB"
+      }
+    ],
+    "proj:code": "EPSG:3035",
+    "proj:bbox": [
+      2635937.743899999,
+      1385857.1045999993,
+      6526891.195699999,
+      5415913.238500001
+    ],
+    "table:row_count": 2092311,
+    "datetime": "2025-02-21T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "The CoCliCo coastal characteristics database to support erosion analysis"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "The CoCliCo coastal characteristics database to support erosion analysis"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://coclico.blob.core.windows.net/cet/release/2025-02-21/CoCliCo_Erosion_database_250221.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "CET",
+      "description": "Parquet dataset with coastal erosion data for this region.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "cet"
+}
