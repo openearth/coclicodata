@@ -2,9 +2,6 @@
 # ## Load software
 import sys
 
-branch = "dev"
-sys.path.insert(0, "../src")
-
 # from coastmonitor.io.drive_config import configure_instance
 
 # is_local_instance = configure_instance(branch=branch)
@@ -93,7 +90,7 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # # directory to export result
-ds_path = ds_dir.joinpath("WP6", "front_end_data", "map_stats")
+ds_path = ds_dir.joinpath("WP6", "front_end_data", "pp_stats", "map_stats")
 parq_dirs = ds_path.joinpath("maps")
 ds_fp = ds_path.parent.joinpath(
     "pop_stats.parquet"
@@ -274,14 +271,14 @@ def create_collection(
         ),
     )
 
-    collection.add_asset(
-        "geoserver_link",
-        pystac.Asset(
-            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=pp_maps:pop_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
-            title="Geoserver Parquet link",
-            media_type="application/vnd.apache.parquet",
-        ),
-    )
+    # collection.add_asset(
+    #     "geoserver_link",
+    #     pystac.Asset(
+    #         "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=pp_maps:pop_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+    #         title="Geoserver Parquet link",
+    #         media_type="application/vnd.apache.parquet",
+    #     ),
+    # )
 
     # collection.links = links
     collection.keywords = metadata["KEYWORDS"]
