@@ -1,0 +1,146 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+  ],
+  "id": "z8-n01w051-f682b2_n01w51-b0771a",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -49.9048517427118,
+          1.41719852329316
+        ],
+        [
+          -49.9048517427118,
+          1.9054708
+        ],
+        [
+          -50.6130127488937,
+          1.9054708
+        ],
+        [
+          -50.6130127488937,
+          1.41719852329316
+        ],
+        [
+          -49.9048517427118,
+          1.41719852329316
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -50.6130127488937,
+    1.41719852329316,
+    -49.9048517427118,
+    1.9054708
+  ],
+  "properties": {
+    "created": "2025-03-30T22:05:43.606629Z",
+    "table:columns": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "geometry",
+        "type": "WKB"
+      },
+      {
+        "name": "bbox.xmax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.xmin",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymin",
+        "type": "double"
+      },
+      {
+        "name": "type",
+        "type": "string"
+      },
+      {
+        "name": "sources",
+        "type": "list<element: struct<confidence: double, dataset: string, property: string, record_id: string, update_time: string>>"
+      },
+      {
+        "name": "has_parts",
+        "type": "bool"
+      },
+      {
+        "name": "is_underground",
+        "type": "bool"
+      },
+      {
+        "name": "class",
+        "type": "null"
+      },
+      {
+        "name": "height",
+        "type": "double"
+      },
+      {
+        "name": "num_floors",
+        "type": "null"
+      }
+    ],
+    "proj:code": "EPSG:4326",
+    "proj:bbox": [
+      -50.6130127488937,
+      1.41719852329316,
+      -49.9048517427118,
+      1.9054708
+    ],
+    "table:row_count": 223,
+    "datetime": "2023-03-19T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "alternate",
+      "href": "az://overture/release/2025-03-19.0/z8-n01w051-f682b2_n01w51-b0771a.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Cloud Access"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Overture Coastal Building Footprints"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Overture Coastal Building Footprints"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://coclico.blob.core.windows.net/overture/release/2025-03-19.0/z8-n01w051-f682b2_n01w51-b0771a.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Overture Coastal Building Footprints",
+      "description": "Overture Coastal Building Footprints",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "overture-buildings"
+}
