@@ -577,7 +577,7 @@ if __name__ == "__main__":
     ]  # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
     scenarios = ["None", "SSP126", "SSP245", "SSP585", "High_End"]  # 5 options
-    times = ["2010", "2030", "2050", "2100"]  # 4 options
+    times = ["2010", "2030", "2050", "2100","2150"]  # 4 options
 
     items = []
     dimcombs = []
@@ -590,7 +590,9 @@ if __name__ == "__main__":
                 for time in times:
 
                     # Logic to fill the matrix of available tif's 
-                    if time == "2010":
+                    if time == "2150" and scen != "High_End":
+                        continue
+                    elif time == "2010":
                         tif_scen = "None"
                         tif_time = time
                     elif scen == "None":
@@ -715,7 +717,11 @@ if __name__ == "__main__":
             if value not in dimvals[key]:
                 dimvals[key].append(value)
 
+    # Remove the time 2150 from the summaries
+    dimvals["time"].remove("2150")
+
     for k, v in dimvals.items():
+
         collection.summaries.add(k, v)
 
     # set extra link properties
