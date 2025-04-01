@@ -232,7 +232,7 @@ def create_collection(
     collection.extra_fields["item_assets"] = {
         "data": {
             "type": pystac.MediaType.COG,
-            "title": "Coastal Hazard Flood Projections",
+            "title": "Flood Maps",  # "Coastal Hazard Flood Projections",
             "roles": ["data"],
             "description": "Coastal Flooding projections for Europe",
             **ASSET_EXTRA_FIELDS,
@@ -577,7 +577,7 @@ if __name__ == "__main__":
     ]  # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
     scenarios = ["None", "SSP126", "SSP245", "SSP585", "High_End"]  # 5 options
-    times = ["2010", "2030", "2050", "2100","2150"]  # 4 options
+    times = ["2010", "2030", "2050", "2100", "2150"]  # 4 options
 
     items = []
     dimcombs = []
@@ -589,7 +589,7 @@ if __name__ == "__main__":
             for scen in scenarios:
                 for time in times:
 
-                    # Logic to fill the matrix of available tif's 
+                    # Logic to fill the matrix of available tif's
                     if time == "2150" and scen != "High_End":
                         continue
                     elif time == "2010":
@@ -610,17 +610,30 @@ if __name__ == "__main__":
                     else:
                         tif_scen = scen
                         tif_time = time
-                    
-                    print("now working on: " + map_type + "/" + rp + "/" + scen + "/" + time)
+
+                    print(
+                        "now working on: "
+                        + map_type
+                        + "/"
+                        + rp
+                        + "/"
+                        + scen
+                        + "/"
+                        + time
+                    )
                     print("using tif: " + tif_scen + "/" + tif_time)
 
                     tif_list = list(
-                        cog_dirs.joinpath(map_type, rp, tif_scen, tif_time).glob("*.tif")
+                        cog_dirs.joinpath(map_type, rp, tif_scen, tif_time).glob(
+                            "*.tif"
+                        )
                     )
-                    
+
                     # Raise error when tif_list is empty
                     if len(tif_list) == 0:
-                        raise FileNotFoundError(f"No tif files found in {cog_dirs.joinpath(map_type, rp, scen, time)}")
+                        raise FileNotFoundError(
+                            f"No tif files found in {cog_dirs.joinpath(map_type, rp, scen, time)}"
+                        )
 
                     cur_path = os.path.join(map_type, rp, tif_scen, tif_time)
                     filename = os.path.join(map_type, rp, scen, time)
