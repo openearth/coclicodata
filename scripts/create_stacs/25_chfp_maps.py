@@ -399,8 +399,8 @@ if __name__ == "__main__":
     "UNDEFENDED_MAPS",
     ]   # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
-    scenarios = ["SSP126", "SSP245", "SSP585"]  # 3 options
-    times = ["2010", "2030", "2050", "2100"]  # 4 options
+    scenarios = ["None", "SSP126", "SSP245", "SSP585", "High_End"]  # 3 options
+    times = ["2010", "2030", "2050", "2100","2150"]  # 4 options
 
     # %%
     log = logging.getLogger()
@@ -607,7 +607,8 @@ if __name__ == "__main__":
                 dimvals[key].append(value)
 
     for k, v in dimvals.items():
-        collection.summaries.add(k, v)
+        if v != "2150":
+            collection.summaries.add(k, v)
 
     # set extra link properties
     extend_links(collection, dimvals.keys())
