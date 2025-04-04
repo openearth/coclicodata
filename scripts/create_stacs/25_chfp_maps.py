@@ -95,9 +95,7 @@ if not ds_dir.exists():
 # # directory to export result
 ds_path = ds_dir.joinpath("WP4", "front_end_data", "map_stats")
 parq_dirs = ds_path.joinpath("maps")
-ds_fp = ds_path.parent.joinpath(
-    "cfhp_all_stats.parquet"
-)  # file directory dummy
+ds_fp = ds_path.parent.joinpath("cfhp_all_stats.parquet")  # file directory dummy
 
 # Front end makes geopackages to go alongside the parquet data
 # if this exists define here
@@ -109,7 +107,7 @@ with open(metadata_fp, "r") as f:
     metadata = json5.load(f)
 
 # # extend keywords
-metadata["KEYWORDS"].extend(["Full-Track", "Exposure & Vulnerability"])
+metadata["KEYWORDS"].extend(["Full-Track"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -264,7 +262,7 @@ def create_collection(
         extent=extent,
         catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED,
     )
-    
+
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
@@ -394,10 +392,10 @@ if __name__ == "__main__":
     # item_type = "single"  # "single" or "mosaic"
     item_properties = ["defense level", "return period", "scenarios", "time"]
     map_types = [
-    "HIGH_DEFENDED_MAPS",
-    "LOW_DEFENDED_MAPS",
-    "UNDEFENDED_MAPS",
-    ]   # 3 options
+        "HIGH_DEFENDED_MAPS",
+        "LOW_DEFENDED_MAPS",
+        "UNDEFENDED_MAPS",
+    ]  # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
     scenarios = ["SSP126", "SSP245", "SSP585"]  # 3 options
     times = ["2010", "2030", "2050", "2100"]  # 4 options
@@ -550,14 +548,18 @@ if __name__ == "__main__":
         for rp in rps:
             for scen in scenarios:
                 for time in times:
-                    file_name = f"cfhp_all_stats_{map_type}_{rp}_{scen}_{time}.parquet" 
+                    file_name = f"cfhp_all_stats_{map_type}_{rp}_{scen}_{time}.parquet"
                     uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{map_type}/{rp}/{scen}/{file_name}"
                     print(uri)
                     uris.append(uri)
 
-                    GCS_url = urljoin(HREF_PREFIX, map_type, rp, scen, uri.split("/")[-1])
+                    GCS_url = urljoin(
+                        HREF_PREFIX, map_type, rp, scen, uri.split("/")[-1]
+                    )
                     item = create_item(uri)
-                    item.assets["data"].href = GCS_url  # replace with https link iso gs uri
+                    item.assets["data"].href = (
+                        GCS_url  # replace with https link iso gs uri
+                    )
 
                     # set the file path structure
                     cur_path = os.path.join(map_type, rp, scen, time)
