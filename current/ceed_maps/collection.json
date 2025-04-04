@@ -1,0 +1,123 @@
+{
+  "type": "Collection",
+  "id": "ceed_maps",
+  "stac_version": "1.0.0",
+  "description": "EU-wide high-resolution object-based maps of economic assets and infrastructure systems in coastal flood-prone areas that combined the automated extraction of asset using supervised DL algorithms applied to satellite imagery and opensource database.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "item",
+      "href": "./items/NL_GM0363_refact.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/version/v1.2.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "title": "CI_data",
+      "description": "EU-wide high-resolution object-based maps of economic assets and infrastructure systems in coastal flood-prone areas.",
+      "roles": [
+        "data"
+      ],
+      "type": "application/vnd.apache.parquet",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "type",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "geometry",
+          "type": "binary",
+          "description": ""
+        }
+      ]
+    }
+  },
+  "base_url": "gs://coclico-data-public/coclico/LAU_ceed",
+  "sci:citation": "",
+  "version": "1",
+  "title": "Critical Infrastructure",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          4.682172486620422,
+          52.151018231604766,
+          5.09566759199974,
+          52.513783032459436
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2021-08-01T00:00:00Z",
+          "2021-08-01T00:00:00Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "critical infrastructure",
+    "infrastructure",
+    "object-based",
+    "Full-Track",
+    "Exposure & Vulnerability",
+    "Data Layers"
+  ],
+  "providers": [
+    {
+      "name": "Institute for Environmental Studies, Vrije Universiteit Amsterdam",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "www.ivm.nl"
+    },
+    {
+      "name": "Deltares",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://deltares.nl"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/ceed_maps.jpeg",
+      "type": "image/jpeg",
+      "title": "Thumbnail"
+    },
+    "geoparquet-stac-items": {
+      "href": "gs://coclico-data-public/coclico/items/ceed_maps.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "GeoParquet STAC items",
+      "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "roles": [
+        "data"
+      ]
+    }
+  }
+}
