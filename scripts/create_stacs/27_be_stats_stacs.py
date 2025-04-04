@@ -82,7 +82,9 @@ if not ds_dir.exists():
 
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
-ds_path = ds_dir.joinpath("WP5", "data",'pop_fp_statistics')  # path to directory with data
+ds_path = ds_dir.joinpath(
+    "WP5", "data", "pop_fp_statistics"
+)  # path to directory with data
 ds_fp = ds_path.joinpath("pop_fp_LAU_rel.parquet")  # path to dataset
 
 # # load metadata template
@@ -91,7 +93,7 @@ with open(metadata_fp, "r") as f:
     metadata = json.load(f)
 
 # # extend keywords
-metadata["KEYWORDS"].extend(["Full-Track", "Natural Hazards"])
+metadata["KEYWORDS"].extend(["Full-Track"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(

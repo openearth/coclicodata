@@ -5,25 +5,23 @@ import sys
 branch = "dev"
 sys.path.insert(0, "../src")
 
-# from coastmonitor.io.drive_config import configure_instance
+from coastmonitor.io.drive_config import configure_instance
 
-# is_local_instance = configure_instance(branch=branch)
+is_local_instance = configure_instance(branch=branch)
 
 import dataclasses
 import datetime
 import logging
 import os
-import cv2
 import pathlib
 import re
-import json5
+import json
 import pyarrow
 import gcsfs
 import geopandas as gpd
 import pandas as pd
 import numpy as np
 from typing import Any
-from pathlib import Path
 
 import fsspec
 import pystac
@@ -32,7 +30,6 @@ from typing import List
 from posixpath import join as urljoin
 from dotenv import load_dotenv
 from pystac.stac_io import DefaultStacIO
-from pystac import Catalog, CatalogType, Collection, Summaries
 
 from coclicodata.etl.cloud_utils import (
     load_google_credentials,
@@ -40,20 +37,9 @@ from coclicodata.etl.cloud_utils import (
     file_to_google_cloud,
 )
 from coclicodata.drive_config import p_drive
-from coclicodata.coclico_stac.reshape_im import reshape_aspectratio_image
-from coclicodata.coclico_stac.templates import (
-    extend_links,
-    gen_default_collection_props,
-    gen_default_item,
-    gen_default_item_props,
-    gen_default_summaries,
-    gen_mapbox_asset,
-    gen_zarr_asset,
-    get_template_collection,
-)
 
 from coastmonitor import stac_table
-from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout, CoCliCoParquetLayout
+from coastmonitor.stac.layouts import ParquetLayout
 
 # %%
 # ## Define variables
@@ -62,16 +48,17 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "bc_stats/map_stats"
+PROJ_NAME = "LAU_ceed"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
+STAC_DIR = pathlib.Path.cwd() / "current"
 
 # hard-coded input params which differ per dataset
-DATASET_DIR = "WP6"
+METADATA = "metadata_infra_objects.json"
+DATASET_DIR = "WP5"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "bc_maps"  # name of stac collection
-MAX_FILE_SIZE = 500  # max file size in MB
+COLLECTION_ID = "ceed_maps"  # name of stac collection
+# MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
 home = pathlib.Path().home()
@@ -85,29 +72,27 @@ cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
 use_local_data = False
 
 if use_local_data:
-    ds_dir = tmp_dir
+    ds_dir = tmp_dir.joinpath(DATASET_DIR)
 else:
-    ds_dir = coclico_data_dir
+    ds_dir = coclico_data_dir.joinpath(DATASET_DIR)
 
 if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # # directory to export result
-ds_path = ds_dir.joinpath("WP6", "front_end_data", "bc_stats", "map_stats")
-parq_dirs = ds_path.joinpath("maps")
-ds_fp = ds_path.parent.joinpath("bc_stats.parquet")  # file directory dummy
-
-# Front end makes geopackages to go alongside the parquet data
-# if this exists define here
-# FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG4326.gpkg")
+# cog_dirs = ds_dir.joinpath("cogs")
+ds_path = ds_dir.joinpath("data/LAU_ceed")
+# ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
+ds_fp = ds_path.joinpath("NL_GM0363_refact.parquet")  # file directory dummy
 
 # # load metadata template
-metadata_fp = ds_path.parent.joinpath("metadata_bc_stats.json")
+metadata_fp = ds_dir.joinpath("metadata", METADATA)
 with open(metadata_fp, "r") as f:
-    metadata = json5.load(f)
+    metadata = json.load(f)
 
-# # extend keywords
-metadata["KEYWORDS"].extend(["Full-Track", "Risk & Adaptation", "User Stories"])
+# extend keywords
+metadata["KEYWORDS"].extend(["Full-Track", "Exposure & Vulnerability", "Data Layers"])
+metadata["TITLE"] = "Critical Infrastructure"
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -125,7 +110,6 @@ GEOPARQUET_STAC_ITEMS_HREF = (
 )
 
 
-# %%
 # %%
 def read_parquet_schema_df(uri: str) -> List:  # pd.DataFrame:
     """Return a Pandas dataframe corresponding to the schema of a local URI of a parquet file.
@@ -211,7 +195,6 @@ def create_collection(
     description: str | None = None, extra_fields: dict[str, Any] | None = None
 ) -> pystac.Collection:
 
-    # NOTE: 2 providers, fixed quickly
     providers = [
         pystac.Provider(
             name=metadata["PROVIDERS"]["name"],
@@ -271,16 +254,6 @@ def create_collection(
             media_type=pystac.MediaType.JPEG,
         ),
     )
-
-    # collection.add_asset(
-    #     "geoserver_link",
-    #     pystac.Asset(
-    #         "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=bc_stats:bc_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
-    #         title="Geoserver Parquet link",
-    #         media_type="application/vnd.apache.parquet",
-    #     ),
-    # )
-
     # collection.links = links
     collection.keywords = metadata["KEYWORDS"]
 
@@ -386,21 +359,6 @@ def create_item(
 # %%
 # ## Do the work
 if __name__ == "__main__":
-
-    ## Setup folder structure
-    # List different types on map folders
-    # item_type = "single"  # "single" or "mosaic"
-    item_properties = ["defense level", "return period", "scenarios", "time"]
-    map_types = [
-        "HIGH_DEFENDED_MAPS",
-        "LOW_DEFENDED_MAPS",
-        "UNDEFENDED_MAPS",
-    ]  # 3 options
-    rps = ["static", "1", "100", "1000"]  # 4 options
-    scenarios = ["SSP126", "SSP245", "SSP585"]  # 3 options
-    times = ["2010", "2030", "2050", "2100"]  # 4 options
-
-    # %%
     log = logging.getLogger()
     log.setLevel(logging.ERROR)
 
@@ -409,34 +367,25 @@ if __name__ == "__main__":
         google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
     )
 
-    # %% store to cloud folder
-
-    # dir_to_google_cloud(
-    #     dir_path=str(parq_dirs),
-    #     gcs_project=GCS_PROJECT,
-    #     bucket_name=BUCKET_NAME,
-    #     bucket_proj=BUCKET_PROJ,
-    #     dir_name=PROJ_NAME,
-    # )
-
-    # %% bucket content
+    # %%bucket content
     uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}"
     # storage_options = {"account_name": "coclico", "credential": sas_token}
     # fs, token, [root] = fsspec.get_fs_token_paths(uri, storage_options=storage_options)
     fs = gcsfs.GCSFileSystem(
         gcs_project=GCS_PROJECT, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
     )
-    # paths = fs.glob(uri + "/**/*.parquet")
-    # uris = ["gs://" + p for p in paths]
+    # paths = fs.glob(uri + "/*.parquet")
+    # uris = [
+    #     "gs://" + p for p in paths
+    # ]  # NOTE, files were split per LAU and put to cloud in the ipynb
 
     # %% test if file is multi-indexed, if we need to write to the cloud and whether we need to split files
     dum = gpd.read_parquet(ds_fp)  # read parquet file
     # split = "N"  # value to determine if we need to split the files
     # for file in os.listdir(ds_path):
-    #     if file.endswith(".parquet"):
-    #         if os.path.getsize(ds_path.joinpath(file)) / 10**6 > MAX_FILE_SIZE:
-    #             split = "Y"  # change slit to Yes
-    #             break
+    #     if os.path.getsize(ds_path.joinpath(file)) / 10**6 < MAX_FILE_SIZE:
+    #         split = "Y"  # change slit to Yes
+    #         break
 
     # TODO: build something in for assessing size of parquet data, do this in both the if and elif statements
     # if (
@@ -484,39 +433,38 @@ if __name__ == "__main__":
     #     dum.index.nlevels == 1 and split == "N" and paths == []
     # ):  # if not multi-indexed and no need to split and cloud file does not exist
 
+    #     print("check if this will upload the dir correctly to the cloud..")
+
     #     # upload directory to the cloud (files already parquet)
-    #     file_to_google_cloud(
-    #         file_path=str(ds_fp),
-    #         gcs_project=GCS_PROJECT,
-    #         bucket_name=BUCKET_NAME,
-    #         bucket_proj=BUCKET_PROJ,
-    #         dir_name=PROJ_NAME,
-    #         file_name=ds_fp.name,
-    #     )
+    #     # dir_to_google_cloud(
+    #     #     dir_path=str(ds_path),
+    #     #     gcs_project=GCS_PROJECT,
+    #     #     bucket_name=BUCKET_NAME,
+    #     #     bucket_proj=BUCKET_PROJ,
+    #     #     dir_name=PROJ_NAME,
+    #     # )
 
-    #     # Also upload the Front-end geopackage if it exists
-    #     if FE_gpkg_fp != None:
-    #         # upload directory to the cloud (files already parquet)
-    #         file_to_google_cloud(
-    #             file_path=str(FE_gpkg_fp),
-    #             gcs_project=GCS_PROJECT,
-    #             bucket_name=BUCKET_NAME,
-    #             bucket_proj=BUCKET_PROJ,
-    #             dir_name=PROJ_NAME,
-    #             file_name=ds_fp.name,
-    #         )
+    #     # for file in os.listdir(ds_path):
+    #     #     ds_fp = ds_path.joinpath(file)
 
-    # elif paths:
-    #     print("Dataset already exists in the Google Bucket")
+    #     #     file_to_google_cloud(
+    #     #         file_path=str(ds_fp),
+    #     #         gcs_project=GCS_PROJECT,
+    #     #         bucket_name=BUCKET_NAME,
+    #     #         file_name=file,
+    #     #         bucket_proj=BUCKET_PROJ,
+    #     #         dir_name=PROJ_NAME,
+    #     #     )
 
     # %% get descriptions
-    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/bc_stats"
+    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}"
     paths_dum = fs.glob(uri_dum + "/*.parquet")
     uris_dum = ["gs://" + p for p in paths_dum]
     HREF_PREFIX_dum = urljoin(
-        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, "bc_stats"
+        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, PROJ_NAME
     )  # cloud export directory
     GCS_url_dum = urljoin(HREF_PREFIX_dum, uris_dum[0].split("/")[-1])
+
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
         uris_dum[0]
     )  # select first file of the cloud directory
@@ -530,137 +478,45 @@ if __name__ == "__main__":
     catalog = pystac.Catalog.from_file(str(STAC_DIR / "catalog.json"))
 
     stac_io = DefaultStacIO()
-    layout = CoCliCoParquetLayout()
+    layout = ParquetLayout()
 
     collection = create_collection(extra_fields={"base_url": uri})
 
-    # for uri in uris:
-    #     GCS_url = urljoin(HREF_PREFIX, strat, scen, uri.split("/")[-1])
-    #     print(GCS_url)
-    #     item = create_item(uri)
-    #     item.assets["data"].href = GCS_url  # replace with https link iso gs uri
-    #     collection.add_item(item)
+    for uri in uris_dum:
+        print(uri)
+        item = create_item(uri)
 
-    uris = []
-    dimcombs = []
-    items = []
-    for map_type in map_types:
-        for rp in rps:
-            for scen in scenarios:
-                for time in times:
-                    file_name = f"bc_stats_{map_type}_{rp}_{scen}_{time}.parquet"
-                    uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{map_type}/{rp}/{scen}/{file_name}"
-                    print(uri)
-                    uris.append(uri)
+        title = COLLECTION_ID + ":" + item.id
+        vasset = pystac.Asset(  # data asset
+            href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
+            % (COLLECTION_ID, title),
+            media_type="application/png",
+            title=title,
+            description="OGS WMS url",
+            roles=["visual"],
+        )
 
-                    GCS_url = urljoin(
-                        HREF_PREFIX, map_type, rp, scen, uri.split("/")[-1]
-                    )
-                    item = create_item(uri)
-                    item.assets["data"].href = (
-                        GCS_url  # replace with https link iso gs uri
-                    )
+        item.add_asset("visual", vasset)
 
-                    # set the file path structure
-                    cur_path = os.path.join(map_type, rp, scen, time)
-                    item_href = pathlib.Path(STAC_DIR, COLLECTION_ID, "items", cur_path)
-                    item.set_self_href(item_href.with_suffix(".json"))
-                    item.id = cur_path + ".parquet"
-
-                    # TODO: generalize this
-                    dimcomb = {
-                        item_properties[0]: map_type,
-                        item_properties[1]: rp,
-                        item_properties[2]: scen,
-                        item_properties[3]: time,
-                    }
-                    dimcombs.append(dimcomb)
-
-                    # TODO: include this in our datacube?
-                    # add dimension key-value pairs to stac item properties dict
-                    for k, v in dimcomb.items():
-                        item.properties[k] = v
-
-                    title = COLLECTION_ID + ":" + Path(file_name).stem
-                    # TODO: We need to generalize this `href` somewhat.
-                    vasset = pystac.Asset(  # data asset
-                        href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
-                        % (COLLECTION_ID, title),
-                        media_type="application/png",
-                        title=title,
-                        description="OGS WMS url",
-                        roles=["visual"],
-                    )
-
-                    item.add_asset("visual", vasset)
-
-                    items.append(item)
-                    collection.add_item(item)
-
-    collection.summaries = Summaries({})
-    # TODO: check if maxcount is required (inpsired on xstac library)
-    # stac_obj.summaries.maxcount = 50
-    dimvals = {}
-    for d in dimcombs:
-        for key, value in d.items():
-            if key not in dimvals:
-                dimvals[key] = []
-            if value not in dimvals[key]:
-                dimvals[key].append(value)
-
-    for k, v in dimvals.items():
-        collection.summaries.add(k, v)
-
-    # set extra link properties
-    extend_links(collection, dimvals.keys())
+        collection.add_item(item)
 
     collection.update_extent_from_items()
 
     items = list(collection.get_all_items())
     items_as_json = [i.to_dict() for i in items]
     item_extents = stac_geoparquet.to_geodataframe(items_as_json)
+
     with fsspec.open(GEOPARQUET_STAC_ITEMS_HREF, mode="wb") as f:
         item_extents.to_parquet(f)
 
     collection.add_asset(
         "geoparquet-stac-items",
         pystac.Asset(
-            GCS_url_dum,
+            GEOPARQUET_STAC_ITEMS_HREF,
             title="GeoParquet STAC items",
             description="Snapshot of the collection's STAC items exported to GeoParquet format.",
-            media_type=stac_table.PARQUET_MEDIA_TYPE,
+            media_type=PARQUET_MEDIA_TYPE,
             roles=["data"],
-        ),
-    )
-
-    # Set thumbnail directory
-    THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath("thumbnails")
-    THUMB_FILE = THUMB_DIR.joinpath(COLLECTION_ID + ".png")
-
-    # Make sure image is reshaped to desired aspect ratio (default = 16/9)
-    # cropped_im = reshape_aspectratio_image(str(THUMB_FILE))
-
-    # Overwrite image with cropped version
-    # cv2.imwrite(str(THUMB_FILE), cropped_im)
-
-    # Upload thumbnail to cloud
-    THUMB_URL = file_to_google_cloud(
-        str(THUMB_FILE),
-        GCS_PROJECT,
-        BUCKET_NAME,
-        BUCKET_PROJ,
-        "assets/thumbnails",
-        THUMB_FILE.name,
-        return_URL=True,
-    )
-
-    # Add thumbnail
-    collection.add_asset(
-        "thumbnail",
-        pystac.Asset(
-            THUMB_URL,  # noqa: E501
-            title="Thumbnail",
-            media_type=pystac.MediaType.PNG,
         ),
     )
 
@@ -679,5 +535,3 @@ if __name__ == "__main__":
         dest_href=str(STAC_DIR),
         stac_io=stac_io,
     )
-
-# %%
