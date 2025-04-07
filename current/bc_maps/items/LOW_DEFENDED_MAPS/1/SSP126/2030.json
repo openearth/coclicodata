@@ -1,0 +1,171 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "LOW_DEFENDED_MAPS\\1\\SSP126\\2030.parquet",
+  "properties": {
+    "title": "BC",
+    "description": "Projected economic impact of coastal flooding on buildings.",
+    "table:columns": [
+      {
+        "name": "GISCO_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "CNTR_CODE",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "nuts_2",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "nuts_3",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LAU_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LAU_NAME",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "POP_2020",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "POP_DENS_2",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "AREA_KM2",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "YEAR",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "LAU_FID",
+        "type": "string"
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "total",
+        "type": "double"
+      },
+      {
+        "name": "__index_level_0__",
+        "type": "int64",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -2710033.3959,
+      -3076198.0823,
+      10026005.2215,
+      5415709.913699999
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 11965,
+    "created": "2025-04-01T07:42:53.967729Z",
+    "defense level": "LOW_DEFENDED_MAPS",
+    "return period": "1",
+    "scenarios": "SSP126",
+    "time": "2030",
+    "datetime": "2010-01-01T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../../../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../../../../collection.json",
+      "type": "application/json",
+      "title": "Cost of buildings exposed to flooding"
+    },
+    {
+      "rel": "parent",
+      "href": "../../../../collection.json",
+      "type": "application/json",
+      "title": "Cost of buildings exposed to flooding"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/bc_stats/map_stats/LOW_DEFENDED_MAPS/1/SSP126/bc_stats_LOW_DEFENDED_MAPS_1_SSP126_2030.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "BC",
+      "description": "Projected economic impact of coastal flooding on buildings.",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/bc_maps/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=bc_maps:bc_stats_LOW_DEFENDED_MAPS_1_SSP126_2030",
+      "type": "application/png",
+      "title": "bc_maps:bc_stats_LOW_DEFENDED_MAPS_1_SSP126_2030",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "bbox": [
+    -81.12146941539005,
+    -29.12357316038395,
+    93.1752791130622,
+    37.855412297701754
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "bc_maps"
+}

@@ -62,7 +62,7 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "be_stats/map_stats"
+PROJ_NAME = "bc_stats/map_stats"
 
 # hard-coded STAC templates
 STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
@@ -70,7 +70,7 @@ STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
 # hard-coded input params which differ per dataset
 DATASET_DIR = "WP6"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "be_maps"  # name of stac collection
+COLLECTION_ID = "bc_maps"  # name of stac collection
 MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
@@ -93,23 +93,21 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # # directory to export result
-ds_path = ds_dir.joinpath("WP6", "front_end_data", "be_stats", "map_stats")
+ds_path = ds_dir.joinpath("WP6", "front_end_data", "bc_stats", "map_stats")
 parq_dirs = ds_path.joinpath("maps")
-ds_fp = ds_path.parent.joinpath(
-    "be_stats.parquet"
-)  # file directory dummy
+ds_fp = ds_path.parent.joinpath("bc_stats.parquet")  # file directory dummy
 
 # Front end makes geopackages to go alongside the parquet data
 # if this exists define here
 # FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG4326.gpkg")
 
 # # load metadata template
-metadata_fp = ds_path.parent.joinpath("metadata_be_stats.json")
+metadata_fp = ds_path.parent.joinpath("metadata_bc_stats.json")
 with open(metadata_fp, "r") as f:
     metadata = json5.load(f)
 
 # # extend keywords
-metadata["KEYWORDS"].extend(["Full-Track", "Exposure & Vulnerability"])
+metadata["KEYWORDS"].extend(["Full-Track", "Risk & Adaptation", "User Stories"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -264,7 +262,7 @@ def create_collection(
         extent=extent,
         catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED,
     )
-    
+
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
@@ -277,7 +275,7 @@ def create_collection(
     # collection.add_asset(
     #     "geoserver_link",
     #     pystac.Asset(
-    #         "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=be_stats:be_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+    #         "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=bc_stats:bc_stats&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
     #         title="Geoserver Parquet link",
     #         media_type="application/vnd.apache.parquet",
     #     ),
@@ -394,10 +392,10 @@ if __name__ == "__main__":
     # item_type = "single"  # "single" or "mosaic"
     item_properties = ["defense level", "return period", "scenarios", "time"]
     map_types = [
-    "HIGH_DEFENDED_MAPS",
-    "LOW_DEFENDED_MAPS",
-    "UNDEFENDED_MAPS",
-    ]   # 3 options
+        "HIGH_DEFENDED_MAPS",
+        "LOW_DEFENDED_MAPS",
+        "UNDEFENDED_MAPS",
+    ]  # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
     scenarios = ["SSP126", "SSP245", "SSP585"]  # 3 options
     times = ["2010", "2030", "2050", "2100"]  # 4 options
@@ -512,11 +510,11 @@ if __name__ == "__main__":
     #     print("Dataset already exists in the Google Bucket")
 
     # %% get descriptions
-    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/be_stats"
+    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/bc_stats"
     paths_dum = fs.glob(uri_dum + "/*.parquet")
     uris_dum = ["gs://" + p for p in paths_dum]
     HREF_PREFIX_dum = urljoin(
-        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, "be_stats"
+        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, "bc_stats"
     )  # cloud export directory
     GCS_url_dum = urljoin(HREF_PREFIX_dum, uris_dum[0].split("/")[-1])
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
@@ -550,14 +548,18 @@ if __name__ == "__main__":
         for rp in rps:
             for scen in scenarios:
                 for time in times:
-                    file_name = f"be_stats_{map_type}_{rp}_{scen}_{time}.parquet" 
+                    file_name = f"bc_stats_{map_type}_{rp}_{scen}_{time}.parquet"
                     uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{map_type}/{rp}/{scen}/{file_name}"
                     print(uri)
                     uris.append(uri)
 
-                    GCS_url = urljoin(HREF_PREFIX, map_type, rp, scen, uri.split("/")[-1])
+                    GCS_url = urljoin(
+                        HREF_PREFIX, map_type, rp, scen, uri.split("/")[-1]
+                    )
                     item = create_item(uri)
-                    item.assets["data"].href = GCS_url  # replace with https link iso gs uri
+                    item.assets["data"].href = (
+                        GCS_url  # replace with https link iso gs uri
+                    )
 
                     # set the file path structure
                     cur_path = os.path.join(map_type, rp, scen, time)
