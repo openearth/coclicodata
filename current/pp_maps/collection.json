@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "pp_maps",
   "stac_version": "1.0.0",
-  "description": "[not verified] Projections of Exposed People provides insights into current and future population exposure to coastal flooding, combining population and flood projections to guide risk assessments and adaptation planning.",
+  "description": "**Projections of Exposed People** provides insights into current and future population exposure to coastal flooding, combining population and flood projections to guide risk assessments and adaptation planning.\u200b\n\n\u200b- **Sources**: Population projections from IIASA and GHS-POP, combined with CoCliCo flood maps.\u200b\n- **Common usage**: Supports exposure assessments and adaptation planning at all scales, informs risk management, engages stakeholders with accessible data, and helps prioritize investments and land-use decisions.\u200b\n\nMore Info about the dataset: [User Handbook](https://www.openearth.nl/coclico-workbench/Datasets/#__tabbed_3_2)",
   "links": [
     {
       "rel": "root",
@@ -4570,7 +4570,85 @@
   "base_url": "gs://coclico-data-public/coclico/pp_stats/map_stats",
   "sci:citation": "In preparation",
   "version": "1",
-  "title": "People Exposed to Flooding",
+  "deltares:units": "%",
+  "deltares:plotSeries": "scenario",
+  "deltares:plotxAxis": "time",
+  "deltares:plotType": "line",
+  "deltares:min": 0,
+  "deltares:max": 1,
+  "deltares:linearGradient": [
+    {
+      "color": "#ffffff",
+      "offset": "0.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#ffe2e0",
+      "offset": "12.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#ffc6c3",
+      "offset": "25.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#fba9a6",
+      "offset": "37.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#f68b8a",
+      "offset": "50.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#ef6c6f",
+      "offset": "62.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#e64855",
+      "offset": "75.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#db073d",
+      "offset": "87.500%",
+      "opacity": 80
+    }
+  ],
+  "summaries_labels": {
+    "defense level": {
+      "HIGH_DEFENDED_MAPS": "High Defended",
+      "LOW_DEFENDED_MAPS": "Low Defended",
+      "UNDEFENDED_MAPS": "No Defense"
+    },
+    "return period": {
+      "static": "No Return Period",
+      "1": "1 year",
+      "100": "100 years",
+      "1000": "1000 years"
+    },
+    "scenarios": {
+      "SSP126": "SSP 126",
+      "SSP245": "SSP 245",
+      "SSP585": "SSP 585"
+    },
+    "time": {
+      "2010": "2010",
+      "2030": "2030",
+      "2050": "2050",
+      "2100": "2100"
+    }
+  },
+  "summaries_descriptions": {
+    "defense level": "The level of defense applied to the maps",
+    "return period": "The return period of the maps",
+    "scenarios": "The climate scenarios applied to the maps",
+    "time": "The time period of the maps"
+  },
+  "title": "People Exposure",
   "extent": {
     "spatial": {
       "bbox": [
@@ -4596,7 +4674,8 @@
     "Shared Socioeconomic Pathways",
     "population",
     "Full-Track",
-    "Exposure & Vulnerability"
+    "Exposure & Vulnerability",
+    "User Stories"
   ],
   "providers": [
     {

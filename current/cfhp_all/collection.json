@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "cfhp_all",
   "stac_version": "1.0.0",
-  "description": "This is a collection of maps representing the flood simulation across Europe for different scenarios",
+  "description": NaN,
   "links": [
     {
       "rel": "license",
@@ -2811,10 +2811,62 @@
       }
     }
   },
-  "deltares:units": "Meters (m)",
+  "deltares:units": "m",
   "deltares:plot_type": "line",
   "deltares:min": 0,
-  "deltares:max": 3,
+  "deltares:max": 2,
+  "deltares:linearGradient": [
+    {
+      "color": "#ffffff",
+      "offset": "0.000%",
+      "opacity": 50
+    },
+    {
+      "color": "#88DDCF",
+      "offset": "25.000%",
+      "opacity": 50
+    },
+    {
+      "color": "#227CB9",
+      "offset": "50.000%",
+      "opacity": 50
+    },
+    {
+      "color": "#0047AB",
+      "offset": "75.000%",
+      "opacity": 50
+    },
+    {
+      "color": "#24005C",
+      "offset": "100.000%",
+      "opacity": 50
+    }
+  ],
+  "summaries_labels": {
+    "defense level": {
+      "HIGH_DEFENDED_MAPS": "High Defended",
+      "LOW_DEFENDED_MAPS": "Low Defended",
+      "UNDEFENDED_MAPS": "No Defense"
+    },
+    "scenarios": {
+      "None": "No Scenario",
+      "SSP126": "SSP 126",
+      "SSP245": "SSP 245",
+      "SSP585": "SSP 585",
+      "High_End": "High End"
+    },
+    "time": {
+      "2010": "2010",
+      "2030": "2030",
+      "2050": "2050",
+      "2100": "2100"
+    }
+  },
+  "summaries_descriptions": {
+    "defense level": "The level of defense applied to the maps",
+    "scenarios": "The climate scenarios applied to the maps",
+    "time": "The time period of the maps"
+  },
   "title": "Flood Maps",
   "extent": {
     "spatial": {
@@ -2850,7 +2902,8 @@
     "Deltares",
     "Cloud Optimized GeoTIFF",
     "Natural Hazards",
-    "Full-Track"
+    "Full-Track",
+    "Data Layers"
   ],
   "providers": [
     {

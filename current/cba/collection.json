@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "cba",
   "stac_version": "1.0.0",
-  "description": "Cost-benefit Analysis of Coastal Adaptation identifies the most cost-effective adaptation strategies - protection, retreat, or accommodation - to manage coastal flood risks under different climate scenarios, with insights available at both national and local levels.\u200b Spatial Coverage: Coastal NUTS0 (country level)\u200b. Sources: regional sea level projections, vertical land motion, adaptation costs and protection levels, extreme return periods from COAST-RP, and coastal floodplain profiles from Copernicus DEM and Global Human Settlement data.\u200b Common usage: Decision-making for coastal resilience, adaptation strategy evaluation.\u200b More Info about the dataset: User Handbook",
+  "description": "**Cost-benefit Analysis of Coastal Adaptation** identifies the most cost-effective adaptation strategies - protection, retreat, or accommodation - to manage coastal flood risks under different climate scenarios, with insights available at both national and local levels.\u200b\n\n- **Spatial Coverage**: Coastal NUTS0 (country level)\u200b\n- **Sources**: regional sea level projections, vertical land motion, adaptation costs and protection levels, extreme return periods from COAST-RP, and coastal floodplain profiles from Copernicus DEM and Global Human Settlement data.\u200b\n- **Common usage**: Decision-making for coastal resilience, adaptation strategy evaluation.\u200b\n\nMore Info about the dataset: [User Handbook](https://www.openearth.nl/coclico-workbench/Datasets/#__tabbed_4_1)",
   "links": [
     {
       "rel": "root",
@@ -781,7 +781,73 @@
   "base_url": "gs://coclico-data-public/coclico/CBA",
   "sci:citation": "V\u00c3\u00b6lz, V., Lincke, D., Hinkel, J., Honsel, L. (2024). Efficient adaptation pathways for European floodplains. tbd",
   "version": "1",
-  "title": "Coastal Adaptation - Cost & Benefits",
+  "deltares:units": "%",
+  "deltares:plotSeries": "adaptation_strategy",
+  "deltares:plotType": "pie",
+  "deltares:min": 0,
+  "deltares:max": 100,
+  "deltares:linearGradient": [
+    {
+      "color": "#E6F5FE",
+      "offset": "0.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#B9DBF5",
+      "offset": "12.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#8BC0ED",
+      "offset": "25.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#61A7E4",
+      "offset": "37.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#3A8CDB",
+      "offset": "50.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#206FD1",
+      "offset": "62.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#08388C",
+      "offset": "75.000%",
+      "opacity": 80
+    }
+  ],
+  "summaries_labels": {
+    "adaptation strategy": {
+      "protection": "Protect",
+      "retreat": "Retreat",
+      "acc": "Accommodate",
+      "protect_retreat": "Protect & Retreat",
+      "no_adaptation": "No Adaptation"
+    },
+    "scenarios": {
+      "SSP126": "SSP 126",
+      "SSP245": "SSP 245",
+      "SSP585": "SSP 585"
+    },
+    "time": {
+      "2050": "2050",
+      "2100": "2100",
+      "2150": "2150"
+    }
+  },
+  "summaries_descriptions": {
+    "adaptation strategy": "The adaptation strategy applied to the maps",
+    "scenarios": "The climate scenarios applied to the maps",
+    "time": "The time period of the maps"
+  },
+  "title": "Cost Benefit Analyses",
   "extent": {
     "spatial": {
       "bbox": [
@@ -809,7 +875,8 @@
     "adaptation",
     "costs",
     "Full-Track",
-    "Risk & Adaptation"
+    "Risk & Adaptation",
+    "User Stories"
   ],
   "providers": [
     {
