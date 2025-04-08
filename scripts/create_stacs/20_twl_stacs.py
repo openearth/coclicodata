@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
-    COLLECTION_ID = "twl"  # name of stac collection
+    COLLECTION_ID = "twl_SLR"  # name of stac collection
     COLLECTION_TITLE = "Total Water Level"
     DATASET_DESCRIPTION = METADATA["DESCRIPTION"]
 
@@ -75,9 +75,12 @@ if __name__ == "__main__":
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
     TEMPORAL_DIMENSION = None  # False, None or str; temporal ""
-    ADDITIONAL_DIMENSIONS = None
-    DIMENSIONS_TO_IGNORE = ["stations"]  # False, None, or str; additional dims ""
-    MAP_SELECTION_DIMS = {"RP": [1, 100, 1000]}
+    ADDITIONAL_DIMENSIONS = ["rp", "time", "scenarios"]
+    DIMENSIONS_TO_IGNORE = [
+        "stations",
+        "nscenarios",
+    ]  # False, None, or str; additional dims ""
+    MAP_SELECTION_DIMS = {"time": [2010, 2030, 2050, 2100]}
     STATIONS = "locationId"
     TYPE = "circle"
     ON_CLICK = {}
@@ -184,6 +187,21 @@ if __name__ == "__main__":
             )
         ],
     )
+
+    # This dataset has quite some dimensions, so if we would parse all information the end-user
+    # would be overwhelmed by all options. So for the stac items that we generate for the frontend
+    # visualizations a subset of the data is selected. Of course, this operation is dataset specific.
+
+    if MAP_SELECTION_DIMS:
+        for k, v in MAP_SELECTION_DIMS.items():
+            if k in ds.dims and ds.coords:
+                ds = ds.sel({k: v})
+            else:
+                try:
+                    # assume that coordinates with strings always have same dim name but with n
+                    ds = ds.sel({"n" + k: k == v})
+                except:
+                    raise ValueError(f"Cannot find {k}")
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
     collection = add_datacube(
@@ -340,6 +358,8 @@ if __name__ == "__main__":
         ),
         strategy=layout,
     )
+
+    collection.validate_all()
 
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
