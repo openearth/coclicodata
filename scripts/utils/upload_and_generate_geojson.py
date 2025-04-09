@@ -40,17 +40,19 @@ if __name__ == "__main__":
 
     # hard-coded input params at project level
     coclico_data_dir = p_drive.joinpath("11207608-coclico", "FULLTRACK_DATA")
-    dataset_dir = coclico_data_dir.joinpath("WP3", "data", "NetCDF")
+    dataset_dir = coclico_data_dir.joinpath(
+        "WP3", "data", "NetCDF_MarineDynamicsChanges_TWL"
+    )
     cred_dir = pathlib.Path(p_drive, "11207608-coclico", "FASTTRACK_DATA")
-    IN_FILENAME = "CTP_MarineClimatologies.zarr"  # original filename as on P drive
-    OUT_FILENAME = "ss_wc.zarr"  # file name in the cloud and on MapBox
-    VARIABLES = ["Hsmean", "SSp99", "tidal_range"]  # what variable(s) do you want to show as marker color?
+    IN_FILENAME = "CTP_ReturnPeriods_SLR.zarr"  # original filename as on P drive
+    OUT_FILENAME = "twl_SLR.zarr"  # file name in the cloud and on MapBox
+    VARIABLES = ["twl"]  # what variable(s) do you want to show as marker color?
     # dimensions to include, i.e. what are the dimensions that you want to use as to affect the marker color (never include stations). These will be the drop down menu's. Note down without n.. in front.
-    ADDITIONAL_DIMENSIONS = []
+    ADDITIONAL_DIMENSIONS = ["rp", "time", "scenarios"]
     # use these to reduce dimension like {ensemble: "mean", "time": [1995, 2020, 2100]}, i.e. which of the dimensions do you want to use. Also specify the subsets (if there are a lot maybe make a selection). These will be the values in the drop down menu's. If only one (like mean), specify a value without a list to squeeze the dataset. Needs to span the entire dim space (except for (n)stations).
-    MAP_SELECTION_DIMS = []
+    MAP_SELECTION_DIMS = {"time": [2010, 2030, 2050, 2100]}
     # which dimensions to ignore (if n... in front of dim, it goes searching in additional_dimension for dim without n in front (ntime -> time). Except for nstations, just specify station in this case). This spans up the remainder of the dimension space.
-    DIMENSIONS_TO_IGNORE = ['stations']  # dimensions to ignore
+    DIMENSIONS_TO_IGNORE = ["stations", "nscenarios"]  # dimensions to ignore
 
     # TODO: safe cloud creds in password client
     load_env_variables(env_var_keys=["MAPBOX_ACCESS_TOKEN"])
@@ -63,13 +65,13 @@ if __name__ == "__main__":
     # upload data to gcs from local drive
     source_data_fp = dataset_dir.joinpath(IN_FILENAME)
 
-    dataset_to_google_cloud(
-        ds=source_data_fp,
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        zarr_filename=OUT_FILENAME,
-    )
+    # dataset_to_google_cloud(
+    #     ds=source_data_fp,
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     zarr_filename=OUT_FILENAME,
+    # )
 
     # read data from gcs
     ds = dataset_from_google_cloud(
@@ -130,14 +132,16 @@ if __name__ == "__main__":
             if not os.path.exists(os.path.dirname(str(fp))):
                 os.mkdir(os.path.dirname(str(fp)))
 
-            with open(fp, "w") as f:
-                # load
-                print(f"Writing data to {fp}")
-                geojson.dump(collection, f)
-            print("Done!")
+            # with open(fp, "w") as f:
+            #     # load
+            #     print(f"Writing data to {fp}")
+            #     geojson.dump(collection, f)
+            # print("Done!")
 
             # Note, if mapbox cli raises an util collection error, this should be monkey
             # patched. Instructions are in documentation of the function.
-            geojson_to_mapbox(source_fpath=fp, mapbox_url=mapbox_url)
+            geojson_to_mapbox(
+                source_fpath=fp, mapbox_url=mapbox_url
+            )  # NOTE, if put mapbox_cmd in miniforge with env enabled it also works
 
 # %%
