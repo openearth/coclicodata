@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "cet",
   "stac_version": "1.0.0",
-  "description": "The erosion database is based around a qualitative coastal classification which defines a limited number of coastal geomorphic types.",
+  "description": "**Shoreline Change** tracks coastal erosion and accretion trends over time derived from historical satellite imagery, supporting long-term coastal management.\u200b\n\n- **Spatial coverage**: European coastlines.\u200b\n- **Sources**: Remote sensing, historical shoreline data (1984-2024).\u200b\n- **Common usage**: Coastal erosion monitoring, sediment transport studies, policy and spatial planning.\u200b\n\n\u200bMore Info about the dataset: [User Handbook](https://www.openearth.nl/coclico-workbench/Datasets/#__tabbed_2_2)",
   "links": [
     {
       "rel": "root",
@@ -151,7 +151,30 @@
   "base_url": "gs://coclico-data-public/coclico/cet",
   "sci:citation": "None.",
   "version": "1",
-  "title": "Coastal Erosion",
+  "deltares:attribute": "Hist_Trend",
+  "deltares:categoricalLegend": [
+    {
+      "value": "Ero",
+      "label": "Erosion",
+      "color": "#FF0000",
+      "opacity": 100
+    },
+    {
+      "value": "Acc",
+      "label": "Accretion",
+      "color": "#00FF00",
+      "opacity": 100
+    },
+    {
+      "value": "Sta",
+      "label": "Stable",
+      "color": "#FFFF00",
+      "opacity": 100
+    }
+  ],
+  "summaries_labels": {},
+  "summaries_descriptions": {},
+  "title": "Shoreline Change",
   "extent": {
     "spatial": {
       "bbox": [

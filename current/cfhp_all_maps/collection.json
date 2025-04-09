@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "cfhp_all_maps",
   "stac_version": "1.0.0",
-  "description": "This dataset combines local administrative units (LAUs) with NUTS2 and NUTS3 classifications and aggregates flood statistics for multiple scenarios. It includes high-defended, low-defended and unddefended flood scenarios with various return periods. The data is represented at the LAU level and includes connections to relevant NUTS and country boundaries, providing comprehensive flood exposure insights across Europe.",
+  "description": "**Inundation Distribution During Flood Events** user story provides flood extent projections under various scenarios, including different coastal protection levels, return periods, and future climate conditions.\u200b\n\n- **Spatial coverage**: European coastal areas.\u200b\n- **Sources**: Coastal flood models, tide gauge records.\u200b\n- **Common usage**: Flood mapping, urban planning, emergency response.\u200b\n\n\u200bMore Info about the dataset: [User Handbook](https://www.openearth.nl/coclico-workbench/Datasets/)",
   "links": [
     {
       "rel": "root",
@@ -9946,7 +9946,87 @@
   "base_url": "gs://coclico-data-public/coclico/cfhp_all_stats/map_stats",
   "sci:citation": "None.",
   "version": "1",
-  "title": "Flood inundation distribution",
+  "deltares:units": "%",
+  "deltares:plotSeries": "scenario",
+  "deltares:plotxAxis": "time",
+  "deltares:plotType": "line",
+  "deltares:min": 0,
+  "deltares:max": 1,
+  "deltares:linearGradient": [
+    {
+      "color": "#EAF6FF",
+      "offset": "0.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#CBE9FF",
+      "offset": "12.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#ACDBFF",
+      "offset": "25.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#8CCEFF",
+      "offset": "37.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#6BC0FF",
+      "offset": "50.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#3FA3F7",
+      "offset": "62.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#1A76D2",
+      "offset": "75.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#0A3C78",
+      "offset": "87.500%",
+      "opacity": 80
+    }
+  ],
+  "summaries_labels": {
+    "defense level": {
+      "HIGH_DEFENDED_MAPS": "High Defended",
+      "LOW_DEFENDED_MAPS": "Low Defended",
+      "UNDEFENDED_MAPS": "No Defense"
+    },
+    "return period": {
+      "static": "No Return Period",
+      "1": "1 year",
+      "100": "100 years",
+      "1000": "1000 years"
+    },
+    "scenarios": {
+      "None": "No Scenario",
+      "SSP126": "SSP 126",
+      "SSP245": "SSP 245",
+      "SSP585": "SSP 585",
+      "High_End": "High End"
+    },
+    "time": {
+      "2010": "2010",
+      "2030": "2030",
+      "2050": "2050",
+      "2100": "2100"
+    }
+  },
+  "summaries_descriptions": {
+    "defense level": "The level of defense applied to the maps",
+    "return period": "The return period of the maps",
+    "scenarios": "The climate scenarios applied to the maps",
+    "time": "The time period of the maps"
+  },
+  "title": "Flood Statistics by LAUs",
   "extent": {
     "spatial": {
       "bbox": [
