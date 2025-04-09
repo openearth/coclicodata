@@ -83,9 +83,9 @@ if not ds_dir.exists():
 # cog_dirs = ds_dir.joinpath("cogs")
 ds_path = ds_dir.joinpath("data/LAU_ceed")
 # ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
-ds_fp = ds_path.joinpath("NL_GM0363_refact.parquet")  # file directory dummy
+ds_fp = ds_path.joinpath("NL_GM0363.parquet")  # file directory dummy
 
-# # load metadata template
+# load metadata template
 metadata_fp = ds_dir.joinpath("metadata", METADATA)
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
@@ -484,7 +484,11 @@ if __name__ == "__main__":
 
     for uri in uris_dum:
         print(uri)
-        item = create_item(uri)
+        try:
+            item = create_item(uri)
+        except:
+            print(f"Failed to create item for {uri}")
+            continue
 
         title = COLLECTION_ID + ":" + item.id
         vasset = pystac.Asset(  # data asset
