@@ -109,6 +109,22 @@ GEOPARQUET_STAC_ITEMS_HREF = (
     f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/items/{COLLECTION_ID}.parquet"
 )
 
+# inpainting
+painter = {
+    "line-color": [
+        "match",
+        ["get", "Hist_Trend"],
+        "Ero",
+        "#FF0000",
+        "Acc",
+        "#00FF00",
+        "Sta",
+        "#FFFF00",
+        "#CCCCCC",
+    ],
+    "line-width": 2,
+}
+
 
 # %%
 # %%
@@ -353,6 +369,7 @@ def create_item(
     # TODO: make configurable upstream
     item.assets["data"].title = metadata["TITLE_ABBREVIATION"]
     item.assets["data"].description = metadata["SHORT_DESCRIPTION"]
+    item.properties["deltares:paint"] = painter
 
     return item
 
