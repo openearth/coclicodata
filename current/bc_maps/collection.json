@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "bc_maps",
   "stac_version": "1.1.0",
-  "description": "Projections of the cost of buildings exposed to coastal flooding, integrating future flood risk models and building valuation to inform economic impact assessments and adaptation planning.",
+  "description": "**Damage Costs of Exposed Buildings** evaluates the potential damage costs to coastal buildings from flooding under different climate change and sea level rise scenarios, helping guide adaptation measures and decision-making.\u200b\n\n\u200b- **Sources**: Sea-level projections, flood hazard maps, and infrastructure data from CoCliCo and IH-Cantabria.\u200b\n- **Common usage**: Assesses flood-related infrastructure damage costs and informs local and regional adaptation planning.\u200b\n\nMore Info about the dataset: [User Handbook](https://www.openearth.nl/coclico-workbench/Datasets/#__tabbed_3_3)",
   "links": [
     {
       "rel": "root",
@@ -11834,7 +11834,85 @@
   "base_url": "gs://coclico-data-public/coclico/bc_stats/map_stats/UNDEFENDED_MAPS/1000/SSP585/bc_stats_UNDEFENDED_MAPS_1000_SSP585_2100.parquet",
   "sci:citation": "In preparation",
   "version": "1",
-  "title": "Cost of buildings exposed to flooding",
+  "deltares:units": "euros",
+  "deltares:plotSeries": "scenario",
+  "deltares:plotxAxis": "time",
+  "deltares:plotType": "line",
+  "deltares:min": 0,
+  "deltares:max": 160000,
+  "deltares:linearGradient": [
+    {
+      "color": "#FFFDE7",
+      "offset": "0.001%",
+      "opacity": 80
+    },
+    {
+      "color": "#FFF9C4",
+      "offset": "12.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#FFF59D",
+      "offset": "25.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#FFF176",
+      "offset": "37.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#FFEE58",
+      "offset": "50.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#FFEB3B",
+      "offset": "62.500%",
+      "opacity": 80
+    },
+    {
+      "color": "#FBC02D",
+      "offset": "75.000%",
+      "opacity": 80
+    },
+    {
+      "color": "#FFA000",
+      "offset": "87.500%",
+      "opacity": 80
+    }
+  ],
+  "summaries_labels": {
+    "defense level": {
+      "HIGH_DEFENDED_MAPS": "High Defended",
+      "LOW_DEFENDED_MAPS": "Low Defended",
+      "UNDEFENDED_MAPS": "No Defense"
+    },
+    "return period": {
+      "static": "No Return Period",
+      "1": "1 year",
+      "100": "100 years",
+      "1000": "1000 years"
+    },
+    "scenarios": {
+      "SSP126": "SSP 126",
+      "SSP245": "SSP 245",
+      "SSP585": "SSP 585"
+    },
+    "time": {
+      "2010": "2010",
+      "2030": "2030",
+      "2050": "2050",
+      "2100": "2100"
+    }
+  },
+  "summaries_descriptions": {
+    "defense level": "The level of defense applied to the maps",
+    "return period": "The return period of the maps",
+    "scenarios": "The climate scenarios applied to the maps",
+    "time": "The time period of the maps"
+  },
+  "title": "Damage Costs",
   "extent": {
     "spatial": {
       "bbox": [
