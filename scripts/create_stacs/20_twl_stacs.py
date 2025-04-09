@@ -65,12 +65,12 @@ if __name__ == "__main__":
 
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
-    COLLECTION_ID = "twl_SLR"  # name of stac collection
-    COLLECTION_TITLE = "Future total water levels"
+    COLLECTION_ID = "twl_SLR_RP"  # "twl_SLR" # name of stac collection
+    COLLECTION_TITLE = "Total water level return periods"  # "Future total water levels"
     DATASET_DESCRIPTION = METADATA["DESCRIPTION"]
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = COLLECTION_ID + ".zarr"
+    DATASET_FILENAME = COLLECTION_ID.split("_RP")[0] + ".zarr"  # COLLECTION_ID
     VARIABLES = ["twl"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     # these are added at collection level
     UNITS = "m"
     PLOT_SERIES = "scenario"
-    PLOT_X_AXIS = "time"
+    PLOT_X_AXIS = "rp"  # "time"
     PLOT_TYPE = "line"
     MIN = 0
     MAX = 3
