@@ -1,4 +1,4 @@
-#%%
+# %%
 import os
 import pathlib
 import subprocess
@@ -67,8 +67,15 @@ def dataset_from_google_cloud(bucket_name, bucket_proj, zarr_filename):
     uri = urljoin("gs://" + bucket_name, bucket_proj, zarr_filename)
     return xr.open_zarr(uri)
 
+
 def file_to_google_cloud(
-    file_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str, file_name: str, return_URL: bool = False,
+    file_path: str,
+    gcs_project: str,
+    bucket_name: str,
+    bucket_proj: str,
+    dir_name: str,
+    file_name: str,
+    return_URL: bool = False,
 ):
     """
     Upload a single file to Google Cloud Services
@@ -82,15 +89,20 @@ def file_to_google_cloud(
     target_filepath = urljoin(bucket_name, bucket_proj, dir_name, file_name)
 
     # Upload file
-    fs.put(file_path,target_filepath)
-    
+    fs.put(file_path, target_filepath)
+
     # When requested return resulting URL
     if return_URL:
         return fs.url(target_filepath)
 
 
 def dir_to_google_cloud(
-    dir_path: str, gcs_project: str, bucket_name: str, bucket_proj: str, dir_name: str,  return_URL: bool = False
+    dir_path: str,
+    gcs_project: str,
+    bucket_name: str,
+    bucket_proj: str,
+    dir_name: str,
+    return_URL: bool = False,
 ):
     """Upload directory to Google Cloud Services
 
@@ -108,20 +120,20 @@ def dir_to_google_cloud(
     target_path = urljoin(bucket_name, bucket_proj, dir_name)
 
     # Check if could directory already exists
-    if fs.exists(urljoin(target_path,'catalog.json')):
+    if fs.exists(urljoin(target_path, "catalog.json")):
         print(f"Cloud directory {target_path} already exists...")
         # Ask user to confirm directory overwrite
-        if click.confirm('Do you want to overwirte this directory?'):
+        if click.confirm("Do you want to overwirte this directory?"):
             # Check if user is on the main branch
-            if dir_name == 'coclico-stac' and click.confirm(
-                'You trying to overwrite the main coclico-stac, are you working from the coclicodata Github main branch?'
-                ):
-                    # Remove target directory to be updated
-                    fs.rm(target_path,recursive=True)
+            if dir_name == "coclico-stac" and click.confirm(
+                "You trying to overwrite the main coclico-stac, are you working from the coclicodata Github main branch?"
+            ):
+                # Remove target directory to be updated
+                fs.rm(target_path, recursive=True)
             else:
                 # Remove target directory to be updated
-                fs.rm(target_path,recursive=True)
-    
+                fs.rm(target_path, recursive=True)
+
     # saved directory to google cloud
     print(f"Writing to directory at {target_path}...")
     try:
@@ -185,7 +197,7 @@ def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
         os.environ.get("MAPBOX_ACCESS_TOKEN", ""), mapbox_url, str(source_fpath)
     )
     # TODO: check if subprocess has to be run with check=True
-    subprocess.run(mapbox_cmd, shell=True)
+    subprocess.run(mapbox_cmd, check=True)
 
 
 class CredentialLeakageWarning(Warning):
@@ -266,10 +278,14 @@ if __name__ == "__main__":
     cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
 
     # upload dir to gcs from local drive
-    source_dir_fp = str(pathlib.Path(__file__).parent.parent.parent.parent.joinpath(IN_DIRNAME))
+    source_dir_fp = str(
+        pathlib.Path(__file__).parent.parent.parent.parent.joinpath(IN_DIRNAME)
+    )
 
     # load google credentials
-    load_google_credentials(google_token_fp=cred_data_dir.joinpath("google_credentials_new.json"))
+    load_google_credentials(
+        google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
+    )
 
     dir_to_google_cloud(
         dir_path=source_dir_fp,
