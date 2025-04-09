@@ -1,0 +1,109 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "DE_01058165",
+  "properties": {
+    "title": "CI_data",
+    "description": "EU-wide high-resolution object-based maps of economic assets and infrastructure systems in coastal flood-prone areas.",
+    "table:columns": [
+      {
+        "name": "type",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      4315564.054398933,
+      3471704.2270974265,
+      4324666.188854685,
+      3478512.0943920924
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 882,
+    "created": "2025-04-08T09:30:36.410498Z",
+    "datetime": "2021-08-01T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          10.056452907059136,
+          54.35175119780728
+        ],
+        [
+          10.056452907059136,
+          54.41294271798775
+        ],
+        [
+          9.916295948403087,
+          54.41294271798775
+        ],
+        [
+          9.916295948403087,
+          54.35175119780728
+        ],
+        [
+          10.056452907059136,
+          54.35175119780728
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Critical Infrastructure"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Critical Infrastructure"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "gs://coclico-data-public/coclico/LAU_ceed/DE_01058165.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "CI_data",
+      "description": "EU-wide high-resolution object-based maps of economic assets and infrastructure systems in coastal flood-prone areas.",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/ceed_maps/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=ceed_maps:DE_01058165",
+      "type": "application/png",
+      "title": "ceed_maps:DE_01058165",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "bbox": [
+    9.916295948403087,
+    54.35175119780728,
+    10.056452907059136,
+    54.41294271798775
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "ceed_maps"
+}
