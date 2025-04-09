@@ -66,7 +66,7 @@ if __name__ == "__main__":
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
     COLLECTION_ID = "twl_SLR"  # name of stac collection
-    COLLECTION_TITLE = "Total Water Level"
+    COLLECTION_TITLE = "Future total water levels"
     DATASET_DESCRIPTION = METADATA["DESCRIPTION"]
 
     # hard-coded input params which differ per dataset
@@ -89,7 +89,7 @@ if __name__ == "__main__":
     UNITS = "m"
     PLOT_SERIES = "scenario"
     PLOT_X_AXIS = "time"
-    PLOT_TYPE = "area"
+    PLOT_TYPE = "line"
     MIN = 0
     MAX = 3
     LINEAR_GRADIENT = [
