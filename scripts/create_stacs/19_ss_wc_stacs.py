@@ -1,4 +1,4 @@
-#%%
+# %%
 import os
 import pathlib
 import sys
@@ -7,7 +7,11 @@ import json
 from posixpath import join as urljoin
 import pystac
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import load_google_credentials, file_to_google_cloud, dataset_from_google_cloud
+from coclicodata.etl.cloud_utils import (
+    load_google_credentials,
+    file_to_google_cloud,
+    dataset_from_google_cloud,
+)
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 
@@ -63,10 +67,10 @@ if __name__ == "__main__":
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
     COLLECTION_ID = "ss_wc"  # name of stac collection
     COLLECTION_TITLE = "Storm Surge and Wave Climate"
-    DATASET_DESCRIPTION = METADATA['DESCRIPTION']
+    DATASET_DESCRIPTION = METADATA["DESCRIPTION"]
 
     # hard-coded input params which differ per dataset
-    DATASET_FILENAME = COLLECTION_ID + '.zarr'
+    DATASET_FILENAME = COLLECTION_ID + ".zarr"
     VARIABLES = ["Hsmean", "SSp99", "tidal_range"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
@@ -80,7 +84,7 @@ if __name__ == "__main__":
 
     # these are added at collection level
     UNITS = "m"
-    PLOT_SERIES = "scenario"
+    PLOT_SERIES = "scenarios"
     PLOT_X_AXIS = "time"
     PLOT_TYPE = "area"
     MIN = 0
@@ -146,10 +150,17 @@ if __name__ == "__main__":
     title = ds.attrs.get("title", COLLECTION_ID)
 
     # load coclico data catalog
-    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     # generate collection for dataset
@@ -159,13 +170,19 @@ if __name__ == "__main__":
         title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
         keywords=METADATA["KEYWORDS"],
-        license="CC-BY-4.0",    # NOTE: no license/doi was provided in the metadata
-        spatial_extent=None,    # NOTE: no spatial extent was provided in the metadata
+        license="CC-BY-4.0",  # NOTE: no license/doi was provided in the metadata
+        spatial_extent=None,  # NOTE: no spatial extent was provided in the metadata
         temporal_extent=METADATA["TEMPORAL_EXTENT"],
-        providers=[pystac.Provider(name=METADATA['PROVIDERS']['name'],
-                                  url=METADATA['PROVIDERS']['url'],
-                                  roles=['producer'], # NOTE: roles is plural and for that reason should be a list, consisting of one or more ['producer', 'licensor', 'processor', 'host']
-                                  description=METADATA['PROVIDERS']['description'])]
+        providers=[
+            pystac.Provider(
+                name=METADATA["PROVIDERS"]["name"],
+                url=METADATA["PROVIDERS"]["url"],
+                roles=[
+                    "producer"
+                ],  # NOTE: roles is plural and for that reason should be a list, consisting of one or more ['producer', 'licensor', 'processor', 'host']
+                description=METADATA["PROVIDERS"]["description"],
+            )
+        ],
     )
 
     # add datacube dimensions derived from xarray dataset to dataset stac_obj
@@ -175,7 +192,7 @@ if __name__ == "__main__":
         x_dimension=X_DIMENSION,
         y_dimension=Y_DIMENSION,
         temporal_dimension=TEMPORAL_DIMENSION,
-        additional_dimensions=ADDITIONAL_DIMENSIONS
+        additional_dimensions=ADDITIONAL_DIMENSIONS,
     )
 
     # generate stac feature keys (strings which will be stac item ids) for mapbox layers
@@ -278,9 +295,9 @@ if __name__ == "__main__":
     # set extra link properties
     extend_links(collection, dimvals.keys())
 
-        # Set thumbnail directory
-    THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath('thumbnails')
-    THUMB_FILE = THUMB_DIR.joinpath(COLLECTION_ID + '.png')
+    # Set thumbnail directory
+    THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath("thumbnails")
+    THUMB_FILE = THUMB_DIR.joinpath(COLLECTION_ID + ".png")
 
     # Make sure image is reshaped to desired aspect ratio (default = 16/9)
     cropped_im = reshape_aspectratio_image(str(THUMB_FILE))
@@ -289,16 +306,20 @@ if __name__ == "__main__":
     cv2.imwrite(str(THUMB_FILE), cropped_im)
 
     # Load google credentials
-    load_google_credentials(google_token_fp=CRED_DIR.joinpath("google_credentials_new.json") )
+    load_google_credentials(
+        google_token_fp=CRED_DIR.joinpath("google_credentials_new.json")
+    )
 
     # Upload thumbnail to cloud
-    THUMB_URL = file_to_google_cloud(str(THUMB_FILE),
-                                    GCS_PROJECT,
-                                    BUCKET_NAME,
-                                    BUCKET_PROJ,
-                                    'assets/thumbnails',
-                                    THUMB_FILE.name, 
-                                    return_URL = True)
+    THUMB_URL = file_to_google_cloud(
+        str(THUMB_FILE),
+        GCS_PROJECT,
+        BUCKET_NAME,
+        BUCKET_PROJ,
+        "assets/thumbnails",
+        THUMB_FILE.name,
+        return_URL=True,
+    )
 
     # Add thumbnail
     collection.add_asset(
@@ -307,9 +328,9 @@ if __name__ == "__main__":
             THUMB_URL,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
-            ),
-        )
-    
+        ),
+    )
+
     if catalog.get_child(collection.id):
         catalog.remove_child(collection.id)
         print(f"Removed child: {collection.id}.")
@@ -318,7 +339,9 @@ if __name__ == "__main__":
     catalog.add_child(collection)
 
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID),
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, COLLECTION_ID
+        ),
         strategy=layout,
     )
 

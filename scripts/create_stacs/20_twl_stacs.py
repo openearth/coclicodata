@@ -87,7 +87,7 @@ if __name__ == "__main__":
 
     # these are added at collection level
     UNITS = "m"
-    PLOT_SERIES = "scenario"
+    PLOT_SERIES = "scenarios"
     PLOT_X_AXIS = "rp"  # "time"
     PLOT_TYPE = "line"
     MIN = 0
