@@ -50,15 +50,15 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "pp_stats"
+PROJ_NAME = "be_stats"
 
 # hard-coded STAC templates
 STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
-DATASET_DIR = "pp_stats"
+DATASET_DIR = "be_stats"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "pp_stats"  # name of stac collection
+COLLECTION_ID = "be_stats"  # name of stac collection
 MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
