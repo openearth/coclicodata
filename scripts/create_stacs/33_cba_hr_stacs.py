@@ -62,15 +62,15 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "CBA"
+PROJ_NAME = "CBA_HR"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
+STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "WP6"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "cba"  # name of stac collection
+COLLECTION_ID = "cba_hr"  # name of stac collection
 MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
@@ -274,14 +274,6 @@ def create_collection(
         ),
     )
 
-    collection.add_asset(
-        "geoserver_link",
-        pystac.Asset(
-            "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=cba:GCF_open_CBA_country_all_EPSG3035&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
-            title="Geoserver Parquet link",
-            media_type="application/vnd.apache.parquet",
-        ),
-    )
 
     # collection.links = links
     collection.keywords = metadata["KEYWORDS"]
@@ -352,14 +344,14 @@ def create_item(
     item = stac_table.generate(
         uri=asset_href,
         template=template,
-        infer_bbox=True,
+        infer_bbox=None,
         infer_geometry=None,
         datetime_column=None,
         infer_datetime=stac_table.InferDatetimeOptions.no,
         count_rows=True,
         asset_key="data",
         asset_extra_fields=asset_extra_fields,
-        proj=True,
+        proj=None,
         storage_options=storage_options,
         validate=False,
     )
@@ -513,11 +505,11 @@ if __name__ == "__main__":
     #     print("Dataset already exists in the Google Bucket")
 
     # %% get descriptions
-    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/CBA_stats"
+    uri_dum = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}"
     paths_dum = fs.glob(uri_dum + "/*.parquet")
     uris_dum = ["gs://" + p for p in paths_dum]
     HREF_PREFIX_dum = urljoin(
-        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ, "CBA_stats"
+        GCS_PROTOCOL, BUCKET_NAME, BUCKET_PROJ
     )  # cloud export directory
     GCS_url_dum = urljoin(HREF_PREFIX_dum, uris_dum[0].split("/")[-1])
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
@@ -547,52 +539,50 @@ if __name__ == "__main__":
     uris = []
     dimcombs = []
     items = []
-    for strat in adap_strategy:
-        for scen in scenarios:
-            for time in times:
-                file_name = f"GCF_open_CBA_country_{strat}_{scen}_{time}.parquet"
-                uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{strat}/{scen}/{file_name}"
-                print(uri)
-                uris.append(uri)
 
-                GCS_url = urljoin(HREF_PREFIX, strat, scen, uri.split("/")[-1])
-                item = create_item(uri)
-                item.assets["data"].href = GCS_url  # replace with https link iso gs uri
+    for scen in scenarios:
 
-                # set the file path structure
-                cur_path = os.path.join(strat, scen, time)
-                item_href = pathlib.Path(STAC_DIR, COLLECTION_ID, "items", cur_path)
-                item.set_self_href(item_href.with_suffix(".json"))
-                item.id = cur_path + ".parquet"
+        file_name = f"GCF.open.CBA.{scen}.parquet"
+        uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{file_name}"
+        print(uri)
+        uris.append(uri)
 
-                # TODO: generalize this
-                dimcomb = {
-                    item_properties[0]: strat,
-                    item_properties[1]: scen,
-                    item_properties[2]: time,
-                }
-                dimcombs.append(dimcomb)
+        GCS_url = urljoin(HREF_PREFIX, uri.split("/")[-1])
+        item = create_item(uri)
+        item.assets["data"].href = GCS_url  # replace with https link iso gs uri
 
-                # TODO: include this in our datacube?
-                # add dimension key-value pairs to stac item properties dict
-                for k, v in dimcomb.items():
-                    item.properties[k] = v
+        # set the file path structure
+        cur_path = os.path.join(scen)
+        item_href = pathlib.Path(STAC_DIR, COLLECTION_ID, "items", cur_path)
+        item.set_self_href(item_href.with_suffix(".json"))
+        item.id = cur_path + ".parquet"
 
-                title = COLLECTION_ID + ":" + Path(file_name).stem
-                # TODO: We need to generalize this `href` somewhat.
-                vasset = pystac.Asset(  # data asset
-                    href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
-                    % (COLLECTION_ID, title),
-                    media_type="application/png",
-                    title=title,
-                    description="OGS WMS url",
-                    roles=["visual"],
-                )
+        # TODO: generalize this
+        dimcomb = {
+            item_properties[0]: scen
+        }
+        dimcombs.append(dimcomb)
 
-                item.add_asset("visual", vasset)
+        # TODO: include this in our datacube?
+        # add dimension key-value pairs to stac item properties dict
+        for k, v in dimcomb.items():
+            item.properties[k] = v
 
-                items.append(item)
-                collection.add_item(item)
+        title = COLLECTION_ID + ":" + Path(file_name).stem
+        # TODO: We need to generalize this `href` somewhat.
+        vasset = pystac.Asset(  # data asset
+            href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
+            % (COLLECTION_ID, title),
+            media_type="application/png",
+            title=title,
+            description="OGS WMS url",
+            roles=["visual"],
+        )
+
+        item.add_asset("visual", vasset)
+
+        items.append(item)
+        collection.add_item(item)
 
     collection.summaries = Summaries({})
     # TODO: check if maxcount is required (inpsired on xstac library)
@@ -615,9 +605,9 @@ if __name__ == "__main__":
 
     items = list(collection.get_all_items())
     items_as_json = [i.to_dict() for i in items]
-    item_extents = stac_geoparquet.to_geodataframe(items_as_json)
-    with fsspec.open(GEOPARQUET_STAC_ITEMS_HREF, mode="wb") as f:
-        item_extents.to_parquet(f)
+    # item_extents = stac_geoparquet.to_geodataframe(items_as_json)
+    # with fsspec.open(GEOPARQUET_STAC_ITEMS_HREF, mode="wb") as f:
+    #     item_extents.to_parquet(f)
 
     collection.add_asset(
         "geoparquet-stac-items",
