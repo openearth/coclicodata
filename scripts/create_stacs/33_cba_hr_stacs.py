@@ -344,14 +344,14 @@ def create_item(
     item = stac_table.generate(
         uri=asset_href,
         template=template,
-        infer_bbox=None,
+        infer_bbox=True,
         infer_geometry=None,
         datetime_column=None,
         infer_datetime=stac_table.InferDatetimeOptions.no,
         count_rows=True,
         asset_key="data",
         asset_extra_fields=asset_extra_fields,
-        proj=None,
+        proj=True,
         storage_options=storage_options,
         validate=False,
     )
@@ -542,7 +542,7 @@ if __name__ == "__main__":
 
     for scen in scenarios:
 
-        file_name = f"GCF.open.CBA.{scen}.parquet"
+        file_name = f"GCF.open.CBA.{scen}.floodplain.parquet"
         uri = f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{PROJ_NAME}/{file_name}"
         print(uri)
         uris.append(uri)
