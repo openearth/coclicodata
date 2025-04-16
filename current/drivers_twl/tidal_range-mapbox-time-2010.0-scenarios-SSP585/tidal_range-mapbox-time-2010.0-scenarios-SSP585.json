@@ -2,7 +2,7 @@
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [],
-  "id": "tidal_range-mapbox-value",
+  "id": "tidal_range-mapbox-time-2010.0-scenarios-SSP585",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
@@ -37,7 +37,7 @@
     90
   ],
   "properties": {
-    "deltares:item_key": "value",
+    "deltares:item_key": "time-2010.0-scenarios-SSP585",
     "deltares:paint": {
       "circle-color": [
         "interpolate",
@@ -46,7 +46,7 @@
         ],
         [
           "get",
-          "value"
+          "time-2010.0-scenarios-SSP585"
         ],
         0,
         "hsl(110,90%,80%)",
@@ -74,14 +74,16 @@
     "deltares:type": "circle",
     "deltares:stations": "locationId",
     "deltares:onclick": {},
-    "datetime": "2024-09-03T10:06:58.911834Z"
+    "time": 2010.0,
+    "scenarios": "SSP585",
+    "datetime": "2025-04-16T11:39:44.878485Z"
   },
   "links": [
     {
       "rel": "collection",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/ss_wc/collection.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/drivers_twl/collection.json",
       "type": "application/json",
-      "title": "Storm Surge and Wave Climate"
+      "title": "Drivers of TWL"
     },
     {
       "rel": "root",
@@ -91,27 +93,27 @@
     },
     {
       "rel": "parent",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/ss_wc/collection.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/drivers_twl/collection.json",
       "type": "application/json",
-      "title": "Storm Surge and Wave Climate"
+      "title": "Drivers of TWL"
     },
     {
       "rel": "self",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/ss_wc/tidal_range-mapbox-value/tidal_range-mapbox-value.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/drivers_twl/tidal_range-mapbox-time-2010.0-scenarios-SSP585/tidal_range-mapbox-time-2010.0-scenarios-SSP585.json",
       "type": "application/json"
     }
   ],
   "assets": {
     "mapbox": {
-      "href": "mapbox://global-data-viewer.ss_wc_tidal_range",
+      "href": "mapbox://global-data-viewer.drivers_twl_tidal_range",
       "type": "vector",
       "title": "Point locations",
       "description": "Mapbox url",
-      "source": "ss_wc_tidal_range",
+      "source": "drivers_twl_tidal_range",
       "roles": [
         "mapbox"
       ]
     }
   },
-  "collection": "ss_wc"
+  "collection": "drivers_twl"
 }
