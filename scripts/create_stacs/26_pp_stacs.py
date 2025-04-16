@@ -6,6 +6,7 @@ import datetime
 import pathlib
 import glob
 import os
+import cv2
 
 # import sys
 # from re import S, template
@@ -37,8 +38,9 @@ from pystac.stac_io import DefaultStacIO
 from coclicodata.drive_config import p_drive
 
 # from pystac import Catalog, CatalogType, Collection, Summaries
-from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud
+from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud, file_to_google_cloud
 from coclicodata.coclico_stac.io import CoCliCoStacIO
+from coclicodata.coclico_stac.reshape_im import reshape_aspectratio_image
 from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.extension import (
     CoclicoExtension,
@@ -219,12 +221,32 @@ def create_collection(
         catalog_type=pystac.CatalogType.RELATIVE_PUBLISHED,
     )
 
+    # Set thumbnail directory
+    THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath("thumbnails")
+    THUMB_FILE = THUMB_DIR.joinpath(COLLECTION_ID + ".png")
+
+    # Make sure image is reshaped to desired aspect ratio (default = 16/9)
+    cropped_im = reshape_aspectratio_image(str(THUMB_FILE))
+
+    # Overwrite image with cropped version
+    cv2.imwrite(str(THUMB_FILE), cropped_im)
+
+    # Upload thumbnail to cloud
+    THUMB_URL = file_to_google_cloud(
+        str(THUMB_FILE),
+        GCS_PROJECT,
+        BUCKET_NAME,
+        BUCKET_PROJ,
+        "assets/thumbnails",
+        THUMB_FILE.name,
+        return_URL=True,
+    )
+
+    # Add thumbnail
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/"
-            + COLLECTION_ID
-            + ".png",  # noqa: E501,  # noqa: E501
+            THUMB_URL,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
