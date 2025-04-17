@@ -44,21 +44,21 @@ from coastmonitor import stac_table
 from coastmonitor.stac.layouts import ParquetLayout
 
 # %%
-# ## Define variables
+# ## Define variablestemplate
 # hard-coded input params at project level
 GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "pp_stats"
+PROJ_NAME = "be_stats"
 
 # hard-coded STAC templates
 STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
-DATASET_DIR = "pp_stats"
+DATASET_DIR = "be_stats"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "pp_stats"  # name of stac collection
+COLLECTION_ID = "be_stats"  # name of stac collection
 MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
@@ -82,10 +82,8 @@ if not ds_dir.exists():
 
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
-ds_path = ds_dir.joinpath(
-    "WP5", "data", "pop_fp_statistics"
-)  # path to directory with data
-ds_fp = ds_path.joinpath("pop_fp_LAU_rel.parquet")  # path to dataset
+ds_path = ds_dir.joinpath("WP6", "front_end_data", COLLECTION_ID)  # path to directory with data
+ds_fp = ds_path.joinpath("be_stats.parquet")  # path to dataset
 
 # # load metadata template
 metadata_fp = ds_fp.with_suffix(".json")
@@ -107,7 +105,7 @@ PARQUET_MEDIA_TYPE = "application/vnd.apache.parquet"
 # PREFIX = f"gcts-{TRANSECT_LENGTH}m.parquet"
 # BASE_URL = f"gs://{CONTAINER_NAME}/{PREFIX}"
 GEOPARQUET_STAC_ITEMS_HREF = (
-    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/items/{COLLECTION_ID}.parquet"
+    f"gs://{BUCKET_NAME}/{BUCKET_PROJ}/{COLLECTION_ID}/{ds_fp.name}"
 )
 
 
@@ -355,17 +353,6 @@ def create_item(
     # TODO: make configurable upstream
     item.assets["data"].title = metadata["TITLE_ABBREVIATION"]
     item.assets["data"].description = metadata["SHORT_DESCRIPTION"]
-
-    vasset = pystac.Asset(  # data asset
-        href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
-        % (COLLECTION_ID, title),
-        media_type="application/png",
-        title=title,
-        description="OGS WMS url",
-        roles=["visual"],
-    )
-
-    item.add_asset("visual", vasset)
 
     return item
 

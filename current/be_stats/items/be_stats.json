@@ -1,0 +1,190 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "be_stats",
+  "properties": {
+    "title": "BE",
+    "description": "Impact of coastal flooding on buildings.",
+    "table:columns": [
+      {
+        "name": "type",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "stac_version",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "stac_extensions",
+        "type": "list<item: string>",
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "bbox",
+        "type": "list<item: double>",
+        "description": ""
+      },
+      {
+        "name": "links",
+        "type": "list<item: struct<href: null, rel: string, title: string, type: string>>",
+        "description": ""
+      },
+      {
+        "name": "data.description",
+        "type": "string"
+      },
+      {
+        "name": "data.href",
+        "type": "string"
+      },
+      {
+        "name": "data.roles",
+        "type": "list<item: string>"
+      },
+      {
+        "name": "data.title",
+        "type": "string"
+      },
+      {
+        "name": "data.type",
+        "type": "string"
+      },
+      {
+        "name": "collection",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "table:columns",
+        "type": "list<item: struct<description: string, name: string, type: string>>",
+        "description": ""
+      },
+      {
+        "name": "proj:bbox",
+        "type": "list<item: double>",
+        "description": ""
+      },
+      {
+        "name": "proj:epsg",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "table:row_count",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "created",
+        "type": "timestamp[us, tz=utc]",
+        "description": ""
+      },
+      {
+        "name": "datetime",
+        "type": "timestamp[us, tz=utc]",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -81.12146941539005,
+      -29.12357316038395,
+      93.1752791130622,
+      37.855412297701754
+    ],
+    "proj:epsg": 4326,
+    "table:row_count": 1,
+    "created": "2025-04-15T13:09:15.825229Z",
+    "datetime": "2010-01-01T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Number of buildings exposed to flooding"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Number of buildings exposed to flooding"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/be_stats/be_stats.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "BE",
+      "description": "Impact of coastal flooding on buildings.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    -81.12146941539005,
+    -29.12357316038395,
+    93.1752791130622,
+    37.855412297701754
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "be_stats"
+}
