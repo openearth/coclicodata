@@ -197,7 +197,7 @@ def geojson_to_mapbox(source_fpath: pathlib.Path, mapbox_url: str) -> None:
         os.environ.get("MAPBOX_ACCESS_TOKEN", ""), mapbox_url, str(source_fpath)
     )
     # TODO: check if subprocess has to be run with check=True
-    subprocess.run(mapbox_cmd, check=True)
+    # subprocess.run(mapbox_cmd, check=True)
 
 
 class CredentialLeakageWarning(Warning):

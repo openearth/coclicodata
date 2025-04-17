@@ -112,7 +112,7 @@ def gen_default_collection_props(
     return {
         **kwargs,
         "deltares:units": "m",
-        "deltares:plotSeries": "scenario",
+        "deltares:plotSeries": "scenarios",
         "deltares:min": 0,
         "deltares:max": 3,
         "deltares:linearGradient": [
