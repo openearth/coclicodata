@@ -203,6 +203,8 @@ def create_collection(
         "European" "CoCliCo",
         "Deltares",
         "Cloud Optimized GeoTIFF",
+        "Exposure & Vulnerability",
+        "Data Layers"
     ]
 
     if description is None:

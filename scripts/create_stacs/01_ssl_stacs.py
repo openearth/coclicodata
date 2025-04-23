@@ -185,7 +185,7 @@ if __name__ == "__main__":
         collection_id=COLLECTION_ID,
         title=COLLECTION_TITLE,
         description=DATASET_DESCRIPTION,
-        keywords=["Sea Levels", "Fast-Track"],
+        keywords=["Fast-Track"],
     )
 
     # add datacube dimensions derived from xarray dataset to dataset collection

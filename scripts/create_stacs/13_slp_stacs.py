@@ -212,7 +212,7 @@ if __name__ == "__main__":
         ds_metadata["LICENSE"] = "CC-BY-4.0"
 
     # Add extra keywords
-    ds_metadata["KEYWORDS"].extend(["Sea Levels", "Full-Track"])
+    ds_metadata["KEYWORDS"].extend(["Sea Levels", "Full-Track", "Data Layers"])
 
     # generate collection for dataset
     collection = get_template_collection(
