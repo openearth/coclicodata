@@ -45,16 +45,16 @@ if __name__ == "__main__":
     # Project paths & files (manual input)
     WP_DIR = COCLICO_DATA_DIR.joinpath("WP3")
     DATA_DIR = WP_DIR.joinpath("data")
-    DS_DIR = DATA_DIR.joinpath("NetCDF")
+    DS_DIR = DATA_DIR.joinpath("NetCDF_MarineDynamicsUpdate")
     ZARR_FILE = DS_DIR.joinpath("CTP_MarineClimatologies.zarr")
-    METADATA_FILE = DS_DIR.joinpath("CTP_MarineClimatologies.json")
+    METADATA_FILE = DS_DIR.joinpath("CTP_MarineDynamicsProyected_SSP245.json")
 
     # Load metadata for setting variables such as data description etc.
     with open(METADATA_FILE, "r") as f:
         METADATA = json.load(f)
 
     # Extend keywords
-    METADATA["KEYWORDS"].extend(["Sea Levels", "Full-Track"])
+    METADATA["KEYWORDS"].extend(["Sea Levels", "Full-Track", "Data Layers"])
 
     # hard-coded input params at project level
     GCS_PROJECT = "coclico-11207608-002"
@@ -65,18 +65,24 @@ if __name__ == "__main__":
 
     STAC_DIR = "current"
     TEMPLATE_COLLECTION = "template"  # stac template for dataset collection
-    COLLECTION_ID = "ss_wc"  # name of stac collection
-    COLLECTION_TITLE = "Storm Surge and Wave Climate"
+    COLLECTION_ID = "drivers_twl"  # name of stac collection
+    COLLECTION_TITLE = "Drivers of TWL"
     DATASET_DESCRIPTION = METADATA["DESCRIPTION"]
 
     # hard-coded input params which differ per dataset
     DATASET_FILENAME = COLLECTION_ID + ".zarr"
-    VARIABLES = ["Hsmean", "SSp99", "tidal_range"]  # xarray variables in dataset
+    VARIABLES = ["hs", "ssl", "slr", "tidal_range"]  # xarray variables in dataset
     X_DIMENSION = "lon"  # False, None or str; spatial lon dim used by datacube
     Y_DIMENSION = "lat"  # False, None or str; spatial lat dim ""
     TEMPORAL_DIMENSION = False  # False, None or str; temporal ""
-    ADDITIONAL_DIMENSIONS = []
-    DIMENSIONS_TO_IGNORE = ["stations"]  # False, None, or str; additional dims ""
+    ADDITIONAL_DIMENSIONS = [
+        "time",
+        "scenarios",
+    ]  # False, None or str; additional dims ""
+    DIMENSIONS_TO_IGNORE = [
+        "stations",
+        "nscenarios",
+    ]  # False, None, or str; additional dims ""
     MAP_SELECTION_DIMS = None
     STATIONS = "locationId"
     TYPE = "circle"
@@ -84,9 +90,9 @@ if __name__ == "__main__":
 
     # these are added at collection level
     UNITS = "m"
-    PLOT_SERIES = "scenarios"
-    PLOT_X_AXIS = "time"
-    PLOT_TYPE = "area"
+    PLOT_SERIES = ""
+    PLOT_X_AXIS = "variables"
+    PLOT_TYPE = "bar"
     MIN = 0
     MAX = 3
     LINEAR_GRADIENT = [
@@ -235,6 +241,12 @@ if __name__ == "__main__":
             for k, v in dimcomb.items():
                 feature.properties[k] = v
 
+            if (
+                len(VARIABLES) > 1
+            ):  # NOTE, this is newly needed by the F/E. Check if implementation holds across all datasets later..
+                # add variable name to stac item properties dict
+                feature.properties["variable"] = var
+
             # add stac item to collection
             collection.add_item(feature, strategy=layout)
 
@@ -270,6 +282,11 @@ if __name__ == "__main__":
     for k, v in dimvals.items():
         collection.summaries.add(k, v)
 
+    if (
+        len(VARIABLES) > 1
+    ):  # NOTE, this is newly needed by the F/E. Check if implementation holds across all datasets later..
+        collection.summaries.add("variables", VARIABLES)
+
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
     # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
 
@@ -293,7 +310,12 @@ if __name__ == "__main__":
     collection.extra_fields["deltares:linearGradient"] = LINEAR_GRADIENT
 
     # set extra link properties
-    extend_links(collection, dimvals.keys())
+    if (
+        len(VARIABLES) > 1
+    ):  # NOTE, this is newly needed by the F/E. Check if implementation holds across all datasets later..
+        extend_links(collection, list(dimvals.keys()) + ["variable"])
+    else:
+        extend_links(collection, dimvals.keys())
 
     # Set thumbnail directory
     THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath("thumbnails")
@@ -344,6 +366,8 @@ if __name__ == "__main__":
         ),
         strategy=layout,
     )
+
+    collection.validate_all()
 
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
