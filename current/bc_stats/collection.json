@@ -1,8 +1,8 @@
 {
   "type": "Collection",
-  "id": "pp_stats",
+  "id": "bc_stats",
   "stac_version": "1.1.0",
-  "description": "[not verified] Projections of Exposed People provides insights into current and future population exposure to coastal flooding, combining population and flood projections to guide risk assessments and adaptation planning.",
+  "description": "Projections of the cost of buildings exposed to coastal flooding, integrating future flood risk models and building valuation to inform economic impact assessments and adaptation planning.",
   "links": [
     {
       "rel": "root",
@@ -12,7 +12,7 @@
     },
     {
       "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/pp_stats/pop_stats/pop_stats.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/bc_stats/bc_stats/bc_stats.json",
       "type": "application/json"
     },
     {
@@ -23,7 +23,7 @@
     },
     {
       "rel": "self",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/pp_stats/collection.json",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/bc_stats/collection.json",
       "type": "application/json"
     }
   ],
@@ -34,8 +34,8 @@
   ],
   "item_assets": {
     "data": {
-      "title": "[not verified] PEP",
-      "description": "[not verified] Population exposure projections for coastal flooding risk assessment.",
+      "title": "BC",
+      "description": "Projected economic impact of coastal flooding on buildings.",
       "roles": [
         "data"
       ],
@@ -132,10 +132,10 @@
       ]
     }
   },
-  "base_url": "gs://coclico-data-public/coclico/pp_stats",
+  "base_url": "gs://coclico-data-public/coclico/bc_stats",
   "sci:citation": "In preparation",
   "version": "1",
-  "title": "Projections of Exposed People",
+  "title": "Cost of buildings exposed to flooding",
   "extent": {
     "spatial": {
       "bbox": [
@@ -159,7 +159,12 @@
   "license": "CC-BY-4.0",
   "keywords": [
     "Shared Socioeconomic Pathways",
-    "population",
+    "buildings",
+    "flood risk",
+    "economic impact",
+    "coastal flooding",
+    "flood projections",
+    "hindcast data",
     "Full-Track"
   ],
   "providers": [
@@ -182,12 +187,12 @@
   ],
   "assets": {
     "thumbnail": {
-      "href": "https://storage.googleapis.com/download/storage/v1/b/coclico-data-public/o/coclico%2Fassets%2Fthumbnails%2Fpp_stats.png?alt=media",
+      "href": "https://storage.googleapis.com/download/storage/v1/b/coclico-data-public/o/coclico%2Fassets%2Fthumbnails%2Fbc_stats.png?alt=media",
       "type": "image/png",
       "title": "Thumbnail"
     },
     "geoparquet-stac-items": {
-      "href": "https://storage.googleapis.com/coclico-data-public/coclico/pp_stats/pop_stats.parquet",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/bc_stats/bc_stats.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
