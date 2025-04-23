@@ -241,6 +241,12 @@ if __name__ == "__main__":
             for k, v in dimcomb.items():
                 feature.properties[k] = v
 
+            if (
+                len(VARIABLES) > 1
+            ):  # NOTE, this is newly needed by the F/E. Check if implementation holds across all datasets later..
+                # add variable name to stac item properties dict
+                feature.properties["variable"] = var
+
             # add stac item to collection
             collection.add_item(feature, strategy=layout)
 
@@ -276,6 +282,11 @@ if __name__ == "__main__":
     for k, v in dimvals.items():
         collection.summaries.add(k, v)
 
+    if (
+        len(VARIABLES) > 1
+    ):  # NOTE, this is newly needed by the F/E. Check if implementation holds across all datasets later..
+        collection.summaries.add("variables", VARIABLES)
+
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
     # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
 
@@ -299,7 +310,12 @@ if __name__ == "__main__":
     collection.extra_fields["deltares:linearGradient"] = LINEAR_GRADIENT
 
     # set extra link properties
-    extend_links(collection, dimvals.keys())
+    if (
+        len(VARIABLES) > 1
+    ):  # NOTE, this is newly needed by the F/E. Check if implementation holds across all datasets later..
+        extend_links(collection, list(dimvals.keys()) + ["variable"])
+    else:
+        extend_links(collection, dimvals.keys())
 
     # Set thumbnail directory
     THUMB_DIR = pathlib.Path(__file__).parent.parent.joinpath("thumbnails")
