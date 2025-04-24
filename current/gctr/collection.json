@@ -98,6 +98,7 @@
     }
   ],
   "stac_extensions": [
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json",
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
   ],
@@ -294,6 +295,76 @@
           "description": "Boolean flag indicating whether the coastal area is dominated by human-made structures or remains largely natural."
         },
         {
+          "name": "class:prob_sandy_gravel_or_small_boulder_sediments",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the shore is composed of sandy sediments, gravel, or small boulders. Derived from the shore type classification."
+        },
+        {
+          "name": "class:prob_muddy_sediments",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the shore is composed of muddy sediments. Derived from the shore type classification."
+        },
+        {
+          "name": "class:prob_rocky_shore_platform_or_large_boulders",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the shore consists of rocky platforms or large boulders. Derived from the shore type classification."
+        },
+        {
+          "name": "class:prob_no_sediment_or_shore_platform",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the shore lacks sediment and consists mainly of shore platform features. Derived from the shore type classification."
+        },
+        {
+          "name": "class:prob_cliffed_or_steep",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coast is cliffed or steep. Derived from the coastal type classification."
+        },
+        {
+          "name": "class:prob_moderately_sloped",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coast is moderately sloped. Derived from the coastal type classification."
+        },
+        {
+          "name": "class:prob_bedrock_plain",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coast is characterized by a bedrock plain. Derived from the coastal type classification."
+        },
+        {
+          "name": "class:prob_sediment_plain",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coast is characterized by a sediment plain. Derived from the coastal type classification."
+        },
+        {
+          "name": "class:prob_dune",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coast contains dune systems. Derived from the coastal type classification."
+        },
+        {
+          "name": "class:prob_wetland",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coast includes wetland environments. Derived from the coastal type classification."
+        },
+        {
+          "name": "class:prob_inlet",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coast contains an inlet or estuarine feature. Derived from the coastal type classification."
+        },
+        {
+          "name": "class:prob_engineered_structures",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coast includes engineered structures. Derived from the coastal type classification."
+        },
+        {
+          "name": "class:prob_has_defense",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that coastal defense structures are present. Complements the binary 'class:has_defense' label."
+        },
+        {
+          "name": "class:prob_is_built_environment",
+          "type": "float32",
+          "description": "Model confidence (probability between 0 and 1) that the coastal area is built-up or dominated by human-made infrastructure. Complements the binary 'class:is_built_environment' label."
+        },
+        {
           "name": "class:model",
           "type": "str",
           "description": "Identifier for the machine learning model used for coastal typology predictions."
@@ -356,7 +427,7 @@
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
-      "created": "2025-03-26T10:13:11.792615Z",
+      "created": "2025-04-24T14:16:41.390333Z",
       "roles": [
         "metadata"
       ]
