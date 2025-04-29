@@ -16,7 +16,7 @@ import os
 import cv2
 import pathlib
 import re
-import json5
+import json
 import pyarrow
 import gcsfs
 import geopandas as gpd
@@ -93,11 +93,9 @@ if not ds_dir.exists():
     raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
 # # directory to export result
-ds_path = ds_dir.joinpath("WP6", "data", "CBA")
+ds_path = ds_dir.joinpath("WP6", "data", "CBA_D6.4")
 parq_dirs = ds_path.joinpath("maps")
-ds_fp = ds_path.joinpath(
-    "GCF.open.CBA_country.all.update.parquet"
-)  # file directory dummy
+ds_fp = ds_path.joinpath("GCF.open.CBA_country.all.parquet")  # file directory dummy
 
 # Front end makes geopackages to go alongside the parquet data
 # if this exists define here
@@ -106,10 +104,10 @@ ds_fp = ds_path.joinpath(
 # # load metadata template
 metadata_fp = ds_path.joinpath("metadata_GCF_CBA.json")
 with open(metadata_fp, "r") as f:
-    metadata = json5.load(f)
+    metadata = json.load(f)
 
 # # extend keywords
-metadata["KEYWORDS"].extend(["Full-Track", "Risk & Adaptation"])
+metadata["KEYWORDS"].extend(["Full-Track", "Risk & Adaptation", "User Stories"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
