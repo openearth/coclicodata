@@ -1,0 +1,195 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+  ],
+  "id": "pop_stats",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -81.12146941539005,
+    -29.12357316038395,
+    93.1752791130622,
+    37.855412297701754
+  ],
+  "properties": {
+    "title": "[not verified] PEP",
+    "description": "[not verified] Population exposure projections for coastal flooding risk assessment.",
+    "table:columns": [
+      {
+        "name": "type",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "stac_version",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "stac_extensions",
+        "type": "list<item: string>",
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "bbox",
+        "type": "list<item: double>",
+        "description": ""
+      },
+      {
+        "name": "links",
+        "type": "list<item: struct<href: null, rel: string, title: string, type: string>>",
+        "description": ""
+      },
+      {
+        "name": "data.description",
+        "type": "string"
+      },
+      {
+        "name": "data.href",
+        "type": "string"
+      },
+      {
+        "name": "data.roles",
+        "type": "list<item: string>"
+      },
+      {
+        "name": "data.title",
+        "type": "string"
+      },
+      {
+        "name": "data.type",
+        "type": "string"
+      },
+      {
+        "name": "collection",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "table:columns",
+        "type": "list<item: struct<description: string, name: string, type: string>>",
+        "description": ""
+      },
+      {
+        "name": "proj:bbox",
+        "type": "list<item: double>",
+        "description": ""
+      },
+      {
+        "name": "proj:epsg",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "table:row_count",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "created",
+        "type": "timestamp[us, tz=utc]",
+        "description": ""
+      },
+      {
+        "name": "datetime",
+        "type": "timestamp[us, tz=utc]",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -81.12146941539005,
+      -29.12357316038395,
+      93.1752791130622,
+      37.855412297701754
+    ],
+    "table:row_count": 1,
+    "created": "2025-04-15T13:05:25.963855Z",
+    "datetime": "2010-01-01T00:00:00Z",
+    "proj:code": "EPSG:4326"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/pp_stats/collection.json",
+      "type": "application/json",
+      "title": "Projections of Exposed People"
+    },
+    {
+      "rel": "parent",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/pp_stats/collection.json",
+      "type": "application/json",
+      "title": "Projections of Exposed People"
+    },
+    {
+      "rel": "self",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/pp_stats/pop_stats/pop_stats.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/pp_stats/pop_stats.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "[not verified] PEP",
+      "description": "[not verified] Population exposure projections for coastal flooding risk assessment.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "pp_stats"
+}
