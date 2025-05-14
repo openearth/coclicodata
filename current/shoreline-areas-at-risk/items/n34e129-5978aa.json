@@ -1,0 +1,148 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+  ],
+  "id": "n34e129-5978aa",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          129.49749144568486,
+          34.085425370247705
+        ],
+        [
+          129.49749144568486,
+          34.70578188281883
+        ],
+        [
+          129.16721807165317,
+          34.70578188281883
+        ],
+        [
+          129.16721807165317,
+          34.085425370247705
+        ],
+        [
+          129.49749144568486,
+          34.085425370247705
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    129.16721807165317,
+    34.085425370247705,
+    129.49749144568486,
+    34.70578188281883
+  ],
+  "properties": {
+    "created": "2025-05-13T06:02:49.089301Z",
+    "table:columns": [
+      {
+        "name": "transect_id",
+        "type": "string"
+      },
+      {
+        "name": "rcp",
+        "type": "null"
+      },
+      {
+        "name": "ssp",
+        "type": "null"
+      },
+      {
+        "name": "datetime",
+        "type": "timestamp[ns]"
+      },
+      {
+        "name": "shoreline_change_ac",
+        "type": "list<element: double>"
+      },
+      {
+        "name": "shoreline_change_slr",
+        "type": "list<element: double>"
+      },
+      {
+        "name": "shoreline_change_total",
+        "type": "list<element: double>"
+      },
+      {
+        "name": "shoreline_change_ac_p50",
+        "type": "float"
+      },
+      {
+        "name": "shoreline_change_slr_p50",
+        "type": "float"
+      },
+      {
+        "name": "shoreline_change_total_p50",
+        "type": "float"
+      },
+      {
+        "name": "shoreline_change_total_p10",
+        "type": "float"
+      },
+      {
+        "name": "shoreline_change_total_p90",
+        "type": "float"
+      },
+      {
+        "name": "geometry",
+        "type": "WKB"
+      }
+    ],
+    "proj:code": "EPSG:4326",
+    "proj:bbox": [
+      129.16721807165317,
+      34.085425370247705,
+      129.49749144568486,
+      34.70578188281883
+    ],
+    "start_datetime": "2050-01-01T00:00:00Z",
+    "end_datetime": "2100-01-01T00:00:00Z",
+    "table:row_count": 10167,
+    "datetime": "2075-01-01T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "alternate",
+      "href": "az://tmp/projections/ac-polygons/release/2025-05-13/n34e129-5978aa.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Cloud Access"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Shoreline Areas at Risk"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Shoreline Areas at Risk"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://coclico.blob.core.windows.net/tmp/projections/ac-polygons/release/2025-05-13/n34e129-5978aa.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Shoreline Areas at Risk",
+      "description": "Polygons representing land areas at risk from future shoreline retreat, based on combined accretion/erosion and sea level rise trends.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "shoreline-areas-at-risk"
+}
