@@ -40,7 +40,60 @@
     83.75446098665334
   ],
   "properties": {
-    "created": "2025-05-16T17:27:49.204843Z",
+    "created": "2025-05-16T17:46:53.279017Z",
+    "table:columns": [
+      {
+        "name": "coastal_grid:id",
+        "type": "string",
+        "description": "Unique identifier for each tile, derived from bounds and a deterministic hex suffix."
+      },
+      {
+        "name": "coastal_grid:quadkey",
+        "type": "string",
+        "description": "Mercator quadkey for each tile, indicating its spatial location and zoom level."
+      },
+      {
+        "name": "coastal_grid:bbox.xmax",
+        "type": "double"
+      },
+      {
+        "name": "coastal_grid:bbox.xmin",
+        "type": "double"
+      },
+      {
+        "name": "coastal_grid:bbox.ymax",
+        "type": "double"
+      },
+      {
+        "name": "coastal_grid:bbox.ymin",
+        "type": "double"
+      },
+      {
+        "name": "coastal_grid:utm_epsg",
+        "type": "int64",
+        "description": "EPSG code for the UTM zone of the tile estimated by GeoPandas.estimate_utm_crs()."
+      },
+      {
+        "name": "admin:countries",
+        "type": "string",
+        "description": "JSON list of countries intersecting the tile (e.g., '[\"CA\", \"US\"]')."
+      },
+      {
+        "name": "admin:continents",
+        "type": "string",
+        "description": "JSON list of continents intersecting the tile (e.g., '[\"NA\", \"SA\"]')."
+      },
+      {
+        "name": "s2:mgrs_tile",
+        "type": "string",
+        "description": "JSON list of Sentinel-2 MGRS tiles intersecting the tile (e.g., '[\"15XWL\", \"16XDR\"]')."
+      },
+      {
+        "name": "geometry",
+        "type": "WKB",
+        "description": "Polygon geometry defining the spatial extent of the tile."
+      }
+    ],
     "proj:code": "EPSG:4326",
     "proj:bbox": [
       -180.0,
@@ -48,6 +101,7 @@
       180.0,
       83.75446098665334
     ],
+    "table:row_count": 10976,
     "datetime": "2023-02-09T00:00:00Z"
   },
   "links": [
@@ -132,54 +186,5 @@
       ]
     }
   },
-  "collection": "coastal-grid",
-  "table:columns": [
-    {
-      "name": "coastal_grid:id",
-      "type": "string"
-    },
-    {
-      "name": "coastal_grid:quadkey",
-      "type": "string"
-    },
-    {
-      "name": "coastal_grid:bbox.xmax",
-      "type": "double"
-    },
-    {
-      "name": "coastal_grid:bbox.xmin",
-      "type": "double"
-    },
-    {
-      "name": "coastal_grid:bbox.ymax",
-      "type": "double"
-    },
-    {
-      "name": "coastal_grid:bbox.ymin",
-      "type": "double"
-    },
-    {
-      "name": "coastal_grid:utm_epsg",
-      "type": "int64"
-    },
-    {
-      "name": "admin:countries",
-      "type": "string"
-    },
-    {
-      "name": "admin:continents",
-      "type": "string"
-    },
-    {
-      "name": "s2:mgrs_tile",
-      "type": "string"
-    },
-    {
-      "name": "geometry",
-      "type": "WKB"
-    }
-  ],
-  "table:row_count": 10976,
-  "zoom_level": "8",
-  "buffer_size": "10000m"
+  "collection": "coastal-grid"
 }
