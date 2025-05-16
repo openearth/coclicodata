@@ -1,0 +1,331 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+  ],
+  "id": "n38w29-397864",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -27.753085382611083,
+          38.38253351329716
+        ],
+        [
+          -27.753085382611083,
+          38.75515287857096
+        ],
+        [
+          -28.840462496658283,
+          38.75515287857096
+        ],
+        [
+          -28.840462496658283,
+          38.38253351329716
+        ],
+        [
+          -27.753085382611083,
+          38.38253351329716
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -28.840462496658283,
+    38.38253351329716,
+    -27.753085382611083,
+    38.75515287857096
+  ],
+  "properties": {
+    "created": "2025-05-14T08:14:38.723527Z",
+    "proj:code": "EPSG:4326",
+    "proj:bbox": [
+      -28.840462496658283,
+      38.38253351329716,
+      -27.753085382611083,
+      38.75515287857096
+    ],
+    "start_datetime": "2050-01-01T00:00:00Z",
+    "end_datetime": "2100-01-01T00:00:00Z",
+    "datetime": "2075-01-01T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "alternate",
+      "href": "az://projections/ac-polygons/release/2025-05-13/n38w29-397864.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Cloud Access"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Shoreline Areas at Risk"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Shoreline Areas at Risk"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://coclico.blob.core.windows.net/projections/ac-polygons/release/2025-05-13/n38w29-397864.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Areas at Risk of Coastal Erosion",
+      "description": "Polygons representing land areas at risk from future shoreline retreat, based on combined accretion/erosion and sea level rise trends.",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "transect_id",
+          "type": "string",
+          "description": "Unique identifier for each transect, constructed from coastline, segment, and distance (from GCTR)."
+        },
+        {
+          "name": "rcp",
+          "type": "string",
+          "description": "Representative Concentration Pathway."
+        },
+        {
+          "name": "ssp",
+          "type": "string",
+          "description": "Shared Socioeconomic Pathway."
+        },
+        {
+          "name": "datetime",
+          "type": "datetime",
+          "description": "Projection datetime."
+        },
+        {
+          "name": "shoreline_change_ac",
+          "type": "list[float]",
+          "description": "Sample-wise shoreline change from accretion/erosion."
+        },
+        {
+          "name": "shoreline_change_slr",
+          "type": "list[float]",
+          "description": "Sample-wise shoreline change from sea level rise."
+        },
+        {
+          "name": "shoreline_change_total",
+          "type": "list[float]",
+          "description": "Sample-wise total shoreline change (accretion + slr)."
+        },
+        {
+          "name": "shoreline_change_ac_p50",
+          "type": "float32",
+          "description": "Median accretion-based shoreline change."
+        },
+        {
+          "name": "shoreline_change_slr_p50",
+          "type": "float32",
+          "description": "Median sea level rise-based shoreline change."
+        },
+        {
+          "name": "shoreline_change_total_p50",
+          "type": "float32",
+          "description": "Median total projected shoreline change."
+        },
+        {
+          "name": "shoreline_change_total_p10",
+          "type": "float32",
+          "description": "10th percentile of total shoreline change."
+        },
+        {
+          "name": "shoreline_change_total_p90",
+          "type": "float32",
+          "description": "90th percentile of total shoreline change."
+        },
+        {
+          "name": "geometry",
+          "type": "geometry",
+          "description": "Projected shoreline position as EPSG:4326 Point geometry."
+        },
+        {
+          "name": "lon",
+          "type": "float32",
+          "description": "Longitude coordinate of the transect origin (from GCTR)."
+        },
+        {
+          "name": "lat",
+          "type": "float32",
+          "description": "Latitude coordinate of the transect origin (from GCTR)."
+        },
+        {
+          "name": "bbox",
+          "type": "object",
+          "description": "Bounding box of the transect geometry, defined by min/max longitude and latitude (from GCTR)."
+        },
+        {
+          "name": "common_region_name",
+          "type": "string",
+          "description": "Common name of the region where the transect is located (from GCTR)."
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "description": "ISO alpha-2 country code for the transect's location (from GCTR)."
+        },
+        {
+          "name": "utm_epsg",
+          "type": "int32",
+          "description": "EPSG code representing the UTM CRS of the transect (from GCTR)."
+        },
+        {
+          "name": "sds:change_rate",
+          "type": "float32",
+          "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (from GCTR)."
+        },
+        {
+          "name": "sds:reference_lon",
+          "type": "float32",
+          "description": "Longitude coordinate of the reference shoreline observation (from GCTR)."
+        },
+        {
+          "name": "sds:reference_lat",
+          "type": "float32",
+          "description": "Latitude coordinate of the reference shoreline observation (from GCTR)."
+        },
+        {
+          "name": "sds:reference_datetime",
+          "type": "datetime64[ms]",
+          "description": "Reference datetime for the baseline shoreline position (from GCTR)."
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "areas-at-risk-of-coastal-erosion",
+  "table:columns": [
+    {
+      "name": "transect_id",
+      "type": "string",
+      "description": "Unique identifier for each transect, constructed from coastline, segment, and distance (from GCTR)."
+    },
+    {
+      "name": "rcp",
+      "type": "string",
+      "description": "Representative Concentration Pathway."
+    },
+    {
+      "name": "ssp",
+      "type": "string",
+      "description": "Shared Socioeconomic Pathway."
+    },
+    {
+      "name": "datetime",
+      "type": "datetime",
+      "description": "Projection datetime."
+    },
+    {
+      "name": "shoreline_change_ac",
+      "type": "list[float]",
+      "description": "Sample-wise shoreline change from accretion/erosion."
+    },
+    {
+      "name": "shoreline_change_slr",
+      "type": "list[float]",
+      "description": "Sample-wise shoreline change from sea level rise."
+    },
+    {
+      "name": "shoreline_change_total",
+      "type": "list[float]",
+      "description": "Sample-wise total shoreline change (accretion + slr)."
+    },
+    {
+      "name": "shoreline_change_ac_p50",
+      "type": "float32",
+      "description": "Median accretion-based shoreline change."
+    },
+    {
+      "name": "shoreline_change_slr_p50",
+      "type": "float32",
+      "description": "Median sea level rise-based shoreline change."
+    },
+    {
+      "name": "shoreline_change_total_p50",
+      "type": "float32",
+      "description": "Median total projected shoreline change."
+    },
+    {
+      "name": "shoreline_change_total_p10",
+      "type": "float32",
+      "description": "10th percentile of total shoreline change."
+    },
+    {
+      "name": "shoreline_change_total_p90",
+      "type": "float32",
+      "description": "90th percentile of total shoreline change."
+    },
+    {
+      "name": "geometry",
+      "type": "geometry",
+      "description": "Projected shoreline position as EPSG:4326 Point geometry."
+    },
+    {
+      "name": "lon",
+      "type": "float32",
+      "description": "Longitude coordinate of the transect origin (from GCTR)."
+    },
+    {
+      "name": "lat",
+      "type": "float32",
+      "description": "Latitude coordinate of the transect origin (from GCTR)."
+    },
+    {
+      "name": "bbox",
+      "type": "object",
+      "description": "Bounding box of the transect geometry, defined by min/max longitude and latitude (from GCTR)."
+    },
+    {
+      "name": "common_region_name",
+      "type": "string",
+      "description": "Common name of the region where the transect is located (from GCTR)."
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "description": "ISO alpha-2 country code for the transect's location (from GCTR)."
+    },
+    {
+      "name": "utm_epsg",
+      "type": "int32",
+      "description": "EPSG code representing the UTM CRS of the transect (from GCTR)."
+    },
+    {
+      "name": "sds:change_rate",
+      "type": "float32",
+      "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (from GCTR)."
+    },
+    {
+      "name": "sds:reference_lon",
+      "type": "float32",
+      "description": "Longitude coordinate of the reference shoreline observation (from GCTR)."
+    },
+    {
+      "name": "sds:reference_lat",
+      "type": "float32",
+      "description": "Latitude coordinate of the reference shoreline observation (from GCTR)."
+    },
+    {
+      "name": "sds:reference_datetime",
+      "type": "datetime64[ms]",
+      "description": "Reference datetime for the baseline shoreline position (from GCTR)."
+    }
+  ],
+  "table:row_count": 8166
+}
