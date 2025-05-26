@@ -38,15 +38,19 @@ from pystac.stac_io import DefaultStacIO
 from coclicodata.drive_config import p_drive
 
 # from pystac import Catalog, CatalogType, Collection, Summaries
-from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud, file_to_google_cloud
+from coclicodata.etl.cloud_utils import (
+    load_google_credentials,
+    dir_to_google_cloud,
+    file_to_google_cloud,
+)
 from coclicodata.coclico_stac.io import CoCliCoStacIO
 from coclicodata.coclico_stac.reshape_im import reshape_aspectratio_image
 from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.extension import (
     CoclicoExtension,
 )  # self built stac extension
-from coclicodata.coclico_stac.templates import (
-    extend_links)
+from coclicodata.coclico_stac.templates import extend_links
+
 # from coastmonitor.io.cloud import (
 #     to_https_url,
 #     to_storage_location,
@@ -70,7 +74,7 @@ PROJ_NAME = "pp"
 
 # hard-coded STAC templates
 CUR_CWD = pathlib.Path.cwd()
-STAC_DIR = CUR_CWD.parent.parent / "current"
+STAC_DIR = CUR_CWD / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 METADATA = "metadata_population.json"
@@ -157,6 +161,7 @@ def read_parquet_schema_df(uri: str) -> List:  # pd.DataFrame:
     # schema = schema.reindex(columns=["name", "type"], fill_value=pd.NA)  # Ensures columns in case the parquet file has an empty dataframe.
     return schema
 
+
 def create_collection(
     description: str | None = None, extra_fields: dict[str, Any] | None = None
 ) -> pystac.Collection:
@@ -204,7 +209,7 @@ def create_collection(
         "Deltares",
         "Cloud Optimized GeoTIFF",
         "Exposure & Vulnerability",
-        "Data Layers"
+        "Data Layers",
     ]
 
     if description is None:
@@ -216,7 +221,7 @@ def create_collection(
     collection = pystac.Collection(
         id=COLLECTION_ID,
         title="Population Projections",
-        description=description,  # noqa: E502
+        description=metadata["SHORT_DESCRIPTION"],  # noqa: E502
         license=metadata["LICENSE"],
         providers=providers,
         extent=extent,
@@ -254,7 +259,6 @@ def create_collection(
         ),
     )
 
-    
     collection.add_asset(
         "geoserver_link",
         pystac.Asset(
@@ -263,7 +267,6 @@ def create_collection(
             media_type="application/vnd.apache.parquet",
         ),
     )
-
 
     collection.links = links
     collection.keywords = keywords
@@ -609,7 +612,11 @@ if __name__ == "__main__":
                 item_href.with_suffix(".json")
                 item.set_self_href(item_href)
 
-                title = COLLECTION_ID + ":" + pathlib.Path(item_href).with_suffix(".tif").stem
+                title = (
+                    COLLECTION_ID
+                    + ":"
+                    + pathlib.Path(item_href).with_suffix(".tif").stem
+                )
                 # TODO: We need to generalize this `href` somewhat.
                 vasset = pystac.Asset(  # data asset
                     href="https://coclico.avi.deltares.nl/geoserver/%s/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=%s"
@@ -620,7 +627,7 @@ if __name__ == "__main__":
                     roles=["visual"],
                 )
 
-                 # TODO: generalize this
+                # TODO: generalize this
                 dimcomb = {
                     item_properties[0]: scen,
                     item_properties[1]: year,
@@ -638,8 +645,6 @@ if __name__ == "__main__":
                 collection.add_item(item)
 
                 print(len(items))
-
-
 
     # %%
     # stac_io = CoCliCoStacIO()
@@ -670,7 +675,7 @@ if __name__ == "__main__":
 
     collection.update_extent_from_items()
 
-    dims_to_ignore = {'scenarios': ['SSP3', 'SSP4']}
+    dims_to_ignore = {"scenarios": ["SSP3", "SSP4"]}
 
     # Delete dims_to_ignore from dimvals
     for k, v in dims_to_ignore.items():
@@ -697,7 +702,7 @@ if __name__ == "__main__":
             roles=["data"],
         ),
     )
-    
+
     catalog = pystac.Catalog.from_file(str(STAC_DIR / "catalog.json"))
 
     if catalog.get_child(collection.id):
