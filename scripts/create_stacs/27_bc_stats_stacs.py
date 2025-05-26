@@ -53,7 +53,7 @@ BUCKET_PROJ = "coclico"
 PROJ_NAME = "bc_stats"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
+STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "bc_stats"
@@ -82,7 +82,9 @@ if not ds_dir.exists():
 
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
-ds_path = ds_dir.joinpath("WP6", "front_end_data", COLLECTION_ID)  # path to directory with data
+ds_path = ds_dir.joinpath(
+    "WP6", "front_end_data", COLLECTION_ID
+)  # path to directory with data
 ds_fp = ds_path.joinpath("bc_stats.parquet")  # path to dataset
 
 # # load metadata template
