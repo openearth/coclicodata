@@ -508,7 +508,7 @@ if __name__ == "__main__":
     #             bucket_name=BUCKET_NAME,
     #             bucket_proj=BUCKET_PROJ,
     #             dir_name=PROJ_NAME,
-    #             file_name=ds_fp.name,
+    #             file_name=FE_gpkg_fp.name,
     #         )
 
     # elif paths:
