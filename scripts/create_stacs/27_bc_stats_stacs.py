@@ -445,6 +445,18 @@ if __name__ == "__main__":
             file_name=ds_fp.name,
         )
 
+    #     # Also upload the Front-end geopackage if it exists
+    #     if FE_gpkg_fp != None:
+    #         # upload directory to the cloud (files already parquet)
+    #         file_to_google_cloud(
+    #             file_path=str(FE_gpkg_fp),
+    #             gcs_project=GCS_PROJECT,
+    #             bucket_name=BUCKET_NAME,
+    #             bucket_proj=BUCKET_PROJ,
+    #             dir_name=PROJ_NAME,
+    #             file_name=ds_fp.name,
+    #         )
+
     elif paths:
         print("Dataset already exists in the Google Bucket")
 
