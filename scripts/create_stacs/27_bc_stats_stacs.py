@@ -87,6 +87,10 @@ ds_path = ds_dir.joinpath(
 )  # path to directory with data
 ds_fp = ds_path.joinpath("bc_stats.parquet")  # path to dataset
 
+# Front end makes geopackages to go alongside the parquet data
+# if this exists define here
+FE_gpkg_fp = ds_path.joinpath("bc_stats.gpkg")
+
 # # load metadata template
 metadata_fp = ds_fp.with_suffix(".json")
 with open(metadata_fp, "r") as f:
