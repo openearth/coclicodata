@@ -12,6 +12,7 @@ import pathlib
 
 # import polars as pl
 
+# %%
 # define user
 USERNAME = "project-coclico"
 
@@ -33,24 +34,7 @@ coclico_data_dir = pathlib.Path("P:/").joinpath(
 )
 # TODO: get data from Google bucket and write to EDITO S3 storage (MiniO)
 
-
-# load dataset (Zarr, Parquet, CoG or NetCDF)
-
-# Zarr example
-dataset_name = "CTP_ReturnPeriods_SLR"
-dataset = xr.open_zarr(coclico_data_dir.joinpath("%s.zarr" % (dataset_name)))
-# variable_names = [var for var in dataset.variables if var not in dataset.coords]
-
-# Parquet example
-# ??
-
-# CoG example
-# ??
-
-# NetCDF example
-# see https://pub.pages.mercator-ocean.fr/edito-infra/edito-tutorials-content/#/writing-data-on-the-fly-to-edito-data-storage?id=uploading-netcdf-files
-
-# general example
+# %% general example
 # dataset: Dataset = (
 #     ...
 # )  # a dataset containing values of a variable my_var over dimensions x and y
@@ -58,11 +42,26 @@ dataset = xr.open_zarr(coclico_data_dir.joinpath("%s.zarr" % (dataset_name)))
 # y_chunk: int = ...  # maximum number of value in each chunk over dimension y
 # encoding = {"my_var": {"chunks": (x_chunk, y_chunk)}}
 
+# %% Zarr files
+dataset_name = "CTP_ReturnPeriods_SLR"
+dataset = xr.open_zarr(coclico_data_dir.joinpath("%s.zarr" % (dataset_name)))
+
 # write output to my files in EDITO's S3 storage
 out_store = s3fs.S3Map(
     root=f"%s/%s.zarr" % (USERNAME, dataset_name), s3=fs, create=True
 )
 dataset.to_zarr(store=out_store, consolidated=True, mode="w")  # encoding=encoding)
 
-# test written output
-# test = xr.open_dataset("https://minio.dive.edito.eu/oidc-%s/%s.zarr"%(USERNAME, dataset_name), engine="zarr")
+# testing written output
+test = xr.open_dataset(
+    "https://minio.dive.edito.eu/%s/%s.zarr" % (USERNAME, dataset_name), engine="zarr"
+)
+
+# %% Parquet files
+# ??
+
+# %% CoG files
+# ??
+
+# %% NetCDF files
+# see https://pub.pages.mercator-ocean.fr/edito-infra/edito-tutorials-content/#/writing-data-on-the-fly-to-edito-data-storage?id=uploading-netcdf-files
