@@ -1,300 +1,87 @@
 {
-  "type": "Collection",
-  "id": "gctr",
+  "type": "Feature",
   "stac_version": "1.1.0",
-  "description": "\nThe Global Coastal Transect Repository (GCTR) is a comprehensive dataset designed for global\ncoastal analytics. It builds on the Global Coastal Transect System (GCTS), which provides\nover 11 million cross-shore transects uniformly spaced at 100-m intervals. These transects\nserve as standardized reference lines for measuring coastal change, mapping characteristics,\nand deriving coastal statistics thereof. See \"Calkoen et al. (2025) Enabling coastal analytics\nat Planetary scale\" for more information.\n\nThe GCTR dataset includes derived attributes such as intersection distances to OSM coastlines\nat multiple bearings (e.g., 0°, 30°, 330°) and integrates shoreline change rates\nderived from the ShorelineMonitor's Satellite-Derived Shorelines (SDS). See Luijendijk et al.\n(2018) for more information.\n\n",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+  ],
+  "id": "n67e10-c06bd8-102",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          44.99981339870607,
+          66.51329631627135
+        ],
+        [
+          44.99981339870607,
+          79.171304473703
+        ],
+        [
+          10.415408379310252,
+          79.171304473703
+        ],
+        [
+          10.415408379310252,
+          66.51329631627135
+        ],
+        [
+          44.99981339870607,
+          66.51329631627135
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    10.415408379310252,
+    66.51329631627135,
+    44.99981339870607,
+    79.171304473703
+  ],
+  "properties": {
+    "created": "2025-05-18T21:16:03.055507Z",
+    "proj:code": "EPSG:4326",
+    "proj:bbox": [
+      10.415408379310252,
+      66.51329631627135,
+      44.99981339870607,
+      79.171304473703
+    ],
+    "datetime": "2025-05-16T00:00:00Z"
+  },
   "links": [
     {
+      "rel": "alternate",
+      "href": "az://gctr/release/2025-05-18/n67e10-c06bd8-102.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Cloud Access"
+    },
+    {
       "rel": "root",
-      "href": "../catalog.json",
+      "href": "../../catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
     },
     {
-      "rel": "item",
-      "href": "./items/n00e00-f98b07-122.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n00e135-f65d0c-133.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n00e45-1b90cf-123.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n00e90-e53b83-132.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n00w124-3f6984-023.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n00w90-fa5d8a-032.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n01w178-a93f11-022.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n04w31-d075ad-033.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n41e00-cf64bc-120.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n41e130-410c47-130.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n41e135-861085-131.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n41e47-c73ed9-121.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n41w135-01d42a-021.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n41w45-e4fd04-031.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n41w90-a88f06-030.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n51w180-63d233-020.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n67e10-c06bd8-102.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n67e45-1daf34-103.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n67w135-5ebfc7-003.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n67w180-a6bc94-002.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n67w35-1dc66b-013.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n67w90-b9cba3-012.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n69e135-c80952-113.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n71e90-b3cb8f-112.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n79e11-1bff86-100.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n79e45-d4d739-101.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n79e90-f8fba8-110.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n79w106-12b70f-001.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n79w45-09b7c3-011.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/n79w90-0ba504-010.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s27w135-4b3a1e-201.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s30w180-eb789b-200.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s35e06-838068-300.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s35e97-ece260-310.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s39e45-9e16fa-301.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s40w45-18869a-211.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s41e135-14a945-311.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s41w90-4c0472-210.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s44w177-2d27ea-202.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s54e03-923c5c-302.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s61w45-e0a7d3-213.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s67e135-3150eb-313.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s67e50-21ed76-303.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s67e90-f22f4b-330.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s67e92-1cf908-312.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s67w76-39ac0c-212.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s70e00-b31b04-320.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s70e45-be2648-321.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s75w135-73b885-221.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s78e138-f6b030-331.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s78w45-dea17e-231.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s78w90-7e3379-230.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./items/s79w180-416cd1-220.json",
-      "type": "application/geo+json"
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Coastal Transect Repository (GCTR)"
     },
     {
       "rel": "parent",
-      "href": "../catalog.json",
+      "href": "../collection.json",
       "type": "application/json",
-      "title": "CoCliCo STAC Catalog"
+      "title": "Global Coastal Transect Repository (GCTR)"
     }
   ],
-  "stac_extensions": [
-    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
-    "https://stac-extensions.github.io/version/v1.2.0/schema.json",
-    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
-  ],
-  "item_assets": {
+  "assets": {
     "data": {
+      "href": "https://coclico.blob.core.windows.net/gctr/release/2025-05-18/n67e10-c06bd8-102.parquet",
+      "type": "application/vnd.apache.parquet",
       "title": "Global Coastal Transect Repository (GCTR)",
       "description": "\nA Parquet dataset containing coastal transects and derived attributes, including intersection\ndistances to OSM coastlines at multiple bearings and shoreline change rates from the ShorelineMonitor dataset.\n",
-      "roles": [
-        "data"
-      ],
-      "type": "application/vnd.apache.parquet",
       "table:storage_options": {
         "account_name": "coclico"
       },
@@ -654,63 +441,369 @@
           "type": "float32",
           "description": "Distance in meters between the transect origin and the nearest GCC station."
         }
-      ]
-    }
-  },
-  "storage_pattern": "az://gctr/release/2025-05-18/*.parquet",
-  "version": "2025-05-18",
-  "sci:citation": "Calkoen, 2025, Global Coastal Transect Repository (GCTR), in progress.",
-  "title": "Global Coastal Transect Repository (GCTR)",
-  "extent": {
-    "spatial": {
-      "bbox": [
-        [
-          -179.99979945991507,
-          -78.74747176732404,
-          179.9998718338963,
-          83.66967471602302
-        ]
-      ]
-    },
-    "temporal": {
-      "interval": [
-        [
-          "2025-05-16T00:00:00Z",
-          "2025-05-16T00:00:00Z"
-        ]
-      ]
-    }
-  },
-  "license": "CC-BY-4.0",
-  "providers": [
-    {
-      "name": "Deltares",
-      "roles": [
-        "producer",
-        "processor",
-        "host"
       ],
-      "url": "https://deltares.nl"
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "gctr",
+  "table:columns": [
+    {
+      "name": "transect_id",
+      "type": "string",
+      "description": "Unique identifier for each transect, constructed from coastline, segment, and distance."
+    },
+    {
+      "name": "lon",
+      "type": "float32",
+      "description": "Longitude coordinate of the transect origin."
+    },
+    {
+      "name": "lat",
+      "type": "float32",
+      "description": "Latitude coordinate of the transect origin."
+    },
+    {
+      "name": "bearing",
+      "type": "float32",
+      "description": "Bearing angle of the transect, measured clockwise from the north."
+    },
+    {
+      "name": "geometry",
+      "type": "geometry",
+      "description": "Transect geometry as a Well-Known Binary (WKB) LineString."
+    },
+    {
+      "name": "osm_coastline_is_closed",
+      "type": "bool",
+      "description": "Indicates whether the source OpenStreetMap coastline forms a closed loop (e.g., an island)."
+    },
+    {
+      "name": "osm_coastline_length",
+      "type": "int32",
+      "description": "Total length of the source OpenStreetMap coastline in meters, summed across UTM zones."
+    },
+    {
+      "name": "utm_epsg",
+      "type": "int32",
+      "description": "EPSG code representing the UTM Coordinate Reference System of the transect."
+    },
+    {
+      "name": "bbox",
+      "type": "object",
+      "description": "Bounding box of the transect geometry, defined by minimum and maximum x (longitude) and y (latitude) coordinates."
+    },
+    {
+      "name": "quadkey",
+      "type": "string",
+      "description": "Spatial index for the transect origin, following the Bing Maps Tile System."
+    },
+    {
+      "name": "continent",
+      "type": "string",
+      "description": "Name of the continent where the transect is located."
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "description": "ISO alpha-2 country code for the transect's location."
+    },
+    {
+      "name": "common_country_name",
+      "type": "string",
+      "description": "Common name of the country where the transect is located."
+    },
+    {
+      "name": "common_region_name",
+      "type": "string",
+      "description": "Common name of the region where the transect is located."
+    },
+    {
+      "name": "dist_b0",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 0°."
+    },
+    {
+      "name": "dist_b30",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 30°."
+    },
+    {
+      "name": "dist_b60",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 60°."
+    },
+    {
+      "name": "dist_b90",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 90°."
+    },
+    {
+      "name": "dist_b120",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 120°."
+    },
+    {
+      "name": "dist_b150",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 150°."
+    },
+    {
+      "name": "dist_b180",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 180°."
+    },
+    {
+      "name": "dist_b210",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 210°."
+    },
+    {
+      "name": "dist_b240",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 240°."
+    },
+    {
+      "name": "dist_b270",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 270°."
+    },
+    {
+      "name": "dist_b300",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 300°."
+    },
+    {
+      "name": "dist_b330",
+      "type": "float32",
+      "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 330°."
+    },
+    {
+      "name": "sds:change_rate",
+      "type": "float32",
+      "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (SDS)."
+    },
+    {
+      "name": "sds:obs_primary_count",
+      "type": "float32",
+      "description": "Count of primary observations in the group."
+    },
+    {
+      "name": "sds:reference_datetime",
+      "type": "datetime64[ms]",
+      "description": "Reference year used to compute shoreline chainage."
+    },
+    {
+      "name": "sds:reference_lon",
+      "type": "float32",
+      "description": "Longitude coordinate of the reference shoreline observation."
+    },
+    {
+      "name": "sds:reference_lat",
+      "type": "float32",
+      "description": "Latitude coordinate of the reference shoreline observation."
+    },
+    {
+      "name": "sds:tr_stdev",
+      "type": "float32",
+      "description": "Standard deviation of shoreline positions across the transect."
+    },
+    {
+      "name": "sds:tr_range",
+      "type": "float32",
+      "description": "Range (max - min) of shoreline positions along the transect."
+    },
+    {
+      "name": "sds:tr_qa_pct",
+      "type": "float32",
+      "description": "Percentage of observations in the transect that passed quality assurance checks."
+    },
+    {
+      "name": "sds:tr_is_qa",
+      "type": "boolean",
+      "description": "Flag indicating whether the transect meets quality assurance criteria; a combination of minimum observations per year and standard deviation."
+    },
+    {
+      "name": "class:shore_type",
+      "type": "str",
+      "description": "Predicted shore type classification, which describes the material composing the shore (e.g., sandy sediments, rocky formations, or muddy sediments)."
+    },
+    {
+      "name": "class:coastal_type",
+      "type": "str",
+      "description": "Predicted coastal type classification, which refers to the geomorphological features of the coast, which may be natural (e.g., cliffs, dunes) or human-influenced (e.g., engineered structures)."
+    },
+    {
+      "name": "class:has_defense",
+      "type": "boolean",
+      "description": "Boolean flag indicating whether coastal defense structures (e.g., sea walls, breakwaters) are present to protect against erosion and flooding."
+    },
+    {
+      "name": "class:is_built_environment",
+      "type": "boolean",
+      "description": "Boolean flag indicating whether the coastal area is dominated by human-made structures or remains largely natural."
+    },
+    {
+      "name": "class:prob_sandy_gravel_or_small_boulder_sediments",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the shore is composed of sandy sediments, gravel, or small boulders. Derived from the shore type classification."
+    },
+    {
+      "name": "class:prob_muddy_sediments",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the shore is composed of muddy sediments. Derived from the shore type classification."
+    },
+    {
+      "name": "class:prob_rocky_shore_platform_or_large_boulders",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the shore consists of rocky platforms or large boulders. Derived from the shore type classification."
+    },
+    {
+      "name": "class:prob_no_sediment_or_shore_platform",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the shore lacks sediment and consists mainly of shore platform features. Derived from the shore type classification."
+    },
+    {
+      "name": "class:prob_cliffed_or_steep",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coast is cliffed or steep. Derived from the coastal type classification."
+    },
+    {
+      "name": "class:prob_moderately_sloped",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coast is moderately sloped. Derived from the coastal type classification."
+    },
+    {
+      "name": "class:prob_bedrock_plain",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coast is characterized by a bedrock plain. Derived from the coastal type classification."
+    },
+    {
+      "name": "class:prob_sediment_plain",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coast is characterized by a sediment plain. Derived from the coastal type classification."
+    },
+    {
+      "name": "class:prob_dune",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coast contains dune systems. Derived from the coastal type classification."
+    },
+    {
+      "name": "class:prob_wetland",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coast includes wetland environments. Derived from the coastal type classification."
+    },
+    {
+      "name": "class:prob_inlet",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coast contains an inlet or estuarine feature. Derived from the coastal type classification."
+    },
+    {
+      "name": "class:prob_engineered_structures",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coast includes engineered structures. Derived from the coastal type classification."
+    },
+    {
+      "name": "class:prob_has_defense",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that coastal defense structures are present. Complements the binary 'class:has_defense' label."
+    },
+    {
+      "name": "class:prob_is_built_environment",
+      "type": "float32",
+      "description": "Model confidence (probability between 0 and 1) that the coastal area is built-up or dominated by human-made infrastructure. Complements the binary 'class:is_built_environment' label."
+    },
+    {
+      "name": "class:model",
+      "type": "str",
+      "description": "Identifier for the machine learning model used for coastal typology predictions."
+    },
+    {
+      "name": "class:datetime_created",
+      "type": "datetime64[ms]",
+      "description": "Timestamp indicating when the coastal typology predictions were generated."
+    },
+    {
+      "name": "ar6:ssp1-26_2030",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP1-2.6 in year 2030, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:ssp1-26_2050",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP1-2.6 in year 2050, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:ssp1-26_2100",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP1-2.6 in year 2100, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:ssp2-45_2030",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP2-4.5 in year 2030, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:ssp2-45_2050",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP2-4.5 in year 2050, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:ssp2-45_2100",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP2-4.5 in year 2100, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:ssp5-85_2030",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP5-8.5 in year 2030, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:ssp5-85_2050",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP5-8.5 in year 2050, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:ssp5-85_2100",
+      "type": "float32[100]",
+      "description": "Projected relative sea level rise (in meters) for SSP5-8.5 in year 2100, represented as an array of 100 percentiles (1st to 100th) from the AR6 ensemble."
+    },
+    {
+      "name": "ar6:sjoin_distance",
+      "type": "float32",
+      "description": "Distance in meters between the transect origin and the nearest AR6 raster pixel used for sea level rise projection."
+    },
+    {
+      "name": "gcc:ns",
+      "type": "float32",
+      "description": "GCC nearshore slope calculated between the depth of closure and the shoreline point."
+    },
+    {
+      "name": "gcc:bs_deltadtm",
+      "type": "float32",
+      "description": "GCC backshore slope derived from the shoreline to the coastal max (first elevation peak) using DeltaDTM elevation data (DOI: 10.1038/s41597-024-03091-9)."
+    },
+    {
+      "name": "gcc:bs_copdem",
+      "type": "float32",
+      "description": "GCC backshore slope derived from the shoreline to the coastal max (first elevation peak) using Copernicus DEM data (DOI: 10.5270/ESA-c5d3d65)."
+    },
+    {
+      "name": "gcc:cs_deltadtm",
+      "type": "float32",
+      "description": "GCC coastal slope derived from the depth of closure to the coastal max (first elevation peak) using DeltaDTM elevation data (DOI: 10.1038/s41597-024-03091-9)."
+    },
+    {
+      "name": "gcc:cs_copdem",
+      "type": "float32",
+      "description": "GCC coastal slope derived from the depth of closure to the coastal max (first elevation peak) using Copernicus DEM data (DOI: 10.5270/ESA-c5d3d65)."
+    },
+    {
+      "name": "gcc:sjoin_distance",
+      "type": "float32",
+      "description": "Distance in meters between the transect origin and the nearest GCC station."
     }
   ],
-  "assets": {
-    "thumbnail": {
-      "href": "https://coclico.blob.core.windows.net/assets/thumbnails/gcts-thumbnail.jpeg",
-      "type": "image/jpeg",
-      "title": "Thumbnail",
-      "roles": [
-        "thumbnail"
-      ]
-    },
-    "geoparquet-stac-items": {
-      "href": "https://coclico.blob.core.windows.net/items/gctr.parquet",
-      "type": "application/vnd.apache.parquet",
-      "title": "GeoParquet STAC items",
-      "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
-      "created": "2025-05-18T21:21:03.757397Z",
-      "roles": [
-        "metadata"
-      ]
-    }
-  }
+  "table:row_count": 215422
 }
