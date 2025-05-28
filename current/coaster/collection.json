@@ -1,0 +1,232 @@
+{
+  "type": "Collection",
+  "id": "coaster",
+  "stac_version": "1.1.0",
+  "description": "\nThe 'Coastal Typologies and Erosion for Risk' (CoasTER) database integrates existing information on erosion \nand other relevant coastal characteristics for Europe's coastal floodplains. It focuses on areas where mobile \nsediments and coastal floodplains co-locate, identifying locations where erosion and flooding are likely to interact. \nIt includes a geomorphological typology and accounts for human modifications such as hard engineering and infrastructure.\n",
+  "links": [
+    {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "CC BY 4.0 "
+    },
+    {
+      "rel": "item",
+      "href": "./items/CoasTER_database.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/version/v1.2.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "title": "CoasTER",
+      "description": "Parquet dataset with geomorphological and historical shoreline movement data for this region.",
+      "roles": [
+        "data"
+      ],
+      "type": "application/vnd.apache.parquet",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "source",
+          "type": "string",
+          "description": "Source of coastline data used in analysis."
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "description": "ISO 2-letter country code where the segment is located."
+        },
+        {
+          "name": "covered",
+          "type": "string",
+          "description": "Indicates if the coastal classification has been applied: 'Y' (Yes), 'N' (No), 'N/A' (Not included)."
+        },
+        {
+          "name": "seg_id",
+          "type": "string",
+          "description": "Unique segment ID assigned within each country."
+        },
+        {
+          "name": "seg_length",
+          "type": "int",
+          "description": "Length of the coastal segment in meters."
+        },
+        {
+          "name": "associated_floodplain",
+          "type": "string",
+          "description": "Indicates if the segment is associated with a floodplain ('Y' for Yes, 'N' for No)."
+        },
+        {
+          "name": "local_floodplain",
+          "type": "string",
+          "description": "ID of the local floodplain adjacent to the coastline segment."
+        },
+        {
+          "name": "remote_floodplain_1",
+          "type": "string",
+          "description": "ID of the first remote floodplain associated with the coastline segment."
+        },
+        {
+          "name": "remote_floodplain_2",
+          "type": "string",
+          "description": "ID of the second remote floodplain associated with the coastline segment."
+        },
+        {
+          "name": "onshore_structure",
+          "type": "string",
+          "description": "Indicates presence of onshore engineered structures affecting coastal evolution ('Y' for Yes, 'N' for No)."
+        },
+        {
+          "name": "offshore_structure",
+          "type": "string",
+          "description": "Indicates presence of offshore structures like breakwaters affecting coastal evolution ('Y' for Yes, 'N' for No)."
+        },
+        {
+          "name": "harbour",
+          "type": "string",
+          "description": "Indicates presence of a permanent port or harbour structure ('Y' for Yes, 'N' for No)."
+        },
+        {
+          "name": "geomorphological_class",
+          "type": "string",
+          "description": "Classification of the coastal geomorphology (e.g., Beach, Erodible cliffs, Dune system, Wetlands)."
+        },
+        {
+          "name": "barrier",
+          "type": "string",
+          "description": "Description of the broad-scale coastal barrier feature, if present (e.g., Spit, Barrier Island, Tombolo)."
+        },
+        {
+          "name": "primary_sediment_type",
+          "type": "string",
+          "description": "Primary sediment type of the coastal segment (e.g., Sand, Mud, Rock, Sand/Gravel)."
+        },
+        {
+          "name": "secondary_sediment_type",
+          "type": "string",
+          "description": "Secondary sediment type, if applicable (e.g., rock platforms in a sandy beach)."
+        },
+        {
+          "name": "historical_shoreline_change_regime",
+          "type": "string",
+          "description": "Historical trend of shoreline movement from 1984 to 2021: 'Ero' (Erosion), 'Acc' (Accretion), 'Sta' (Stable)."
+        },
+        {
+          "name": "corine_code_18",
+          "type": "string",
+          "description": "Corine 2018 land cover classification code for the segment."
+        },
+        {
+          "name": "corine_code_simplified",
+          "type": "string",
+          "description": "Simplified reclassification of Corine 2018 land cover codes."
+        },
+        {
+          "name": "Notes",
+          "type": "string",
+          "description": "Additional notes or comments on the segment."
+        },
+        {
+          "name": "Local_floodplain_area_km2",
+          "type": "float",
+          "description": "Total area (km²) of the associated local floodplain."
+        },
+        {
+          "name": "geometry",
+          "type": "geometry",
+          "description": "Geospatial representation of the coastal segment in a MULTILINESTRING format."
+        }
+      ]
+    }
+  },
+  "storage_pattern": "az://cet/release/2025-05-08/*.parquet",
+  "sci:citation": "Hanson, S.E., Nicholls, R.J, Calkoen, F. R. Le Cozannet, G. and \n    Luijendijk, A. P (2025, in review) 'A geospatial database of coastal characteristics \n    for erosion assessment of Europe's coastal floodplains'",
+  "version": "2025-05-08",
+  "title": "Coastal Typologies and Erosion for Risk (CoasTER) database",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -31.386545494931013,
+          32.457482285641014,
+          60.24216959014434,
+          67.12036364463012
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2025-05-08T00:00:00Z",
+          "2025-05-08T00:00:00Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "Coastal analytics",
+    "Coastal erosion",
+    "Coastal floodingDeltares",
+    "CoCliCo",
+    "GeoParquet"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://deltares.nl"
+    },
+    {
+      "name": "CoCliCo",
+      "roles": [
+        "producer",
+        "licensor",
+        "host"
+      ],
+      "url": "https://coclicoservices.eu/"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://coclico.blob.core.windows.net/assets/thumbnails/cet-thumbnail.jpeg",
+      "type": "image/jpeg",
+      "title": "Thumbnail",
+      "roles": [
+        "thumbnail"
+      ]
+    },
+    "geoparquet-stac-items": {
+      "href": "https://coclico.blob.core.windows.net/items/coaster.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "GeoParquet STAC items",
+      "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "2025-05-28T10:23:49.194215Z",
+      "roles": [
+        "metadata"
+      ]
+    }
+  }
+}
