@@ -89,6 +89,7 @@ ds_fp = ds_path.joinpath("cfhp_all_stats.parquet")  # path to dataset
 metadata_fp = ds_fp.with_suffix(".json")
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
+metadata["TITLE"] = "Flood perspectives - statistics"
 
 # # extend keywords
 metadata["KEYWORDS"].extend(["Full-Track"])
@@ -212,7 +213,7 @@ def create_collection(
                 pystac.provider.ProviderRole.LICENSOR,
             ],
             url=metadata["PROVIDERS"][1]["url"],
-        ),  
+        ),
         pystac.Provider(
             name="Deltares",
             roles=[

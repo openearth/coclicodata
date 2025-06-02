@@ -95,6 +95,7 @@ FE_gpkg_fp = ds_path.joinpath("bc_stats.gpkg")
 metadata_fp = ds_fp.with_suffix(".json")
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
+metadata["TITLE"] = "Damage Costs - statistics"
 
 # # extend keywords
 metadata["KEYWORDS"].extend(["Full-Track"])

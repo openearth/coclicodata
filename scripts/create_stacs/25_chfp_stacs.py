@@ -192,7 +192,7 @@ def create_collection(
 
     collection = pystac.Collection(
         id=COLLECTION_ID,
-        title="Coastal Hazard Flood Projections",
+        title="Flood Maps",
         description=description,  # noqa: E502
         license=metadata["LICENSE"],  # NOTE: not sure if this applies
         providers=providers,
