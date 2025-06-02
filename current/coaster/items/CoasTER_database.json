@@ -1,0 +1,219 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "CoasTER_database",
+  "properties": {
+    "title": "CoasTER",
+    "description": "Parquet dataset with geomorphological and historical shoreline movement data for this region.",
+    "table:columns": [
+      {
+        "name": "source",
+        "type": "string",
+        "description": "Source of coastline data used in analysis."
+      },
+      {
+        "name": "country",
+        "type": "string",
+        "description": "ISO 2-letter country code where the segment is located."
+      },
+      {
+        "name": "covered",
+        "type": "string",
+        "description": "Indicates if the coastal classification has been applied: 'Y' (Yes), 'N' (No), 'N/A' (Not included)."
+      },
+      {
+        "name": "seg_id",
+        "type": "string",
+        "description": "Unique segment ID assigned within each country."
+      },
+      {
+        "name": "seg_length",
+        "type": "int64",
+        "description": "Length of the coastal segment in meters."
+      },
+      {
+        "name": "associated_floodplain",
+        "type": "string",
+        "description": "Indicates if the segment is associated with a floodplain ('Y' for Yes, 'N' for No)."
+      },
+      {
+        "name": "local_floodplain",
+        "type": "string",
+        "description": "ID of the local floodplain adjacent to the coastline segment."
+      },
+      {
+        "name": "remote_floodplain_1",
+        "type": "string",
+        "description": "ID of the first remote floodplain associated with the coastline segment."
+      },
+      {
+        "name": "remote_floodplain_2",
+        "type": "string",
+        "description": "ID of the second remote floodplain associated with the coastline segment."
+      },
+      {
+        "name": "onshore_structure",
+        "type": "string",
+        "description": "Indicates presence of onshore engineered structures affecting coastal evolution ('Y' for Yes, 'N' for No)."
+      },
+      {
+        "name": "offshore_structure",
+        "type": "string",
+        "description": "Indicates presence of offshore structures like breakwaters affecting coastal evolution ('Y' for Yes, 'N' for No)."
+      },
+      {
+        "name": "harbour",
+        "type": "string",
+        "description": "Indicates presence of a permanent port or harbour structure ('Y' for Yes, 'N' for No)."
+      },
+      {
+        "name": "geomorphological_class",
+        "type": "string",
+        "description": "Classification of the coastal geomorphology (e.g., Beach, Erodible cliffs, Dune system, Wetlands)."
+      },
+      {
+        "name": "barrier",
+        "type": "string",
+        "description": "Description of the broad-scale coastal barrier feature, if present (e.g., Spit, Barrier Island, Tombolo)."
+      },
+      {
+        "name": "primary_sediment_type",
+        "type": "string",
+        "description": "Primary sediment type of the coastal segment (e.g., Sand, Mud, Rock, Sand/Gravel)."
+      },
+      {
+        "name": "secondary_sediment_type",
+        "type": "string",
+        "description": "Secondary sediment type, if applicable (e.g., rock platforms in a sandy beach)."
+      },
+      {
+        "name": "historical_shoreline_change_regime",
+        "type": "string",
+        "description": "Historical trend of shoreline movement from 1984 to 2021: 'Ero' (Erosion), 'Acc' (Accretion), 'Sta' (Stable)."
+      },
+      {
+        "name": "corine_code_18",
+        "type": "string",
+        "description": "Corine 2018 land cover classification code for the segment."
+      },
+      {
+        "name": "corine_code_simplified",
+        "type": "string",
+        "description": "Simplified reclassification of Corine 2018 land cover codes."
+      },
+      {
+        "name": "Notes",
+        "type": "string",
+        "description": "Additional notes or comments on the segment."
+      },
+      {
+        "name": "Local_floodplain_area_km2",
+        "type": "double",
+        "description": "Total area (km\u00b2) of the associated local floodplain."
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": "Geospatial representation of the coastal segment in a MULTILINESTRING format."
+      }
+    ],
+    "proj:bbox": [
+      2635937.743899999,
+      1385857.1045999993,
+      6526891.195699999,
+      5415913.238500001
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 2092311,
+    "created": "2025-06-02T07:14:50.181428Z",
+    "deltares:paint": {
+      "line-color": [
+        "match",
+        [
+          "get",
+          "historical_shoreline_change_regime"
+        ],
+        "Ero",
+        "#FF0000",
+        "Acc",
+        "#00FF00",
+        "Sta",
+        "#FFFF00",
+        "N/A",
+        "#000000",
+        "#CCCCCC"
+      ],
+      "line-width": 2
+    },
+    "datetime": "2024-01-22T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          60.24216959014434,
+          32.457482285641014
+        ],
+        [
+          60.24216959014434,
+          67.12036364463012
+        ],
+        [
+          -31.386545494931003,
+          67.12036364463012
+        ],
+        [
+          -31.386545494931003,
+          32.457482285641014
+        ],
+        [
+          60.24216959014434,
+          32.457482285641014
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Coastal Erosion"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Coastal Erosion"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "gs://coclico-data-public/coclico/coaster/CoasTER_database.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "CoasTER",
+      "description": "Parquet dataset with geomorphological and historical shoreline movement data for this region.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "bbox": [
+    -31.386545494931003,
+    32.457482285641014,
+    60.24216959014434,
+    67.12036364463012
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "coaster"
+}
