@@ -96,7 +96,7 @@ with open(metadata_fp, "r") as f:
 
 # # extend keywords
 metadata["KEYWORDS"].extend(["Full-Track", "Natural Hazards", "Data Layers"])
-metadata["TITLE"] = "Coastal Erosion"
+metadata["TITLE"] = "Coastal Change Segments"
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -376,6 +376,19 @@ def create_item(
     item.assets["data"].title = metadata["TITLE_ABBREVIATION"]
     item.assets["data"].description = metadata["SHORT_DESCRIPTION"]
     item.properties["deltares:paint"] = painter
+
+    title = "cet_maps" + ":" + pathlib.Path(ds_fp).stem
+    # TODO: We need to generalize this `href` somewhat.
+    vasset = pystac.Asset(  # data asset
+        href="https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=%s&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"
+        % (title),
+        media_type="application/png",
+        title=title,
+        description="OGS WMS url",
+        roles=["visual"],
+    )
+
+    item.add_asset("visual", vasset)
 
     return item
 
