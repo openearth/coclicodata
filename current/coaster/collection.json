@@ -2,7 +2,7 @@
   "type": "Collection",
   "id": "coaster",
   "stac_version": "1.0.0",
-  "description": "The \u00e2\u20ac\u02dcCoastal Typologies and Erosion for Risk\u00e2\u20ac\u2122 (CoasTER) database integrates existing information on erosion and other relevant coastal characteristics for Europe\u00e2\u20ac\u2122s coastal floodplains. In particular, coastal areas where mobile sediments and coastal floodplains are co-located identifying the areas where erosion and flooding are most likely to interact. It also includes a coastal geomorphological typology which incorporates the influence of human modification in the form of hard engineering and infrastructure.",
+  "description": "**Coastal Change Segments** uses the historical shoreline change regime from the \u2018Coastal Typologies and Erosion for Risk\u2019 (CoasTER) database which integrates existing information on erosion and other relevant coastal characteristics for Europe\u2019s coastal floodplains. \n\n- **Spatial coverage**: European coastlines.\u200b\n- **Sources**: Remote sensing, historical shoreline data (1984-2024).\u200b\n- **Common usage**: Coastal erosion monitoring, sediment transport studies, policy and spatial planning.\u200b\n\n\u200bMore Info about the dataset: [User Handbook](https://www.openearth.nl/coclico-workbench/Datasets/#__tabbed_2_2)",
   "links": [
     {
       "rel": "root",
@@ -156,6 +156,35 @@
   "base_url": "gs://coclico-data-public/coclico/coaster",
   "sci:citation": "Hanson, S.E., Nicholls, R.J, Calkoen, F. R. Le Cozannet, G. and Luijendijk, A. P (2025, in review) 'A geospatial database of coastal characteristics for erosion assessment of Europe's coastal floodplains'",
   "version": "1",
+  "deltares:attribute": "historical_shoreline_change_regime",
+  "deltares:categoricalLegend": [
+    {
+      "value": "Ero",
+      "label": "Erosion",
+      "color": "#FF0000",
+      "opacity": 100
+    },
+    {
+      "value": "Acc",
+      "label": "Accretion",
+      "color": "#00FF00",
+      "opacity": 100
+    },
+    {
+      "value": "Sta",
+      "label": "Stable",
+      "color": "#FFFF00",
+      "opacity": 100
+    },
+    {
+      "value": "N/A",
+      "label": "No data",
+      "color": "#000000",
+      "opacity": 100
+    }
+  ],
+  "summaries_labels": {},
+  "summaries_descriptions": {},
   "title": "Coastal Change Segments",
   "extent": {
     "spatial": {
