@@ -382,7 +382,7 @@ def create_item(
     vasset = pystac.Asset(  # data asset
         href="https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=%s&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"
         % (title),
-        media_type="application/png",
+        media_type="application/vnd.apache.parquet",
         title=title,
         description="OGS WMS url",
         roles=["visual"],
