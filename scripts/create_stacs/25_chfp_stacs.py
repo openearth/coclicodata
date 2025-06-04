@@ -253,6 +253,9 @@ def create_collection(
     collection.extra_fields["deltares:plot_type"] = PLOT_TYPE
     collection.extra_fields["deltares:min"] = MIN
     collection.extra_fields["deltares:max"] = MAX
+    collection.extra_fields["deltares:clickable"] = (
+        False  # TODO: test if it worked properly (put in manually in collection now)
+    )
 
     return collection
 
