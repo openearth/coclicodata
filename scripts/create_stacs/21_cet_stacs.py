@@ -297,6 +297,9 @@ def create_collection(
 
     pystac.extensions.scientific.ScientificExtension.add_to(collection)
     collection.extra_fields["sci:citation"] = metadata["CITATION"]
+    collection.extra_fields["deltares:clickable"] = (
+        False  # TODO: test if it worked properly (put in manually in collection now)
+    )
 
     collection.stac_extensions.append(stac_table.SCHEMA_URI)
 

@@ -255,7 +255,7 @@ def create_collection(
 
     collection = pystac.Collection(
         id=COLLECTION_ID,
-        title=metadata["TITLE"],
+        title="Cost Benefit Analysis",
         description=metadata["DESCRIPTION"],
         license=metadata["LICENSE"],
         providers=providers,

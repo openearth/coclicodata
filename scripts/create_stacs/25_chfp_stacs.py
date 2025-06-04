@@ -192,7 +192,7 @@ def create_collection(
 
     collection = pystac.Collection(
         id=COLLECTION_ID,
-        title="Coastal Hazard Flood Projections",
+        title="Flood Maps",
         description=description,  # noqa: E502
         license=metadata["LICENSE"],  # NOTE: not sure if this applies
         providers=providers,
@@ -253,6 +253,9 @@ def create_collection(
     collection.extra_fields["deltares:plot_type"] = PLOT_TYPE
     collection.extra_fields["deltares:min"] = MIN
     collection.extra_fields["deltares:max"] = MAX
+    collection.extra_fields["deltares:clickable"] = (
+        False  # TODO: test if it worked properly (put in manually in collection now)
+    )
 
     return collection
 

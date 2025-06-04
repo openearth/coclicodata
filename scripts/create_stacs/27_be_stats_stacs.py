@@ -82,13 +82,16 @@ if not ds_dir.exists():
 
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
-ds_path = ds_dir.joinpath("WP6", "front_end_data", COLLECTION_ID)  # path to directory with data
+ds_path = ds_dir.joinpath(
+    "WP6", "front_end_data", COLLECTION_ID
+)  # path to directory with data
 ds_fp = ds_path.joinpath("be_stats.parquet")  # path to dataset
 
 # # load metadata template
 metadata_fp = ds_fp.with_suffix(".json")
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
+metadata["TITLE"] = "Building Exposure - statistics"
 
 # # extend keywords
 metadata["KEYWORDS"].extend(["Full-Track"])
