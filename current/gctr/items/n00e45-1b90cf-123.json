@@ -40,7 +40,7 @@
     40.97987136194792
   ],
   "properties": {
-    "created": "2025-05-18T21:10:23.526096Z",
+    "created": "2025-06-12T18:02:32.888656Z",
     "proj:code": "EPSG:4326",
     "proj:bbox": [
       45.00006779373138,
@@ -53,7 +53,7 @@
   "links": [
     {
       "rel": "alternate",
-      "href": "az://gctr/release/2025-05-18/n00e45-1b90cf-123.parquet",
+      "href": "az://gctr/release/2025-06-12/n00e45-1b90cf-123.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "Cloud Access"
     },
@@ -78,7 +78,7 @@
   ],
   "assets": {
     "data": {
-      "href": "https://coclico.blob.core.windows.net/gctr/release/2025-05-18/n00e45-1b90cf-123.parquet",
+      "href": "https://coclico.blob.core.windows.net/gctr/release/2025-06-12/n00e45-1b90cf-123.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "Global Coastal Transect Repository (GCTR)",
       "description": "\nA Parquet dataset containing coastal transects and derived attributes, including intersection\ndistances to OSM coastlines at multiple bearings and shoreline change rates from the ShorelineMonitor dataset.\n",
@@ -217,14 +217,14 @@
           "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 330°."
         },
         {
-          "name": "sds:change_rate",
-          "type": "float32",
-          "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (SDS)."
+          "name": "sds:start_datetime",
+          "type": "datetime64[ms]",
+          "description": "Start date of the observation period used for trend estimation."
         },
         {
-          "name": "sds:obs_primary_count",
-          "type": "float32",
-          "description": "Count of primary observations in the group."
+          "name": "sds:end_datetime",
+          "type": "datetime64[ms]",
+          "description": "End date of the observation period used for trend estimation."
         },
         {
           "name": "sds:reference_datetime",
@@ -240,6 +240,31 @@
           "name": "sds:reference_lat",
           "type": "float32",
           "description": "Latitude coordinate of the reference shoreline observation."
+        },
+        {
+          "name": "sds:change_rate",
+          "type": "float32",
+          "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (SDS)."
+        },
+        {
+          "name": "sds:change_intercept",
+          "type": "float32",
+          "description": "Intercept of the linear trend line fitted to the shoreline time series (in meters)."
+        },
+        {
+          "name": "sds:change_rate_std_err",
+          "type": "float32",
+          "description": "Standard error of the estimated shoreline change rate."
+        },
+        {
+          "name": "sds:r_squared",
+          "type": "float32",
+          "description": "R² value of the linear trend fit, indicating the goodness of fit."
+        },
+        {
+          "name": "sds:obs_primary_count",
+          "type": "float32",
+          "description": "Count of primary observations in the group."
         },
         {
           "name": "sds:tr_stdev",
@@ -580,14 +605,14 @@
       "description": "Distance (m) from the transect origin to the nearest OpenStreetMap coastline intersection at bearing 330°."
     },
     {
-      "name": "sds:change_rate",
-      "type": "float32",
-      "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (SDS)."
+      "name": "sds:start_datetime",
+      "type": "datetime64[ms]",
+      "description": "Start date of the observation period used for trend estimation."
     },
     {
-      "name": "sds:obs_primary_count",
-      "type": "float32",
-      "description": "Count of primary observations in the group."
+      "name": "sds:end_datetime",
+      "type": "datetime64[ms]",
+      "description": "End date of the observation period used for trend estimation."
     },
     {
       "name": "sds:reference_datetime",
@@ -603,6 +628,31 @@
       "name": "sds:reference_lat",
       "type": "float32",
       "description": "Latitude coordinate of the reference shoreline observation."
+    },
+    {
+      "name": "sds:change_rate",
+      "type": "float32",
+      "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (SDS)."
+    },
+    {
+      "name": "sds:change_intercept",
+      "type": "float32",
+      "description": "Intercept of the linear trend line fitted to the shoreline time series (in meters)."
+    },
+    {
+      "name": "sds:change_rate_std_err",
+      "type": "float32",
+      "description": "Standard error of the estimated shoreline change rate."
+    },
+    {
+      "name": "sds:r_squared",
+      "type": "float32",
+      "description": "R² value of the linear trend fit, indicating the goodness of fit."
+    },
+    {
+      "name": "sds:obs_primary_count",
+      "type": "float32",
+      "description": "Count of primary observations in the group."
     },
     {
       "name": "sds:tr_stdev",
