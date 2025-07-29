@@ -117,7 +117,7 @@ if not ds_dir.exists():
 
 # directory to export result
 cog_dirs = ds_dir.joinpath("cogs")
-ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
+# ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
 
 # load metadata template
 metadata_fp = ds_dir.joinpath("metadata", METADATA)
@@ -545,9 +545,9 @@ if __name__ == "__main__":
     # NOTE: make sure the resulting path_list (based on folder structure) matches the tif_list
     # NOTE: shortcut taken by calling every year twice, because there are two tif's per year.
     folder_structure = {
-        "SSP1": ["2010", "2030", "2050", "2100", "2150"],
-        "SSP2": ["2010", "2030", "2050", "2100", "2150"],
-        "SSP5": ["2010", "2030", "2050", "2100", "2150"],
+        "SSP1": ["2010", "2030", "2050", "2100"],  # , "2150"],
+        "SSP2": ["2010", "2030", "2050", "2100"],  # , "2150"],
+        "SSP5": ["2010", "2030", "2050", "2100"],  # , "2150"],
     }
 
     # Get list of paths for the folder structure
@@ -558,7 +558,7 @@ if __name__ == "__main__":
 
     collection = create_collection()
 
-    scens = ["SSP1", "SSP2", "SSP3", "SSP4", "SSP5"]
+    scens = ["SSP1", "SSP2", "SSP5"]  # , "SSP3", "SSP4"
     years = ["2010", "2030", "2050", "2100"]
     item_properties = ["scenarios", "time"]
 
@@ -588,8 +588,6 @@ if __name__ == "__main__":
                 storage_options = {"token": "google_default"}
 
                 # Get last 3 elements from pathlib.Path object
-
-                #
 
                 CUR_HREF_PREFIX = urljoin(HREF_PREFIX, scen, year)
 
