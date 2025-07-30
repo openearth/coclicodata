@@ -53,7 +53,7 @@ BUCKET_PROJ = "coclico"
 PROJ_NAME = "bc_stats"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
+STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "bc_stats"
@@ -82,13 +82,20 @@ if not ds_dir.exists():
 
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
-ds_path = ds_dir.joinpath("WP6", "front_end_data", COLLECTION_ID)  # path to directory with data
+ds_path = ds_dir.joinpath(
+    "WP6", "front_end_data", COLLECTION_ID
+)  # path to directory with data
 ds_fp = ds_path.joinpath("bc_stats.parquet")  # path to dataset
+
+# Front end makes geopackages to go alongside the parquet data
+# if this exists define here
+FE_gpkg_fp = ds_path.joinpath("bc_stats.gpkg")
 
 # # load metadata template
 metadata_fp = ds_fp.with_suffix(".json")
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
+metadata["TITLE"] = "Damage Costs - statistics"
 
 # # extend keywords
 metadata["KEYWORDS"].extend(["Full-Track"])
@@ -442,6 +449,18 @@ if __name__ == "__main__":
             dir_name=PROJ_NAME,
             file_name=ds_fp.name,
         )
+
+    #     # Also upload the Front-end geopackage if it exists
+    #     if FE_gpkg_fp != None:
+    #         # upload directory to the cloud (files already parquet)
+    #         file_to_google_cloud(
+    #             file_path=str(FE_gpkg_fp),
+    #             gcs_project=GCS_PROJECT,
+    #             bucket_name=BUCKET_NAME,
+    #             bucket_proj=BUCKET_PROJ,
+    #             dir_name=PROJ_NAME,
+    #             file_name=FE_gpkg_fp.name,
+    #         )
 
     elif paths:
         print("Dataset already exists in the Google Bucket")

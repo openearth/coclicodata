@@ -50,15 +50,15 @@ GCS_PROTOCOL = "https://storage.googleapis.com"
 GCS_PROJECT = "coclico-11207608-002"
 BUCKET_NAME = "coclico-data-public"
 BUCKET_PROJ = "coclico"
-PROJ_NAME = "cet"
+PROJ_NAME = "coaster"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"
+STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "WP4"
 # CF_FILE = "Global_merit_coastal_mask_landwards.tif"
-COLLECTION_ID = "cet"  # name of stac collection
+COLLECTION_ID = "coaster"  # name of stac collection
 MAX_FILE_SIZE = 500  # max file size in MB
 
 # define local directories
@@ -83,7 +83,11 @@ if not ds_dir.exists():
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
 ds_path = ds_dir.joinpath("data", "Erosion database")
-ds_fp = ds_path.joinpath("CoCliCo_Erosion_database_240808.parquet")  # file directory
+ds_fp = ds_path.joinpath("CoasTER_database.parquet")  # file directory
+
+# Front end makes geopackages to go alongside the parquet data
+# if this exists define here
+FE_gpkg_fp = ds_path.joinpath("CoasTER_database.gpkg")
 
 # # load metadata template
 metadata_fp = ds_fp.with_suffix(".json")
@@ -92,7 +96,7 @@ with open(metadata_fp, "r") as f:
 
 # # extend keywords
 metadata["KEYWORDS"].extend(["Full-Track", "Natural Hazards", "Data Layers"])
-metadata["TITLE"] = "Coastal Erosion"
+metadata["TITLE"] = "Coastal Change Segments"
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -113,14 +117,16 @@ GEOPARQUET_STAC_ITEMS_HREF = (
 painter = {
     "line-color": [
         "match",
-        ["get", "Hist_Trend"],
+        ["get", "historical_shoreline_change_regime"],
         "Ero",
         "#FF0000",
         "Acc",
         "#00FF00",
         "Sta",
         "#FFFF00",
-        "#CCCCCC",
+        "N/A",  # country is included in the analysis but there is no data for that shoreline segment
+        "#000000",
+        "#CCCCCC",  # country/shoreline is not included in the analysis
     ],
     "line-width": 2,
 }
@@ -291,6 +297,9 @@ def create_collection(
 
     pystac.extensions.scientific.ScientificExtension.add_to(collection)
     collection.extra_fields["sci:citation"] = metadata["CITATION"]
+    collection.extra_fields["deltares:clickable"] = (
+        False  # TODO: test if it worked properly (put in manually in collection now)
+    )
 
     collection.stac_extensions.append(stac_table.SCHEMA_URI)
 
@@ -370,6 +379,19 @@ def create_item(
     item.assets["data"].title = metadata["TITLE_ABBREVIATION"]
     item.assets["data"].description = metadata["SHORT_DESCRIPTION"]
     item.properties["deltares:paint"] = painter
+
+    title = "cet_maps" + ":" + pathlib.Path(ds_fp).stem
+    # TODO: We need to generalize this `href` somewhat.
+    vasset = pystac.Asset(  # data asset
+        href="https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=%s&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"
+        % (title),
+        media_type="application/vnd.apache.parquet",
+        title=title,
+        description="OGS WMS url",
+        roles=["visual"],
+    )
+
+    item.add_asset("visual", vasset)
 
     return item
 
@@ -458,6 +480,18 @@ if __name__ == "__main__":
             dir_name=PROJ_NAME,
         )
 
+        # Also upload the Front-end geopackage if it exists
+        if FE_gpkg_fp != None:
+            # upload directory to the cloud (files already parquet)
+            file_to_google_cloud(
+                file_path=str(FE_gpkg_fp),
+                gcs_project=GCS_PROJECT,
+                bucket_name=BUCKET_NAME,
+                bucket_proj=BUCKET_PROJ,
+                dir_name=PROJ_NAME,
+                file_name=FE_gpkg_fp.name,
+            )
+
     elif paths:
         print("Dataset already exists in the Google Bucket")
 
@@ -465,6 +499,119 @@ if __name__ == "__main__":
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(
         uris[0]
     )  # select first file of the cloud directory
+
+    COLUMN_DESCRIPTIONS = [
+        {
+            "name": "source",
+            "type": "string",
+            "description": "Source of coastline data used in analysis.",
+        },
+        {
+            "name": "country",
+            "type": "string",
+            "description": "ISO 2-letter country code where the segment is located.",
+        },
+        {
+            "name": "covered",
+            "type": "string",
+            "description": "Indicates if the coastal classification has been applied: 'Y' (Yes), 'N' (No), 'N/A' (Not included).",
+        },
+        {
+            "name": "seg_id",
+            "type": "string",
+            "description": "Unique segment ID assigned within each country.",
+        },
+        {
+            "name": "seg_length",
+            "type": "int",
+            "description": "Length of the coastal segment in meters.",
+        },
+        {
+            "name": "associated_floodplain",
+            "type": "string",
+            "description": "Indicates if the segment is associated with a floodplain ('Y' for Yes, 'N' for No).",
+        },
+        {
+            "name": "local_floodplain",
+            "type": "string",
+            "description": "ID of the local floodplain adjacent to the coastline segment.",
+        },
+        {
+            "name": "remote_floodplain_1",
+            "type": "string",
+            "description": "ID of the first remote floodplain associated with the coastline segment.",
+        },
+        {
+            "name": "remote_floodplain_2",
+            "type": "string",
+            "description": "ID of the second remote floodplain associated with the coastline segment.",
+        },
+        {
+            "name": "onshore_structure",
+            "type": "string",
+            "description": "Indicates presence of onshore engineered structures affecting coastal evolution ('Y' for Yes, 'N' for No).",
+        },
+        {
+            "name": "offshore_structure",
+            "type": "string",
+            "description": "Indicates presence of offshore structures like breakwaters affecting coastal evolution ('Y' for Yes, 'N' for No).",
+        },
+        {
+            "name": "harbour",
+            "type": "string",
+            "description": "Indicates presence of a permanent port or harbour structure ('Y' for Yes, 'N' for No).",
+        },
+        {
+            "name": "geomorphological_class",
+            "type": "string",
+            "description": "Classification of the coastal geomorphology (e.g., Beach, Erodible cliffs, Dune system, Wetlands).",
+        },
+        {
+            "name": "barrier",
+            "type": "string",
+            "description": "Description of the broad-scale coastal barrier feature, if present (e.g., Spit, Barrier Island, Tombolo).",
+        },
+        {
+            "name": "primary_sediment_type",
+            "type": "string",
+            "description": "Primary sediment type of the coastal segment (e.g., Sand, Mud, Rock, Sand/Gravel).",
+        },
+        {
+            "name": "secondary_sediment_type",
+            "type": "string",
+            "description": "Secondary sediment type, if applicable (e.g., rock platforms in a sandy beach).",
+        },
+        {
+            "name": "historical_shoreline_change_regime",
+            "type": "string",
+            "description": "Historical trend of shoreline movement from 1984 to 2021: 'Ero' (Erosion), 'Acc' (Accretion), 'Sta' (Stable).",
+        },
+        {
+            "name": "corine_code_18",
+            "type": "string",
+            "description": "Corine 2018 land cover classification code for the segment.",
+        },
+        {
+            "name": "corine_code_simplified",
+            "type": "string",
+            "description": "Simplified reclassification of Corine 2018 land cover codes.",
+        },
+        {
+            "name": "Notes",
+            "type": "string",
+            "description": "Additional notes or comments on the segment.",
+        },
+        {
+            "name": "Local_floodplain_area_km2",
+            "type": "float",
+            "description": "Total area (km²) of the associated local floodplain.",
+        },
+        {
+            "name": "geometry",
+            "type": "geometry",
+            "description": "Geospatial representation of the coastal segment in a MULTILINESTRING format.",
+        },
+    ]
 
     ASSET_EXTRA_FIELDS = {
         "table:storage_options": {"account_name": "coclico"},
@@ -489,6 +636,9 @@ if __name__ == "__main__":
     items = list(collection.get_all_items())
     items_as_json = [i.to_dict() for i in items]
     item_extents = stac_geoparquet.to_geodataframe(items_as_json)
+    item_extents = item_extents.drop(
+        columns="deltares:paint"
+    )  # drop painter to get past conversion error for the geoparquet stac items
 
     with fsspec.open(GEOPARQUET_STAC_ITEMS_HREF, mode="wb") as f:
         item_extents.to_parquet(f)

@@ -89,6 +89,7 @@ ds_fp = ds_path.joinpath("LAU_2020_NUTS_2021_01M_3035_CM.parquet")  # file direc
 metadata_fp = ds_path.joinpath("metadata", ds_fp.name).with_suffix(".json")
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
+metadata["TITLE"] = "Municipalities"
 
 # # extend keywords
 metadata["KEYWORDS"].extend(["Full-Track", "Background Layers"])
