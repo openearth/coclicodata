@@ -1,7 +1,7 @@
 {
   "type": "Collection",
   "id": "deltares-delta-dtm",
-  "stac_version": "1.0.0",
+  "stac_version": "1.1.0",
   "description": "\n    A global coastal digital terrain model, based on CopernicusDEM, ESA WorldCover, ICESat-2 and\n    GEDI data. For more information, see Pronk et al. (2024) DeltaDTM: A global coastal digital terrain model.\n    ",
   "links": [
     {
@@ -36581,6 +36581,12 @@
       "type": "application/json"
     },
     {
+      "rel": "service",
+      "href": "https://coclico.avi.deltares.nl/geoserver/cfhp/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=cfhp:HIGH_DEFENDED_MAPS_Mean_spring_tide",
+      "type": "application/vnd.ogc.wms_xml",
+      "title": "Geoserver WMS Link"
+    },
+    {
       "rel": "root",
       "href": "../catalog.json",
       "type": "application/json",
@@ -36594,7 +36600,6 @@
     }
   ],
   "stac_extensions": [
-    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json"
   ],
@@ -36662,21 +36667,20 @@
     "thumbnail": {
       "href": "https://coclico.blob.core.windows.net/assets/thumbnails/deltares-delta-dtm-thumbnail.jpeg",
       "type": "image/jpeg",
-      "title": "Thumbnail"
+      "title": "Thumbnail",
+      "roles": [
+        "thumbnail"
+      ]
     },
     "geoparquet-stac-items": {
       "href": "az://items/deltares-delta-dtm.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "2023-10-30T00:00:00Z",
       "roles": [
-        "data"
+        "metadata"
       ]
-    },
-    "geoserver_link": {
-      "href": "https://coclico.avi.deltares.nl/geoserver/cfhp/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=cfhp:HIGH_DEFENDED_MAPS_Mean_spring_tide",
-      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
-      "title": "Geoserver Mosaic link"
     }
   }
 }

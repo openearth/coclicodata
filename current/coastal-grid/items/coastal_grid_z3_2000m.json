@@ -1,0 +1,190 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+  ],
+  "id": "coastal_grid_z3_2000m",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          180.0,
+          -78.7564334234242
+        ],
+        [
+          180.0,
+          83.6828521023775
+        ],
+        [
+          -180.0,
+          83.6828521023775
+        ],
+        [
+          -180.0,
+          -78.7564334234242
+        ],
+        [
+          180.0,
+          -78.7564334234242
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -180.0,
+    -78.7564334234242,
+    180.0,
+    83.6828521023775
+  ],
+  "properties": {
+    "created": "2025-05-16T17:45:56.059331Z",
+    "table:columns": [
+      {
+        "name": "coastal_grid:id",
+        "type": "string",
+        "description": "Unique identifier for each tile, derived from bounds and a deterministic hex suffix."
+      },
+      {
+        "name": "coastal_grid:quadkey",
+        "type": "string",
+        "description": "Mercator quadkey for each tile, indicating its spatial location and zoom level."
+      },
+      {
+        "name": "coastal_grid:bbox.xmax",
+        "type": "double"
+      },
+      {
+        "name": "coastal_grid:bbox.xmin",
+        "type": "double"
+      },
+      {
+        "name": "coastal_grid:bbox.ymax",
+        "type": "double"
+      },
+      {
+        "name": "coastal_grid:bbox.ymin",
+        "type": "double"
+      },
+      {
+        "name": "coastal_grid:utm_epsg",
+        "type": "int64",
+        "description": "EPSG code for the UTM zone of the tile estimated by GeoPandas.estimate_utm_crs()."
+      },
+      {
+        "name": "admin:countries",
+        "type": "string",
+        "description": "JSON list of countries intersecting the tile (e.g., '[\"CA\", \"US\"]')."
+      },
+      {
+        "name": "admin:continents",
+        "type": "string",
+        "description": "JSON list of continents intersecting the tile (e.g., '[\"NA\", \"SA\"]')."
+      },
+      {
+        "name": "s2:mgrs_tile",
+        "type": "string",
+        "description": "JSON list of Sentinel-2 MGRS tiles intersecting the tile (e.g., '[\"15XWL\", \"16XDR\"]')."
+      },
+      {
+        "name": "geometry",
+        "type": "WKB",
+        "description": "Polygon geometry defining the spatial extent of the tile."
+      }
+    ],
+    "proj:code": "EPSG:4326",
+    "proj:bbox": [
+      -180.0,
+      -78.7564334234242,
+      180.0,
+      83.6828521023775
+    ],
+    "table:row_count": 5612,
+    "datetime": "2023-02-09T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "alternate",
+      "href": "az://coastal-grid/release/2025-01-01/coastal_grid_z3_2000m.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Cloud Access"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Coastal Grid"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Coastal Grid"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://coclico.blob.core.windows.net/coastal-grid/release/2025-01-01/coastal_grid_z3_2000m.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Coastal Grid",
+      "description": "Parquet dataset providing a global structured coastal grid for coastal analytics",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "coastal_grid:id",
+          "type": "string",
+          "description": "Unique identifier for each tile, derived from bounds and a deterministic hex suffix."
+        },
+        {
+          "name": "coastal_grid:quadkey",
+          "type": "string",
+          "description": "Mercator quadkey for each tile, indicating its spatial location and zoom level."
+        },
+        {
+          "name": "coastal_grid:bbox",
+          "type": "object",
+          "description": "Bounding box of the tile in WGS84 coordinates, represented as a dictionary."
+        },
+        {
+          "name": "coastal_grid:utm_epsg",
+          "type": "int32",
+          "description": "EPSG code for the UTM zone of the tile estimated by GeoPandas.estimate_utm_crs()."
+        },
+        {
+          "name": "admin:countries",
+          "type": "string",
+          "description": "JSON list of countries intersecting the tile (e.g., '[\"CA\", \"US\"]')."
+        },
+        {
+          "name": "admin:continents",
+          "type": "string",
+          "description": "JSON list of continents intersecting the tile (e.g., '[\"NA\", \"SA\"]')."
+        },
+        {
+          "name": "s2:mgrs_tile",
+          "type": "string",
+          "description": "JSON list of Sentinel-2 MGRS tiles intersecting the tile (e.g., '[\"15XWL\", \"16XDR\"]')."
+        },
+        {
+          "name": "geometry",
+          "type": "geometry",
+          "description": "Polygon geometry defining the spatial extent of the tile."
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "coastal-grid"
+}
