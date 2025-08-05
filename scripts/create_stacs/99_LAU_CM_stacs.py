@@ -89,6 +89,7 @@ ds_fp = ds_path.joinpath("LAU_2020_NUTS_2021_01M_3035_CM.parquet")  # file direc
 metadata_fp = ds_path.joinpath("metadata", ds_fp.name).with_suffix(".json")
 with open(metadata_fp, "r") as f:
     metadata = json.load(f)
+metadata["TITLE"] = "Municipalities"
 
 # # extend keywords
 metadata["KEYWORDS"].extend(["Full-Track", "Background Layers"])
@@ -304,6 +305,10 @@ def create_item(
     properties = {
         "title": metadata["TITLE_ABBREVIATION"],
         "description": metadata["SHORT_DESCRIPTION"],
+        "deltares:paint": {
+            "fill-color": "rgba(0,0,0,0)",
+            "fill-outline-color": "#000000",
+        },  # added layer styling
     }
 
     dt = datetime.datetime.strptime(
@@ -352,6 +357,24 @@ def create_item(
     # TODO: make configurable upstream
     item.assets["data"].title = metadata["TITLE_ABBREVIATION"]
     item.assets["data"].description = metadata["SHORT_DESCRIPTION"]
+
+    title = (
+        COLLECTION_ID.split("_")[0].lower()
+        + ":"
+        + asset_href.split(BUCKET_NAME + "/")[1].split(".")[0].replace("/", "_")
+    )
+
+    # TODO: We need to generalize this `href` somewhat.
+    vasset = pystac.Asset(  # data asset
+        href="https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=%s&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"
+        % (title),
+        media_type="application/vnd.apache.parquet",
+        title=title,
+        description="OGS WMTS url",
+        roles=["visual"],
+    )
+
+    item.add_asset("visual", vasset)
 
     return item
 

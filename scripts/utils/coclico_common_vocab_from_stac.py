@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # hard-coded input params at project level
 
     catalog = pystac_client.Client.open(
-        "https://storage.googleapis.com/dgds-data-public/coclico/coclico-stac/catalog.json"
+        "https://storage.googleapis.com/coclico-data-public/coclico/coclico-stac/catalog.json"
     )
 
     common_vocab_fp = p_drive.joinpath(

@@ -1,0 +1,153 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "NUTS2_RG_01M_2021_3035_CM",
+  "properties": {
+    "title": "NUTS2",
+    "description": "The NUTS are a hierarchical system divided into 3 levels, clipped only to the coastal area. This is level 2.",
+    "deltares:paint": {
+      "fill-color": "rgba(0,0,0,0)",
+      "fill-outline-color": "#000000"
+    },
+    "table:columns": [
+      {
+        "name": "NUTS_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LEVL_CODE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "CNTR_CODE",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "NAME_LATN",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "NUTS_NAME",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "MOUNT_TYPE",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "URBN_TYPE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "COAST_TYPE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "__index_level_0__",
+        "type": "int64",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -2824230.8134000003,
+      -3076162.6068,
+      10026010.8334,
+      6405005.3475
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 199,
+    "created": "2025-01-21T14:27:50.054398Z",
+    "datetime": "2024-01-22T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          103.456913582018,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          -29.857082115784582
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Coastal NUTS2"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Coastal NUTS2"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/NUTS2_CM/NUTS2_RG_01M_2021_3035_CM.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "NUTS2",
+      "description": "The NUTS are a hierarchical system divided into 3 levels, clipped only to the coastal area. This is level 2.",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=nuts2:coclico_NUTS2_CM_NUTS2_RG_01M_2021_3035_CM&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+      "type": "application/vnd.apache.parquet",
+      "title": "nuts2:coclico_NUTS2_CM_NUTS2_RG_01M_2021_3035_CM",
+      "description": "OGS WMTS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "bbox": [
+    -90.23528381409483,
+    -29.857082115784582,
+    103.456913582018,
+    39.79889221318682
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "NUTS2_CM"
+}

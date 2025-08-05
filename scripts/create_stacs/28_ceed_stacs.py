@@ -31,7 +31,11 @@ from posixpath import join as urljoin
 from dotenv import load_dotenv
 from pystac.stac_io import DefaultStacIO
 
-from coclicodata.etl.cloud_utils import load_google_credentials, dir_to_google_cloud
+from coclicodata.etl.cloud_utils import (
+    load_google_credentials,
+    dir_to_google_cloud,
+    file_to_google_cloud,
+)
 from coclicodata.drive_config import p_drive
 
 from coastmonitor import stac_table
@@ -77,7 +81,7 @@ if not ds_dir.exists():
 
 # # directory to export result
 # cog_dirs = ds_dir.joinpath("cogs")
-ds_path = ds_dir.joinpath("pilot/nuts2_ceed/")
+ds_path = ds_dir.joinpath("data/nuts2_ceed")
 # ds_fp = ds_dir.joinpath(CF_FILE)  # file directory
 
 # # load metadata template
@@ -424,14 +428,28 @@ if __name__ == "__main__":
         dum.index.nlevels == 1 and split == "N" and paths == []
     ):  # if not multi-indexed and no need to split and cloud file does not exist
 
+        print("check if this will upload the dir correctly to the cloud..")
+
         # upload directory to the cloud (files already parquet)
-        dir_to_google_cloud(
-            dir_path=str(ds_path),
-            gcs_project=GCS_PROJECT,
-            bucket_name=BUCKET_NAME,
-            bucket_proj=BUCKET_PROJ,
-            dir_name=PROJ_NAME,
-        )
+        # dir_to_google_cloud(
+        #     dir_path=str(ds_path),
+        #     gcs_project=GCS_PROJECT,
+        #     bucket_name=BUCKET_NAME,
+        #     bucket_proj=BUCKET_PROJ,
+        #     dir_name=PROJ_NAME,
+        # )
+
+        # for file in os.listdir(ds_path):
+        #     ds_fp = ds_path.joinpath(file)
+
+        #     file_to_google_cloud(
+        #         file_path=str(ds_fp),
+        #         gcs_project=GCS_PROJECT,
+        #         bucket_name=BUCKET_NAME,
+        #         file_name=file,
+        #         bucket_proj=BUCKET_PROJ,
+        #         dir_name=PROJ_NAME,
+        #     )
 
     # %% get descriptions
     COLUMN_DESCRIPTIONS = read_parquet_schema_df(

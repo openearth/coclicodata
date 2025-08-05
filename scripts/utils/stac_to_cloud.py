@@ -4,6 +4,7 @@ import sys
 import pystac
 import pystac_client
 import os
+from pystac.stac_io import DefaultStacIO
 
 # make modules importable when running this file as script
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
@@ -16,7 +17,7 @@ if __name__ == "__main__":
     GCS_PROJECT = "coclico-11207608-002"
     BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
-    STAC_NAME = "coclico-stac-18nov"  # NOTE: if working from main STAC_NAME = 'coclico-stac', if working from branch STAC_NAME = coclico-stac-***
+    STAC_NAME = "coclico-stac"  # NOTE: if working from main STAC_NAME = 'coclico-stac', if working from branch STAC_NAME = coclico-stac-***
     IN_DIRNAME = "current"
 
     # hard-coded input params at project level
@@ -37,6 +38,20 @@ if __name__ == "__main__":
         os.path.join(source_dir_fp, "catalog.json")  # local cloned STAC
     )
 
+    # test blank output on radiant earth.. would it work with the paths directing to the cloud bucket? See chatgpt
+    stac_io = DefaultStacIO()  # define layout
+
+    catalog.normalize_hrefs(
+        "https://storage.googleapis.com/%s/%s/%s"
+        % (BUCKET_NAME, BUCKET_PROJ, STAC_NAME),
+    )  # write relative paths to GCS paths (absolute)
+    catalog.catalog_type = pystac.CatalogType.ABSOLUTE_PUBLISHED  # use absolute paths
+
+    catalog.save_object(
+        dest_href=source_dir_fp + "\catalog_cloud.json",
+        stac_io=stac_io,
+    )
+
     ## NOTE: no need to validate whole catalog,
     # if (
     #     catalog.validate_all() == None
@@ -46,12 +61,12 @@ if __name__ == "__main__":
     #         " accordingly by debugging the STAC catalog."
     #     )
     # else:
-    dir_to_google_cloud(
-        dir_path=source_dir_fp,
-        gcs_project=GCS_PROJECT,
-        bucket_name=BUCKET_NAME,
-        bucket_proj=BUCKET_PROJ,
-        dir_name=STAC_NAME,
-    )
+    # dir_to_google_cloud(
+    #     dir_path=source_dir_fp,
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     dir_name=STAC_NAME,
+    # )
 
 # %%

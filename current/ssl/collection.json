@@ -1,8 +1,8 @@
 {
   "type": "Collection",
   "id": "ssl",
-  "stac_version": "1.1.0",
-  "description": "Dataset with extreme Storm Surge Levels (SSL) at the European scale. SSL are estimated for three climate scenarios (Historical, RCP4.5 and RCP8.5) for eight return periods (5, 10, 20, 50, 100, 200, 500 and 1000) according to the Peak Over Threshold method. This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1007/s00382-016-3019-5) for more dataset-specific information.",
+  "stac_version": "1.0.0",
+  "description": "**Extreme Surge Level represents** temporary sea level rises caused by storms, crucial for understanding flood risks.\u200b\n\n\u200b- **Sources**: Delft3D-FLOW storm surge model, Copernicus Climate Data Store.\u200b\n- **Common usage:** Flood hazard mapping, storm surge modeling, coastal resilience planning.\u200b\n\nMore Info about the dataset: <a href='https://www.openearth.nl/coclico-workbench/Datasets' target='_blank' rel='noopener noreferrer'>User Handbook</a>",
   "links": [
     {
       "rel": "item",
@@ -235,8 +235,7 @@
   ],
   "stac_extensions": [
     "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
-    "https://stac-extensions.github.io/datacube/v2.2.0/schema.json",
-    "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json"
+    "https://stac-extensions.github.io/datacube/v2.2.0/schema.json"
   ],
   "deltares:units": "m",
   "deltares:plotSeries": "scenarios",
@@ -563,7 +562,28 @@
       ]
     }
   },
-  "title": "Extreme surge level",
+  "summaries_labels": {
+    "rp": {
+      "5.0": "5 years",
+      "10.0": "10 years",
+      "20.0": "20 years",
+      "50.0": "50 years",
+      "100.0": "100 years",
+      "200.0": "200 years",
+      "500.0": "500 years",
+      "1000.0": "1000 years"
+    },
+    "scenarios": {
+      "Historical": "Historical",
+      "RCP45": "RCP 4.5",
+      "RCP85": "RCP 8.5"
+    }
+  },
+  "summaries_descriptions": {
+    "rp": "Frequency at which an extreme event of total water level (related to storms) is expected to occur on average.",
+    "scenarios": "Climate scenarios based on IPCC's Shared Socioeconomic Pathways (SSPs). High-end (if applicable) refers to P83 of SSP5-8.5, taking into account low-confidence processes. Other scenarios use the P50"
+  },
+  "title": "Extreme Surge Level",
   "extent": {
     "spatial": {
       "bbox": [
@@ -586,7 +606,7 @@
   },
   "license": "other",
   "keywords": [
-    "Sea Levels"
+    "Fast-Track"
   ],
   "providers": [
     {
@@ -618,7 +638,7 @@
   },
   "assets": {
     "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_storm_surge_level.zarr",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/europe_storm_surge_level.zarr",
       "title": "European extreme storm surge level zarr root",
       "description": "The root of the European extreme storm surge level zarr dataset on public Google Cloud Storage.",
       "roles": [
@@ -628,7 +648,7 @@
       ]
     },
     "thumbnail": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/ssl.png",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/ssl.png",
       "type": "image/png",
       "title": "Thumbnail"
     }

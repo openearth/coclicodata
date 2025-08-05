@@ -1,8 +1,8 @@
 {
   "type": "Collection",
   "id": "eesl",
-  "stac_version": "1.1.0",
-  "description": "The Extreme Sea Level (ESL) dataset represents the distribution of the total water level (TWL) design conditions at European scale. Both the ESL and the Episodic Extreme Water Level (EEWL, extreme sea level including storm surge level and wave height) are estimated for two climate scenarios (RCP4.5 and RCP8.5) as well as eight return periods (5, 10, 20, 50, 100, 200, 500 and 1000). This dataset is part of the [LISCOAST](https://data.jrc.ec.europa.eu/collection/LISCOAST) project. See this [article](https://doi.org/10.1002/2016EF000505) for more dataset-specific information.",
+  "stac_version": "1.0.0",
+  "description": "**Extreme Sea Level** combines tidal variations, storm surges, and long-term sea level rise to estimate high water levels.\u200b\n\n- **Indicators**: Return periods, extreme-value analysis, percentile-based sea levels.\u200b\n- **Sources**: Observational records, climate models, Copernicus Marine Service.\u200b\n- **Common usage**: Coastal flood risk assessment, infrastructure design, emergency planning.\u200b\n\n\u200bMore Info about the dataset: <a href='https://www.openearth.nl/coclico-workbench/Datasets' target='_blank' rel='noopener noreferrer'>User Handbook</a>",
   "links": [
     {
       "rel": "item",
@@ -371,8 +371,7 @@
   ],
   "stac_extensions": [
     "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
-    "https://stac-extensions.github.io/datacube/v2.2.0/schema.json",
-    "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json"
+    "https://stac-extensions.github.io/datacube/v2.2.0/schema.json"
   ],
   "deltares:units": "m",
   "deltares:plotSeries": "ensemble",
@@ -770,7 +769,27 @@
       ]
     }
   },
-  "title": "Extreme sea level",
+  "summaries_labels": {
+    "scenarios": {
+      "RCP45": "RCP 4.5",
+      "RCP85": "RCP 8.5"
+    },
+    "rp": {
+      "5.0": "5 years",
+      "10.0": "10 years",
+      "20.0": "20 years",
+      "50.0": "50 years",
+      "100.0": "100 years",
+      "200.0": "200 years",
+      "500.0": "500 years",
+      "1000.0": "1000 years"
+    }
+  },
+  "summaries_descriptions": {
+    "scenarios": "Climate scenarios based on IPCC's Shared Socioeconomic Pathways (SSPs). High-end (if applicable) refers to P83 of SSP5-8.5, taking into account low-confidence processes. Other scenarios use the P50",
+    "rp": "Frequency at which an extreme event of total water level (related to storms) is expected to occur on average."
+  },
+  "title": "Extreme Sea Level",
   "extent": {
     "spatial": {
       "bbox": [
@@ -793,7 +812,7 @@
   },
   "license": "other",
   "keywords": [
-    "Sea Levels"
+    "Fast-Track"
   ],
   "providers": [
     {
@@ -824,7 +843,7 @@
   },
   "assets": {
     "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/europe_extreme_sea_level.zarr",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/europe_extreme_sea_level.zarr",
       "title": "Extreme Sea Levels zarr root",
       "description": "The root of the Extreme Sea Levels zarr dataset on public Google Cloud Storage.",
       "roles": [
@@ -834,7 +853,7 @@
       ]
     },
     "thumbnail": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/eesl.png",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/eesl.png",
       "type": "image/png",
       "title": "Thumbnail"
     }

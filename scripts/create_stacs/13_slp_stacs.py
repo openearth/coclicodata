@@ -212,7 +212,7 @@ if __name__ == "__main__":
         ds_metadata["LICENSE"] = "CC-BY-4.0"
 
     # Add extra keywords
-    ds_metadata["KEYWORDS"].extend(["Sea Levels", "Full-Track"])
+    ds_metadata["KEYWORDS"].extend(["Sea Levels", "Full-Track", "Data Layers"])
 
     # generate collection for dataset
     collection = get_template_collection(
@@ -308,7 +308,24 @@ if __name__ == "__main__":
     for k, v in dimvals.items():
         collection.summaries.add(k, v)
 
-    collection.extra_fields["item_assets"] = {"data": {"type": pystac.MediaType.COG}}
+    # collection.extra_fields["item_assets"] = {"data": {"type": pystac.MediaType.COG}}
+
+    pystac.extensions.item_assets.ItemAssetsExtension.add_to(collection)
+
+    ASSET_EXTRA_FIELDS = {
+        "xarray:storage_options": {"token": "google_default"},
+    }
+
+    collection.extra_fields["item_assets"] = {
+        "data": {
+            "type": pystac.MediaType.COG,
+            "title": "Global Sea Level Projections",
+            "roles": ["data"],
+            "description": "The MSL_CIS_HIGH-END dataset provides AR6-based regional mean sea level projections following the High-end in 2030, 2040, 2050, 2060, 2070, 2080, 2090, 2100, 2110, 2120, 2130, 2140 and 2150 with respect to the baseline period 1995-2014 at a resolution of 1° x 1°.",
+            **ASSET_EXTRA_FIELDS,
+        }
+    }
+
     collection.extra_fields["deltares:units"] = ds_metadata["UNITS"]
     collection.extra_fields["deltares:plotType"] = (
         PLOT_TYPE  # NOTE:this causes validation to break
@@ -323,7 +340,7 @@ if __name__ == "__main__":
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/"
+            "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/"
             + COLLECTION_ID
             + ".png",  # noqa: E501,  # noqa: E501
             title="Thumbnail",

@@ -6,7 +6,7 @@
   "links": [
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-1-scenarios-RCP45.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-1%-scenarios-RCP45.json",
       "type": "application/json",
       "properties": {
         "ensemble": "1",
@@ -15,7 +15,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-1-scenarios-RCP85.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-1%-scenarios-RCP85.json",
       "type": "application/json",
       "properties": {
         "ensemble": "1",
@@ -24,7 +24,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-5-scenarios-RCP45.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-5%-scenarios-RCP45%.json",
       "type": "application/json",
       "properties": {
         "ensemble": "5",
@@ -33,7 +33,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-5-scenarios-RCP85.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-5%-scenarios-RCP85%.json",
       "type": "application/json",
       "properties": {
         "ensemble": "5",
@@ -42,7 +42,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-17-scenarios-RCP45.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-17%-scenarios-RCP45.json",
       "type": "application/json",
       "properties": {
         "ensemble": "17",
@@ -51,7 +51,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-17-scenarios-RCP85.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-17%-scenarios-RCP85.json",
       "type": "application/json",
       "properties": {
         "ensemble": "17",
@@ -60,7 +60,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-50-scenarios-RCP45.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-50%-scenarios-RCP45.json",
       "type": "application/json",
       "properties": {
         "ensemble": "50",
@@ -69,7 +69,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-50-scenarios-RCP85.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-50%-scenarios-RCP85.json",
       "type": "application/json",
       "properties": {
         "ensemble": "50",
@@ -78,7 +78,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-83-scenarios-RCP45.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-83%-scenarios-RCP45.json",
       "type": "application/json",
       "properties": {
         "ensemble": "83",
@@ -87,7 +87,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-83-scenarios-RCP85.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-83%-scenarios-RCP85.json",
       "type": "application/json",
       "properties": {
         "ensemble": "83",
@@ -96,7 +96,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-95-scenarios-RCP45.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-95%-scenarios-RCP45.json",
       "type": "application/json",
       "properties": {
         "ensemble": "95",
@@ -105,7 +105,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-95-scenarios-RCP85.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-95%-scenarios-RCP85.json",
       "type": "application/json",
       "properties": {
         "ensemble": "95",
@@ -114,7 +114,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-99-scenarios-RCP45.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-99%-scenarios-RCP45.json",
       "type": "application/json",
       "properties": {
         "ensemble": "99",
@@ -123,7 +123,7 @@
     },
     {
       "rel": "item",
-      "href": "./sc-mapbox/sc-mapbox-ensemble-99-scenarios-RCP85.json",
+      "href": "./sc-mapbox/sc-mapbox-ensemble-99%-scenarios-RCP85.json",
       "type": "application/json",
       "properties": {
         "ensemble": "99",
@@ -145,8 +145,7 @@
   ],
   "stac_extensions": [
     "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
-    "https://stac-extensions.github.io/datacube/v2.2.0/schema.json",
-    "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json"
+    "https://stac-extensions.github.io/datacube/v2.2.0/schema.json"
   ],
   "deltares:units": "m",
   "deltares:plotSeries": "ensemble",
@@ -174,8 +173,8 @@
   "cube:dimensions": {
     "time": {
       "extent": [
-        "2050",
-        "2100"
+        "2050-01-01T00:00:00Z",
+        "2100-01-01T00:00:00Z"
       ],
       "description": "time",
       "type": "temporal"
@@ -453,9 +452,9 @@
         64751
       ]
     },
-    "sc": {
+    "shoreline_change": {
       "type": "data",
-      "description": "Shoreline change",
+      "description": "shoreline_change",
       "dimensions": [
         "nscenarios",
         "stations",
@@ -465,7 +464,7 @@
       "unit": "m",
       "attrs": {
         "contents": "Global average long-term shoreline change",
-        "long_name": "Shoreline change",
+        "long_name": "shoreline_change",
         "units": "m"
       },
       "shape": [
@@ -505,7 +504,7 @@
   },
   "license": "other",
   "keywords": [
-    "Natural Hazards"
+    "Fast-Track"
   ],
   "providers": [
     {
@@ -535,7 +534,7 @@
   },
   "assets": {
     "data": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/shoreline_change_projections.zarr",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/shoreline_change_projections.zarr",
       "title": "Global shoreline change projections for the year 2050 under RCP4.5 zarr root",
       "description": "The root of the Global shoreline change projections for the year 2050 under RCP4.5 zarr dataset on public Google Cloud Storage.",
       "roles": [
@@ -545,7 +544,7 @@
       ]
     },
     "thumbnail": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/sc.png",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/sc.png",
       "type": "image/png",
       "title": "Thumbnail"
     }

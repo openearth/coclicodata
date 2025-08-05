@@ -18,10 +18,15 @@ from typing import List, Mapping, Optional
 
 import pystac
 from coclicodata.drive_config import p_drive
-from coclicodata.etl.cloud_utils import dataset_from_google_cloud,load_google_credentials, dir_to_google_cloud
+from coclicodata.etl.cloud_utils import (
+    dataset_from_google_cloud,
+    load_google_credentials,
+    dir_to_google_cloud,
+)
 from coclicodata.etl.extract import get_mapbox_url, zero_terminated_bytes_as_str
 from pystac import Catalog, CatalogType, Collection, Summaries
 from coclicodata.coclico_stac.io import CoCliCoStacIO
+from pystac.stac_io import DefaultStacIO
 from coclicodata.coclico_stac.layouts import CoCliCoCOGLayout
 from coclicodata.coclico_stac.templates import (
     extend_links,
@@ -345,14 +350,16 @@ def collate(items: xr.DataArray) -> List[pystac.Item]:
 
 # rename or swap dimension names, the latter in case the name already exists as coordinate
 if __name__ == "__main__":
-    metadata_fp = pathlib.Path(__file__).parent.parent.parent.joinpath("metadata_template.json")
+    metadata_fp = pathlib.Path(__file__).parent.parent.parent.joinpath(
+        "metadata_template.json"
+    )
     with open(metadata_fp, "r") as f:
         metadata = json.load(f)
 
     # hard-coded input params at project level
     GCS_PROTOCOL = "https://storage.googleapis.com"
-    GCS_PROJECT = "DGDS - I1000482-002"
-    BUCKET_NAME = "dgds-data-public"
+    GCS_PROJECT = "coclico-11207608-002"
+    BUCKET_NAME = "coclico-data-public"
     BUCKET_PROJ = "coclico"
 
     # hard-coded input params which differ per dataset
@@ -365,10 +372,12 @@ if __name__ == "__main__":
     DATASET_FILENAME = "europe.tif"  # sample from source data
     HOME = pathlib.Path().home()
     DATA_DIR = HOME.joinpath("data", "src")
-    COCLICO_DATA_DIR = coclico_data_dir = p_drive.joinpath("11205479-coclico", "FASTTRACK_DATA")  # remote p drive
+    COCLICO_DATA_DIR = coclico_data_dir = p_drive.joinpath(
+        "11207608-coclico", "FASTTRACK_DATA"
+    )  # remote p drive
     DATASET_DIR = "20_cisi"
     OUTDIR = pathlib.Path.home() / "data" / "tmp" / "cisi_test"
-    HREF_PREFIX = f"https://storage.googleapis.com/dgds-data-public/coclico/{metadata['TITLE_ABBREVIATION']}"
+    HREF_PREFIX = f"https://storage.googleapis.com/coclico-data-public/coclico/{metadata['TITLE_ABBREVIATION']}"
     USE_LOCAL_DATA = False  # can be used when data is also stored locally
 
     # TODO: check what can be customized with layout.
@@ -386,7 +395,22 @@ if __name__ == "__main__":
         raise FileNotFoundError(f"Data dir does not exist, {str(ds_dir)}")
 
     # directory to store results
-    OUTDIR.mkdir(parents=True, exist_ok=True)
+    # OUTDIR.mkdir(parents=True, exist_ok=True)
+
+    # upload directory with cogs to google cloud
+    # cred_data_dir = p_drive.joinpath("11207608-coclico", "FASTTRACK_DATA")
+    # # load google credentials
+    # load_google_credentials(
+    #     google_token_fp=cred_data_dir.joinpath("google_credentials_new.json")
+    # )
+
+    # dir_to_google_cloud(
+    #     dir_path=str(ds_dir.joinpath("cogs")),
+    #     gcs_project=GCS_PROJECT,
+    #     bucket_name=BUCKET_NAME,
+    #     bucket_proj=BUCKET_PROJ,
+    #     dir_name=COLLECTION_ID,
+    # )
 
     # read data, set spatial dims and add crs if not exists
     data_fp = ds_dir.joinpath(DATASET_FILENAME)
@@ -396,10 +420,17 @@ if __name__ == "__main__":
     if not ds.rio.crs:
         ds = ds.rio.write_crs(metadata["CRS"])
 
-    catalog = Catalog.from_file(os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"))
+    catalog = Catalog.from_file(
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent, STAC_DIR, "catalog.json"
+        )
+    )
 
     template_fp = os.path.join(
-        pathlib.Path(__file__).parent.parent.parent, STAC_DIR, TEMPLATE_COLLECTION, "collection.json"
+        pathlib.Path(__file__).parent.parent.parent,
+        STAC_DIR,
+        TEMPLATE_COLLECTION,
+        "collection.json",
     )
 
     # generate collection for dataset
@@ -450,18 +481,28 @@ if __name__ == "__main__":
     collection.add_asset(
         "thumbnail",
         pystac.Asset(
-            "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/" + COLLECTION_ID + ".png",  # noqa: E501,  # noqa: E501
+            "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/"
+            + COLLECTION_ID
+            + ".png",  # noqa: E501,  # noqa: E501
             title="Thumbnail",
             media_type=pystac.MediaType.PNG,
         ),
     )
+
+    if catalog.get_child(collection.id):
+        catalog.remove_child(collection.id)
+        print(f"Removed child: {collection.id}.")
 
     # add collection to catalog
     catalog.add_child(collection)
 
     # normalize the paths
     collection.normalize_hrefs(
-        os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR, metadata["TITLE_ABBREVIATION"]),
+        os.path.join(
+            pathlib.Path(__file__).parent.parent.parent,
+            STAC_DIR,
+            metadata["TITLE_ABBREVIATION"],
+        ),
         strategy=layout,
     )
 
@@ -469,7 +510,7 @@ if __name__ == "__main__":
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
         dest_href=os.path.join(pathlib.Path(__file__).parent.parent.parent, STAC_DIR),
-        stac_io=CoCliCoStacIO(),
+        stac_io=DefaultStacIO(),
     )
     print("done")
 

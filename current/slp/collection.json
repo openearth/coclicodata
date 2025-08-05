@@ -1,8 +1,8 @@
 {
   "type": "Collection",
   "id": "slp",
-  "stac_version": "1.1.0",
-  "description": "The MSL_CIS_HIGH-END dataset provides AR6-based regional mean sea level projections following the High-end in 2030, 2040, 2050, 2060, 2070, 2080, 2090, 2100, 2110, 2120, 2130, 2140 and 2150 with respect to the baseline period 1995-2014 at a resolution of 1Â° x 1Â°.",
+  "stac_version": "1.0.0",
+  "description": "**Sea level rise projections** provide regional insights into future sea level changes, helping assess coastal flood risks and inform adaptation planning.  \n\n- **Spatial coverage:** Global Ocean and European seas  \n- **Sources:** IPCC AR6 report, Caron et al. Glacial Isostatic Adjustment (GIA), CMIP6  \n- **Common usage:** Coastal impact assessment, adaptation planning, sensitivity analysis  \n\nMore info about the dataset can be found in the <a href='https://www.openearth.nl/coclico-workbench/Datasets/#__tabbed_1_1' target='_blank' rel='noopener noreferrer'>User Handbook</a>",
   "links": [
     {
       "rel": "item",
@@ -1578,37 +1578,94 @@
     }
   ],
   "stac_extensions": [
-    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json"
+    "https://raw.githubusercontent.com/openearth/coclicodata/feat/update-deltares-stac-properties/json-schema/schema.json",
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json"
   ],
   "deltares:units": "m",
-  "deltares:plotSeries": "scenario",
+  "deltares:plotSeries": "scenarios",
   "deltares:plotxAxis": "time",
-  "deltares:plotType": "line",
-  "deltares:min": 0,
-  "deltares:max": 3,
+  "deltares:plotType": "stacked_series",
+  "deltares:min": -0.2,
+  "deltares:max": 0.5,
   "deltares:linearGradient": [
     {
-      "color": "hsl(0,90%,80%)",
+      "color": "#ffdbb3",
       "offset": "0.000%",
-      "opacity": 100
+      "opacity": 5
     },
     {
-      "color": "hsla(55,88%,53%,0.5)",
+      "color": "#ffcf99",
+      "offset": "28.571%",
+      "opacity": 50
+    },
+    {
+      "color": "#ffb666",
       "offset": "50.000%",
-      "opacity": 100
+      "opacity": 50
     },
     {
-      "color": "hsl(110,90%,70%)",
+      "color": "#ff8600",
+      "offset": "71.429%",
+      "opacity": 50
+    },
+    {
+      "color": "#cc6b00",
       "offset": "100.000%",
-      "opacity": 100
+      "opacity": 50
     }
   ],
   "item_assets": {
     "data": {
-      "type": "image/tiff; application=geotiff; profile=cloud-optimized"
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "Global Sea Level Projections",
+      "roles": [
+        "data"
+      ],
+      "description": "The MSL_CIS_HIGH-END dataset provides AR6-based regional mean sea level projections following the High-end in 2030, 2040, 2050, 2060, 2070, 2080, 2090, 2100, 2110, 2120, 2130, 2140 and 2150 with respect to the baseline period 1995-2014 at a resolution of 1\u00b0 x 1\u00b0.",
+      "xarray:storage_options": {
+        "token": "google_default"
+      }
     }
   },
-  "title": "Sea level rise projections",
+  "summary_descriptions": {
+    "scenarios": "Projected socioeconomic global changes.",
+    "ensemble": "Type of ensemble members aggregation.",
+    "time": "Projected year."
+  },
+  "summaries_labels": {
+    "scenarios": {
+      "high_end": "High End",
+      "ssp126": "SSP1-2.6",
+      "ssp245": "SSP2-4.5",
+      "ssp585": "SSP5-8.5"
+    },
+    "ensemble": {
+      "msl_h": "83.3 Percentile",
+      "msl_m": "50.0 Percentile",
+      "msl_l": "16.7 Percentile"
+    },
+    "time": {
+      "2031": "2030",
+      "2041": "2040",
+      "2051": "2050",
+      "2061": "2060",
+      "2071": "2070",
+      "2081": "2080",
+      "2091": "2090",
+      "2101": "2100",
+      "2111": "2110",
+      "2121": "2120",
+      "2131": "2130",
+      "2141": "2140",
+      "2151": "2150"
+    }
+  },
+  "summaries_descriptions": {
+    "scenarios": "Climate scenarios based on IPCC's Shared Socioeconomic Pathways (SSPs). High-end (if applicable) refers to P83 of SSP5-8.5, taking into account low-confidence processes. Other scenarios use the P50",
+    "ensemble": "Uncertainty range of projections. 16.7, 50 and 83.3 indicate the lower bound, median and upper bound respectively",
+    "time": "Time slice applied to the data. Either present-day (2010) or future state representing medium (2030 till 2050) and long term (2050 till 2100) outlook."
+  },
+  "title": "Sea Level Rise",
   "extent": {
     "spatial": {
       "bbox": [
@@ -1635,7 +1692,8 @@
     "sea level rise",
     "IPCC AR6",
     "Sea Levels",
-    "Full-Track"
+    "Full-Track",
+    "Data Layers"
   ],
   "providers": [
     {
@@ -1648,7 +1706,7 @@
     },
     {
       "name": "BRGM, French Geological Survey",
-      "description": "BRGM, the French geological survey, is Franceâ€™s leading public institution for Earth Science applications for the management of surface and sub-surface resources with a view to sustainable development. Under partnerships with numerous public and private stakeholders, BRGM focuses on scientific research, expertise and innovation. Its activity meets 4 objectives: understanding geological phenomena and related risks, developing new techniques and methodologies, producing and distributing data for surface, subsurface and resource management, providing the tools required to manage the surface, subsurface and resources, prevent risks and pollution, and manage policies in response to climate change.",
+      "description": "BRGM, the French geological survey, is France\u00e2\u20ac\u2122s leading public institution for Earth Science applications for the management of surface and sub-surface resources with a view to sustainable development. Under partnerships with numerous public and private stakeholders, BRGM focuses on scientific research, expertise and innovation. Its activity meets 4 objectives: understanding geological phenomena and related risks, developing new techniques and methodologies, producing and distributing data for surface, subsurface and resource management, providing the tools required to manage the surface, subsurface and resources, prevent risks and pollution, and manage policies in response to climate change.",
       "roles": [
         "producer"
       ],
@@ -1685,7 +1743,7 @@
   },
   "assets": {
     "thumbnail": {
-      "href": "https://storage.googleapis.com/dgds-data-public/coclico/assets/thumbnails/slp.png",
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/assets/thumbnails/slp.png",
       "type": "image/png",
       "title": "Thumbnail"
     }

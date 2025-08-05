@@ -1,0 +1,183 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "HIGH_DEFENDED_MAPS\\100\\SSP585\\2030.parquet",
+  "properties": {
+    "title": "[not verified] PEP",
+    "description": "[not verified] Population exposure projections for coastal flooding risk assessment.",
+    "table:columns": [
+      {
+        "name": "GISCO_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "CNTR_CODE",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "nuts_2",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "nuts_3",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LAU_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LAU_NAME",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "POP_2020",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "POP_DENS_2",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "AREA_KM2",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "YEAR",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "LAU_FID",
+        "type": "string"
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "abs_affected",
+        "type": "double"
+      },
+      {
+        "name": "abs_unaffected",
+        "type": "double"
+      },
+      {
+        "name": "rel_affected",
+        "type": "double"
+      },
+      {
+        "name": "rel_unaffected",
+        "type": "double"
+      },
+      {
+        "name": "__index_level_0__",
+        "type": "int64",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -2710033.3959,
+      -3076198.0823,
+      10026005.2215,
+      5415709.913699999
+    ],
+    "proj:epsg": 3035,
+    "table:row_count": 11965,
+    "created": "2025-02-28T11:09:06.864754Z",
+    "defense level": "HIGH_DEFENDED_MAPS",
+    "return period": "100",
+    "scenarios": "SSP585",
+    "time": "2030",
+    "datetime": "2010-01-01T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          37.855412297701754
+        ],
+        [
+          -81.12146941539005,
+          -29.12357316038395
+        ],
+        [
+          93.1752791130622,
+          -29.12357316038395
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../../../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../../../../collection.json",
+      "type": "application/json",
+      "title": "Projections of Exposed Buildings"
+    },
+    {
+      "rel": "parent",
+      "href": "../../../../collection.json",
+      "type": "application/json",
+      "title": "Projections of Exposed Buildings"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://storage.googleapis.com/coclico-data-public/coclico/be_stats/map_stats/HIGH_DEFENDED_MAPS/100/SSP585/be_stats_HIGH_DEFENDED_MAPS_100_SSP585_2030.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "[not verified] PEP",
+      "description": "[not verified] Population exposure projections for coastal flooding risk assessment.",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/be_maps/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=be_maps:be_stats_HIGH_DEFENDED_MAPS_100_SSP585_2030",
+      "type": "application/png",
+      "title": "be_maps:be_stats_HIGH_DEFENDED_MAPS_100_SSP585_2030",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "bbox": [
+    -81.12146941539005,
+    -29.12357316038395,
+    93.1752791130622,
+    37.855412297701754
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "collection": "be_maps"
+}
