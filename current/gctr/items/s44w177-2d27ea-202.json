@@ -40,7 +40,7 @@
     -43.686140788650924
   ],
   "properties": {
-    "created": "2025-07-05T18:09:52.078129Z",
+    "created": "2025-07-09T14:15:28.286576Z",
     "proj:code": "EPSG:4326",
     "proj:bbox": [
       -176.90324599391298,
@@ -48,12 +48,12 @@
       -176.14544922865701,
       -43.686140788650924
     ],
-    "datetime": "2025-05-16T00:00:00Z"
+    "datetime": "2025-07-08T00:00:00Z"
   },
   "links": [
     {
       "rel": "alternate",
-      "href": "az://gctr/release/2025-07-05/s44w177-2d27ea-202.parquet",
+      "href": "az://gctr/release/2025-07-08/s44w177-2d27ea-202.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "Cloud Access"
     },
@@ -78,7 +78,7 @@
   ],
   "assets": {
     "data": {
-      "href": "https://coclico.blob.core.windows.net/gctr/release/2025-07-05/s44w177-2d27ea-202.parquet",
+      "href": "https://coclico.blob.core.windows.net/gctr/release/2025-07-08/s44w177-2d27ea-202.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "Global Coastal Transect Repository (GCTR)",
       "description": "\nA Parquet dataset containing coastal transects and derived attributes, including intersection\ndistances to OSM coastlines at multiple bearings and shoreline change rates from the ShorelineMonitor dataset.\n",
@@ -465,6 +465,26 @@
           "name": "gcc:sjoin_distance",
           "type": "float32",
           "description": "Distance in meters between the transect origin and the nearest GCC station."
+        },
+        {
+          "name": "buildings:dist_to_shoreline",
+          "type": "float32",
+          "description": "Distance in meters from the nearest Overture building footprint to the satellite-derived shoreline (SDS reference point) along the transect direction."
+        },
+        {
+          "name": "buildings:dist_to_transect_origin",
+          "type": "float32",
+          "description": "Distance in meters from the nearest Overture building footprint to the transect origin (GCTS point) along the transect direction."
+        },
+        {
+          "name": "buildings:count_intersections",
+          "type": "int32",
+          "description": "Number of Overture building footprints that intersect the transect area, defined as a buffer extending 50 meters alongshore in both directions."
+        },
+        {
+          "name": "buildings:area_total",
+          "type": "float32",
+          "description": "Total area (in square meters) of Overture building footprints that intersect the transect area, defined as a buffer extending 50 meters alongshore in both directions."
         }
       ],
       "roles": [
@@ -853,6 +873,26 @@
       "name": "gcc:sjoin_distance",
       "type": "float32",
       "description": "Distance in meters between the transect origin and the nearest GCC station."
+    },
+    {
+      "name": "buildings:dist_to_shoreline",
+      "type": "float32",
+      "description": "Distance in meters from the nearest Overture building footprint to the satellite-derived shoreline (SDS reference point) along the transect direction."
+    },
+    {
+      "name": "buildings:dist_to_transect_origin",
+      "type": "float32",
+      "description": "Distance in meters from the nearest Overture building footprint to the transect origin (GCTS point) along the transect direction."
+    },
+    {
+      "name": "buildings:count_intersections",
+      "type": "int32",
+      "description": "Number of Overture building footprints that intersect the transect area, defined as a buffer extending 50 meters alongshore in both directions."
+    },
+    {
+      "name": "buildings:area_total",
+      "type": "float32",
+      "description": "Total area (in square meters) of Overture building footprints that intersect the transect area, defined as a buffer extending 50 meters alongshore in both directions."
     }
   ],
   "table:row_count": 3669

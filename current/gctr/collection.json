@@ -283,7 +283,6 @@
     }
   ],
   "stac_extensions": [
-    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json",
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
   ],
@@ -678,12 +677,32 @@
           "name": "gcc:sjoin_distance",
           "type": "float32",
           "description": "Distance in meters between the transect origin and the nearest GCC station."
+        },
+        {
+          "name": "buildings:dist_to_shoreline",
+          "type": "float32",
+          "description": "Distance in meters from the nearest Overture building footprint to the satellite-derived shoreline (SDS reference point) along the transect direction."
+        },
+        {
+          "name": "buildings:dist_to_transect_origin",
+          "type": "float32",
+          "description": "Distance in meters from the nearest Overture building footprint to the transect origin (GCTS point) along the transect direction."
+        },
+        {
+          "name": "buildings:count_intersections",
+          "type": "int32",
+          "description": "Number of Overture building footprints that intersect the transect area, defined as a buffer extending 50 meters alongshore in both directions."
+        },
+        {
+          "name": "buildings:area_total",
+          "type": "float32",
+          "description": "Total area (in square meters) of Overture building footprints that intersect the transect area, defined as a buffer extending 50 meters alongshore in both directions."
         }
       ]
     }
   },
-  "storage_pattern": "az://gctr/release/2025-07-05/*.parquet",
-  "version": "2025-07-05",
+  "storage_pattern": "az://gctr/release/2025-07-08/*.parquet",
+  "version": "2025-07-08",
   "sci:citation": "Calkoen, 2025, Global Coastal Transect Repository (GCTR), in progress.",
   "title": "Global Coastal Transect Repository (GCTR)",
   "extent": {
@@ -700,8 +719,8 @@
     "temporal": {
       "interval": [
         [
-          "2025-05-16T00:00:00Z",
-          "2025-05-16T00:00:00Z"
+          "2025-07-08T00:00:00Z",
+          "2025-07-08T00:00:00Z"
         ]
       ]
     }
@@ -732,7 +751,7 @@
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
-      "created": "2025-07-05T18:10:58.660277Z",
+      "created": "2025-07-09T14:16:05.713061Z",
       "roles": [
         "metadata"
       ]
