@@ -1,5 +1,6 @@
 # %%
 # written by Etienne Kras, 19-05-2025
+# venv: edito_env
 # This script migrates data from a local zarr store to the EDITO S3 storage
 # sources: https://datalab.dive.edito.eu/account/storage and https://pub.pages.mercator-ocean.fr/edito-infra/edito-tutorials-content/#/zarr-netcdf-xarray-edito-data-storage
 
@@ -88,7 +89,8 @@ containers_to_export = [
     "gcts",
     "coastal-grid",
     "deltares-delta-dtm",
-]  # , "typology", "projections"]  # containers to export
+    "edito",
+]  # containers to export, note edito includes projections and typology
 
 # intialize Azure filesystem and set container client
 account_url = f"https://{AZURE_STORAGE_ACCOUNT}.blob.core.windows.net"
