@@ -1,0 +1,652 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "id": "box_042_s53e166-cdfd44",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          178.8125582046564,
+          -52.614851212435134
+        ],
+        [
+          178.8125582046564,
+          -48.005949056689
+        ],
+        [
+          165.87235250242412,
+          -48.005949056689
+        ],
+        [
+          165.87235250242412,
+          -52.614851212435134
+        ],
+        [
+          178.8125582046564,
+          -52.614851212435134
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    165.87235250242412,
+    -52.614851212435134,
+    178.8125582046564,
+    -48.005949056689
+  ],
+  "properties": {
+    "created": "2025-01-20T20:24:52.724953Z",
+    "table:columns": [
+      {
+        "name": "transect_id",
+        "type": "string",
+        "description": "Unique identifier for the transect, combining coastline, segment, and distance information."
+      },
+      {
+        "name": "shoreline_id",
+        "type": "string",
+        "description": "Unique identifier for the shoreline observation."
+      },
+      {
+        "name": "obs_id",
+        "type": "string",
+        "description": "Unique identifier for the observation, combining transect_id and a datetime-sorted observation index."
+      },
+      {
+        "name": "datetime",
+        "type": "timestamp[ns]",
+        "description": "Timestamp of the shoreline observation."
+      },
+      {
+        "name": "geometry",
+        "type": "WKB",
+        "description": "Shoreline geometry represented as a WKB (Well-Known Binary) LineString."
+      },
+      {
+        "name": "lon",
+        "type": "float",
+        "description": "Longitude coordinate of the shoreline observation."
+      },
+      {
+        "name": "lat",
+        "type": "float",
+        "description": "Latitude coordinate of the shoreline observation."
+      },
+      {
+        "name": "shoreline_position",
+        "type": "float",
+        "description": "Normalized shoreline position relative to the reference chainage."
+      },
+      {
+        "name": "chainage",
+        "type": "float",
+        "description": "Distance along the transect, measured from its start point."
+      },
+      {
+        "name": "utm_epsg",
+        "type": "int64",
+        "description": "EPSG code representing the UTM Coordinate Reference System of the observation."
+      },
+      {
+        "name": "transect_lon",
+        "type": "float",
+        "description": "Longitude coordinate of the transect origin."
+      },
+      {
+        "name": "transect_lat",
+        "type": "float",
+        "description": "Latitude coordinate of the transect origin."
+      },
+      {
+        "name": "transect_quadkey",
+        "type": "string",
+        "description": "Quadkey for spatial indexing, based on transect origin."
+      },
+      {
+        "name": "quadkey",
+        "type": "string",
+        "description": "Quadkey spatial index for the observation location."
+      },
+      {
+        "name": "bbox.xmax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.xmin",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymin",
+        "type": "double"
+      },
+      {
+        "name": "sinuosity",
+        "type": "float",
+        "description": "Ratio of the actual shoreline length to its straight-line length, indicating complexity."
+      },
+      {
+        "name": "self_intersection_density",
+        "type": "float",
+        "description": "Density of self-intersections per unit length of the shoreline geometry."
+      },
+      {
+        "name": "fractal_dimension",
+        "type": "float",
+        "description": "Measure of the shoreline's fractal complexity."
+      },
+      {
+        "name": "is_shoal",
+        "type": "bool",
+        "description": "Flag indicating whether the shoreline lies over a shoal."
+      },
+      {
+        "name": "obs_group",
+        "type": "int64",
+        "description": "Identifier for the group of aggregated shoreline observations."
+      },
+      {
+        "name": "obs_group_stdev",
+        "type": "float",
+        "description": "Standard deviation of shoreline positions within the observation group."
+      },
+      {
+        "name": "obs_group_range",
+        "type": "float",
+        "description": "Range of shoreline positions within the observation group."
+      },
+      {
+        "name": "obs_group_count",
+        "type": "int64",
+        "description": "Number of observations within the observation group."
+      },
+      {
+        "name": "obs_is_qa",
+        "type": "bool",
+        "description": "Flag indicating whether the observation passed quality assurance checks."
+      },
+      {
+        "name": "obs_is_primary",
+        "type": "bool",
+        "description": "Flag indicating whether the observation is the primary observation in its group."
+      },
+      {
+        "name": "obs_is_step_change",
+        "type": "bool",
+        "description": "Flag indicating a significant step change in the shoreline position."
+      },
+      {
+        "name": "obs_is_outlier",
+        "type": "bool",
+        "description": "Flag indicating whether the observation is considered an outlier."
+      },
+      {
+        "name": "obs_count",
+        "type": "float",
+        "description": "Total number of observations recorded for this group."
+      },
+      {
+        "name": "obs_mdn_offset",
+        "type": "float",
+        "description": "Offset of the observation from the median of primary observations in its group."
+      },
+      {
+        "name": "subseries_id",
+        "type": "int64",
+        "description": "Identifier for multiple groups within the observation series."
+      },
+      {
+        "name": "reference_datetime",
+        "type": "timestamp[ns]",
+        "description": "Timestamp of the reference point, typically the most recent primary observation."
+      },
+      {
+        "name": "reference_chainage",
+        "type": "float",
+        "description": "Chainage of the reference point, typically the most recent primary observation."
+      },
+      {
+        "name": "reference_lon",
+        "type": "float",
+        "description": "Longitude of the reference point."
+      },
+      {
+        "name": "reference_lat",
+        "type": "float",
+        "description": "Latitude of the reference point."
+      },
+      {
+        "name": "obs_primary_count",
+        "type": "float",
+        "description": "Count of primary observations in the group."
+      },
+      {
+        "name": "obs_primary_mdn",
+        "type": "float",
+        "description": "Median shoreline position for primary observations."
+      },
+      {
+        "name": "tr_stdev",
+        "type": "float",
+        "description": "Standard deviation of shoreline positions across the transect."
+      },
+      {
+        "name": "tr_range",
+        "type": "float",
+        "description": "Range (max - min) of shoreline positions along the transect."
+      },
+      {
+        "name": "tr_qa_pct",
+        "type": "float",
+        "description": "Percentage of observations in the transect that passed quality assurance checks."
+      },
+      {
+        "name": "tr_is_qa",
+        "type": "bool",
+        "description": "Flag indicating whether the transect meets quality assurance criteria."
+      },
+      {
+        "name": "dist_b330",
+        "type": "float",
+        "description": "GCTR: Distance to OSM Coastline intersection at bearing 330."
+      },
+      {
+        "name": "dist_b0",
+        "type": "float",
+        "description": "GCTR: Distance to OSM Coastline intersection at bearing 0."
+      },
+      {
+        "name": "dist_b30",
+        "type": "float",
+        "description": "GCTR: Distance to OSM Coastline intersection at bearing 30."
+      },
+      {
+        "name": "min_dist",
+        "type": "float",
+        "description": "Minimum distance to a OSM Coastline (from B330, B0, and B30)."
+      },
+      {
+        "name": "offshore_domain",
+        "type": "float",
+        "description": "Maximum offshore distance (search domain) for the shoreline position, typically half the min distance if there is an intersecting OSM Coastline."
+      },
+      {
+        "name": "otsu_threshold",
+        "type": "float",
+        "description": "Threshold value determined by Otsu's method for water detection."
+      },
+      {
+        "name": "otsu_separability",
+        "type": "float",
+        "description": "Separability score for water classification using Otsu's method."
+      },
+      {
+        "name": "composite:start_datetime",
+        "type": "timestamp[ns, tz=utc]",
+        "description": "Start date and time of the composite period used for shoreline determination."
+      },
+      {
+        "name": "composite:end_datetime",
+        "type": "timestamp[ns, tz=utc]",
+        "description": "End date and time of the composite period used for shoreline determination."
+      },
+      {
+        "name": "composite:determination_datetimes",
+        "type": "list<element: timestamp[us]>",
+        "description": "Array of timestamps representing the images used in the composite period."
+      },
+      {
+        "name": "composite:image_id",
+        "type": "string",
+        "description": "Identifier for the composite image used in shoreline detection."
+      },
+      {
+        "name": "composite:cloud_cover",
+        "type": "string",
+        "description": "Array of cloud cover percentages for the composite images."
+      },
+      {
+        "name": "country",
+        "type": "string",
+        "description": "Country code of the shoreline observation location."
+      },
+      {
+        "name": "common_country_name",
+        "type": "string",
+        "description": "Common name of the country where the observation is located."
+      }
+    ],
+    "proj:bbox": [
+      165.87235250242412,
+      -52.614851212435134,
+      178.8125582046564,
+      -48.005949056689
+    ],
+    "proj:epsg": 4326,
+    "start_datetime": "1999-01-01T00:00:00Z",
+    "end_datetime": "2023-01-01T00:00:00Z",
+    "table:row_count": 20407,
+    "datetime": "2011-01-01T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "alternate",
+      "href": "https://coclico.blob.core.windows.net/shorelinemonitor-series/release/2025-01-09/box_042_s53e166-cdfd44.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "HTTPS access"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "ShorelineMonitor: Satellite-Derived Shoreline-Series"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "ShorelineMonitor: Satellite-Derived Shoreline-Series"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "az://shorelinemonitor-series/release/2025-01-09/box_042_s53e166-cdfd44.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "ShorelineMonitor: Shoreline Change Series",
+      "description": "Parquet dataset containing shoreline observations and derived metrics mapped onto the Global Coastal Transect System.",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "transect_id",
+          "type": "string",
+          "description": "Unique identifier for the transect, combining coastline, segment, and distance information."
+        },
+        {
+          "name": "shoreline_id",
+          "type": "string",
+          "description": "Unique identifier for the shoreline observation."
+        },
+        {
+          "name": "obs_id",
+          "type": "string",
+          "description": "Unique identifier for the observation, combining transect_id and a datetime-sorted observation index."
+        },
+        {
+          "name": "datetime",
+          "type": "datetime64[ns]",
+          "description": "Timestamp of the shoreline observation."
+        },
+        {
+          "name": "geometry",
+          "type": "geometry",
+          "description": "Shoreline geometry represented as a WKB (Well-Known Binary) LineString."
+        },
+        {
+          "name": "lon",
+          "type": "float32",
+          "description": "Longitude coordinate of the shoreline observation."
+        },
+        {
+          "name": "lat",
+          "type": "float32",
+          "description": "Latitude coordinate of the shoreline observation."
+        },
+        {
+          "name": "shoreline_position",
+          "type": "float32",
+          "description": "Normalized shoreline position relative to the reference chainage."
+        },
+        {
+          "name": "chainage",
+          "type": "float32",
+          "description": "Distance along the transect, measured from its start point."
+        },
+        {
+          "name": "utm_epsg",
+          "type": "int32",
+          "description": "EPSG code representing the UTM Coordinate Reference System of the observation."
+        },
+        {
+          "name": "transect_lon",
+          "type": "float32",
+          "description": "Longitude coordinate of the transect origin."
+        },
+        {
+          "name": "transect_lat",
+          "type": "float32",
+          "description": "Latitude coordinate of the transect origin."
+        },
+        {
+          "name": "transect_quadkey",
+          "type": "float32",
+          "description": "Quadkey for spatial indexing, based on transect origin."
+        },
+        {
+          "name": "quadkey",
+          "type": "string",
+          "description": "Quadkey spatial index for the observation location."
+        },
+        {
+          "name": "bbox",
+          "type": "object",
+          "description": "Bounding box defining the spatial extent of the observation (minx, miny, maxx, maxy)."
+        },
+        {
+          "name": "sinuosity",
+          "type": "float32",
+          "description": "Ratio of the actual shoreline length to its straight-line length, indicating complexity."
+        },
+        {
+          "name": "self_intersection_density",
+          "type": "float32",
+          "description": "Density of self-intersections per unit length of the shoreline geometry."
+        },
+        {
+          "name": "fractal_dimension",
+          "type": "float32",
+          "description": "Measure of the shoreline's fractal complexity."
+        },
+        {
+          "name": "is_shoal",
+          "type": "boolean",
+          "description": "Flag indicating whether the shoreline lies over a shoal."
+        },
+        {
+          "name": "obs_group",
+          "type": "int32",
+          "description": "Identifier for the group of aggregated shoreline observations."
+        },
+        {
+          "name": "obs_group_stdev",
+          "type": "float32",
+          "description": "Standard deviation of shoreline positions within the observation group."
+        },
+        {
+          "name": "obs_group_range",
+          "type": "float32",
+          "description": "Range of shoreline positions within the observation group."
+        },
+        {
+          "name": "obs_group_count",
+          "type": "int32",
+          "description": "Number of observations within the observation group."
+        },
+        {
+          "name": "obs_is_qa",
+          "type": "boolean",
+          "description": "Flag indicating whether the observation passed quality assurance checks."
+        },
+        {
+          "name": "obs_is_primary",
+          "type": "boolean",
+          "description": "Flag indicating whether the observation is the primary observation in its group."
+        },
+        {
+          "name": "obs_is_step_change",
+          "type": "boolean",
+          "description": "Flag indicating a significant step change in the shoreline position."
+        },
+        {
+          "name": "obs_is_outlier",
+          "type": "boolean",
+          "description": "Flag indicating whether the observation is considered an outlier."
+        },
+        {
+          "name": "obs_count",
+          "type": "float32",
+          "description": "Total number of observations recorded for this group."
+        },
+        {
+          "name": "obs_mdn_offset",
+          "type": "float32",
+          "description": "Offset of the observation from the median of primary observations in its group."
+        },
+        {
+          "name": "subseries_id",
+          "type": "int32",
+          "description": "Identifier for multiple groups within the observation series."
+        },
+        {
+          "name": "reference_datetime",
+          "type": "datetime64[ns]",
+          "description": "Timestamp of the reference point, typically the most recent primary observation."
+        },
+        {
+          "name": "reference_chainage",
+          "type": "float32",
+          "description": "Chainage of the reference point, typically the most recent primary observation."
+        },
+        {
+          "name": "reference_lon",
+          "type": "float32",
+          "description": "Longitude of the reference point."
+        },
+        {
+          "name": "reference_lat",
+          "type": "float32",
+          "description": "Latitude of the reference point."
+        },
+        {
+          "name": "obs_primary_count",
+          "type": "float32",
+          "description": "Count of primary observations in the group."
+        },
+        {
+          "name": "obs_primary_mdn",
+          "type": "float32",
+          "description": "Median shoreline position for primary observations."
+        },
+        {
+          "name": "tr_stdev",
+          "type": "float32",
+          "description": "Standard deviation of shoreline positions across the transect."
+        },
+        {
+          "name": "tr_range",
+          "type": "float32",
+          "description": "Range (max - min) of shoreline positions along the transect."
+        },
+        {
+          "name": "tr_qa_pct",
+          "type": "float32",
+          "description": "Percentage of observations in the transect that passed quality assurance checks."
+        },
+        {
+          "name": "tr_is_qa",
+          "type": "boolean",
+          "description": "Flag indicating whether the transect meets quality assurance criteria."
+        },
+        {
+          "name": "dist_b330",
+          "type": "float32",
+          "description": "GCTR: Distance to OSM Coastline intersection at bearing 330."
+        },
+        {
+          "name": "dist_b0",
+          "type": "float32",
+          "description": "GCTR: Distance to OSM Coastline intersection at bearing 0."
+        },
+        {
+          "name": "dist_b30",
+          "type": "float32",
+          "description": "GCTR: Distance to OSM Coastline intersection at bearing 30."
+        },
+        {
+          "name": "min_dist",
+          "type": "float32",
+          "description": "Minimum distance to a OSM Coastline (from B330, B0, and B30)."
+        },
+        {
+          "name": "offshore_domain",
+          "type": "float32",
+          "description": "Maximum offshore distance (search domain) for the shoreline position, typically half the min distance if there is an intersecting OSM Coastline."
+        },
+        {
+          "name": "otsu_threshold",
+          "type": "float32",
+          "description": "Threshold value determined by Otsu's method for water detection."
+        },
+        {
+          "name": "otsu_separability",
+          "type": "float32",
+          "description": "Separability score for water classification using Otsu's method."
+        },
+        {
+          "name": "composite:start_datetime",
+          "type": "datetime64[ns, UTC]",
+          "description": "Start date and time of the composite period used for shoreline determination."
+        },
+        {
+          "name": "composite:end_datetime",
+          "type": "datetime64[ns, UTC]",
+          "description": "End date and time of the composite period used for shoreline determination."
+        },
+        {
+          "name": "composite:determination_datetimes",
+          "type": "object",
+          "description": "Array of timestamps representing the images used in the composite period."
+        },
+        {
+          "name": "composite:image_id",
+          "type": "string",
+          "description": "Identifier for the composite image used in shoreline detection."
+        },
+        {
+          "name": "composite:cloud_cover",
+          "type": "object",
+          "description": "Array of cloud cover percentages for the composite images."
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "description": "Country code of the shoreline observation location."
+        },
+        {
+          "name": "common_country_name",
+          "type": "string",
+          "description": "Common name of the country where the observation is located."
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "shorelinemonitor-series"
+}
