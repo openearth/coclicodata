@@ -2,729 +2,758 @@
   "type": "Collection",
   "id": "shorelinemonitor-shorelines",
   "stac_version": "1.1.0",
-  "description": "\n        The ShorelineMonitor-Shorelines data consists of Satellite-Derived Shorelines that are extracted\n        from annually composited Landsat satellite imagery for the years 1984-2021.\n        ",
+  "description": "\nThe ShorelineMonitor dataset provides Satellite-Derived Shorelines (SDS) extracted from annually\ncomposited Landsat satellite imagery spanning the years 1984-2024. These shorelines offer a global\nview of coastal change and shoreline dynamics, serving as a critical foundation for global coastal\nmonitoring and analytics.\n\nThe shorelines are represented as geospatial line features. Additional attributes in the dataset\ninclude measures of curvature (sinuosity, fractal dimension and self-intersection density), composite\nimage identifiers, coverage metrics, and parameters used in the shoreline extraction process.\n\nThis dataset builds on earlier efforts by Luijendijk et al. (2018) and Deltares, and has now been\noptimized as a cloud-native dataset (Calkoen et al. 2025) to facilitate global-scale coastal analytics.\n\nThe dataset is currently a work in progress by Deltares (RPC) and is available upon reasonable request.\nPlease contact the data provider for more information or collaboration opportunities.\n",
   "links": [
-    {
-      "rel": "license",
-      "href": "https://creativecommons.org/licenses/by/4.0/",
-      "type": "text/html",
-      "title": "CC BY 4.0 "
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_028_s51w076_part-2de99ab77ea5/box_028_s51w076_part-2de99ab77ea5.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_028_s54w076_part-4ef053bc493c/box_028_s54w076_part-4ef053bc493c.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_028_s55w075_part-8dc4a28b20ee/box_028_s55w075_part-8dc4a28b20ee.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_029_s56w068_part-6c50587cb5fd/box_029_s56w068_part-6c50587cb5fd.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_029_s56w072_part-b9d41a3e50d5/box_029_s56w072_part-b9d41a3e50d5.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_030_s55w038_part-1e8ff8edf87a/box_030_s55w038_part-1e8ff8edf87a.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_031_s55w036_part-0df6dde043eb/box_031_s55w036_part-0df6dde043eb.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_036_s50e068_part-ebe7a5be6875/box_036_s50e068_part-ebe7a5be6875.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_042_s53e166_part-2aeb98174742/box_042_s53e166_part-2aeb98174742.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_045_s44w177_part-79eb983466b0/box_045_s44w177_part-79eb983466b0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_050_s47w076_part-9e06d7645a86/box_050_s47w076_part-9e06d7645a86.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_050_s47w076_part-bef9f75d95a1/box_050_s47w076_part-bef9f75d95a1.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_051_s47w072_part-81e4dea7d8e5/box_051_s47w072_part-81e4dea7d8e5.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_052_s34w054_part-d08c14d0b369/box_052_s34w054_part-d08c14d0b369.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_054_s40w013_part-476b962913f4/box_054_s40w013_part-476b962913f4.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_056_s35e018_part-848bcb4d4fe6/box_056_s35e018_part-848bcb4d4fe6.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_061_s35e115_part-0bf1ffd365d0/box_061_s35e115_part-0bf1ffd365d0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_062_s39e134_part-b54c7a04cf73/box_062_s39e134_part-b54c7a04cf73.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_063_s44e144_part-e47402c494fe/box_063_s44e144_part-e47402c494fe.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_064_s47e166_part-d0bb975482f9/box_064_s47e166_part-d0bb975482f9.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_067_s22w180_part-20d49207d373/box_067_s22w180_part-20d49207d373.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_068_s28w160_part-46335415a342/box_068_s28w160_part-46335415a342.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_070_s27w109_part-51f085de13ce/box_070_s27w109_part-51f085de13ce.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_073_s34w072_part-7c0ebe523a38/box_073_s34w072_part-7c0ebe523a38.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_074_s34w054_part-7608642a35e8/box_074_s34w054_part-7608642a35e8.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_077_s33e012_part-b0839734fbb3/box_077_s33e012_part-b0839734fbb3.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_078_s34e018_part-1872423bb1fb/box_078_s34e018_part-1872423bb1fb.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_079_s26e036_part-1d5616f4e8db/box_079_s26e036_part-1d5616f4e8db.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_080_s22e055_part-26c4a29e36e3/box_080_s22e055_part-26c4a29e36e3.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_083_s34e113_part-fbcd0e1c4269/box_083_s34e113_part-fbcd0e1c4269.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_084_s34e126_part-283baec2cebe/box_084_s34e126_part-283baec2cebe.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_085_s34e146_part-d35dc07b7ca5/box_085_s34e146_part-d35dc07b7ca5.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_086_s23e163_part-0a0265db326d/box_086_s23e163_part-0a0265db326d.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_089_s17w180_part-816428e11469/box_089_s17w180_part-816428e11469.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_090_s18w155_part-0a69ebeb3eb4/box_090_s18w155_part-0a69ebeb3eb4.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_091_s18w144_part-2c8a34601939/box_091_s18w144_part-2c8a34601939.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_093_s01w092_part-f1542a85fb61/box_093_s01w092_part-f1542a85fb61.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_094_s17w090_part-cf9582b8fc69/box_094_s17w090_part-cf9582b8fc69.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_095_s18w072_part-cd2d5ba63927/box_095_s18w072_part-cd2d5ba63927.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_096_s15w051_part-74804637a509/box_096_s15w051_part-74804637a509.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_096_s18w039_part-2d5d8360a247/box_096_s18w039_part-2d5d8360a247.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_097_s10w036_part-d85c1f3ae433/box_097_s10w036_part-d85c1f3ae433.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_099_s18e008_part-3a3ebe80d856/box_099_s18e008_part-3a3ebe80d856.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_101_s18e037_part-956a8e8901c8/box_101_s18e037_part-956a8e8901c8.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_102_s05e055_part-9d2c83f2667b/box_102_s05e055_part-9d2c83f2667b.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_103_s08e072_part-083a97938060/box_103_s08e072_part-083a97938060.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_104_s08e098_part-b6b498af3999/box_104_s08e098_part-b6b498af3999.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_105_s08e108_part-be3d6b16b3f7/box_105_s08e108_part-be3d6b16b3f7.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_105_s18e112_part-e66a60bb94c7/box_105_s18e112_part-e66a60bb94c7.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_106_s16e126_part-94899ee56d56/box_106_s16e126_part-94899ee56d56.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_106_s16e127_part-6bd9ac7a50a1/box_106_s16e127_part-6bd9ac7a50a1.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_106_s18e135_part-e66433f7f7a3/box_106_s18e135_part-e66433f7f7a3.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_107_s12e159_part-5ff7db718897/box_107_s12e159_part-5ff7db718897.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_107_s18e144_part-21b8fd72cbad/box_107_s18e144_part-21b8fd72cbad.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_108_s18e162_part-7fcda7cbc219/box_108_s18e162_part-7fcda7cbc219.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_112_n02w159_part-e4adabf89463/box_112_n02w159_part-e4adabf89463.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_115_n00w102_part-7de1c52cf238/box_115_n00w102_part-7de1c52cf238.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_116_n00w090_part-1265ecdf12bd/box_116_n00w090_part-1265ecdf12bd.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_116_n01w079_part-ed911654ed40/box_116_n01w079_part-ed911654ed40.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_117_n06w072_part-e3ccee6887b8/box_117_n06w072_part-e3ccee6887b8.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_118_n00w054_part-7a5e2cb86807/box_118_n00w054_part-7a5e2cb86807.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_119_n15w026_part-35e7853473d4/box_119_n15w026_part-35e7853473d4.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_120_n04w018_part-88e95c47fbf7/box_120_n04w018_part-88e95c47fbf7.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_121_n00e000_part-0618cffa16bd/box_121_n00e000_part-0618cffa16bd.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_123_n00e038_part-1bb3b161a0e0/box_123_n00e038_part-1bb3b161a0e0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_124_n12e054_part-610c12b4a252/box_124_n12e054_part-610c12b4a252.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_125_n02e073_part-5966cbe3e2c0/box_125_n02e073_part-5966cbe3e2c0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_126_n00e095_part-e621c7f2ee50/box_126_n00e095_part-e621c7f2ee50.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_126_n00e101_part-d4298149bee3/box_126_n00e101_part-d4298149bee3.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_126_n06e092_part-b972853e6d2b/box_126_n06e092_part-b972853e6d2b.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_127_n00e108_part-ac053f1bc898/box_127_n00e108_part-ac053f1bc898.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_127_n00e112_part-cbd4ce7b445b/box_127_n00e112_part-cbd4ce7b445b.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_127_n00e124_part-0515c12ceff0/box_127_n00e124_part-0515c12ceff0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_128_n00e126_part-af05c257d116/box_128_n00e126_part-af05c257d116.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_129_n07e145_part-d588cdef71e8/box_129_n07e145_part-d588cdef71e8.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_130_n00e168_part-0e50e41200a4/box_130_n00e168_part-0e50e41200a4.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_134_n19w160_part-e07f637475c0/box_134_n19w160_part-e07f637475c0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_136_n18w120_part-a43beb0c02a3/box_136_n18w120_part-a43beb0c02a3.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_137_n18w096_part-3919bb35db40/box_137_n18w096_part-3919bb35db40.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_137_n18w108_part-43564d8fb632/box_137_n18w108_part-43564d8fb632.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_138_n18w082_part-3255ec430682/box_138_n18w082_part-3255ec430682.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_138_n18w090_part-7cc4a8b1b953/box_138_n18w090_part-7cc4a8b1b953.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_138_n22w090_part-561d7045ccb5/box_138_n22w090_part-561d7045ccb5.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_139_n18w072_part-6c0068658ef2/box_139_n18w072_part-6c0068658ef2.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_141_n28w018_part-41cf57996ed9/box_141_n28w018_part-41cf57996ed9.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_142_n18w018_part-9130715b74d2/box_142_n18w018_part-9130715b74d2.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_143_n31e010_part-b9de9121270c/box_143_n31e010_part-b9de9121270c.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_144_n22e018_part-ff0ac0a14f74/box_144_n22e018_part-ff0ac0a14f74.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_145_n18e036_part-e5f8f82c6856/box_145_n18e036_part-e5f8f82c6856.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_146_n18e054_part-aea126bd96a0/box_146_n18e054_part-aea126bd96a0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_147_n18e072_part-47260545da66/box_147_n18e072_part-47260545da66.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_148_n18e090_part-ee9094995041/box_148_n18e090_part-ee9094995041.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_149_n18e108_part-063936258931/box_149_n18e108_part-063936258931.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_149_n22e112_part-71587dbcd2eb/box_149_n22e112_part-71587dbcd2eb.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_150_n26e126_part-a96d61366d3b/box_150_n26e126_part-a96d61366d3b.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_158_n34w125_part-f6c3b0e14988/box_158_n34w125_part-f6c3b0e14988.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_160_n34w079_part-1bb0f7f5929e/box_160_n34w079_part-1bb0f7f5929e.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_160_n34w079_part-85e95c2db232/box_160_n34w079_part-85e95c2db232.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_161_n41w072_part-62a0e75d613e/box_161_n41w072_part-62a0e75d613e.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_161_n41w072_part-99ed4a401f90/box_161_n41w072_part-99ed4a401f90.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_162_n47w054_part-865bacc3f754/box_162_n47w054_part-865bacc3f754.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_163_n37w031_part-3023149b91b3/box_163_n37w031_part-3023149b91b3.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_164_n34w010_part-f4c7c579bef4/box_164_n34w010_part-f4c7c579bef4.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_165_n34e000_part-107b3d2a64b8/box_165_n34e000_part-107b3d2a64b8.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_165_n39e000_part-dd3a5f3b4cb1/box_165_n39e000_part-dd3a5f3b4cb1.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_166_n34e022_part-8424e66729a6/box_166_n34e022_part-8424e66729a6.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_166_n36e018_part-4015427d04aa/box_166_n36e018_part-4015427d04aa.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_167_n34e036_part-5b31b4e28e7a/box_167_n34e036_part-5b31b4e28e7a.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_167_n41e036_part-9272b869eb29/box_167_n41e036_part-9272b869eb29.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_168_n37e054_part-530042bf8cc0/box_168_n37e054_part-530042bf8cc0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_171_n34e117_part-2c4272fecc7f/box_171_n34e117_part-2c4272fecc7f.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_172_n34e126_part-7fb79cd4468a/box_172_n34e126_part-7fb79cd4468a.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_172_n34e132_part-810ee82a43e0/box_172_n34e132_part-810ee82a43e0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_172_n37e126_part-393cd0afa137/box_172_n37e126_part-393cd0afa137.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_173_n43e144_part-667c0afdf48d/box_173_n43e144_part-667c0afdf48d.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_179_n49w129_part-10e73e7e5c7d/box_179_n49w129_part-10e73e7e5c7d.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_179_n51w132_part-4985348fb232/box_179_n51w132_part-4985348fb232.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_179_n53w134_part-2d461ea060ac/box_179_n53w134_part-2d461ea060ac.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_179_n56w137_part-f2a32bae5d46/box_179_n56w137_part-f2a32bae5d46.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_180_n47w126_part-27f14475276e/box_180_n47w126_part-27f14475276e.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_181_n57w093_part-8ddbceadcbeb/box_181_n57w093_part-8ddbceadcbeb.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_182_n51w090_part-5a9ed00c49e0/box_182_n51w090_part-5a9ed00c49e0.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_183_n47w056_part-943cad27fe06/box_183_n47w056_part-943cad27fe06.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_183_n47w068_part-5bbfd36f4f83/box_183_n47w068_part-5bbfd36f4f83.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_183_n47w071_part-94d9a4b41eec/box_183_n47w071_part-94d9a4b41eec.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_184_n47w054_part-e86ee27e8ebf/box_184_n47w054_part-e86ee27e8ebf.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_186_n47w011_part-8440bb43b292/box_186_n47w011_part-8440bb43b292.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_186_n52w010_part-fc9d1d73e40b/box_186_n52w010_part-fc9d1d73e40b.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_187_n49e000_part-0aafb2f7a216/box_187_n49e000_part-0aafb2f7a216.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_187_n52e000_part-950d2ea2b98f/box_187_n52e000_part-950d2ea2b98f.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_188_n54e018_part-5827c79c709e/box_188_n54e018_part-5827c79c709e.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_194_n47e135_part-2435b85baec4/box_194_n47e135_part-2435b85baec4.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_195_n47e144_part-f5cdb2d17d66/box_195_n47e144_part-f5cdb2d17d66.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_203_n58w095_part-fded77523f19/box_203_n58w095_part-fded77523f19.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_207_n63w025_part-8f9d3a9b2c8d/box_207_n63w025_part-8f9d3a9b2c8d.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_208_n58w018_part-e4e72a8d5e0a/box_208_n58w018_part-e4e72a8d5e0a.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_209_n58e005_part-5f214fd7d563/box_209_n58e005_part-5f214fd7d563.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_209_n59e005_part-d344b8bb8225/box_209_n59e005_part-d344b8bb8225.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_209_n62e004_part-3da3de9ff452/box_209_n62e004_part-3da3de9ff452.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_210_n58e018_part-eba518656b4f/box_210_n58e018_part-eba518656b4f.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_210_n58e022_part-47971fb84e5f/box_210_n58e022_part-47971fb84e5f.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/box_211_n64e036_part-f2cba72377c4/box_211_n64e036_part-f2cba72377c4.json",
-      "type": "application/json"
-    },
     {
       "rel": "root",
       "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
       "type": "application/json",
       "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s51w76-e8c071/s51w76-e8c071.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s54w76-cbbfc5/s54w76-cbbfc5.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s55w75-6d19de/s55w75-6d19de.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s56w68-2bdac5/s56w68-2bdac5.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s56w72-b9028f/s56w72-b9028f.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s55w38-69c676/s55w38-69c676.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s55w36-f5706a/s55w36-f5706a.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s50e68-3dfb57/s50e68-3dfb57.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s53e73-d5ab79/s53e73-d5ab79.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s53e166-a8f157/s53e166-a8f157.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s44w177-7f76f8/s44w177-7f76f8.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s47w76-ad916c/s47w76-ad916c.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s47w81-503f25/s47w81-503f25.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s47w72-6f1d65/s47w72-6f1d65.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s34w54-ebf3fd/s34w54-ebf3fd.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s40w13-884f4c/s40w13-884f4c.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s35e18-39b4de/s35e18-39b4de.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s47e37-c57a60/s47e37-c57a60.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s35e115-95d0a7/s35e115-95d0a7.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s39e134-b03999/s39e134-b03999.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s44e144-cdcd98/s44e144-cdcd98.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s47e166-0f34b4/s47e166-0f34b4.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s47e169-2f9e14/s47e169-2f9e14.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s29w180-7633a9/s29w180-7633a9.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s28w160-dfbd21/s28w160-dfbd21.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s27w109-6ee494/s27w109-6ee494.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s34w72-8c5d69/s34w72-8c5d69.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s34w54-2cbf59/s34w54-2cbf59.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s33e12-ccf725/s33e12-ccf725.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s34e18-e72010/s34e18-e72010.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s26e36-044047/s26e36-044047.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s22e55-0e2d6f/s22e55-0e2d6f.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s34e113-a4a666/s34e113-a4a666.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s34e126-b650a3/s34e126-b650a3.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s34e146-085126/s34e146-085126.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s29e163-3b4313/s29e163-3b4313.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s17w180-fcaea4/s17w180-fcaea4.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18w155-2785f7/s18w155-2785f7.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18w144-17ff26/s18w144-17ff26.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s01w92-53c9ad/s01w92-53c9ad.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s17w90-73bf8d/s17w90-73bf8d.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18w72-9e12ab/s18w72-9e12ab.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s14w51-72be33/s14w51-72be33.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18w39-dd919d/s18w39-dd919d.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s10w36-197360/s10w36-197360.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18e05-74c42c/s18e05-74c42c.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s17e49-beaa3f/s17e49-beaa3f.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18e37-dfa0b9/s18e37-dfa0b9.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s10e55-763b4f/s10e55-763b4f.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s08e72-541108/s08e72-541108.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s11e98-8cd3dc/s11e98-8cd3dc.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s08e108-e71307/s08e108-e71307.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18e112-3f595d/s18e112-3f595d.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s16e126-a6a6e2/s16e126-a6a6e2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s16e126-dd9344/s16e126-dd9344.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18e135-bfd049/s18e135-bfd049.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s12e157-b9475c/s12e157-b9475c.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18e144-9f9e89/s18e144-9f9e89.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/s18e162-de82f8/s18e162-de82f8.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n02w159-044122/n02w159-044122.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n10w109-44be75/n10w109-44be75.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00w102-c9d231/n00w102-c9d231.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00w90-a332d3/n00w90-a332d3.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n01w79-45bfa4/n01w79-45bfa4.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n06w72-a3f666/n06w72-a3f666.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00w54-010a90/n00w54-010a90.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n15w26-d74c6a/n15w26-d74c6a.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n04w18-6748a1/n04w18-6748a1.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e00-8aad41/n00e00-8aad41.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e38-916597/n00e38-916597.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n12e54-5113c7/n12e54-5113c7.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n02e73-b4e485/n02e73-b4e485.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e101-43912a/n00e101-43912a.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e95-a1dc27/n00e95-a1dc27.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n06e92-aae661/n06e92-aae661.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e108-9d7dd4/n00e108-9d7dd4.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e112-93a102/n00e112-93a102.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e118-ca6dae/n00e118-ca6dae.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e126-5ec4dc/n00e126-5ec4dc.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n07e145-f3437c/n07e145-f3437c.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n00e163-f1cd59/n00e163-f1cd59.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n19w160-ea6493/n19w160-ea6493.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18w120-9fed77/n18w120-9fed77.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18w108-433b07/n18w108-433b07.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18w96-7b33fa/n18w96-7b33fa.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18w88-aebd9e/n18w88-aebd9e.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18w90-7bfbd0/n18w90-7bfbd0.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n22w90-67d719/n22w90-67d719.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18w72-6a44c9/n18w72-6a44c9.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n28w18-4473aa/n28w18-4473aa.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18w18-e4344d/n18w18-e4344d.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n31e10-d9d3de/n31e10-d9d3de.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n22e18-c62723/n22e18-c62723.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18e36-cbcf3f/n18e36-cbcf3f.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18e54-ccd7ea/n18e54-ccd7ea.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18e72-984ebb/n18e72-984ebb.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18e90-2b3682/n18e90-2b3682.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n18e108-5a37ab/n18e108-5a37ab.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n22e112-0a4078/n22e112-0a4078.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n26e126-993f0a/n26e126-993f0a.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34w125-4b770a/n34w125-4b770a.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34w79-0dd57b/n34w79-0dd57b.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34w79-5ca05c/n34w79-5ca05c.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n41w72-208a6b/n41w72-208a6b.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n41w72-a1fbb4/n41w72-a1fbb4.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47w54-d00d81/n47w54-d00d81.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n37w31-0e856b/n37w31-0e856b.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34w10-dbb66e/n34w10-dbb66e.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34e00-40e9af/n34e00-40e9af.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n41e01-175a77/n41e01-175a77.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34e22-e3c9b0/n34e22-e3c9b0.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34e34-6f10e0/n34e34-6f10e0.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n36e18-806f8b/n36e18-806f8b.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34e36-b61187/n34e36-b61187.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n41e36-55f0ab/n41e36-55f0ab.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n37e54-ac05c0/n37e54-ac05c0.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34e117-e9d69f/n34e117-e9d69f.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34e126-afe1d3/n34e126-afe1d3.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34e130-2a088b/n34e130-2a088b.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n34e135-b305c3/n34e135-b305c3.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n37e126-d49672/n37e126-d49672.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n43e144-4984a1/n43e144-4984a1.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n49w129-62b619/n49w129-62b619.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n51w133-f399b5/n51w133-f399b5.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n53w134-a4d66b/n53w134-a4d66b.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n56w137-f3ad24/n56w137-f3ad24.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47w126-e3cb72/n47w126-e3cb72.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n57w93-a1ffb6/n57w93-a1ffb6.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n51w90-4796bd/n51w90-4796bd.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47w62-e9db16/n47w62-e9db16.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47w68-5f4dc0/n47w68-5f4dc0.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47w71-99c69d/n47w71-99c69d.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47w54-3d296c/n47w54-3d296c.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47w11-d18f79/n47w11-d18f79.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n52w10-ecc084/n52w10-ecc084.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n49e00-6113a4/n49e00-6113a4.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n52e00-52c2c1/n52e00-52c2c1.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n54e18-fac7f4/n54e18-fac7f4.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47e135-37384a/n47e135-37384a.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n47e144-9fc9a1/n47e144-9fc9a1.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n58w95-62afcc/n58w95-62afcc.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n63w25-fe6c86/n63w25-fe6c86.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n58w18-edc727/n58w18-edc727.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n58e05-117f4b/n58e05-117f4b.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n59e05-16b2a5/n59e05-16b2a5.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n62e04-ae45e9/n62e04-ae45e9.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n58e18-e586b5/n58e18-e586b5.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n58e22-902c91/n58e22-902c91.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/shorelinemonitor-shorelines/n64e36-4f652e/n64e36-4f652e.json",
+      "type": "application/json"
     },
     {
       "rel": "parent",
@@ -740,13 +769,12 @@
   ],
   "stac_extensions": [
     "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
-    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/version/v1.2.0/schema.json"
   ],
   "item_assets": {
     "data": {
-      "title": "ShorelineMonitor: Satellite-derived Shorelines",
-      "description": "\n        The ShorelineMonitor-Shorelines data consists of Satellite-Derived Shorelines that are extracted\n        from annually composited Landsat satellite imagery for the years 1984-2021.\n        ",
+      "title": "ShorelineMonitor: Satellite-Derived Shorelines",
+      "description": "Parquet dataset with Satellite-Derived Shorelines (SDS) spanning 1984-2024.",
       "roles": [
         "data"
       ],
@@ -756,86 +784,116 @@
       },
       "table:columns": [
         {
-          "name": "shoreline_name",
+          "name": "shoreline_id",
           "type": "string",
-          "description": "Name assigned to the shoreline segment. The name consists of the box, the MultiLineString group and the LineString index; i.e., 'box_xx_xx_mlsxx_lsxx'."
+          "description": "Unique identifier for the shoreline segment."
         },
         {
-          "name": "time",
+          "name": "datetime",
           "type": "datetime64[ns]",
           "description": "Timestamp of the shoreline observation."
         },
         {
           "name": "geometry",
           "type": "geometry",
-          "description": "Shoreline geometry represented as linestrings, encoded in Well-Known Binary (WKB) format."
-        },
-        {
-          "name": "determination_times",
-          "type": "object",
-          "description": "Times of the imagery that are included in the composite image. These are assumed to be UTC."
-        },
-        {
-          "name": "start_datetime",
-          "type": "string",
-          "description": "Start datetime refers to the timestamp (ISO 8601 format) of the first image that is included in the composite image."
-        },
-        {
-          "name": "end_datetime",
-          "type": "string",
-          "description": "End datetime refers to the timestamp (ISO 8601 format) of the last image that is included in the composite image."
-        },
-        {
-          "name": "otsu_threshold",
-          "type": "float32",
-          "description": "Threshold value determined by Otsu's method for image binarization."
-        },
-        {
-          "name": "otsu_separability",
-          "type": "float32",
-          "description": "Measure of the separability between land and water classes as determined by Otsu's method."
-        },
-        {
-          "name": "qa_cloud_cover",
-          "type": "object",
-          "description": "Quality assurance (GEE) information regarding cloud cover in the imagery."
-        },
-        {
-          "name": "image_id",
-          "type": "string",
-          "description": "Identifier for the source composite image used to derive the shoreline."
-        },
-        {
-          "name": "box_id",
-          "type": "string",
-          "description": "Unique identifier for the shoreline box within the global ShorelineMonitor system."
-        },
-        {
-          "name": "source_filename",
-          "type": "string",
-          "description": "Name of the original file from which shoreline data was processed."
-        },
-        {
-          "name": "group",
-          "type": "int32",
-          "description": "Identifier for multi-linestring groups/segments within the source ShorelineMonitor data as exported from GEE."
+          "description": "Shoreline geometry represented as a geospatial LINESTRING object."
         },
         {
           "name": "bbox",
           "type": "object",
-          "description": "Geographic bounding box of the shoreline, specified by min/max longitude (x) and latitude (y) coordinates."
+          "description": "Bounding box of the shoreline segment as a dictionary of xmin, ymin, xmax, ymax."
         },
         {
           "name": "quadkey",
           "type": "string",
-          "description": "QuadKey (zoom level 7) for spatial indexing, representing the spatial location of the shoreline segment."
+          "description": "Tile key for spatial indexing using the Bing Maps Tile System."
+        },
+        {
+          "name": "otsu_threshold",
+          "type": "float32",
+          "description": "Threshold value determined by Otsu's method for water detection."
+        },
+        {
+          "name": "otsu_separability",
+          "type": "float32",
+          "description": "Separability score for land-water classification using Otsu's method."
+        },
+        {
+          "name": "sinuosity",
+          "type": "float32",
+          "description": "Sinuosity of the shoreline segment."
+        },
+        {
+          "name": "self_intersection_density",
+          "type": "float32",
+          "description": "Density of self-intersections in the shoreline geometry."
+        },
+        {
+          "name": "fractal_dimension",
+          "type": "float32",
+          "description": "Fractal dimension of the shoreline geometry."
+        },
+        {
+          "name": "filter_length",
+          "type": "int32",
+          "description": "Length of the applied filter in the shoreline extraction process."
+        },
+        {
+          "name": "filter_n_points",
+          "type": "int32",
+          "description": "Number of points included in the applied filter."
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "description": "Identifier of the source dataset used for the shoreline extraction."
+        },
+        {
+          "name": "box_id",
+          "type": "string",
+          "description": "Identifier for the bounding box in the shoreline system."
+        },
+        {
+          "name": "composite:image_id",
+          "type": "string",
+          "description": "Identifier for the composite image used in shoreline detection."
+        },
+        {
+          "name": "composite:start_datetime",
+          "type": "datetime64[ns, UTC]",
+          "description": "Start timestamp of the composite period for the shoreline observation."
+        },
+        {
+          "name": "composite:end_datetime",
+          "type": "datetime64[ns, UTC]",
+          "description": "End timestamp of the composite period for the shoreline observation."
+        },
+        {
+          "name": "composite:determination_datetimes",
+          "type": "object",
+          "description": "Array of timestamps for images used in the composite."
+        },
+        {
+          "name": "composite:cloud_cover",
+          "type": "object",
+          "description": "Array of cloud cover percentages for the composite images."
+        },
+        {
+          "name": "coastal_zone:buffer_distance",
+          "type": "int32",
+          "description": "Buffer distance applied to the coastal zone, in meters."
+        },
+        {
+          "name": "coastal_zone:source",
+          "type": "string",
+          "description": "Source used for the coastal zone buffer creation, such as OSM."
         }
       ]
     }
   },
-  "root_url": "az://shorelinemonitor-shorelines/release/2024-06-17",
-  "sci:citation": "Luijendijk/Kras/Calkoen in progress. ",
-  "version": "2.0.1",
+  "storage_pattern": "az://shorelinemonitor-shorelines/release/2025-01-09/box_*/*.parquet",
+  "sci:citation": "Deltares, RPC - work in progress.",
+  "version": "2025-01-09",
   "title": "ShorelineMonitor: Satellite-Derived Shorelines",
   "extent": {
     "spatial": {
@@ -852,29 +910,19 @@
       "interval": [
         [
           "1984-01-01T00:00:00Z",
-          "2024-06-18T14:50:16.930849Z"
+          "2023-01-01T00:00:00Z"
         ]
       ]
     }
   },
   "license": "CC-BY-4.0",
-  "keywords": [
-    "Satellite-Derived Shorelines",
-    "SDS",
-    "Coastal Change",
-    "Coast",
-    "CoCliCo",
-    "Deltares",
-    "GeoParquet"
-  ],
   "providers": [
     {
       "name": "Deltares",
       "roles": [
         "producer",
         "processor",
-        "host",
-        "licensor"
+        "host"
       ],
       "url": "https://deltares.nl"
     }
@@ -886,12 +934,13 @@
       "title": "Thumbnail"
     },
     "geoparquet-stac-items": {
-      "href": "az://shorelinemonitor-shorelines/release/2024-06-17/geoparquet-stac-items.parquet",
+      "href": "https://coclico.blob.core.windows.net/items/shorelinemonitor-shorelines.parquet/shorelinemonitor-shorelines.parquet",
       "type": "application/vnd.apache.parquet",
       "title": "GeoParquet STAC items",
       "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "1984-01-01T00:00:00Z",
       "roles": [
-        "data"
+        "metadata"
       ]
     }
   }

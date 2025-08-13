@@ -5,6 +5,12 @@
   "description": "**Coastal Change Segments** uses the historical shoreline change regime from the \u2018Coastal Typologies and Erosion for Risk\u2019 (CoasTER) database which integrates existing information on erosion and other relevant coastal characteristics for Europe\u2019s coastal floodplains. \n\n- **Spatial coverage**: European coastlines.\u200b\n- **Sources**: Remote sensing, historical shoreline data (1984-2024).\u200b\n- **Common usage**: Coastal erosion monitoring, sediment transport studies, policy and spatial planning.\u200b\n\n\u200bMore Info about the dataset: <a href='https://www.openearth.nl/coclico-workbench/Datasets/#__tabbed_2_2' target='_blank' rel='noopener noreferrer'>User Handbook</a>",
   "links": [
     {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "CC BY 4.0 "
+    },
+    {
       "rel": "root",
       "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/catalog.json",
       "type": "application/json",
@@ -13,7 +19,7 @@
     {
       "rel": "item",
       "href": "https://raw.githubusercontent.com/openearth/coclicodata/live/current/coaster/CoasTER_database/CoasTER_database.json",
-      "type": "application/json"
+      "type": "application/geo+json"
     },
     {
       "rel": "parent",
@@ -157,9 +163,10 @@
       ]
     }
   },
+  "storage_pattern": "az://cet/release/2025-05-08/*.parquet",
+  "version": "2025-05-08",
   "base_url": "gs://coclico-data-public/coclico/coaster",
   "sci:citation": "Hanson, S.E., Nicholls, R.J, Calkoen, F. R. Le Cozannet, G. and Luijendijk, A. P (2025, in review) 'A geospatial database of coastal characteristics for erosion assessment of Europe's coastal floodplains'",
-  "version": "1",
   "deltares:clickable": false,
   "deltares:attribute": "historical_shoreline_change_regime",
   "deltares:categoricalLegend": [
@@ -205,18 +212,19 @@
     "temporal": {
       "interval": [
         [
-          "2024-01-22T00:00:00Z",
-          "2024-01-22T00:00:00Z"
+          "2025-05-08T00:00:00Z",
+          "2025-05-08T00:00:00Z"
         ]
       ]
     }
   },
   "license": "CC-BY-4.0",
   "keywords": [
-    "Coastal",
-    "Zone",
-    "Erosion",
-    "Typology",
+    "Coastal analytics",
+    "Coastal erosion",
+    "Coastal floodingDeltares",
+    "CoCliCo",
+    "GeoParquet",
     "Full-Track",
     "Natural Hazards",
     "Data Layers"
@@ -233,7 +241,8 @@
     {
       "name": "Deltares",
       "roles": [
-        "processor",
+        "producer",
+        "licensor",
         "host"
       ],
       "url": "https://deltares.nl"
