@@ -107,7 +107,7 @@ with open(metadata_fp, "r") as f:
     metadata = json5.load(f)
 
 # # extend keywords
-metadata["KEYWORDS"].extend(["Full-Track", "Risk & Adaptation", "User Stories"])
+metadata["KEYWORDS"].extend(["Full-Track", "Exposure & Vulnerability", "User Stories"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
