@@ -65,7 +65,7 @@ BUCKET_PROJ = "coclico"
 PROJ_NAME = "be_stats/map_stats"
 
 # hard-coded STAC templates
-STAC_DIR = pathlib.Path.cwd().parent.parent / "current"  # .parent.parent
+STAC_DIR = pathlib.Path.cwd() / "current"  # .parent.parent
 
 # hard-coded input params which differ per dataset
 DATASET_DIR = "WP6"
@@ -94,7 +94,7 @@ if not ds_dir.exists():
 
 # # directory to export result
 ds_path = ds_dir.joinpath("WP6", "front_end_data", "be_stats", "map_stats")
-parq_dirs = ds_path.joinpath("maps")
+# parq_dirs = ds_path.joinpath("maps")
 ds_fp = ds_path.parent.joinpath("be_stats.parquet")  # file directory dummy
 
 # Front end makes geopackages to go alongside the parquet data
@@ -102,12 +102,12 @@ ds_fp = ds_path.parent.joinpath("be_stats.parquet")  # file directory dummy
 # FE_gpkg_fp = ds_path.joinpath("GCF_open_CBA_country_all_EPSG4326.gpkg")
 
 # # load metadata template
-metadata_fp = ds_path.parent.joinpath("metadata_be_stats.json")
+metadata_fp = ds_path.parent.joinpath("be_stats.json")
 with open(metadata_fp, "r") as f:
     metadata = json5.load(f)
 
 # # extend keywords
-metadata["KEYWORDS"].extend(["Full-Track", "Risk & Adaptation", "User Stories"])
+metadata["KEYWORDS"].extend(["Full-Track", "Exposure & Vulnerability", "User Stories"])
 
 # # data output configurations
 HREF_PREFIX = urljoin(
@@ -397,7 +397,12 @@ if __name__ == "__main__":
         "UNDEFENDED_MAPS",
     ]  # 3 options
     rps = ["static", "1", "100", "1000"]  # 4 options
-    scenarios = ["None", "SSP126", "SSP245", "SSP585", "High_End"]  # 3 options
+    scenarios = [
+        "None",
+        "SSP126",
+        "SSP245",
+        "SSP585",
+    ]  # , "High_End"]  # 4 options, leave out high end to have a full matrix
     times = ["2010", "2030", "2050", "2100"]  # 4 options
 
     # %%
@@ -412,7 +417,7 @@ if __name__ == "__main__":
     # %% store to cloud folder
 
     # dir_to_google_cloud(
-    #     dir_path=str(parq_dirs),
+    #     dir_path=str(ds_path),
     #     gcs_project=GCS_PROJECT,
     #     bucket_name=BUCKET_NAME,
     #     bucket_proj=BUCKET_PROJ,

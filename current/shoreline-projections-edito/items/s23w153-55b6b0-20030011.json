@@ -1,0 +1,581 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+  ],
+  "id": "s23w153-55b6b0-20030011",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -152.7813385245142,
+          -22.66382323053762
+        ],
+        [
+          -152.7813385245142,
+          -22.626650146141866
+        ],
+        [
+          -152.8236425483356,
+          -22.626650146141866
+        ],
+        [
+          -152.8236425483356,
+          -22.66382323053762
+        ],
+        [
+          -152.7813385245142,
+          -22.66382323053762
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -152.8236425483356,
+    -22.66382323053762,
+    -152.7813385245142,
+    -22.626650146141866
+  ],
+  "properties": {
+    "created": "2025-08-07T00:12:14.966559Z",
+    "proj:code": "EPSG:4326",
+    "proj:bbox": [
+      -152.8236425483356,
+      -22.66382323053762,
+      -152.7813385245142,
+      -22.626650146141866
+    ],
+    "start_datetime": "2030-01-01T00:00:00Z",
+    "end_datetime": "2100-01-01T00:00:00Z",
+    "datetime": "2064-12-31T12:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "alternate",
+      "href": "az://edito/projections/release/2025-07-11/s23w153-55b6b0-20030011.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Cloud Access"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Shoreline Change Projections"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Shoreline Change Projections"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://coclico.blob.core.windows.net/edito/projections/release/2025-07-11/s23w153-55b6b0-20030011.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "Shoreline Projections",
+      "description": "Shoreline change projections for global coastal transects, combining accretion/erosion trends and sea level rise impacts with spatial output in point format.",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "transect_id",
+          "type": "string",
+          "description": "Unique identifier for each transect, constructed from coastline, segment, and distance (from GCTR)."
+        },
+        {
+          "name": "lon",
+          "type": "float32",
+          "description": "Longitude coordinate of the transect origin."
+        },
+        {
+          "name": "lat",
+          "type": "float32",
+          "description": "Latitude coordinate of the transect origin."
+        },
+        {
+          "name": "utm_epsg",
+          "type": "int32",
+          "description": "EPSG code representing the UTM Coordinate Reference System of the transect (from GCTR)."
+        },
+        {
+          "name": "bbox",
+          "type": "object",
+          "description": "Bounding box of the transect geometry, defined by minimum and maximum longitude/latitude coordinates (from GCTR)."
+        },
+        {
+          "name": "quadkey",
+          "type": "string",
+          "description": "Spatial index for the transect origin using the Bing Maps Tile System (from GCTR)."
+        },
+        {
+          "name": "continent",
+          "type": "string",
+          "description": "Name of the continent where the transect is located (from GCTR)."
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "description": "ISO2 code of the country where the transect is located (from GCTR)."
+        },
+        {
+          "name": "common_region_name",
+          "type": "string",
+          "description": "Common name of the region where the transect is located, derived from GCTR data."
+        },
+        {
+          "name": "sds:change_rate",
+          "type": "float32",
+          "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (from GCTR)."
+        },
+        {
+          "name": "sds:change_rate_std_err",
+          "type": "float32",
+          "description": "Standard error of the estimated shoreline change rate (from GCTR)."
+        },
+        {
+          "name": "sds:reference_datetime",
+          "type": "datetime64[ms]",
+          "description": "Reference datetime for the baseline shoreline position (from GCTR)."
+        },
+        {
+          "name": "sds:reference_lon",
+          "type": "float32",
+          "description": "Longitude coordinate of the reference shoreline observation (from GCTR)."
+        },
+        {
+          "name": "sds:reference_lat",
+          "type": "float32",
+          "description": "Latitude coordinate of the reference shoreline observation (from GCTR)."
+        },
+        {
+          "name": "sds:obs_primary_count",
+          "type": "float32",
+          "description": "Count of primary shoreline observations used in the regression model (from GCTR)."
+        },
+        {
+          "name": "class:shore_type",
+          "type": "string",
+          "description": "Predicted shore type classification (e.g., sandy sediments, rocky formations)."
+        },
+        {
+          "name": "class:coastal_type",
+          "type": "string",
+          "description": "Predicted coastal geomorphological classification (e.g., cliffed, plain, dune, engineered)."
+        },
+        {
+          "name": "class:has_defense",
+          "type": "boolean",
+          "description": "Indicates whether coastal protection structures are present (e.g., seawalls, revetments)."
+        },
+        {
+          "name": "class:is_built_environment",
+          "type": "boolean",
+          "description": "Indicates whether the coastal area is part of a built-up or urbanized environment."
+        },
+        {
+          "name": "gcc:ns",
+          "type": "float32",
+          "description": "Nearshore slope computed from depth of closure to the shoreline using Gebco bathymetry (Athanasiou, GCC)."
+        },
+        {
+          "name": "gcc:sjoin_distance",
+          "type": "float32",
+          "description": "Distance in meters between the transect and nearest valid GCC slope profile."
+        },
+        {
+          "name": "ar6:ssp1-26_2030",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP1-2.6 in 2030 (100 percentiles)."
+        },
+        {
+          "name": "ar6:ssp1-26_2050",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP1-2.6 in 2050 (100 percentiles)."
+        },
+        {
+          "name": "ar6:ssp1-26_2100",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP1-2.6 in 2100 (100 percentiles)."
+        },
+        {
+          "name": "ar6:ssp2-45_2030",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP2-4.5 in 2030 (100 percentiles)."
+        },
+        {
+          "name": "ar6:ssp2-45_2050",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP2-4.5 in 2050 (100 percentiles)."
+        },
+        {
+          "name": "ar6:ssp2-45_2100",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP2-4.5 in 2100 (100 percentiles)."
+        },
+        {
+          "name": "ar6:ssp5-85_2030",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP5-8.5 in 2030 (100 percentiles)."
+        },
+        {
+          "name": "ar6:ssp5-85_2050",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP5-8.5 in 2050 (100 percentiles)."
+        },
+        {
+          "name": "ar6:ssp5-85_2100",
+          "type": "float32[100]",
+          "description": "AR6 projected relative sea level rise (m) for SSP5-8.5 in 2100 (100 percentiles)."
+        },
+        {
+          "name": "coastal_slope_is_valid",
+          "type": "boolean",
+          "description": "Boolean flag indicating if the coastal slope value is considered valid and reliable."
+        },
+        {
+          "name": "change_rate_is_valid",
+          "type": "boolean",
+          "description": "Boolean flag indicating if the shoreline change rate estimate is statistically valid."
+        },
+        {
+          "name": "transect_geometry",
+          "type": "geometry",
+          "description": "Original transect geometry as a WKT LineString in EPSG:4326."
+        },
+        {
+          "name": "ssp",
+          "type": "string",
+          "description": "Selected Shared Socioeconomic Pathway scenario used in the projection (e.g., 'ssp2-45')."
+        },
+        {
+          "name": "datetime",
+          "type": "datetime",
+          "description": "Target date of the shoreline projection under the selected scenario."
+        },
+        {
+          "name": "ambient_change_mean",
+          "type": "float32",
+          "description": "Mean shoreline change due to ambient (non-SLR) trends estimated from historical data."
+        },
+        {
+          "name": "ambient_change_p5",
+          "type": "float32",
+          "description": "5th percentile of ambient shoreline change based on uncertainty from the regression model."
+        },
+        {
+          "name": "ambient_change_p50",
+          "type": "float32",
+          "description": "Median (50th percentile) of ambient shoreline change distribution."
+        },
+        {
+          "name": "ambient_change_p95",
+          "type": "float32",
+          "description": "95th percentile of ambient shoreline change distribution."
+        },
+        {
+          "name": "slr_retreat",
+          "type": "list[float]",
+          "description": "Simulated shoreline retreat distances due to sea level rise, estimated using the Bruun Rule."
+        },
+        {
+          "name": "slr_retreat_p5",
+          "type": "float32",
+          "description": "5th percentile of projected shoreline retreat due to sea level rise."
+        },
+        {
+          "name": "slr_retreat_p50",
+          "type": "float32",
+          "description": "Median (50th percentile) of projected shoreline retreat due to sea level rise."
+        },
+        {
+          "name": "slr_retreat_p95",
+          "type": "float32",
+          "description": "95th percentile of projected shoreline retreat due to sea level rise."
+        },
+        {
+          "name": "total_change",
+          "type": "list[float]",
+          "description": "Simulated total shoreline change values, combining ambient change and sea level rise retreat."
+        },
+        {
+          "name": "total_change_p5",
+          "type": "float32",
+          "description": "5th percentile of total projected shoreline change (ambient + SLR)."
+        },
+        {
+          "name": "total_change_p50",
+          "type": "float32",
+          "description": "Median of total projected shoreline change (ambient + SLR)."
+        },
+        {
+          "name": "total_change_p95",
+          "type": "float32",
+          "description": "95th percentile of total projected shoreline change (ambient + SLR)."
+        },
+        {
+          "name": "geometry",
+          "type": "geometry",
+          "description": "Projected shoreline geometry at target datetime, typically as a Point or LineString in EPSG:4326."
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "shoreline-projections-edito",
+  "table:columns": [
+    {
+      "name": "transect_id",
+      "type": "string",
+      "description": "Unique identifier for each transect, constructed from coastline, segment, and distance (from GCTR)."
+    },
+    {
+      "name": "lon",
+      "type": "float32",
+      "description": "Longitude coordinate of the transect origin."
+    },
+    {
+      "name": "lat",
+      "type": "float32",
+      "description": "Latitude coordinate of the transect origin."
+    },
+    {
+      "name": "utm_epsg",
+      "type": "int32",
+      "description": "EPSG code representing the UTM Coordinate Reference System of the transect (from GCTR)."
+    },
+    {
+      "name": "bbox",
+      "type": "object",
+      "description": "Bounding box of the transect geometry, defined by minimum and maximum longitude/latitude coordinates (from GCTR)."
+    },
+    {
+      "name": "quadkey",
+      "type": "string",
+      "description": "Spatial index for the transect origin using the Bing Maps Tile System (from GCTR)."
+    },
+    {
+      "name": "continent",
+      "type": "string",
+      "description": "Name of the continent where the transect is located (from GCTR)."
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "description": "ISO2 code of the country where the transect is located (from GCTR)."
+    },
+    {
+      "name": "common_region_name",
+      "type": "string",
+      "description": "Common name of the region where the transect is located, derived from GCTR data."
+    },
+    {
+      "name": "sds:change_rate",
+      "type": "float32",
+      "description": "Rate of shoreline change (m/year) derived from satellite-derived shorelines (from GCTR)."
+    },
+    {
+      "name": "sds:change_rate_std_err",
+      "type": "float32",
+      "description": "Standard error of the estimated shoreline change rate (from GCTR)."
+    },
+    {
+      "name": "sds:reference_datetime",
+      "type": "datetime64[ms]",
+      "description": "Reference datetime for the baseline shoreline position (from GCTR)."
+    },
+    {
+      "name": "sds:reference_lon",
+      "type": "float32",
+      "description": "Longitude coordinate of the reference shoreline observation (from GCTR)."
+    },
+    {
+      "name": "sds:reference_lat",
+      "type": "float32",
+      "description": "Latitude coordinate of the reference shoreline observation (from GCTR)."
+    },
+    {
+      "name": "sds:obs_primary_count",
+      "type": "float32",
+      "description": "Count of primary shoreline observations used in the regression model (from GCTR)."
+    },
+    {
+      "name": "class:shore_type",
+      "type": "string",
+      "description": "Predicted shore type classification (e.g., sandy sediments, rocky formations)."
+    },
+    {
+      "name": "class:coastal_type",
+      "type": "string",
+      "description": "Predicted coastal geomorphological classification (e.g., cliffed, plain, dune, engineered)."
+    },
+    {
+      "name": "class:has_defense",
+      "type": "boolean",
+      "description": "Indicates whether coastal protection structures are present (e.g., seawalls, revetments)."
+    },
+    {
+      "name": "class:is_built_environment",
+      "type": "boolean",
+      "description": "Indicates whether the coastal area is part of a built-up or urbanized environment."
+    },
+    {
+      "name": "gcc:ns",
+      "type": "float32",
+      "description": "Nearshore slope computed from depth of closure to the shoreline using Gebco bathymetry (Athanasiou, GCC)."
+    },
+    {
+      "name": "gcc:sjoin_distance",
+      "type": "float32",
+      "description": "Distance in meters between the transect and nearest valid GCC slope profile."
+    },
+    {
+      "name": "ar6:ssp1-26_2030",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP1-2.6 in 2030 (100 percentiles)."
+    },
+    {
+      "name": "ar6:ssp1-26_2050",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP1-2.6 in 2050 (100 percentiles)."
+    },
+    {
+      "name": "ar6:ssp1-26_2100",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP1-2.6 in 2100 (100 percentiles)."
+    },
+    {
+      "name": "ar6:ssp2-45_2030",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP2-4.5 in 2030 (100 percentiles)."
+    },
+    {
+      "name": "ar6:ssp2-45_2050",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP2-4.5 in 2050 (100 percentiles)."
+    },
+    {
+      "name": "ar6:ssp2-45_2100",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP2-4.5 in 2100 (100 percentiles)."
+    },
+    {
+      "name": "ar6:ssp5-85_2030",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP5-8.5 in 2030 (100 percentiles)."
+    },
+    {
+      "name": "ar6:ssp5-85_2050",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP5-8.5 in 2050 (100 percentiles)."
+    },
+    {
+      "name": "ar6:ssp5-85_2100",
+      "type": "float32[100]",
+      "description": "AR6 projected relative sea level rise (m) for SSP5-8.5 in 2100 (100 percentiles)."
+    },
+    {
+      "name": "coastal_slope_is_valid",
+      "type": "boolean",
+      "description": "Boolean flag indicating if the coastal slope value is considered valid and reliable."
+    },
+    {
+      "name": "change_rate_is_valid",
+      "type": "boolean",
+      "description": "Boolean flag indicating if the shoreline change rate estimate is statistically valid."
+    },
+    {
+      "name": "transect_geometry",
+      "type": "geometry",
+      "description": "Original transect geometry as a WKT LineString in EPSG:4326."
+    },
+    {
+      "name": "ssp",
+      "type": "string",
+      "description": "Selected Shared Socioeconomic Pathway scenario used in the projection (e.g., 'ssp2-45')."
+    },
+    {
+      "name": "datetime",
+      "type": "datetime",
+      "description": "Target date of the shoreline projection under the selected scenario."
+    },
+    {
+      "name": "ambient_change_mean",
+      "type": "float32",
+      "description": "Mean shoreline change due to ambient (non-SLR) trends estimated from historical data."
+    },
+    {
+      "name": "ambient_change_p5",
+      "type": "float32",
+      "description": "5th percentile of ambient shoreline change based on uncertainty from the regression model."
+    },
+    {
+      "name": "ambient_change_p50",
+      "type": "float32",
+      "description": "Median (50th percentile) of ambient shoreline change distribution."
+    },
+    {
+      "name": "ambient_change_p95",
+      "type": "float32",
+      "description": "95th percentile of ambient shoreline change distribution."
+    },
+    {
+      "name": "slr_retreat",
+      "type": "list[float]",
+      "description": "Simulated shoreline retreat distances due to sea level rise, estimated using the Bruun Rule."
+    },
+    {
+      "name": "slr_retreat_p5",
+      "type": "float32",
+      "description": "5th percentile of projected shoreline retreat due to sea level rise."
+    },
+    {
+      "name": "slr_retreat_p50",
+      "type": "float32",
+      "description": "Median (50th percentile) of projected shoreline retreat due to sea level rise."
+    },
+    {
+      "name": "slr_retreat_p95",
+      "type": "float32",
+      "description": "95th percentile of projected shoreline retreat due to sea level rise."
+    },
+    {
+      "name": "total_change",
+      "type": "list[float]",
+      "description": "Simulated total shoreline change values, combining ambient change and sea level rise retreat."
+    },
+    {
+      "name": "total_change_p5",
+      "type": "float32",
+      "description": "5th percentile of total projected shoreline change (ambient + SLR)."
+    },
+    {
+      "name": "total_change_p50",
+      "type": "float32",
+      "description": "Median of total projected shoreline change (ambient + SLR)."
+    },
+    {
+      "name": "total_change_p95",
+      "type": "float32",
+      "description": "95th percentile of total projected shoreline change (ambient + SLR)."
+    },
+    {
+      "name": "geometry",
+      "type": "geometry",
+      "description": "Projected shoreline geometry at target datetime, typically as a Point or LineString in EPSG:4326."
+    }
+  ],
+  "table:row_count": 360
+}

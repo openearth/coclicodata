@@ -61,12 +61,12 @@ if __name__ == "__main__":
     #         " accordingly by debugging the STAC catalog."
     #     )
     # else:
-    # dir_to_google_cloud(
-    #     dir_path=source_dir_fp,
-    #     gcs_project=GCS_PROJECT,
-    #     bucket_name=BUCKET_NAME,
-    #     bucket_proj=BUCKET_PROJ,
-    #     dir_name=STAC_NAME,
-    # )
+    dir_to_google_cloud(
+        dir_path=source_dir_fp,
+        gcs_project=GCS_PROJECT,
+        bucket_name=BUCKET_NAME,
+        bucket_proj=BUCKET_PROJ,
+        dir_name=STAC_NAME,
+    )
 
 # %%

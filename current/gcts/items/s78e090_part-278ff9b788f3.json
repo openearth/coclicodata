@@ -1,0 +1,175 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  ],
+  "id": "s78e090_part-278ff9b788f3",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          179.99755412358076,
+          -78.02795197227032
+        ],
+        [
+          179.99755412358076,
+          -66.50477188961278
+        ],
+        [
+          89.99452872780314,
+          -66.50477188961278
+        ],
+        [
+          89.99452872780314,
+          -78.02795197227032
+        ],
+        [
+          179.99755412358076,
+          -78.02795197227032
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    89.99452872780314,
+    -78.02795197227032,
+    179.99755412358076,
+    -66.50477188961278
+  ],
+  "properties": {
+    "created": "2024-12-09T23:42:49.267130Z",
+    "table:columns": [
+      {
+        "name": "transect_id",
+        "type": "string",
+        "description": "A unique identifier for each transect, constructed from three key components: the 'coastline_id', 'segment_id', and 'interpolated_distance'. The 'coastline_id' corresponds to the FID in OpenStreetMap (OSM) and is prefixed with 'cl'. The 'segment_id' indicates the segment of the OSM coastline split by a UTM grid, prefixed with 's'. The 'interpolated_distance' represents the distance from the starting point of the coastline to the transect, interpolated along the segment, and is prefixed with 'tr'. The complete structure is 'cl[coastline_id]s[segment_id]tr[interpolated_distance]', exemplified by 'cl32946s04tr08168547'. This composition ensures each transect name is a distinct and informative representation of its geographical and spatial attributes."
+      },
+      {
+        "name": "lon",
+        "type": "float",
+        "description": "Longitude of the transect origin."
+      },
+      {
+        "name": "lat",
+        "type": "float",
+        "description": "Latitude of the transect origin."
+      },
+      {
+        "name": "bearing",
+        "type": "float",
+        "description": "North bearing of the transect from the landward side in degrees, with the north as reference."
+      },
+      {
+        "name": "geometry",
+        "type": "WKB",
+        "description": "Well-Known Binary (WKB) representation of the transect as a linestring geometry."
+      },
+      {
+        "name": "osm_coastline_is_closed",
+        "type": "bool",
+        "description": "Indicates whether the source OpenStreetMap (OSM) coastline, from which the transects were derived, forms a closed loop. A value of 'true' suggests that the coastline represents an enclosed area, such as an island."
+      },
+      {
+        "name": "osm_coastline_length",
+        "type": "int32",
+        "description": "Represents the total length of the source OpenStreetMap (OSM) coastline, that is summed across various UTM regions. It reflects the aggregate length of the original coastline from which the transects are derived."
+      },
+      {
+        "name": "utm_epsg",
+        "type": "int32",
+        "description": "EPSG code representing the UTM Coordinate Reference System for the transect."
+      },
+      {
+        "name": "bbox.xmax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.xmin",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymax",
+        "type": "double"
+      },
+      {
+        "name": "bbox.ymin",
+        "type": "double"
+      },
+      {
+        "name": "quadkey",
+        "type": "string",
+        "description": "QuadKey corresponding to the transect origin location at zoom 12, following the Bing Maps Tile System for spatial indexing."
+      },
+      {
+        "name": "continent",
+        "type": "string",
+        "description": "Name of the continent in which the transect is located."
+      },
+      {
+        "name": "country",
+        "type": "string",
+        "description": "ISO alpha-2 country code for the country in which the transect is located. The country data are extracted from Overture Maps (divisions)."
+      },
+      {
+        "name": "common_country_name",
+        "type": "string",
+        "description": "Common country name (EN) in which the transect is located. The country data are extracted from Overture Maps (divisions)."
+      },
+      {
+        "name": "common_region_name",
+        "type": "null",
+        "description": "Common region name (EN) in which the transect is located. The regions are extracted from Overture Maps (divisions)."
+      }
+    ],
+    "proj:bbox": [
+      89.99452872780314,
+      -78.02795197227032,
+      179.99755412358076,
+      -66.50477188961278
+    ],
+    "proj:epsg": 4326,
+    "table:row_count": 73836,
+    "datetime": "2023-02-09T00:00:00Z"
+  },
+  "links": [
+    {
+      "rel": "alternate",
+      "href": "https://coclico.blob.core.windows.net/gcts/release/2024-08-02/s78e090_part-278ff9b788f3.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "HTTPS access"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Coastal Transect System (GCTS)"
+    },
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "Global Coastal Transect System (GCTS)"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "az://gcts/release/2024-08-02/s78e090_part-278ff9b788f3.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "GCTS",
+      "description": "Parquet dataset with coastal transects (2000 m) at 100 m alongshore resolution for this region.",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "gcts"
+}
