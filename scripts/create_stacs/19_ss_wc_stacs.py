@@ -91,7 +91,7 @@ if __name__ == "__main__":
     # these are added at collection level
     UNITS = "m"
     PLOT_SERIES = ""
-    PLOT_X_AXIS = "variables"
+    PLOT_X_AXIS = "variable"
     PLOT_TYPE = "bar"
     MIN = 0
     MAX = 3
@@ -285,7 +285,7 @@ if __name__ == "__main__":
     if (
         len(VARIABLES) > 1
     ):  # NOTE, this is newly needed by the F/E. Check if implementation holds across all datasets later..
-        collection.summaries.add("variables", VARIABLES)
+        collection.summaries.add("variable", VARIABLES)
 
     # this calls CollectionCoclicoExtension since stac_obj==pystac.Collection
     # coclico_ext = CoclicoExtension.ext(collection, add_if_missing=True)
@@ -367,7 +367,7 @@ if __name__ == "__main__":
         strategy=layout,
     )
 
-    collection.validate_all()
+    # collection.validate_all() # fails on the custom update-deltares-stac-properties extension, need to download that locally
 
     catalog.save(
         catalog_type=CatalogType.SELF_CONTAINED,
