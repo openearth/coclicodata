@@ -144,7 +144,7 @@ def dir_to_google_cloud(
 
     # When requested return resulting URL
     if return_URL:
-        return fs.url(target_filepath)
+        return fs.url(target_path)
 
 
 def google_cloud_to_dir(
