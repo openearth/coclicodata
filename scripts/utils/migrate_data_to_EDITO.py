@@ -9,6 +9,7 @@ from os import environ
 import xarray as xr
 from xarray import Dataset
 import s3fs
+import boto3
 import pathlib
 import gcsfs
 import os
@@ -28,106 +29,106 @@ fs = s3fs.S3FileSystem(
 )
 
 # %% Get data from Google bucket and write to EDITO S3 storage (MiniO) --> migrate bulk
-#
-# # Load google credentials and set bucket details
-# GCS_PROJECT = "coclico-11207608-002"
-# BUCKET_NAME = "coclico-data-public"
-# BUCKET_PROJ = "coclico"
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(
-#     pathlib.Path("P:/").joinpath(
-#         "11207608-coclico", "FASTTRACK_DATA", "google_credentials_new.json"
-#     )
-# )
 
-# # intialize gcs filesystem and set environment variables
-# gcs = gcsfs.GCSFileSystem(
-#     gcs_project=GCS_PROJECT, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
-# )
+# Load google credentials and set bucket details
+GCS_PROJECT = "coclico-11207608-002"
+BUCKET_NAME = "coclico-data-public"
+BUCKET_PROJ = "coclico"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(
+    pathlib.Path("P:/").joinpath(
+        "11207608-coclico", "FASTTRACK_DATA", "google_credentials_new.json"
+    )
+)
 
-# # List all files under the GCS folder
-# # gcs_files = gcs.find(f"{BUCKET_NAME}/{BUCKET_PROJ}")  # recursive
-# top_level_paths = gcs.ls(f"{BUCKET_NAME}/{BUCKET_PROJ}", detail=False)
+# intialize gcs filesystem and set environment variables
+gcs = gcsfs.GCSFileSystem(
+    gcs_project=GCS_PROJECT, token=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+)
 
-# # Only keep directories
-# folders = [p for p in top_level_paths if gcs.isdir(p)]
+# List all files under the GCS folder
+# gcs_files = gcs.find(f"{BUCKET_NAME}/{BUCKET_PROJ}")  # recursive
+top_level_paths = gcs.ls(f"{BUCKET_NAME}/{BUCKET_PROJ}", detail=False)
 
-# for gcs_path in folders[1:]:  # skip the base directory on position 0
+# Only keep directories
+folders = [p for p in top_level_paths if gcs.isdir(p)]
 
-#     if "coclico-stac" in gcs_path:  # skip stacs
-#         continue
+for gcs_path in folders[1:]:  # skip the base directory on position 0
 
-#     if "assets" in gcs_path:  # skip thumbnails
-#         continue
+    if (
+        "coclico-stac" in gcs_path
+    ):  # skip stacs --> we need to rebuild this manually (i.e. with correct urls and absolute paths; see seperate script)
+        continue
 
-#     print(f"Copying: {gcs_path}")
+    print(f"Copying: {gcs_path}")
 
-#     all_files = gcs.find(gcs_path) # recursive
+    all_files = gcs.find(gcs_path)  # recursive
 
-#     for gcs_file_path in all_files:
-#         if gcs.isdir(gcs_file_path):
-#             continue  # skip directories, just in case
+    for gcs_file_path in all_files:
+        if gcs.isdir(gcs_file_path):
+            continue  # skip directories, just in case
 
-#         # Step 3: Calculate relative path (inside this folder)
-#         relative_path = gcs_file_path.replace(gcs_path, "")
+        # Step 3: Calculate relative path (inside this folder)
+        relative_path = gcs_file_path.replace(gcs_path, "")
 
-#         # Compose final destination path in S3
-#         s3_path = f"{USERNAME}{gcs_path.replace(f'{BUCKET_NAME}/{BUCKET_PROJ}', '')}{relative_path}"
+        # Compose final destination path in S3
+        s3_path = f"{USERNAME}{gcs_path.replace(f'{BUCKET_NAME}/{BUCKET_PROJ}', '')}{relative_path}"
 
-#         print(f"📤 Copying: {gcs_file_path} → {s3_path}")
+        print(f"📤 Copying: {gcs_file_path} → {s3_path}")
 
-#         # Stream copy file in chunks
-#         with gcs.open(gcs_file_path, "rb") as src:
-#             with fs.open(s3_path, "wb") as dst:
-#                 for chunk in iter(lambda: src.read(1024 * 1024), b""):
-#                     dst.write(chunk)
+        # Stream copy file in chunks
+        with gcs.open(gcs_file_path, "rb") as src:
+            with fs.open(s3_path, "wb") as dst:
+                for chunk in iter(lambda: src.read(1024 * 1024), b""):
+                    dst.write(chunk)
 
 # %% Get data from Microsoft Azure and write to EDITO S3 storage (MiniO) --> migrate bulk
 
 # Load azure credentials and set bucket details
-AZURE_STORAGE_ACCOUNT = "coclico"  # AZURE_CONTAINER
-containers_to_export = [
-    "gcts",
-    "coastal-grid",
-    "deltares-delta-dtm",
-    "edito",
-]  # containers to export, note edito includes projections and typology
+# AZURE_STORAGE_ACCOUNT = "coclico"  # AZURE_CONTAINER
+# containers_to_export = [
+#     "gcts",
+#     "coastal-grid",
+#     "deltares-delta-dtm",
+#     "edito",
+# ]  # containers to export, note edito includes projections and typology
 
-# intialize Azure filesystem and set container client
-account_url = f"https://{AZURE_STORAGE_ACCOUNT}.blob.core.windows.net"
-blob_service = BlobServiceClient(
-    account_url=account_url, credential=os.environ["AZURE_STORAGE_SAS_TOKEN"]
-)
+# # intialize Azure filesystem and set container client
+# account_url = f"https://{AZURE_STORAGE_ACCOUNT}.blob.core.windows.net"
+# blob_service = BlobServiceClient(
+#     account_url=account_url, credential=os.environ["AZURE_STORAGE_SAS_TOKEN"]
+# )
 
-# Loop over specified containers
-for container_name in containers_to_export:
-    print(f"\n Processing container: {container_name}")
-    container_client = blob_service.get_container_client(container_name)
+# # Loop over specified containers
+# for container_name in containers_to_export:
+#     print(f"\n Processing container: {container_name}")
+#     container_client = blob_service.get_container_client(container_name)
 
-    # TODO: check for container / blob existence and skip if present
+#     # TODO: check for container / blob existence and skip if present
 
-    try:
-        # List blobs in the container
-        blobs = container_client.list_blobs()
+#     try:
+#         # List blobs in the container
+#         blobs = container_client.list_blobs()
 
-        for blob in blobs:
-            blob_name = blob.name
+#         for blob in blobs:
+#             blob_name = blob.name
 
-            # Build S3 path
-            s3_path = f"{USERNAME}/{container_name}/{blob_name}"
+#             # Build S3 path
+#             s3_path = f"{USERNAME}/{container_name}/{blob_name}"
 
-            print(f"Copying: {container_name}/{blob_name} → s3://{s3_path}")
+#             print(f"Copying: {container_name}/{blob_name} → s3://{s3_path}")
 
-            # Download blob and stream to S3
-            azure_blob_client = container_client.get_blob_client(blob_name)
-            downloader = azure_blob_client.download_blob()
-            stream = downloader.chunks()
+#             # Download blob and stream to S3
+#             azure_blob_client = container_client.get_blob_client(blob_name)
+#             downloader = azure_blob_client.download_blob()
+#             stream = downloader.chunks()
 
-            with fs.open(s3_path, "wb") as s3_file:
-                for chunk in stream:
-                    s3_file.write(chunk)
+#             with fs.open(s3_path, "wb") as s3_file:
+#                 for chunk in stream:
+#                     s3_file.write(chunk)
 
-    except Exception as e:
-        print(f"Error processing container '{container_name}': {e}")
+#     except Exception as e:
+#         print(f"Error processing container '{container_name}': {e}")
+
 
 # %% general example
 # dataset: Dataset = (
