@@ -1,0 +1,113 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+  ],
+  "id": "MT_MT01108",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          14.563194755717499,
+          35.860178974961386
+        ],
+        [
+          14.563194755717499,
+          35.88790884390347
+        ],
+        [
+          14.521031024661264,
+          35.88790884390347
+        ],
+        [
+          14.521031024661264,
+          35.860178974961386
+        ],
+        [
+          14.563194755717499,
+          35.860178974961386
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    14.521031024661264,
+    35.860178974961386,
+    14.563194755717499,
+    35.88790884390347
+  ],
+  "properties": {
+    "title": "CI_data",
+    "description": "EU-wide high-resolution object-based maps of economic assets and infrastructure systems in coastal flood-prone areas.",
+    "table:columns": [
+      {
+        "name": "type",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      4733030.688618662,
+      1434618.002255774,
+      4736732.091148223,
+      1437453.0929925907
+    ],
+    "table:row_count": 3309,
+    "created": "2025-04-08T11:07:04.886790Z",
+    "datetime": "2021-08-01T00:00:00Z",
+    "proj:code": "EPSG:3035"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/ceed_maps/collection.json",
+      "type": "application/json",
+      "title": "Critical Infrastructure"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/ceed_maps/items/MT_MT01108.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "collection",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/ceed_maps/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "gs://coclico-data-public/coclico/LAU_ceed/MT_MT01108.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "CI_data",
+      "description": "EU-wide high-resolution object-based maps of economic assets and infrastructure systems in coastal flood-prone areas.",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/ceed_maps/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=ceed_maps:MT_MT01108",
+      "type": "application/png",
+      "title": "ceed_maps:MT_MT01108",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "collection": "ceed_maps"
+}

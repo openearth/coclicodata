@@ -1,0 +1,154 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+  ],
+  "id": "LAU_2020_NUTS_2021_01M_3035",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          93.1752791130622,
+          -29.857519696177313
+        ],
+        [
+          93.1752791130622,
+          37.855412297701754
+        ],
+        [
+          -81.78251054209933,
+          37.855412297701754
+        ],
+        [
+          -81.78251054209933,
+          -29.857519696177313
+        ],
+        [
+          93.1752791130622,
+          -29.857519696177313
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -81.78251054209933,
+    -29.857519696177313,
+    93.1752791130622,
+    37.855412297701754
+  ],
+  "properties": {
+    "title": "LAU",
+    "description": "A system of local administrative units (LAUs) compatible with NUTS",
+    "table:columns": [
+      {
+        "name": "GISCO_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "CNTR_CODE",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "nuts_2",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "nuts_3",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LAU_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LAU_NAME",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "POP_2020",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "POP_DENS_2",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "AREA_KM2",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "YEAR",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "FID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -2824243.6908,
+      -3076198.0823,
+      10026005.2215,
+      5415709.913699999
+    ],
+    "table:row_count": 98613,
+    "created": "2024-10-31T15:21:38.278478Z",
+    "datetime": "2024-01-22T00:00:00Z",
+    "proj:code": "EPSG:3035"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/LAU/collection.json",
+      "type": "application/json",
+      "title": "Local administrative units"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/LAU/items/LAU_2020_NUTS_2021_01M_3035.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "collection",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/LAU/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "gs://coclico-data-public/coclico/LAU/LAU_2020_NUTS_2021_01M_3035.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "LAU",
+      "description": "A system of local administrative units (LAUs) compatible with NUTS",
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "LAU"
+}

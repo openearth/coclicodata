@@ -1,0 +1,145 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://raw.githubusercontent.com/openearth/coclicodata/main/json-schema/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+  ],
+  "id": "x-128.8_y13.32",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -125.38708333333332,
+          13.319583333333327
+        ],
+        [
+          -125.38708333333332,
+          16.732916666666668
+        ],
+        [
+          -128.80041666666668,
+          16.732916666666668
+        ],
+        [
+          -128.80041666666668,
+          13.319583333333327
+        ],
+        [
+          -125.38708333333332,
+          13.319583333333327
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -128.80041666666668,
+    13.319583333333327,
+    -125.38708333333332,
+    16.732916666666668
+  ],
+  "properties": {
+    "created": "2024-02-02T09:24:06.485414Z",
+    "proj:bbox": [
+      -128.80041666666668,
+      13.319583333333327,
+      -125.38708333333332,
+      16.732916666666668
+    ],
+    "proj:shape": [
+      4096,
+      4096
+    ],
+    "proj:geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -125.38708333333332,
+            13.319583333333327
+          ],
+          [
+            -125.38708333333332,
+            16.732916666666668
+          ],
+          [
+            -128.80041666666668,
+            16.732916666666668
+          ],
+          [
+            -128.80041666666668,
+            13.319583333333327
+          ],
+          [
+            -125.38708333333332,
+            13.319583333333327
+          ]
+        ]
+      ]
+    },
+    "proj:transform": [
+      0.0008333333333333334,
+      0.0,
+      -128.80041666666668,
+      0.0,
+      -0.0008333333333333334,
+      16.732916666666668
+    ],
+    "deltares:item_key": "x-128.8_y13.32",
+    "datetime": "2022-02-22T00:00:00Z",
+    "proj:code": "EPSG:4326"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-mask/collection.json",
+      "type": "application/json",
+      "title": "Coastal Mask"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-mask/items/x-128.8_y13.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "collection",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-mask/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "B01": {
+      "href": "https://minio.dive.edito.eu/project-coclico/coastal_mask/B01_x-128.8_y13.32.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "B01",
+      "file:size": 26068,
+      "raster:bands": [
+        {
+          "nodata": 0,
+          "data_type": "uint8",
+          "spatial_resolution": 30
+        }
+      ],
+      "eo:bands": [
+        {
+          "name": "B01",
+          "description": "Coastal mask for this region."
+        }
+      ],
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "collection": "coastal-mask"
+}

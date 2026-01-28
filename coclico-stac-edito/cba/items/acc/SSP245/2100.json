@@ -1,0 +1,142 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+  ],
+  "id": "acc\\SSP245\\2100.parquet",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          103.456913582018,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          -29.857082115784582
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -90.23528381409483,
+    -29.857082115784582,
+    103.456913582018,
+    39.79889221318682
+  ],
+  "properties": {
+    "title": "CBA",
+    "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
+    "table:columns": [
+      {
+        "name": "country",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "coast_length",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "NUTS_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "acc_SSP245_2100",
+        "type": "double"
+      },
+      {
+        "name": "costs_adaptation_SSP245",
+        "type": "double"
+      },
+      {
+        "name": "costs_damage_SSP245",
+        "type": "double"
+      },
+      {
+        "name": "costs_SSP245",
+        "type": "double"
+      }
+    ],
+    "proj:bbox": [
+      -2824230.8134000003,
+      -3076162.6068,
+      10026010.8334,
+      6405005.3475
+    ],
+    "table:row_count": 35,
+    "created": "2025-04-29T08:56:04.187629Z",
+    "adaptation strategy": "acc",
+    "scenarios": "SSP245",
+    "time": "2100",
+    "datetime": "2020-01-01T00:00:00Z",
+    "proj:code": "EPSG:3035"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/cba/collection.json",
+      "type": "application/json",
+      "title": "Cost Benefit Analysis"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/cba/items/acc/SSP245/2100.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "collection",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/cba/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://minio.dive.edito.eu/project-coclico/CBA/acc/SSP245/GCF_open_CBA_country_acc_SSP245_2100.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "CBA",
+      "description": "The cost-benefit analysis determines efficient adaptation trajectories over time for each European floodplain, considering protection, retreat and accommodation.",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/cba/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=cba:GCF_open_CBA_country_acc_SSP245_2100",
+      "type": "application/png",
+      "title": "cba:GCF_open_CBA_country_acc_SSP245_2100",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "collection": "cba"
+}

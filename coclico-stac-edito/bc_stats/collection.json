@@ -1,0 +1,1265 @@
+{
+  "type": "Collection",
+  "id": "bc_stats",
+  "stac_version": "1.1.0",
+  "description": "Projections of the cost of buildings exposed to coastal flooding, integrating future flood risk models and current buildings.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/bc_stats/items/bc_stats.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/bc_stats/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/version/v1.2.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "title": "BC",
+      "description": "Impact of coastal flooding on buildings.",
+      "roles": [
+        "data"
+      ],
+      "type": "application/vnd.apache.parquet",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "GISCO_ID",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "CNTR_CODE",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "nuts_2",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "nuts_3",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "LAU_ID",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "LAU_NAME",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "POP_2020",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "POP_DENS_2",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "AREA_KM2",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "YEAR",
+          "type": "int64",
+          "description": ""
+        },
+        {
+          "name": "FID",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "geometry",
+          "type": "binary",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1000\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1000\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1000\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\100\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\100\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\100\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP245\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP126\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP585\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\None\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\None\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\None\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\None\\2010\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\1\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\1\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\1\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\High_End\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\High_End\\2150\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP126\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP245\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP126\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP245\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP585\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP126\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP245\\2030\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP585\\2050\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "UNDEFENDED_MAPS\\static\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "HIGH_DEFENDED_MAPS\\static\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "LOW_DEFENDED_MAPS\\static\\SSP585\\2100\\buildings",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "__index_level_0__",
+          "type": "int64",
+          "description": ""
+        }
+      ]
+    }
+  },
+  "base_url": "gs://coclico-data-public/coclico/bc_stats",
+  "sci:citation": "In preparation",
+  "version": "1",
+  "title": "Damage Costs - statistics",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -81.12146941539005,
+          -29.12357316038395,
+          93.1752791130622,
+          37.855412297701754
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2010-01-01T00:00:00Z",
+          "2010-01-01T00:00:00Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "Shared Socioeconomic Pathways",
+    "buildings",
+    "flood risk",
+    "cost",
+    "vulnerability",
+    "coastal flooding",
+    "flood projections",
+    "hindcast data",
+    "Full-Track"
+  ],
+  "providers": [
+    {
+      "name": "BRGM",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "www.brgm.fr"
+    },
+    {
+      "name": "Deltares",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://deltares.nl"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://storage.googleapis.com/download/storage/v1/b/coclico-data-public/o/coclico%2Fassets%2Fthumbnails%2Fbc_stats.png?alt=media",
+      "type": "image/png",
+      "title": "Thumbnail"
+    },
+    "geoparquet-stac-items": {
+      "href": "https://minio.dive.edito.eu/project-coclico/bc_stats/bc_stats.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "GeoParquet STAC items",
+      "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "roles": [
+        "data"
+      ]
+    }
+  }
+}

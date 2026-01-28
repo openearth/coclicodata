@@ -1,0 +1,439 @@
+{
+  "type": "Collection",
+  "id": "coastal-grid",
+  "stac_version": "1.1.0",
+  "description": "\nThe Coastal Grid dataset provides a global tiling system for geospatial analytics in coastal areas.\nIt supports scalable data processing workflows by offering structured grids at varying zoom levels\n(2, 3, 4, 5, 6, 7, 8, 9, 10) and buffer sizes (500m, 1000m, 2000m, 5000m, 10000m, 15000m).\n\nEach tile contains information on intersecting countries, continents, and Sentinel-2 MGRS tiles\nas nested JSON lists. The dataset is particularly suited for applications requiring global coastal\ncoverage, such as satellite-based coastal monitoring, spatial analytics, and large-scale data processing.\n\nKey Features:\n- Global coverage of the coastal zone, derived from OpenStreetMap's generalized coastline (2023-02).\n- Precomputed intersections with countries, continents, and MGRS tiles.\n- Designed for use in scalable geospatial workflows.\n\nThis dataset is structured as a STAC collection, with individual items for each zoom level and buffer\nsize combination. Users can filter items by the `zoom` and `buffer_size` fields in the STAC metadata.\n\nPlease consider the following citation when using this dataset:\n\nFloris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Eti\u00ebnne Kras, Fedor Baart,\nEnabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024,\n106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.\n",
+  "links": [
+    {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "CC BY 4.0 "
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "cite-as",
+      "href": "https://doi.org/10.1016/j.envsoft.2024.106257"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z10_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z10_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z10_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z10_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z10_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z10_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z2_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z2_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z2_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z2_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z2_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z2_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z3_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z3_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z3_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z3_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z3_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z3_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z4_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z4_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z4_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z4_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z4_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z4_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z5_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z5_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z5_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z5_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z5_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z5_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z6_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z6_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z6_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z6_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z6_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z6_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z7_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z7_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z7_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z7_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z7_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z7_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z8_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z8_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z8_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z8_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z8_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z8_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z9_10000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z9_1000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z9_15000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z9_2000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z9_5000m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/items/coastal_grid_z9_500m.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/coastal-grid/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/version/v1.2.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "title": "Coastal Grid",
+      "description": "Parquet dataset providing a global structured coastal grid for coastal analytics",
+      "roles": [
+        "data"
+      ],
+      "type": "application/vnd.apache.parquet",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "coastal_grid:id",
+          "type": "string",
+          "description": "Unique identifier for each tile, derived from bounds and a deterministic hex suffix."
+        },
+        {
+          "name": "coastal_grid:quadkey",
+          "type": "string",
+          "description": "Mercator quadkey for each tile, indicating its spatial location and zoom level."
+        },
+        {
+          "name": "coastal_grid:bbox",
+          "type": "object",
+          "description": "Bounding box of the tile in WGS84 coordinates, represented as a dictionary."
+        },
+        {
+          "name": "coastal_grid:utm_epsg",
+          "type": "int32",
+          "description": "EPSG code for the UTM zone of the tile estimated by GeoPandas.estimate_utm_crs()."
+        },
+        {
+          "name": "admin:countries",
+          "type": "string",
+          "description": "JSON list of countries intersecting the tile (e.g., '[\"CA\", \"US\"]')."
+        },
+        {
+          "name": "admin:continents",
+          "type": "string",
+          "description": "JSON list of continents intersecting the tile (e.g., '[\"NA\", \"SA\"]')."
+        },
+        {
+          "name": "s2:mgrs_tile",
+          "type": "string",
+          "description": "JSON list of Sentinel-2 MGRS tiles intersecting the tile (e.g., '[\"15XWL\", \"16XDR\"]')."
+        },
+        {
+          "name": "geometry",
+          "type": "geometry",
+          "description": "Polygon geometry defining the spatial extent of the tile."
+        }
+      ]
+    }
+  },
+  "storage_pattern": "az://coastal-grid/release/2025-01-01/*.parquet",
+  "sci:doi": "10.1016/j.envsoft.2024.106257",
+  "sci:citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Eti\u00ebnne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257.",
+  "sci:publications": [
+    {
+      "doi": "10.1016/j.envsoft.2024.106257",
+      "citation": "Floris Reinier Calkoen, Arjen Pieter Luijendijk, Kilian Vos, Eti\u00ebnne Kras, Fedor Baart, Enabling coastal analytics at planetary scale, Environmental Modelling & Software, 2024, 106257, ISSN 1364-8152, https://doi.org/10.1016/j.envsoft.2024.106257."
+    }
+  ],
+  "version": "2025-01-01",
+  "title": "Coastal Grid",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180.0,
+          -78.87279612057878,
+          180.0,
+          83.79921585603272
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2023-02-09T00:00:00Z",
+          "2023-02-09T00:00:00Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "Coastal analytics",
+    "Coastal change",
+    "Coastal monitoring",
+    "Satellite-derived shorelines",
+    "Coastal zone",
+    "Deltares",
+    "CoCliCo",
+    "GeoParquet"
+  ],
+  "providers": [
+    {
+      "name": "Deltares",
+      "roles": [
+        "producer",
+        "processor",
+        "host",
+        "licensor"
+      ],
+      "url": "https://deltares.nl"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://coclico.blob.core.windows.net/assets/thumbnails/coastal-grid-thumbnail.jpeg",
+      "type": "image/jpeg",
+      "title": "Thumbnail"
+    },
+    "geoparquet-stac-items": {
+      "href": "https://coclico.blob.core.windows.net/items/coastal-grid.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "GeoParquet STAC items",
+      "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "created": "2025-05-16T17:47:19.809740Z",
+      "roles": [
+        "metadata"
+      ]
+    }
+  }
+}

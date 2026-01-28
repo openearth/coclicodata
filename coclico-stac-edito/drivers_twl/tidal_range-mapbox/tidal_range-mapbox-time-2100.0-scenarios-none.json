@@ -1,0 +1,119 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [],
+  "id": "tidal_range-mapbox-time-2100.0-scenarios-none",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          -90.0
+        ],
+        [
+          180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          90.0
+        ],
+        [
+          -180.0,
+          -90.0
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -180,
+    -90,
+    180,
+    90
+  ],
+  "properties": {
+    "deltares:item_key": "time-2100.0-scenarios-none",
+    "deltares:paint": {
+      "circle-color": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "get",
+          "time-2100.0-scenarios-none"
+        ],
+        0,
+        "hsl(110,90%,80%)",
+        1.5,
+        "hsla(55, 88%, 53%, 0.5)",
+        3.0,
+        "hsl(0, 90%, 70%)"
+      ],
+      "circle-radius": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "zoom"
+        ],
+        0,
+        0.5,
+        1,
+        1,
+        5,
+        5
+      ]
+    },
+    "deltares:type": "circle",
+    "deltares:stations": "locationId",
+    "deltares:onclick": {},
+    "time": 2100.0,
+    "scenarios": "none",
+    "variable": "tidal_range",
+    "datetime": "2025-09-19T08:54:10.186435Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/drivers_twl/collection.json",
+      "type": "application/json",
+      "title": "Drivers of Total Water Level"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/drivers_twl/tidal_range-mapbox/tidal_range-mapbox-time-2100.0-scenarios-none.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "collection",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/drivers_twl/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "mapbox": {
+      "href": "mapbox://global-data-viewer.drivers_twl_tidal_range",
+      "type": "vector",
+      "title": "Point locations",
+      "description": "Mapbox url",
+      "source": "drivers_twl_tidal_range",
+      "roles": [
+        "mapbox"
+      ]
+    }
+  },
+  "collection": "drivers_twl"
+}

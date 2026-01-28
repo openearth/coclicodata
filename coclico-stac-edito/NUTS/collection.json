@@ -1,0 +1,160 @@
+{
+  "type": "Collection",
+  "id": "NUTS",
+  "stac_version": "1.1.0",
+  "description": "The GISCO statistical unit dataset represents the NUTS (nomenclature of territorial units for statistics) and statistical regions by means of multipart polygon, polyline and point topology. The NUTS geographical information is completed by attribute tables and a set of cartographic help lines to better visualise multipart polygonal regions.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "item",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/NUTS/items/NUTS_RG_01M_2021_3035.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/NUTS/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/scientific/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/version/v1.2.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "title": "NUTS",
+      "description": "The NUTS are a hierarchical system divided into 3 levels",
+      "roles": [
+        "data"
+      ],
+      "type": "application/vnd.apache.parquet",
+      "table:storage_options": {
+        "account_name": "coclico"
+      },
+      "table:columns": [
+        {
+          "name": "NUTS_ID",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "LEVL_CODE",
+          "type": "int64",
+          "description": ""
+        },
+        {
+          "name": "CNTR_CODE",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "NAME_LATN",
+          "type": "binary",
+          "description": ""
+        },
+        {
+          "name": "NUTS_NAME",
+          "type": "binary",
+          "description": ""
+        },
+        {
+          "name": "MOUNT_TYPE",
+          "type": "double",
+          "description": ""
+        },
+        {
+          "name": "URBN_TYPE",
+          "type": "int64",
+          "description": ""
+        },
+        {
+          "name": "COAST_TYPE",
+          "type": "int64",
+          "description": ""
+        },
+        {
+          "name": "geometry",
+          "type": "binary",
+          "description": ""
+        }
+      ]
+    }
+  },
+  "base_url": "gs://coclico-data-public/coclico/NUTS",
+  "sci:citation": "None.",
+  "version": "1",
+  "title": "Nomenclature of territorial units for statistics",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -90.23528381409483,
+          -29.857082115784582,
+          103.456913582018,
+          39.79889221318682
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2024-01-22T00:00:00Z",
+          "2024-01-22T00:00:00Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "Local",
+    "Adminstrative",
+    "Units",
+    "European Union"
+  ],
+  "providers": [
+    {
+      "name": "Eurostat",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics"
+    },
+    {
+      "name": "Deltares",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://deltares.nl"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://storage.googleapis.com/download/storage/v1/b/coclico-data-public/o/coclico%2Fassets%2Fthumbnails%2FNUTS.png?alt=media",
+      "type": "image/png",
+      "title": "Thumbnail"
+    },
+    "geoparquet-stac-items": {
+      "href": "gs://coclico-data-public/coclico/NUTS/NUTS_RG_01M_2021_3035.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "GeoParquet STAC items",
+      "description": "Snapshot of the collection's STAC items exported to GeoParquet format.",
+      "roles": [
+        "data"
+      ]
+    }
+  }
+}

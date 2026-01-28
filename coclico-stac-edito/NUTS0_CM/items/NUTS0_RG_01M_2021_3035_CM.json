@@ -1,0 +1,157 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+  ],
+  "id": "NUTS0_RG_01M_2021_3035_CM",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          103.456913582018,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          39.79889221318682
+        ],
+        [
+          -90.23528381409483,
+          -29.857082115784582
+        ],
+        [
+          103.456913582018,
+          -29.857082115784582
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -90.23528381409483,
+    -29.857082115784582,
+    103.456913582018,
+    39.79889221318682
+  ],
+  "properties": {
+    "title": "NUTS0",
+    "description": "The NUTS are a hierarchical system divided into 3 levels, clipped only to the coastal area. This is level 0.",
+    "deltares:paint": {
+      "fill-color": "rgba(0,0,0,0)",
+      "fill-outline-color": "#000000"
+    },
+    "table:columns": [
+      {
+        "name": "NUTS_ID",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "LEVL_CODE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "CNTR_CODE",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "NAME_LATN",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "NUTS_NAME",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "MOUNT_TYPE",
+        "type": "double",
+        "description": ""
+      },
+      {
+        "name": "URBN_TYPE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "COAST_TYPE",
+        "type": "int64",
+        "description": ""
+      },
+      {
+        "name": "geometry",
+        "type": "binary",
+        "description": ""
+      },
+      {
+        "name": "__index_level_0__",
+        "type": "int64",
+        "description": ""
+      }
+    ],
+    "proj:bbox": [
+      -2824230.8134000003,
+      -3076162.6068,
+      10026010.8334,
+      6405005.3475
+    ],
+    "table:row_count": 28,
+    "created": "2025-01-21T14:25:51.530527Z",
+    "datetime": "2024-01-22T00:00:00Z",
+    "proj:code": "EPSG:3035"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/NUTS0_CM/collection.json",
+      "type": "application/json",
+      "title": "Countries"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/NUTS0_CM/items/NUTS0_RG_01M_2021_3035_CM.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "collection",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/NUTS0_CM/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://minio.dive.edito.eu/project-coclico/NUTS0_CM/NUTS0_RG_01M_2021_3035_CM.parquet",
+      "type": "application/vnd.apache.parquet",
+      "title": "NUTS0",
+      "description": "The NUTS are a hierarchical system divided into 3 levels, clipped only to the coastal area. This is level 0.",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=nuts0:coclico_NUTS0_CM_NUTS0_RG_01M_2021_3035_CM&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}",
+      "type": "application/vnd.apache.parquet",
+      "title": "nuts0:coclico_NUTS0_CM_NUTS0_RG_01M_2021_3035_CM",
+      "description": "OGS WMTS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "collection": "NUTS0_CM"
+}

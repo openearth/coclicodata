@@ -1,0 +1,136 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+  ],
+  "id": "ssp585\\msl_h\\2131.tif",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          179.5,
+          -90.5
+        ],
+        [
+          179.5,
+          90.5
+        ],
+        [
+          -180.5,
+          90.5
+        ],
+        [
+          -180.5,
+          -90.5
+        ],
+        [
+          179.5,
+          -90.5
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -180.5,
+    -90.5,
+    179.5,
+    90.5
+  ],
+  "properties": {
+    "proj:bbox": [
+      -180.5,
+      -90.5,
+      179.5,
+      90.5
+    ],
+    "proj:shape": [
+      181,
+      360
+    ],
+    "proj:geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            179.5,
+            -90.5
+          ],
+          [
+            179.5,
+            90.5
+          ],
+          [
+            -180.5,
+            90.5
+          ],
+          [
+            -180.5,
+            -90.5
+          ],
+          [
+            179.5,
+            -90.5
+          ]
+        ]
+      ]
+    },
+    "proj:transform": [
+      1.0,
+      0.0,
+      -180.5,
+      0.0,
+      -1.0,
+      90.5
+    ],
+    "scenarios": "ssp585",
+    "ensemble": "msl_h",
+    "time": "2131",
+    "datetime": "2131-07-02T12:00:00Z",
+    "proj:code": "EPSG:4326"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/catalog.json",
+      "type": "application/json",
+      "title": "CoCliCo STAC Catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/slp/collection.json",
+      "type": "application/json",
+      "title": "Sea Level Rise"
+    },
+    {
+      "rel": "self",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/slp/items/ssp585/msl_h/2131.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "collection",
+      "href": "https://minio.dive.edito.eu/project-coclico/coclico-stac-edito/slp/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "data": {
+      "href": "https://minio.dive.edito.eu/project-coclico/slp/ssp585/msl_h/2131.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "roles": [
+        "data"
+      ]
+    },
+    "visual": {
+      "href": "https://coclico.avi.deltares.nl/geoserver/slp/wms?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=slp:ssp585_msl_h_2131",
+      "type": "application/png",
+      "title": "slp:ssp585_msl_h_2131",
+      "description": "OGS WMS url",
+      "roles": [
+        "visual"
+      ]
+    }
+  },
+  "collection": "slp"
+}
